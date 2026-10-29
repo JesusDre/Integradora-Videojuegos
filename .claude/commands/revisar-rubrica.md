@@ -1,0 +1,2 @@
+Revisa los cambios de la rama actual (`git diff main...HEAD`) contra `docs/RUBRICA.md` y `docs/GDD.md`.
+Dame: (1) qué criterios de la rúbrica toca este cambio; (2) problemas concretos (falta de deltaTime, valores sin límites, falta de feedback, menús incompletos, errores posibles); (3) qué contradice al GDD; (4) qué tendría que poder explicar el autor en la defensa. Sé específico con archivo y línea. No modifiques nada.

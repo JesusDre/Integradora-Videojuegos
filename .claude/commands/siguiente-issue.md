@@ -1,0 +1,2 @@
+Revisa los issues abiertos del hito actual con `gh issue list --state open --milestone "$ARGUMENTS" --json number,title,assignees,labels`. Si no pasé hito, pregúntame cuál.
+Para cada issue, lee su nota de dependencias con `gh issue view`. Dime cuáles están desbloqueados (sus dependencias ya están cerradas), cuáles están bloqueados y por qué, y cuál conviene tomar primero. No empieces a programar hasta que yo elija.

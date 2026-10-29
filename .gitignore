@@ -1,0 +1,43 @@
+# Carpetas que Unity regenera (nunca se suben)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Archivos generados por IDEs
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Archivos de crash y del sistema
+sysinfo.txt
+crashlytics-build.properties
+*.apk
+*.aab
+*.unitypackage
+.DS_Store
+Thumbs.db
+
+# Respaldos de Blender
+*.blend1
+*.blend2
+
+# Ajustes personales de Claude Code (los compartidos van en .claude/commands)
+.claude/settings.local.json

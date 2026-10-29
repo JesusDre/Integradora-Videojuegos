@@ -1,0 +1,2 @@
+Voy a importar este asset a Unity: $ARGUMENTS
+Sigue `docs/PIPELINE_ASSETS.md`: revisa escala (1 unidad = 1 m), orientación, número de polígonos, materiales para URP, rig Humanoid si es personaje, nombre según la convención y carpeta correcta. Si hay un Editor conectado (`unity status`), hazlo con los comandos del Editor. Anota la fuente y la licencia en `docs/LICENCIAS.md`. Al final, dime qué verificaste y qué debo revisar yo a mano.
