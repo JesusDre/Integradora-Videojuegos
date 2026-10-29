@@ -3,7 +3,14 @@
 Juego de terror en primera persona para un jugador, hecho en Unity para la integradora de Videojuegos. El Padre Anselmo Quiroz, un exorcista retirado, tiene que escapar de tres lugares malditos de México: Xochimilco (La Llorona), una hacienda del Bajío (el Charro Negro) y un ex-convento (la Tzitzimime). Entrega a mediados de diciembre de 2026.
 
 ## Versión de Unity
-Todos usan la misma: **Unity 6.0 LTS `<6000.0.xxf1>`** (la que diga `ProjectSettings/ProjectVersion.txt`; anótala aquí al crear el proyecto).
+Todos usan la misma: **Unity 6.3 LTS `6000.3.27f1`** con el módulo **Windows Build Support (Mono)** (es la que dice `ProjectSettings/ProjectVersion.txt`). Plantilla de inicio: Universal 3D (URP).
+
+Instalación con Unity CLI:
+```bash
+unity install 6000.3.27f1 --module windows-mono --accept-eula
+```
+
+Paquetes además de la plantilla: AI Navigation, ProBuilder y Pipeline (para que Claude controle el Editor con `unity command`). La escena de prueba está en `Assets/_Project/Scenes/Test/Sandbox.unity`.
 
 ## Qué hay en el repo
 ```
