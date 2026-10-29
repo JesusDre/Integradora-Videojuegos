@@ -3,7 +3,7 @@
 Propuesta inicial para que Claude y el equipo escriban código consistente. Se puede ajustar, pero cualquier cambio se anota aquí.
 
 ## Stack
-- **Unity 6 LTS** (la versión exacta es la de `ProjectSettings/ProjectVersion.txt` y se anota en el README; todos usan la misma).
+- **Unity 6.3 LTS `6000.3.27f1`** (la de `ProjectSettings/ProjectVersion.txt`, anotada en el README; todos usan la misma).
 - **URP** (luces, niebla, post-procesado por Volume).
 - Paquetes: Input System, AI Navigation (NavMesh), ProBuilder (blockout), TextMeshPro, Cinemachine solo si hace falta.
 - Control de versiones: Git + Git LFS en GitHub (el `.gitattributes` del kit define qué va en LFS y fusiona el YAML de Unity con UnityYAMLMerge).
