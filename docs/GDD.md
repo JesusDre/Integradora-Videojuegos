@@ -3,7 +3,7 @@
 
 # GDD — Ánimas mexicanas
 
-**Equipo de desarrollo:** 6 integrantes. Toda la programación la hace Jesús (líder técnico) con Claude Code; el resto del equipo trabaja en niveles, arte, UI, textos y audio.
+**Equipo de desarrollo:** 6 integrantes. Todo el trabajo (código, arte, audio, UI, niveles y textos) lo hace Jesús con Claude; los demás integrantes presentan la defensa individual con `docs/DEFENSA.md`.
 
 **Versión del documento:** 2.2 (29 oct 2026: correcciones de la revisión y 16 decisiones de diseño; ver `PENDIENTES_DISENO.md`)
 
@@ -621,21 +621,21 @@ MVP con subtítulos y pocas líneas del Padre; versión deseable con unas 15 a 2
 
 ## 27. Planeación
 
-Kickoff el 10 y 11 de octubre y sprints de una semana (lunes a domingo) del 12 de octubre al 13 de diciembre, con dos días de colchón antes de la entrega de mediados de diciembre. Columnas de la tabla: P1 líder técnico, P2 gameplay y P3 IA (las tres son programación y las cubre Jesús con Claude Code), P4 diseño de niveles, P5 arte 3D y P6 UI y audio.
+Kickoff el 10 y 11 de octubre y sprints de una semana (lunes a domingo) del 12 de octubre al 13 de diciembre, con dos días de colchón antes de la entrega de mediados de diciembre. Todo el trabajo lo hace Jesús con Claude. El detalle de cada tarea vive en GitHub Issues (un hito por sprint); esta tabla es el resumen.
 
-| **Spt** | **Fechas**     | **Meta**                                                         | **P1**                                   | **P2**                               | **P3**                            | **P4**                       | **P5**                             | **P6**                      |
-|---------|----------------|------------------------------------------------------------------|------------------------------------------|--------------------------------------|-----------------------------------|------------------------------|------------------------------------|-----------------------------|
-| 0       | 10 y 11 oct    | Kickoff (2 horas)                                                | Repo, tablero, reglas                    | Proyecto Unity base                  | Unity y NavMesh listos            | Plano de la instancia 1      | Elegir herramienta de IA 3D        | Referencias de UI y audio   |
-| 1       | 12 a 18 oct    | Caminar por un blockout con linterna y probar el flujo de IA 3D  | Reglas y revisión del viernes            | Controlador, linterna, interacción   | Cultista de prueba que persigue   | Blockout de la sección 1     | Cultista con IA 3D, Mixamo y Unity | HUD base y primeros sonidos |
-| 2       | 19 a 25 oct    | Pelear contra un Cultista                                        | Inventario de 8 espacios                 | Salud, daño y combate                | IA completa del Cultista          | Sección 2 y cuarto seguro    | Cultista final y props             | HUD de vida y resistencia   |
-| 3       | 26 oct a 1 nov | Altar y crafteo; **Control 1** y primer playtest                 | Altar, recetas y guardado                | Escopeta y efectos de objetos        | Encuentros y oleadas              | Objetos clave y materiales   | La Llorona con IA 3D               | Menú del altar              |
-| 4       | 2 a 8 nov      | Instancia 1 jugable de inicio a fin                              | Integración y notas                      | Rezo                                 | La Llorona completa               | Trajinera y arena del ritual | Ambiente de Xochimilco             | Audio base y llanto         |
-| 5       | 9 a 15 nov     | Instancia 1 pulida y playtest externo; **Control 2**             | Playtest y bitácora                      | Recetas de cruz y chancla            | Charro Negro (persecución)        | Blockout de la hacienda      | Charro Negro y caballo             | Luz, niebla y menús         |
-| 6       | 16 a 22 nov    | Instancia 2 completa                                             | Integración                              | Cruz cargada y línea de agua bendita | Derrota del Charro y huida a pie  | Capilla, panteón y notas     | Tzitzimime con IA 3D               | Audio de la hacienda        |
-| 7       | 23 a 29 nov    | Instancia 3 completa; **Control 3** y congelamiento de funciones | Créditos y guardado completo             | Copal                                | Tzitzimime (3 fases) y oleadas    | Catacumbas y ritual final    | Ambiente del convento              | Audio del convento          |
-| 8       | 30 nov a 6 dic | Pulido y playtest de las 3 instancias; **Control 4**             | Playtest y bugs                          | Bugs                                 | Bugs de IA y balance de entidades | Balance de encuentros        | Retoque de modelos y texturas      | Ajuste de audio             |
-| 9       | 7 a 13 dic     | Build final y entrega                                            | Build probado en otra PC y documentación | Solo bugs críticos                   | Solo bugs críticos                | Solo bugs críticos           | Retoques menores                   | Presentación                |
-| Colchón | 14 y 15 dic    | Imprevistos y entrega                                            | Todos                                    |                                      |                                   |                              |                                    |                             |
+| **Spt** | **Fechas**     | **Meta**                                                    | **Issues principales** |
+|---------|----------------|-------------------------------------------------------------|------------------------|
+| 0       | 10 y 11 oct    | Kickoff                                                     | — |
+| 1       | 12 a 18 oct    | Repo y dirección visual                                     | Repo, tablero y licencias (#1), paleta (#2), concepto del Cultista (#3) |
+| 2       | 19 a 25 oct    | Proyecto base, referencias y primeros assets                | Cultista 3D (#4), plano de la instancia 1 (#5), bocetos de UI y menús (#6, #7), sonidos y música (#8–#10), proyecto de Unity (#11) |
+| 3       | 26 oct a 1 nov | Caminar y pelear contra un Cultista; **Control 1**          | Controlador y linterna (#12), salud y combate (#13), inventario (#14), IA del Cultista (#15), blockout de la instancia 1 (#16), conceptos y Llorona 3D (#17, #18), props (#19), sonidos (#20), playtests (#21) |
+| 4       | 2 a 8 nov      | Altar, crafteo, rezo y guardado                             | HUD e inventario (#22), altar (#23), escopeta (#24), rezo (#25), cuarto seguro (#26), encuentros (#27), brazos del Padre (#28), objetos clave (#29), plano de la instancia 2 (#30) |
+| 5       | 9 a 15 nov     | Instancia 1 de inicio a fin; **Control 2**                  | Efectos de objetos (#31), notas y recetas (#32), textos (#33), ritual (#34), La Llorona (#35), nivel de la instancia 1 (#36), Charro 3D (#37), plano de la instancia 3 (#38) |
+| 6       | 16 a 22 nov    | Instancia 2 completa                                        | Charro Negro (#39), nivel de la instancia 2 (#40), Tzitzimime 3D (#41), sonidos (#42, #43), feedback y VFX (#44) |
+| 7       | 23 a 29 nov    | Instancia 3 y menús; **Control 3**; congelamiento de funciones | Tzitzimime (#45), nivel de la instancia 3 (#46), menús (#47), victoria, derrota y créditos (#48), congelamiento (#49), presentar `DEFENSA.md` (#66) |
+| 8       | 30 nov a 6 dic | Pulido y playtest de las 3 instancias; **Control 4**        | Audio (#50), pasada de rúbrica y bugs (#51), `DEFENSA.md` completo (#52) |
+| 9       | 7 a 13 dic     | Build final y entrega                                       | Build final (#58), presentación (#59) |
+| Colchón | 14 y 15 dic    | Imprevistos y entrega                                       | — |
 
 ## 28. Riesgos del proyecto
 
@@ -644,9 +644,10 @@ Kickoff el 10 y 11 de octubre y sprints de una semana (lunes a domingo) del 12 d
 | El modelado de personajes y entidades consume demasiado tiempo | Generación con herramientas de IA 3D, rig automático y animaciones de biblioteca; en primera persona el Padre solo necesita brazos y equipo    |
 | El Director de ritmo es difícil de balancear                   | Queda fuera del MVP (deseable): los encuentros y oleadas van por guion y, si entra, empieza con reglas simples por tiempo y salud (sección 21) |
 | Cada entidad necesita scripting a mano                         | Una entidad por instancia, definida por fases y eventos programados                                                                            |
-| El líder técnico se vuelve cuello de botella                   | Toda la programación pasa por Jesús con Claude Code: issues pequeños, recortar primero lo deseable, y que el resto del equipo arme escenas con prefabs y pruebe en paralelo; revisiones con plazo fijo cada viernes |
+| Una sola persona hace todo el trabajo                          | Issues pequeños, assets de bibliotecas CC0 e IA 3D antes que modelar a mano, recortar primero lo deseable, y build cada viernes para detectar atrasos pronto |
 | Dependencia de assets externos                                 | Packs low-poly con licencia abierta como base                                                                                                  |
 | Balance muy fácil o imposible                                  | Playtest desde la semana 4, con el primer blockout                                                                                             |
+| El equipo no sabe explicar lo que no hizo                      | `docs/DEFENSA.md` se escribe junto con cada sistema y Jesús lo presenta al equipo antes de la defensa (#66) |
 | Finales y exámenes de diciembre                                | Congelamiento de funciones el 29 de noviembre (fin del sprint 7); los sprints 8 y 9 son solo pulido, bugs y build                              |
 
 ## 29. Testing

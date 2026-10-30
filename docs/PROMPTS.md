@@ -31,7 +31,7 @@ Crea en Blender un prop low-poly de <veladora en vaso de vidrio> de unos <15 cm>
 
 ## 6. Pasar un boceto de UI a Unity (Claude Code)
 ```text
-Te adjunto el boceto de <HUD / inventario / pausa>. Impleméntalo en Unity con <UGUI o UI Toolkit, según lo que ya use el proyecto> usando la paleta de docs/GDD.md y la que dio David. Debe reaccionar a eventos del juego (no polling), ser legible y no estorbar. Crea el prefab en Assets/_Project/Prefabs/UI y explícame cómo se conecta.
+Te adjunto el boceto de <HUD / inventario / pausa>. Impleméntalo en Unity con <UGUI o UI Toolkit, según lo que ya use el proyecto> usando la paleta de docs/GDD.md y la del issue #2. Debe reaccionar a eventos del juego (no polling), ser legible y no estorbar. Crea el prefab en Assets/_Project/Prefabs/UI y explícame cómo se conecta.
 ```
 
 ## 7. Revisar un pull request contra la rúbrica
@@ -45,9 +45,9 @@ Te adjunto el boceto de <HUD / inventario / pausa>. Impleméntalo en Unity con <
 Escribe <6> notas cortas del culto de los Hijos de la Estrella Negra para la instancia <1>, de <40 a 60 palabras> cada una, en español, tono de diario o recado encontrado. Cada nota debe insinuar una pista (símbolo de la estrella, ofrendas, la entidad <La Llorona>) y desbloquear la receta <cruz de plata>. Sin santería ni Santa Muerte; el culto es ficticio. Evita clichés y no uses personas reales.
 ```
 
-## 9. Nota de defensa individual
+## 9. Practicar la defensa individual (cualquier integrante)
 ```text
-Soy <rol> y mi parte fue <sistemas / arte / audio / UI>. Te paso mis archivos: <rutas>. Hazme una nota de una página: qué hace cada pieza, por qué se hizo así, qué alternativas había y 5 preguntas difíciles que podría hacerme un profesor con sus respuestas. Luego hazme las preguntas una por una para practicar.
+Voy a defender el proyecto "Ánimas mexicanas" aunque no lo programé yo. Te paso docs/DEFENSA.md y docs/GDD.md. Explícame en palabras simples <el sistema o parte que me toca explicar>, y luego hazme 5 preguntas difíciles que podría hacer el profesor, una por una, corrigiéndome si me equivoco. Si te pregunto algo que no está en DEFENSA.md, dímelo para avisarle a Jesús.
 ```
 
 ## 10. Cuando algo se rompe

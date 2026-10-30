@@ -12,7 +12,7 @@
 - Todo asset externo: anotar fuente, autor y licencia en `docs/LICENCIAS.md`. Preferir CC0. Si exige atribución, anotarla para los créditos.
 
 ## Personajes y entidades (Cultista, La Llorona, Charro Negro, Tzitzimime)
-1. **Concepto** (Ali): PNG de frente, postura en T, fondo limpio, sin elementos ocultos.
+1. **Concepto**: PNG de frente, postura en T, fondo limpio, sin elementos ocultos.
 2. **Generar el modelo 3D** con Meshy o Tripo desde la imagen (o con `generate_3d` de Blender MCP). Pedir postura en T y 1.8 m.
 3. **Exportar FBX** con texturas.
 4. **Rig y animaciones**: Mixamo (idle, caminar, correr, atacar, morir) o el rig automático de la herramienta.

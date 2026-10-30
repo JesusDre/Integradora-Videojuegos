@@ -1,6 +1,6 @@
 # Licencias de assets externos
 
-Todo asset que no hicimos nosotros se anota aquí (o en la hoja compartida del equipo) en el mismo momento en que se descarga.
+Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se descarga.
 
 | Archivo / pack | Tipo | Fuente (link) | Autor | Licencia | ¿Pide atribución? | Quién lo importó |
 |---|---|---|---|---|---|---|
