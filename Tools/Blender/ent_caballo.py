@@ -70,18 +70,13 @@ b.loft([
     ((0, 0.72, 1.28), 0.29, 0.33, "Root"),
     ((0, 0.87, 1.26), 0.17, 0.20, "Root"),
 ], coat, segments=16)
-# Chest muscles.
-for x in (-0.12, 0.12):
-    b.sphere((x, -0.78, 1.16), 1.0, coat, "Spine2", segments=10, rings=6, scale=(0.13, 0.12, 0.18))
-
-# Demonic touch: ribs, shoulder blades and hip bones showing through the skin.
+# Demonic touch: ribs showing through the skin of the flanks, mostly sunk into the body so they read as
+# ridges, not as loose balls.
 for side in (1, -1):
     for i in range(5):
         y = -0.22 + i * 0.10
         bone = "Spine2" if y < -0.15 else "Spine1"
-        b.sphere((side * 0.325, y, 1.17), 1.0, bone_mat, bone, segments=6, rings=4, scale=(0.025, 0.028, 0.17))
-    b.sphere((side * 0.27, -0.52, 1.46), 1.0, bone_mat, "Spine2", segments=6, rings=4, scale=(0.04, 0.10, 0.06))  # shoulder blade
-    b.sphere((side * 0.27, 0.58, 1.50), 0.05, bone_mat, "Root", segments=6, rings=4)                                 # hip bone
+        b.sphere((side * 0.315, y, 1.17), 1.0, bone_mat, bone, segments=6, rings=4, scale=(0.02, 0.022, 0.16))
 
 # Neck: thick and arched where it meets the chest, narrowing up to the head.
 b.loft([
@@ -114,67 +109,50 @@ for x in (-0.085, 0.085):
     b.tube((x, -1.38, 1.66), (x * 1.4, -1.0, 1.66), 0.006, 0.006, leather, "Head", segments=4)
     b.tube((x * 1.4, -1.0, 1.66), (x * 0.6, -0.38, 1.80), 0.006, 0.006, leather, "Neck1", segments=4)
 
-# Long, thick mane falling on both sides of the neck (alternating), a crest along the top and a big
-# forelock, so it reads from any side; long loose tail down to near the ground.
-b.loft([((0, -0.60, 1.66), 0.04, 0.05, "Neck1"), ((0, -0.78, 1.86), 0.045, 0.05, "Neck1"),
-        ((0, -0.92, 2.01), 0.04, 0.045, "Neck2")], mane, segments=6)
-for i in range(12):
-    t = i / 11
-    y = -0.60 - 0.34 * t
-    z = 1.66 + 0.36 * t
+# Mane cut short like a crest: an upright fin along the top of the neck with jagged tufts, and a short
+# forelock; long loose tail down to near the ground.
+b.loft([((0, -0.60, 1.70), 0.022, 0.06, "Neck1"), ((0, -0.78, 1.90), 0.024, 0.065, "Neck1"),
+        ((0, -0.92, 2.05), 0.02, 0.055, "Neck2")], mane, segments=6)
+for i in range(10):
+    t = i / 9
+    y = -0.60 - 0.33 * t
+    z = 1.72 + 0.34 * t
     bone = "Neck1" if t < 0.5 else "Neck2"
-    side = 1 if i % 2 == 0 else -0.7
-    length = rng.uniform(0.32, 0.46)
-    b.tube((0, y + 0.05, z + 0.02), (side * 0.17, y + 0.10, z - length), 0.045, 0.01, mane, bone, segments=5)
-b.tube((0, -0.98, 2.05), (0, -1.12, 1.90), 0.045, 0.01, mane, "Head", segments=5)
+    b.tube((0, y, z), (0, y + 0.06, z + rng.uniform(0.09, 0.14)), 0.028, 0.004, mane, bone, segments=5)
+b.tube((0, -0.98, 2.05), (0, -1.06, 1.98), 0.03, 0.006, mane, "Head", segments=5)
 for k in range(5):
     dx = (k - 2) * 0.028
     b.tube((dx, 0.87, 1.35), (dx * 1.3, 0.99, 1.05), 0.04, 0.045, mane, "Tail1", segments=5)
     b.tube((dx * 1.3, 0.99, 1.05), (dx * 2.5 + rng.uniform(-0.02, 0.02), 1.12, rng.uniform(0.22, 0.34)),
            0.045, 0.01, mane, "Tail2", segments=5)
 
-# Legs: big muscled upper legs, knobby knees, hocks and fetlocks, sturdy cannons and large hooves.
+# Legs made only of thick tapered cylinders (no visible balls): each one starts a little above its joint
+# so it overlaps the piece above and the joint never opens a gap when it bends. They get wider toward the
+# hooves, like a draft horse's feathered lower legs.
 for side, sign in (("Left", 1), ("Right", -1)):
     x = sign * 0.17
-    b.sphere((x, -0.56, 1.10), 1.0, coat, "Front{}Upper".format(side), segments=10, rings=6, scale=(0.13, 0.17, 0.22))
-    b.tube((x, -0.55, 1.05), (x, -0.58, 0.60), 0.115, 0.068, coat, f"Front{side}Upper", segments=8)
-    b.sphere((x, -0.58, 0.58), 0.065, coat, f"Front{side}Lower", segments=8, rings=5)              # knee
-    b.tube((x, -0.58, 0.58), (x, -0.58, 0.16), 0.05, 0.045, coat, f"Front{side}Lower", segments=8)
-    b.sphere((x, -0.585, 0.14), 0.055, coat, f"Front{side}Hoof", segments=8, rings=5)             # fetlock
-    b.tube((x, -0.59, 0.14), (x, -0.61, 0.08), 0.046, 0.052, coat, f"Front{side}Hoof", segments=8) # pastern
-    b.tube((x, -0.61, 0.09), (x, -0.62, 0.0), 0.06, 0.08, hoof, f"Front{side}Hoof", segments=8)
+    b.tube((x, -0.54, 1.22), (x, -0.58, 0.58), 0.13, 0.085, coat, f"Front{side}Upper", segments=10)
+    b.tube((x, -0.58, 0.66), (x, -0.58, 0.14), 0.08, 0.075, coat, f"Front{side}Lower", segments=10)
+    b.tube((x, -0.585, 0.20), (x, -0.61, 0.07), 0.078, 0.085, coat, f"Front{side}Hoof", segments=10)
+    b.tube((x, -0.61, 0.09), (x, -0.62, 0.0), 0.088, 0.10, hoof, f"Front{side}Hoof", segments=10)
     x = sign * 0.18
-    b.sphere((x, 0.58, 1.08), 1.0, coat, f"Back{side}Upper", segments=10, rings=6, scale=(0.15, 0.22, 0.27))  # haunch
-    b.tube((x, 0.60, 1.05), (x, 0.50, 0.64), 0.15, 0.08, coat, f"Back{side}Upper", segments=8)
-    b.sphere((x, 0.50, 0.62), 0.07, coat, f"Back{side}Lower", segments=8, rings=5)                # hock
-    b.tube((x, 0.50, 0.62), (x, 0.61, 0.16), 0.058, 0.045, coat, f"Back{side}Lower", segments=8)
-    b.sphere((x, 0.615, 0.14), 0.055, coat, f"Back{side}Hoof", segments=8, rings=5)
-    b.tube((x, 0.615, 0.14), (x, 0.60, 0.08), 0.046, 0.052, coat, f"Back{side}Hoof", segments=8)
-    b.tube((x, 0.60, 0.09), (x, 0.59, 0.0), 0.06, 0.08, hoof, f"Back{side}Hoof", segments=8)
+    b.tube((x, 0.62, 1.22), (x, 0.50, 0.62), 0.15, 0.092, coat, f"Back{side}Upper", segments=10)  # stays inside the croup at the top
+    b.tube((x, 0.49, 0.70), (x, 0.61, 0.14), 0.088, 0.075, coat, f"Back{side}Lower", segments=10)
+    b.tube((x, 0.615, 0.20), (x, 0.60, 0.07), 0.078, 0.085, coat, f"Back{side}Hoof", segments=10)
+    b.tube((x, 0.60, 0.09), (x, 0.59, 0.0), 0.088, 0.10, hoof, f"Back{side}Hoof", segments=10)
 
-# Charro saddle sized for the rider: blanket draped over the back, seat with a high cantle and a pommel
-# with the horn, leather fenders under his thighs and stirrups exactly where his feet rest when he rides
-# (measured from the rider's RideIdle pose and divided by the horse's scale).
-for side in (1, -1):
-    tilt = Quaternion((0, 1, 0), math.radians(-18 * side))
-    b.box((side * 0.33, -0.10, 1.52), (0.02, 0.62, 0.32), blanket, "Spine2", rotation=tilt)
-    b.box((side * 0.37, -0.10, 1.37), (0.025, 0.60, 0.012), silver, "Spine2", rotation=tilt)  # trim
-b.box((0, -0.10, 1.665), (0.62, 0.64, 0.02), blanket, "Spine2")
-b.box((0, -0.12, 1.695), (0.36, 0.46, 0.05), leather, "Saddle")
-b.box((0, 0.12, 1.75), (0.32, 0.07, 0.12), leather, "Saddle")                      # cantle
-b.box((0, -0.33, 1.73), (0.22, 0.06, 0.10), leather, "Saddle")                     # pommel
-b.tube((0, -0.35, 1.76), (0, -0.38, 1.87), 0.024, 0.034, leather, "Saddle", segments=6)  # horn
-for x in (-0.15, 0.15):
-    for y in (-0.28, 0.06):
-        b.sphere((x, y, 1.725), 0.016, silver, "Saddle", segments=6, rings=4)
+# Low, discreet saddle so it doesn't fight with the rider's legs: a small blanket and seat flush with the
+# back, a low cantle and the horn, and stirrups where his feet rest when he rides (measured from the
+# rider's RideIdle pose and divided by the horse's scale).
+b.box((0, -0.10, 1.665), (0.46, 0.58, 0.02), blanket, "Spine2")
+b.box((0, -0.12, 1.69), (0.30, 0.42, 0.035), leather, "Saddle")
+b.box((0, 0.10, 1.725), (0.24, 0.05, 0.06), leather, "Saddle")                     # cantle
+b.tube((0, -0.33, 1.70), (0, -0.36, 1.80), 0.02, 0.028, leather, "Saddle", segments=6)  # horn
 STIRRUP = (0.383, -0.32, 1.126)
 for side in (1, -1):
-    b.box((side * 0.36, -0.20, 1.46), (0.02, 0.24, 0.32), leather, "Saddle",
-          rotation=Quaternion((0, 1, 0), math.radians(-10 * side)))             # fender
-    b.sphere((side * 0.375, -0.20, 1.50), 0.028, silver, "Saddle", segments=6, rings=4)  # concho
-    b.tube((side * 0.31, -0.22, 1.69), (side * STIRRUP[0], STIRRUP[1], STIRRUP[2] + 0.04), 0.009, 0.009,
+    b.tube((side * 0.15, -0.24, 1.69), (side * STIRRUP[0], STIRRUP[1], STIRRUP[2] + 0.04), 0.007, 0.007,
            leather, "Saddle", segments=4)
-    b.box((side * STIRRUP[0], STIRRUP[1], STIRRUP[2]), (0.06, 0.13, 0.03), silver, "Saddle")
+    b.box((side * STIRRUP[0], STIRRUP[1], STIRRUP[2]), (0.06, 0.12, 0.025), silver, "Saddle")
 
 body, triangles = b.finish("Caballo", rig)
 

@@ -36,7 +36,10 @@ rig = lp.build_armature("Charro", bones)
 b = lp.PartBuilder()
 
 # Tight charro trousers with a row of silver buttons down the outer seam, and riding boots.
-b.lathe([(0.86, 0.185), (1.00, 0.19)], suit, "Hips", segments=14, scale_y=0.75)
+# The torso is three closed pieces (hips, waist, chest) that overlap a little: when he leans while riding,
+# the pieces turn separately, and open tubes would leave a gap where you could see inside (he would look
+# hollow). Closed and overlapping, the joint always looks solid.
+b.lathe([(0.86, 0.185), (1.03, 0.19)], suit, "Hips", segments=14, scale_y=0.75, cap_bottom=True, cap_top=True)
 b.box((0, -0.143, 0.96), (0.08, 0.01, 0.055), silver, "Hips")  # belt buckle
 for side, sign in (("Left", 1), ("Right", -1)):
     x = sign * 0.10
@@ -53,8 +56,8 @@ for side, sign in (("Left", 1), ("Right", -1)):
 
 # Short fitted charro jacket on a robust build: narrow waist, broad chest, lapels open in a V over a dark
 # shirt, two rows of silver buttons and silver embroidery (grecas) on the back.
-b.lathe([(1.00, 0.19), (1.10, 0.185), (1.20, 0.21)], suit, "Spine", segments=16, scale_y=0.74)
-b.lathe([(1.20, 0.21), (1.32, 0.245), (1.40, 0.25), (1.47, 0.14)], suit, "Chest", segments=16, scale_y=0.74, cap_top=True)
+b.lathe([(0.97, 0.188), (1.10, 0.185), (1.23, 0.212)], suit, "Spine", segments=14, scale_y=0.74, cap_bottom=True, cap_top=True)
+b.lathe([(1.17, 0.205), (1.32, 0.245), (1.40, 0.25), (1.47, 0.14)], suit, "Chest", segments=16, scale_y=0.74, cap_bottom=True, cap_top=True)
 b.box((0, -0.181, 1.36), (0.085, 0.006, 0.14), shirt, "Chest")
 for sign in (1, -1):
     lean = Quaternion((0, 1, 0), math.radians(-18 * sign))
