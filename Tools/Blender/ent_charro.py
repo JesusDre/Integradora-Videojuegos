@@ -153,7 +153,8 @@ for f, s in ((1, 0), (30, 1), (60, 0)):
 # RideGallop (0.6 s): leaning forward, rocking and bouncing with the horse's stride.
 anim.new_clip("RideGallop", 18, loop=True)
 for f, s in ((1, 0), (5, 1), (10, 0), (14, -1), (18, 0)):
-    anim.pose(f, {"Spine": (14 + 4 * s, 0, 0), "Chest": (4, 0, 0), "Head": (-10 - 3 * s, 0, 0)},
+    # A small lean only: the hands must stay where the reins end (see HANDS in ent_caballo.py).
+    anim.pose(f, {"Spine": (6 + 3 * s, 0, 0), "Chest": (2, 0, 0), "Head": (-6 - 3 * s, 0, 0)},
               {"Hips": (0, 0, 0.04 * abs(s))}, aims={**seat, **reins})
 
 # Offer (1.5 s): reaches out with his right hand, palm up: the pact (an extra in the GDD, kept for the scene).

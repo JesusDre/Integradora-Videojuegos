@@ -7,14 +7,11 @@ A horse is not a human, so its skeleton is "Generic" in Unity (not Humanoid); th
 is mounted on the "Saddle" bone.
 """
 
-import math
 import os
 import random
 import sys
 
 sys.path.append(os.path.dirname(__file__))
-from mathutils import Quaternion  # noqa: E402
-
 import lowpoly_humanoid as lp  # noqa: E402
 
 lp.reset_scene()
@@ -24,9 +21,7 @@ coat = lp.make_material("Caballo_Pelaje", "#09090B", roughness=0.4)
 mane = lp.make_material("Caballo_Crin", "#151518", roughness=0.3)
 hoof = lp.make_material("Caballo_Cascos", "#1A1A1C", roughness=0.6)
 eyes = lp.make_material("Caballo_Ojos", "#FF3010", roughness=0.3, emission_strength=10.0)
-blanket = lp.make_material("Caballo_Manta", "#4A0A0A", roughness=0.8)
-bone_mat = lp.make_material("Caballo_Hueso", "#26221E", roughness=0.7)
-leather = lp.make_material("Caballo_Silla", "#2A1A10", roughness=0.7)
+leather = lp.make_material("Caballo_Cuero", "#2A1A10", roughness=0.7)
 silver = lp.make_material("Caballo_Plata", "#B9BCC0", roughness=0.3, metallic=0.9)
 
 # Skeleton: name -> (head, tail, parent). The horse faces -Y; its left side is +X.
@@ -70,14 +65,6 @@ b.loft([
     ((0, 0.72, 1.28), 0.29, 0.33, "Root"),
     ((0, 0.87, 1.26), 0.17, 0.20, "Root"),
 ], coat, segments=16)
-# Demonic touch: ribs showing through the skin of the flanks, mostly sunk into the body so they read as
-# ridges, not as loose balls.
-for side in (1, -1):
-    for i in range(5):
-        y = -0.22 + i * 0.10
-        bone = "Spine2" if y < -0.15 else "Spine1"
-        b.sphere((side * 0.315, y, 1.17), 1.0, bone_mat, bone, segments=6, rings=4, scale=(0.02, 0.022, 0.16))
-
 # Neck: thick and arched where it meets the chest, narrowing up to the head.
 b.loft([
     ((0, -0.62, 1.42), 0.17, 0.27, "Spine2"),
@@ -88,38 +75,36 @@ b.loft([
 
 # Head: broad forehead and jaw, tapering to the muzzle; nostrils, eyes, ears and a bridle.
 b.loft([
-    ((0, -0.95, 2.00), 0.08, 0.08, "Head"),
-    ((0, -1.03, 1.93), 0.10, 0.14, "Head"),     # forehead and jaw
-    ((0, -1.18, 1.82), 0.08, 0.10, "Head"),
-    ((0, -1.32, 1.72), 0.07, 0.085, "Head"),
-    ((0, -1.44, 1.64), 0.065, 0.08, "Head"),    # muzzle
-    ((0, -1.49, 1.61), 0.04, 0.05, "Head"),
+    ((0, -0.95, 2.00), 0.10, 0.08, "Head"),
+    ((0, -1.03, 1.93), 0.13, 0.14, "Head"),     # forehead and jaw
+    ((0, -1.18, 1.82), 0.105, 0.10, "Head"),
+    ((0, -1.32, 1.72), 0.092, 0.085, "Head"),
+    ((0, -1.44, 1.64), 0.085, 0.08, "Head"),    # muzzle
+    ((0, -1.49, 1.61), 0.055, 0.05, "Head"),
 ], coat, segments=12)
-for x in (-0.03, 0.03):
-    b.sphere((x, -1.47, 1.65), 0.014, hoof, "Head", segments=6, rings=4)            # nostrils
-for x in (-0.095, 0.095):
-    b.sphere((x, -1.06, 1.94), 0.024, eyes, "Head", segments=6, rings=4)
-    b.tube((x * 0.6, -0.98, 2.04), (x * 0.75, -0.96, 2.17), 0.03, 0.0, coat, "Head", segments=5)  # ears
-# Bridle straps around the nose and cheek, and the reins up to the saddle horn.
-b.loft([((0, -1.36, 1.69), 0.078, 0.092, "Head"), ((0, -1.375, 1.68), 0.078, 0.092, "Head")], leather,
+for x in (-0.04, 0.04):
+    b.sphere((x, -1.47, 1.65), 0.016, hoof, "Head", segments=6, rings=4)            # nostrils
+for x in (-0.125, 0.125):
+    b.sphere((x, -1.06, 1.94), 0.026, eyes, "Head", segments=6, rings=4)
+    b.tube((x * 0.55, -0.98, 2.04), (x * 0.7, -0.96, 2.17), 0.032, 0.0, coat, "Head", segments=5)  # ears
+# Bridle: a strap around the nose, cheek straps and the bit rings.
+b.loft([((0, -1.36, 1.69), 0.10, 0.092, "Head"), ((0, -1.375, 1.68), 0.10, 0.092, "Head")], leather,
        segments=12, cap_start=False, cap_end=False)
-for x in (-0.085, 0.085):
+for x in (-0.112, 0.112):
     b.tube((x, -1.36, 1.72), (x, -1.02, 1.98), 0.008, 0.008, leather, "Head", segments=4)
-    b.sphere((x, -1.38, 1.66), 0.014, silver, "Head", segments=6, rings=4)          # bit rings
-    b.tube((x, -1.38, 1.66), (x * 1.4, -1.0, 1.66), 0.006, 0.006, leather, "Head", segments=4)
-    b.tube((x * 1.4, -1.0, 1.66), (x * 0.6, -0.38, 1.80), 0.006, 0.006, leather, "Neck1", segments=4)
+    b.sphere((x, -1.38, 1.66), 0.016, silver, "Head", segments=6, rings=4)          # bit rings
+# Reins from the bit to the Charro's hands: each rein is one strap whose front end follows the head and
+# whose back end follows the saddle bone, right where his hands hold it when he rides (measured from his
+# RideIdle pose and divided by the horse's scale), so the reins stay in his hands.
+HANDS = (0.208, -0.468, 1.873)
+for side in (1, -1):
+    b.loft([((side * 0.112, -1.38, 1.66), 0.008, 0.008, "Head"),
+            ((side * HANDS[0], HANDS[1], HANDS[2]), 0.008, 0.008, "Saddle")], leather, segments=4)
 
-# Mane cut short like a crest: an upright fin along the top of the neck with jagged tufts, and a short
-# forelock; long loose tail down to near the ground.
-b.loft([((0, -0.60, 1.70), 0.022, 0.06, "Neck1"), ((0, -0.78, 1.90), 0.024, 0.065, "Neck1"),
-        ((0, -0.92, 2.05), 0.02, 0.055, "Neck2")], mane, segments=6)
-for i in range(10):
-    t = i / 9
-    y = -0.60 - 0.33 * t
-    z = 1.72 + 0.34 * t
-    bone = "Neck1" if t < 0.5 else "Neck2"
-    b.tube((0, y, z), (0, y + 0.06, z + rng.uniform(0.09, 0.14)), 0.028, 0.004, mane, bone, segments=5)
-b.tube((0, -0.98, 2.05), (0, -1.06, 1.98), 0.03, 0.006, mane, "Head", segments=5)
+# Mane cut short: a rounded roll along the top of the neck (no spikes); long loose tail down to near the
+# ground.
+b.loft([((0, -0.70, 1.82), 0.03, 0.035, "Neck1"), ((0, -0.82, 1.95), 0.04, 0.045, "Neck2"),
+        ((0, -0.92, 2.04), 0.032, 0.035, "Neck2")], mane, segments=8)
 for k in range(5):
     dx = (k - 2) * 0.028
     b.tube((dx, 0.87, 1.35), (dx * 1.3, 0.99, 1.05), 0.04, 0.045, mane, "Tail1", segments=5)
@@ -131,28 +116,17 @@ for k in range(5):
 # hooves, like a draft horse's feathered lower legs.
 for side, sign in (("Left", 1), ("Right", -1)):
     x = sign * 0.17
-    b.tube((x, -0.54, 1.22), (x, -0.58, 0.58), 0.13, 0.085, coat, f"Front{side}Upper", segments=10)
-    b.tube((x, -0.58, 0.66), (x, -0.58, 0.14), 0.08, 0.075, coat, f"Front{side}Lower", segments=10)
-    b.tube((x, -0.585, 0.20), (x, -0.61, 0.07), 0.078, 0.085, coat, f"Front{side}Hoof", segments=10)
-    b.tube((x, -0.61, 0.09), (x, -0.62, 0.0), 0.088, 0.10, hoof, f"Front{side}Hoof", segments=10)
+    b.tube((x, -0.54, 1.22), (x, -0.58, 0.58), 0.15, 0.10, coat, f"Front{side}Upper", segments=10)
+    b.tube((x, -0.58, 0.66), (x, -0.58, 0.14), 0.095, 0.085, coat, f"Front{side}Lower", segments=10)
+    b.tube((x, -0.585, 0.20), (x, -0.61, 0.07), 0.088, 0.095, coat, f"Front{side}Hoof", segments=10)
+    b.tube((x, -0.61, 0.09), (x, -0.62, 0.0), 0.098, 0.11, hoof, f"Front{side}Hoof", segments=10)
     x = sign * 0.18
     b.tube((x, 0.62, 1.22), (x, 0.50, 0.62), 0.15, 0.092, coat, f"Back{side}Upper", segments=10)  # stays inside the croup at the top
     b.tube((x, 0.49, 0.70), (x, 0.61, 0.14), 0.088, 0.075, coat, f"Back{side}Lower", segments=10)
     b.tube((x, 0.615, 0.20), (x, 0.60, 0.07), 0.078, 0.085, coat, f"Back{side}Hoof", segments=10)
     b.tube((x, 0.60, 0.09), (x, 0.59, 0.0), 0.088, 0.10, hoof, f"Back{side}Hoof", segments=10)
 
-# Low, discreet saddle so it doesn't fight with the rider's legs: a small blanket and seat flush with the
-# back, a low cantle and the horn, and stirrups where his feet rest when he rides (measured from the
-# rider's RideIdle pose and divided by the horse's scale).
-b.box((0, -0.10, 1.665), (0.46, 0.58, 0.02), blanket, "Spine2")
-b.box((0, -0.12, 1.69), (0.30, 0.42, 0.035), leather, "Saddle")
-b.box((0, 0.10, 1.725), (0.24, 0.05, 0.06), leather, "Saddle")                     # cantle
-b.tube((0, -0.33, 1.70), (0, -0.36, 1.80), 0.02, 0.028, leather, "Saddle", segments=6)  # horn
-STIRRUP = (0.383, -0.32, 1.126)
-for side in (1, -1):
-    b.tube((side * 0.15, -0.24, 1.69), (side * STIRRUP[0], STIRRUP[1], STIRRUP[2] + 0.04), 0.007, 0.007,
-           leather, "Saddle", segments=4)
-    b.box((side * STIRRUP[0], STIRRUP[1], STIRRUP[2]), (0.06, 0.12, 0.025), silver, "Saddle")
+# No saddle: the Charro rides bareback. The "Saddle" bone stays as the point where he is mounted.
 
 body, triangles = b.finish("Caballo", rig)
 
