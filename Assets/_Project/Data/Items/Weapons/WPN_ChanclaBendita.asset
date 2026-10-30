@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WPN_ChanclaBendita
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.MeleeWeaponDefinition
   displayName: chancla bendita
+  viewModel: {fileID: 5439338328077895661, guid: c006d6cdce07b76c2b73853aada5be10, type: 3}
   damageToHumans: 15
   damageToSpirits: 30
   cooldown: 0.5

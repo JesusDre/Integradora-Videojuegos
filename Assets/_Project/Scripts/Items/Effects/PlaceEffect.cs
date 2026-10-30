@@ -25,6 +25,7 @@ namespace Animas.Items
                 return false;
             }
             Instantiate(prefab, ground.point, Quaternion.LookRotation(forward));
+            user.NotifyPlaced();
             return true;
         }
     }
