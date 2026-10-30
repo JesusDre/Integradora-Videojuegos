@@ -36,40 +36,41 @@ rig = lp.build_armature("Charro", bones)
 b = lp.PartBuilder()
 
 # Tight charro trousers with a row of silver buttons down the outer seam, and riding boots.
-b.lathe([(0.86, 0.16), (1.00, 0.165)], suit, "Hips", segments=14, scale_y=0.75)
-b.box((0, -0.125, 0.96), (0.07, 0.01, 0.05), silver, "Hips")  # belt buckle
+b.lathe([(0.86, 0.185), (1.00, 0.19)], suit, "Hips", segments=14, scale_y=0.75)
+b.box((0, -0.143, 0.96), (0.08, 0.01, 0.055), silver, "Hips")  # belt buckle
 for side, sign in (("Left", 1), ("Right", -1)):
     x = sign * 0.10
-    b.tube((x, 0, 0.95), (x, 0, 0.52), 0.075, 0.055, suit, f"{side}UpperLeg", segments=8)
-    b.tube((x, 0, 0.52), (x, 0, 0.30), 0.052, 0.046, suit, f"{side}LowerLeg", segments=8)
-    b.tube((x, 0, 0.32), (x, 0, 0.06), 0.058, 0.052, boots, f"{side}LowerLeg", segments=8)
-    b.box((x, -0.05, 0.035), (0.09, 0.26, 0.07), boots, f"{side}Foot")
+    b.tube((x, 0, 0.95), (x, 0, 0.52), 0.092, 0.066, suit, f"{side}UpperLeg", segments=8)
+    b.sphere((x, 0, 0.52), 0.064, suit, f"{side}LowerLeg", segments=8, rings=5)                    # knee
+    b.tube((x, 0, 0.52), (x, 0, 0.30), 0.062, 0.055, suit, f"{side}LowerLeg", segments=8)
+    b.tube((x, 0, 0.32), (x, 0, 0.06), 0.068, 0.062, boots, f"{side}LowerLeg", segments=8)
+    b.box((x, -0.05, 0.035), (0.10, 0.27, 0.075), boots, f"{side}Foot")
     for i in range(5):
         z = 0.90 - i * 0.09
         bone = f"{side}UpperLeg" if z > 0.52 else f"{side}LowerLeg"
-        r = 0.075 - (0.90 - z) * 0.05
+        r = 0.092 - (0.90 - z) * 0.06
         b.sphere((x + sign * r, 0, z), 0.012, silver, bone, segments=6, rings=4)
 
-# Short fitted charro jacket: narrow waist, broad chest, padded shoulders, lapels open in a V over a dark
+# Short fitted charro jacket on a robust build: narrow waist, broad chest, lapels open in a V over a dark
 # shirt, two rows of silver buttons and silver embroidery (grecas) on the back.
-b.lathe([(1.00, 0.165), (1.10, 0.16), (1.20, 0.18)], suit, "Spine", segments=16, scale_y=0.72)
-b.lathe([(1.20, 0.18), (1.32, 0.21), (1.40, 0.215), (1.47, 0.12)], suit, "Chest", segments=16, scale_y=0.72, cap_top=True)
-b.box((0, -0.153, 1.36), (0.075, 0.006, 0.14), shirt, "Chest")
+b.lathe([(1.00, 0.19), (1.10, 0.185), (1.20, 0.21)], suit, "Spine", segments=16, scale_y=0.74)
+b.lathe([(1.20, 0.21), (1.32, 0.245), (1.40, 0.25), (1.47, 0.14)], suit, "Chest", segments=16, scale_y=0.74, cap_top=True)
+b.box((0, -0.181, 1.36), (0.085, 0.006, 0.14), shirt, "Chest")
 for sign in (1, -1):
     lean = Quaternion((0, 1, 0), math.radians(-18 * sign))
-    b.box((sign * 0.055, -0.158, 1.35), (0.035, 0.008, 0.17), suit, "Chest", rotation=lean)       # lapel
-    b.box((sign * 0.072, -0.163, 1.35), (0.006, 0.004, 0.17), silver, "Chest", rotation=lean)     # its silver edge
-for x in (-0.07, 0.07):
+    b.box((sign * 0.062, -0.186, 1.35), (0.04, 0.008, 0.17), suit, "Chest", rotation=lean)        # lapel
+    b.box((sign * 0.082, -0.191, 1.35), (0.006, 0.004, 0.17), silver, "Chest", rotation=lean)     # its silver edge
+for x in (-0.08, 0.08):
     for z in (1.08, 1.16, 1.24):
-        b.sphere((x, -0.118 if z < 1.2 else -0.13, z), 0.011, silver, "Spine" if z < 1.2 else "Chest", segments=6, rings=4)
+        b.sphere((x, -0.137 if z < 1.2 else -0.158, z), 0.012, silver, "Spine" if z < 1.2 else "Chest", segments=6, rings=4)
 # Embroidered band across the back: two silver lines with diamonds between them.
 for z in (1.30, 1.37):
-    b.box((0, 0.153, z), (0.24, 0.006, 0.007), silver, "Chest")
+    b.box((0, 0.182, z), (0.28, 0.006, 0.007), silver, "Chest")
 for x in (-0.09, -0.03, 0.03, 0.09):
-    b.box((x, 0.153, 1.335), (0.022, 0.006, 0.022), silver, "Chest", rotation=Quaternion((0, 1, 0), math.radians(45)))
+    b.box((x, 0.182, 1.335), (0.022, 0.006, 0.022), silver, "Chest", rotation=Quaternion((0, 1, 0), math.radians(45)))
 for x in (-0.03, 0.03):
-    b.box((x, -0.095, 1.445), (0.05, 0.02, 0.035), tie, "Chest")
-b.sphere((0, -0.105, 1.445), 0.013, tie, "Chest", segments=6, rings=4)
+    b.box((x, -0.115, 1.445), (0.05, 0.02, 0.035), tie, "Chest")
+b.sphere((0, -0.125, 1.445), 0.013, tie, "Chest", segments=6, rings=4)
 
 # Arms: tapered sleeves with the elbow and wrist covered by rounded joints (no tube seams when they bend),
 # silver embroidery at the cuffs, and black gloves with jointed fingers.
@@ -77,12 +78,12 @@ for side, sign in (("Left", 1), ("Right", -1)):
     z = 1.46
     # The sleeve starts at the shoulder joint (a tube starting inside the body would swing up through the
     # shoulder when the arm comes down); a round joint covers the shoulder instead.
-    b.sphere((sign * 0.20, 0, z), 0.07, suit, f"{side}UpperArm", segments=10, rings=6)
-    b.tube((sign * 0.20, 0, z), (sign * 0.48, 0, z), 0.068, 0.055, suit, f"{side}UpperArm", segments=10)
-    b.sphere((sign * 0.48, 0, z), 0.057, suit, f"{side}LowerArm", segments=10, rings=6)
-    b.tube((sign * 0.48, 0, z), (sign * 0.72, 0, z), 0.055, 0.048, suit, f"{side}LowerArm", segments=10)
+    b.sphere((sign * 0.20, 0, z), 0.088, suit, f"{side}UpperArm", segments=10, rings=6)
+    b.tube((sign * 0.20, 0, z), (sign * 0.48, 0, z), 0.084, 0.066, suit, f"{side}UpperArm", segments=10)
+    b.sphere((sign * 0.48, 0, z), 0.068, suit, f"{side}LowerArm", segments=10, rings=6)
+    b.tube((sign * 0.48, 0, z), (sign * 0.72, 0, z), 0.066, 0.056, suit, f"{side}LowerArm", segments=10)
     for dx in (0.66, 0.70):
-        b.tube((sign * dx, 0, z), (sign * (dx + 0.012), 0, z), 0.051, 0.051, silver, f"{side}LowerArm", segments=10, cap=False)
+        b.tube((sign * dx, 0, z), (sign * (dx + 0.012), 0, z), 0.06, 0.06, silver, f"{side}LowerArm", segments=10, cap=False)
     b.sphere((sign * 0.745, 0, z), 0.04, gloves, f"{side}Hand", segments=8, rings=5)
     b.tube((sign * 0.745, 0, z), (sign * 0.81, 0, z - 0.004), 0.038, 0.042, gloves, f"{side}Hand", segments=8)
     for dz in (-0.024, -0.008, 0.008, 0.024):
@@ -105,15 +106,17 @@ b.box((0, -0.083, 1.565), (0.06, 0.012, 0.008), void, "Head")                   
 for x in (-0.024, -0.008, 0.008, 0.024):
     b.box((x, -0.085, 1.565), (0.004, 0.01, 0.02), void, "Head")
 
-# Wide-brimmed charro hat: a brim with the edge rolled up (closed loop profile, so it reads from above
-# and below), a tall crown and a silver band.
-b.lathe([(1.70, 0.10), (1.70, 0.30), (1.735, 0.355), (1.75, 0.35), (1.72, 0.30), (1.72, 0.10)], suit, "Head",
+# Wide-brimmed charro hat sitting on the skull: the crown hugs the top of the head (the brim rests just
+# above the brow), the brim has its edge rolled up (closed loop profile, so it reads from above and below),
+# and a silver band. A dark ring inside the crown hides any gap against the skull.
+b.lathe([(1.665, 0.10), (1.665, 0.30), (1.70, 0.355), (1.715, 0.35), (1.685, 0.30), (1.685, 0.10)], suit, "Head",
         segments=20)
-b.lathe([(1.70, 0.115), (1.86, 0.11), (1.93, 0.085), (1.96, 0.04), (1.965, 0.0)], suit, "Head", segments=16)
-b.lathe([(1.72, 0.118), (1.75, 0.117)], silver, "Head", segments=16)
+b.lathe([(1.665, 0.098), (1.80, 0.10), (1.88, 0.085), (1.92, 0.045), (1.925, 0.0)], suit, "Head", segments=16)
+b.lathe([(1.665, 0.094), (1.70, 0.09)], void, "Head", segments=16, inward=True)
+b.lathe([(1.685, 0.101), (1.715, 0.1)], silver, "Head", segments=16)
 
 body, triangles = b.finish("Charro", rig)
-lp.render_sheet(1.97, "ent_charro")
+lp.render_sheet(1.93, "ent_charro")
 
 # ---------------------------------------------------------------- animations
 anim = lp.Animator(rig)
@@ -131,8 +134,8 @@ def merge(*dicts):
 # Riding pose: thighs forward and apart around the horse, shins hanging along its sides, both hands low
 # in front holding the reins. Aims are world directions: -Y forward, +X his left, +Z up.
 seat = {
-    "LeftUpperLeg": (0.42, -0.62, -0.66), "RightUpperLeg": (-0.42, -0.62, -0.66),
-    "LeftLowerLeg": (0.12, 0.08, -0.99), "RightLowerLeg": (-0.12, 0.08, -0.99),
+    "LeftUpperLeg": (0.7, -0.5, -0.5), "RightUpperLeg": (-0.7, -0.5, -0.5),
+    "LeftLowerLeg": (0.08, 0.1, -0.99), "RightLowerLeg": (-0.08, 0.1, -0.99),
 }
 reins = {
     "LeftUpperArm": (0.25, -0.35, -0.9), "RightUpperArm": (-0.25, -0.35, -0.9),

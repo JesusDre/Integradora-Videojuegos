@@ -6,15 +6,15 @@
 ## Silueta y lectura
 - Jinete con **traje de charro negro**: chaqueta corta entallada con solapas en V sobre camisa oscura, botonadura de plata y una franja bordada en la espalda; pantalón ajustado con botonadura plateada; guantes negros. **Sombrero de ala ancha**.
 - Bajo el sombrero, una **calavera** color hueso: cuencas negras con brasas rojas, cavidad de la nariz y mandíbula con dientes marcados. Es el charro que vendió su alma; con la linterna se ve bajo el ala.
-- **Caballo negro** grande de cuerpo continuo (cruz, lomo y grupa marcados), patas con rodillas, corvejones, menudillos y cascos, cabeza con frente, quijada y hocico, brida y riendas, crin larga cayendo a un lado del cuello y cola hasta casi el suelo. Ojos con brillo rojo y aliento de vapor (partículas en Unity).
+- **Caballo negro de guerra**, más grande que uno normal (cruz a ~1.9 m) y musculoso, con algo demoníaco: costillas, escápulas y huesos de la cadera marcados bajo la piel y ojos rojos muy brillantes. Cuerpo continuo (cruz, lomo y grupa marcados), patas gruesas con rodillas, corvejones, menudillos y cascos grandes, cabeza con frente, quijada y hocico, brida y riendas, crin larga y gruesa cayendo a los dos lados del cuello con una cresta arriba, y cola hasta casi el suelo. Ojos con brillo rojo y aliento de vapor (partículas en Unity).
 - Elegante y amenazante, no caricaturesco (anexo del GDD).
 - Jinete y caballo son **dos modelos**: el jinete se monta en un punto del caballo (`Saddle`). Así el caballo, que es cuadrúpedo, tiene su propio esqueleto genérico.
 
 ## Medidas (metros)
 | Parte | Tamaño |
 |---|---|
-| Caballo: altura a la cruz | 1.65 |
-| Caballo: largo del cuerpo | 2.40 |
+| Caballo: altura a la cruz | 1.90 (se modela a 1.65 y se escala ×1.15) |
+| Caballo: largo del cuerpo | 2.75 |
 | Jinete de pie | 1.85 (con sombrero 1.95) |
 | Ala del sombrero | 0.70 de diámetro |
 | Altura de la cabeza del jinete montado | 2.60 |
@@ -31,9 +31,11 @@
 | Calavera | hueso | `#CFC6B0` |
 | Camisa | gris muy oscuro | `#2A2A2E` |
 | Silla de montar | cuero café oscuro | `#2A1A10` |
+| Manta de la silla | rojo muy oscuro | `#4A0A0A` |
+| Huesos marcados | gris hueso oscuro | `#26221E` |
 
 ## Presupuesto
-Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales tienen unos 3 290 (jinete) y 2 720 (caballo).
+Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales tienen unos 3 450 (jinete) y 3 700 (caballo).
 
 ## Esqueletos
 - **Jinete:** humanoide estándar (Unity Humanoid).
@@ -52,6 +54,8 @@ Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales 
 | Ambos | `Dissolve` | no | se encogen y se desvanecen | Derrota |
 
 ## Notas
+- **Silla a la medida del jinete:** manta roja oscura, asiento con teja (respaldo) alto, cabeza con cuerno, faldones de cuero bajo los muslos y estribos de plata justo donde caen sus pies en `RideIdle` (se midió la posición de los pies en Blender y se dividió entre la escala del caballo). En Unity el tobillo queda 6 cm sobre el estribo.
+- **Charro robusto:** torso, brazos y piernas más gruesos; el sombrero se asienta sobre la calavera (el ala justo arriba de la frente y la copa abraza el cráneo).
 - Es el modelo más riesgoso (PIPELINE_ASSETS): se hizo primero el caballo en formas simples y se probó el galope antes de pulir.
 - **Cómo quedó:** `Tools/Blender/ent_caballo.py` y `Tools/Blender/ent_charro.py`. El caballo tiene 21 huesos (columna de 3, cuello de 2, cabeza, cola de 2, 4 patas de 3 huesos y `Saddle`); las patas traseras tienen el muslo y el corvejón en ángulo como un caballo real. Sus clips son `Idle`, `Gallop`, `Charge` (se encabrita y arremete), `Hit` y `Dissolve`.
 - El jinete se modela de pie en T y la postura de montar sale de sus clips: `RideIdle`, `RideGallop`, `Offer` y `Dissolve`. Debajo del sombrero hay una calavera con brasas rojas en los ojos.
