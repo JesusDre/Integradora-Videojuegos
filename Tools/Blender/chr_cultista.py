@@ -35,18 +35,15 @@ DEPTH = 0.85  # bodies are a bit shallower front-to-back than wide
 # Robe skirt: pleated cloth from the hem to the waist (follows the hips).
 b.lathe([(0.10, 0.34), (0.35, 0.32), (0.65, 0.27), (0.90, 0.22), (1.00, 0.205)], robe, "Hips",
         segments=20, folds=8, fold_depth=0.07, scale_y=DEPTH)
-# Torso under the cape.
+# Torso.
 b.lathe([(1.00, 0.20), (1.20, 0.21)], robe, "Spine", segments=16, scale_y=0.8)
 b.lathe([(1.20, 0.21), (1.36, 0.215), (1.46, 0.12)], robe, "Chest", segments=16, scale_y=0.8, cap_top=True)
 # Rope belt with two hanging ends tied at the front.
 b.lathe([(0.98, 0.212), (1.00, 0.224), (1.02, 0.212)], rope, "Hips", segments=20, scale_y=DEPTH)
 for x in (-0.03, 0.025):
     b.tube((x, -0.19, 0.99), (x * 1.6, -0.21, 0.72), 0.011, 0.009, rope, "Hips", segments=5)
-b.star((0, -0.234, 1.33), 0.06, 8, star, "Chest", facing=(0, -1, 0.35))  # on the cape, visible from the front
-
-# Cape (esclavina): short pleated capelet over the shoulders, under the hood.
-b.lathe([(1.24, 0.30), (1.30, 0.29), (1.40, 0.24), (1.46, 0.15), (1.50, 0.10)], robe, "Chest",
-        segments=20, folds=10, fold_depth=0.05, scale_y=DEPTH)
+# The cult's star lies flat on the chest, almost painted on: no extra volume.
+b.star((0, -0.174, 1.31), 0.065, 8, star, "Chest", depth=0.002, facing=(0, -1, 0.12))
 
 # Hood: rounded cloth around the head with a deep opening for the face. A dark lining inside
 # hides the back of the hood when looking into the opening.

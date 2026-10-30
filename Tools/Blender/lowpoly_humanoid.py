@@ -371,6 +371,19 @@ def arms_down(spread=12.0, forward=0.0, elbow=0.0):
 
 # ---------------------------------------------------------------- export and sheet
 
+def scale_character(armature, mesh_objects, factor):
+    """Scale the finished model and skeleton uniformly and bake it in (scale stays 1 in the FBX).
+    Call before creating the Animator; hip offsets in the animations must then be scaled too."""
+    bpy.ops.object.select_all(action="DESELECT")
+    # Only the armature gets the scale: the meshes are its children and inherit it. Scaling them too
+    # would apply the factor twice.
+    armature.scale = (factor, factor, factor)
+    for obj in (armature, *mesh_objects):
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = armature
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+
+
 def export_fbx(armature, mesh_objects, filename):
     os.makedirs(MODELS_DIR, exist_ok=True)
     path = os.path.join(MODELS_DIR, filename)
@@ -409,7 +422,10 @@ def render_sheet(target_height, filename_base, resolution=(900, 1200)):
     scene.world = world
     cam_data = bpy.data.cameras.new("SheetCam")
     cam_data.type = "ORTHO"
-    cam_data.ortho_scale = target_height * 1.25
+    # Ortho scale covers the image height; arms in T-pose can be wider than the figure is tall.
+    span = max((v.co.x for o in bpy.data.objects if o.type == "MESH" for v in o.data.vertices), default=0) * 2
+    aspect = resolution[0] / resolution[1]
+    cam_data.ortho_scale = max(target_height * 1.25, span * 1.1 / aspect)
     cam = bpy.data.objects.new("SheetCam", cam_data)
     bpy.context.collection.objects.link(cam)
     scene.camera = cam

@@ -10,9 +10,11 @@
 - Fiel a la leyenda, sin caricatura (anexo del GDD): ni sangre exagerada ni rasgos de monstruo.
 
 ## Medidas (metros)
+Se modela con las medidas de abajo (para 1.85 m) y el script la escala ×1.19 hasta 2.20 m.
+
 | Parte | Altura / tamaño |
 |---|---|
-| Altura total | 1.85 (un poco más alta que el Padre) |
+| Altura total | 2.20 (bastante más alta que el Padre, de 1.80) |
 | Hombros | 1.48 (ancho 0.36) |
 | Cintura | 1.05 |
 | Borde del vestido | 0.00 (toca el suelo) |
@@ -48,7 +50,7 @@ Humanoide estándar. Las piernas existen (Unity Humanoid las pide) pero quedan d
 | `Vanish` | 1.5 s | no | se encoge y se hunde, brazos al cuerpo | Se retira por la sal / fin del ritual |
 
 ## Notas
-- El cabello son láminas abiertas (al frente, atrás y a los lados de la cabeza) con mechones marcados; los costados del torso quedan libres para que los brazos se muevan.
+- El cabello son láminas abiertas con mechones poco profundos. La parte de la cara, la nuca y los lados sigue a la cabeza; los mechones largos del pecho y la espalda siguen al pecho y empiezan un poco más arriba y más separados del cuerpo, para que no atraviesen el vestido cuando agacha la cabeza.
 - En Unity: `AC_Llorona` mezcla `Idle`, `Stalk` y `Walk` con el parámetro `Speed` (0, 0.8 y 2) y tiene los triggers `Grab` y `Vanish`.
 - El llanto (audio) y la distorsión de pantalla cuando está cerca son lo que más asusta; el modelo debe ser simple y quedar casi siempre en penumbra.
 - No se ve caminar: como el vestido toca el suelo, el movimiento se lee como un deslizamiento.
