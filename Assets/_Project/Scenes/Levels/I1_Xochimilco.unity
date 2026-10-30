@@ -1569,6 +1569,7 @@ GameObject:
   - component: {fileID: 280640023}
   - component: {fileID: 280640022}
   - component: {fileID: 280640021}
+  - component: {fileID: 280640024}
   m_Layer: 0
   m_Name: Veladora_Fija
   m_TagString: Untagged
@@ -1670,6 +1671,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280640019}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &280640024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280640019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54cfb1faeb5d1ff8b87f54e5d0032c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.RitualCandle
+  flame: {fileID: 1087254009}
+  lightClip: {fileID: 0}
 --- !u!1 &286615264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,6 +2390,62 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403827439}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &421729148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 421729149}
+  - component: {fileID: 421729150}
+  m_Layer: 0
+  m_Name: Ritual_Llorona
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &421729149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421729148}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 146, y: 0, z: 106}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 488752563}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &421729150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421729148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32a1b35ca1666640ab43e9512dc28d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.RitualController
+  anchor: {fileID: 1449962050}
+  candles:
+  - {fileID: 690426158}
+  - {fileID: 1503460317}
+  - {fileID: 280640024}
+  waves: {fileID: 1152699488}
+  bar: {fileID: 433887408}
+  escapeRide: {fileID: 1042892601}
+  prayerSeconds: 60
+  radius: 4
+  strongHit: 15
+  setback: 0.1
 --- !u!1001 &433887405
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2646,6 +2717,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab9e849e78f3ad188dcb89bb0d75c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.AltarUI
+--- !u!114 &433887408 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7817359063025936075, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+  m_PrefabInstance: {fileID: 433887405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9fbe1ae8bf7523d85f2e3c66b5bdeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.RitualBarUI
 --- !u!1 &437953504
 GameObject:
   m_ObjectHideFlags: 0
@@ -3359,6 +3441,7 @@ Transform:
   - {fileID: 1803083239}
   - {fileID: 1809012034}
   - {fileID: 1152699487}
+  - {fileID: 421729149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &533224671
@@ -4168,6 +4251,7 @@ GameObject:
   - component: {fileID: 690426157}
   - component: {fileID: 690426156}
   - component: {fileID: 690426155}
+  - component: {fileID: 690426158}
   m_Layer: 0
   m_Name: Veladora_Fija
   m_TagString: Untagged
@@ -4269,6 +4353,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690426153}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &690426158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690426153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54cfb1faeb5d1ff8b87f54e5d0032c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.RitualCandle
+  flame: {fileID: 1754055819}
+  lightClip: {fileID: 0}
 --- !u!1 &698870018
 GameObject:
   m_ObjectHideFlags: 0
@@ -6401,8 +6499,8 @@ MonoBehaviour:
   turnSpeed: 60
   seat: {fileID: 918036699}
   exitPoint: {fileID: 615671499}
-  locked: 0
-  lockedPrompt: "La trajinera no se mueve todav\xEDa"
+  locked: 1
+  lockedPrompt: "La trajinera no avanzar\xE1 hasta terminar el ritual"
 --- !u!1 &1043122590
 GameObject:
   m_ObjectHideFlags: 0
@@ -9750,6 +9848,7 @@ GameObject:
   - component: {fileID: 1503460316}
   - component: {fileID: 1503460315}
   - component: {fileID: 1503460314}
+  - component: {fileID: 1503460317}
   m_Layer: 0
   m_Name: Veladora_Fija
   m_TagString: Untagged
@@ -9851,6 +9950,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503460312}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1503460317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503460312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54cfb1faeb5d1ff8b87f54e5d0032c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.RitualCandle
+  flame: {fileID: 1343372418}
+  lightClip: {fileID: 0}
 --- !u!1 &1505422757
 GameObject:
   m_ObjectHideFlags: 0

@@ -262,7 +262,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo evitan que dispare al hacer clic en un menú? | El menú apaga `WeaponSwitcher`, y este apaga el arma en la mano. |
 
 ### 5.7 Rezo y ritual
-*Rezo: issue #25. Ritual final: pendiente (#34).*
+*Rezo: issue #25. Ritual final: issue #34.*
 
 **Qué hace el rezo.** Manteniendo R durante 3 segundos, el Padre reza: casi no puede moverse (va al 15 % de su velocidad) y una barra bajo la mira se llena. Si suelta R antes, se cancela sin castigo. Al completarse deja en el suelo un círculo de luz dorada de 4 m de radio que los espíritus no pueden cruzar durante 10 segundos; en el último segundo se desvanece. Después hay que esperar 20 segundos para volver a rezar: el HUD dice "Rezo listo [R]" o "Rezo en 13 s", y si aprietas R antes avisa "Aún no puedes rezar". El círculo no detiene a los cultistas: son humanos (GDD §5).
 
@@ -287,6 +287,30 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo sabe el espíritu que no puede entrar? | `SpiritBody` llama a `SpiritWards.TryRepel(posición)` en cada cuadro; si está dentro de una barrera, recibe un punto afuera y se mueve ahí. |
 | ¿Por qué el círculo se queda donde rezó y no sigue al Padre? | Así es una zona segura que el jugador debe usar con cabeza; si lo siguiera, sería invencible 10 s. |
 | ¿Qué pasa si sueltas R antes? | Se cancela: el Padre recupera su velocidad y no empieza el enfriamiento. |
+
+**El ritual final** (*issue #34*, el mismo código para las 3 instancias; GDD §5, P3 y P6):
+1. Se colocan los 3 objetos clave en el ancla (5.11).
+2. Si el ancla tiene veladoras fijas, como la de la Llorona, se encienden con F (no gastan inventario). Avisos: "Enciende las 3 veladoras del ancla" y "Mantén R junto al ancla".
+3. Junto al ancla (4 m), mantener R llena la barra del ritual, arriba en la pantalla, sin enfriamiento. Soltar R o alejarse la pausa. Ahí R es del ritual: el rezo normal no se activa (vuelve al alejarse).
+4. Al empezar llegan las oleadas de cultistas (5.9). Un golpe de 15 o más hace retroceder la barra un 10 % ("¡El golpe te hizo perder el rezo!"). Los golpes del cultista de Xochimilco (10) no la mueven, pero un agarre de la Llorona sí.
+5. Con la barra llena (60 s de rezo): "El ritual está completo. ¡Huye!", se detienen las oleadas y se desbloquea la trajinera de la huida. La entidad escucha `Completed` para debilitarse (#35, #45).
+6. Si el Padre muere, el ritual empieza de cero: el ancla se vacía, las veladoras se apagan, la barra vuelve a 0 y desaparecen los cultistas de las oleadas.
+
+| Pieza | Qué hace |
+|---|---|
+| `RitualController` | Las etapas (esperar ofrendas, encender veladoras, listo, rezando, completo), la barra, el retroceso con `Health.Damaged`, las oleadas (`WaveSpawner.Begin/Stop/ResetWaves`) y el reinicio con `PlayerRespawn.Respawned`. |
+| `RitualCandle` | Cada veladora fija del ancla: F la enciende. |
+| `PlayerPrayer.Suppressed` | Mientras el Padre está en el ancla durante el ritual, R no hace el rezo normal. |
+| `TrajineraRide.Unlock` | La huida en trajinera espera al ritual. |
+
+**Cómo se probó (Play Mode, `I1_Xochimilco`).**
+- **Antes del ritual:** la trajinera de huida no avanzó. Con las ofrendas: "Enciende las 3 veladoras"; con las veladoras: listo.
+- **Rezando:** con R mantenida (simulada con el Input System) empezó el ritual, la barra subió, salió la oleada 1 y el rezo normal quedó suprimido.
+- **Golpes:** uno de 10 no movió la barra; uno de 20 la bajó un 10 %.
+- **Pausa:** al soltar R la barra se quedó igual (0.041 por 2 s). Lejos del ancla no subió y el rezo normal volvió.
+- **Muerte:** el ritual se reinició (ancla 0, veladoras apagadas, sin cultistas de oleada).
+- **Final:** en un segundo intento se completó tras las 3 oleadas, la trajinera se desbloqueó y las oleadas se detuvieron.
+- Consola sin errores.
 
 ### 5.8 Cuarto seguro, checkpoint y guardado
 *Issue #26.*
