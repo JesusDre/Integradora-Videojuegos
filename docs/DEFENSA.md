@@ -760,7 +760,7 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 - **Opciones** (GDD §17): sensibilidad del mouse (×0.25 a ×3), invertir eje Y, volumen general, música, efectos, voces y subtítulos sí/no. Se guardan al momento y sirven igual desde el menú y desde la pausa.
 - **Pausa (Esc):** Continuar · Reiniciar (vuelve al último cuarto seguro, igual que Reintentar) · Opciones · Salir al menú. El juego se congela.
 - **Derrota:** 1.5 s después de morir aparece "Has caído" con **Reintentar** y **Salir al menú**. Reemplaza la reaparición automática de 3 s que había desde #26.
-- **Créditos:** proyecto, desarrollo, equipo, herramientas, fuente y la nota de respeto a las leyendas.
+- **Créditos:** proyecto, los 6 integrantes del equipo, quién desarrolló, herramientas, fuente y la nota de respeto a las leyendas.
 
 ![Menú principal](img/ui/menu_principal.png)
 ![Selección de instancia](img/ui/menu_instancias.png)
