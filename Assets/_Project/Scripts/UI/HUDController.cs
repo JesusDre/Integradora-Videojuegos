@@ -25,6 +25,13 @@ namespace Animas.UI
         [SerializeField] TMP_Text weaponLabel;
         [SerializeField] TMP_Text ammoLabel;
 
+        [Header("Prayer")]
+        [SerializeField] PlayerPrayer prayer;
+        [Tooltip("Fills while R is held, under the crosshair.")]
+        [SerializeField] StatBar prayerBar;
+        [Tooltip("\"Rezo listo\" or the seconds left, under the stamina bar.")]
+        [SerializeField] TMP_Text prayerStatus;
+
         [Header("Colors")]
         [SerializeField] Color healthColor = new Color(0.70f, 0.15f, 0.12f);
         [Tooltip("Below this life the bar pulses, so the player notices before dying.")]
@@ -48,6 +55,7 @@ namespace Animas.UI
             playerInventory.Changed += OnInventoryChanged;
             if (weapons != null) weapons.Switched += OnWeaponSwitched;
             if (shotgun != null) shotgun.AmmoChanged += OnAmmoChanged;
+            if (prayer != null) prayer.ProgressChanged += OnPrayerProgress;
         }
 
         void Start()
@@ -58,6 +66,7 @@ namespace Animas.UI
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].SetKey((i + 1).ToString());
             OnInventoryChanged();
             if (weapons != null) OnWeaponSwitched(weapons.Current);
+            if (prayerBar != null) prayerBar.gameObject.SetActive(false);
         }
 
         void OnDisable()
@@ -67,6 +76,7 @@ namespace Animas.UI
             if (playerInventory != null) playerInventory.Changed -= OnInventoryChanged;
             if (weapons != null) weapons.Switched -= OnWeaponSwitched;
             if (shotgun != null) shotgun.AmmoChanged -= OnAmmoChanged;
+            if (prayer != null) prayer.ProgressChanged -= OnPrayerProgress;
         }
 
         void Update()
@@ -74,6 +84,17 @@ namespace Animas.UI
             // The only per-frame work: the low-life pulse, an animation rather than a state check.
             if (playerHealth.Current > 0f && playerHealth.Current <= lowHealth)
                 healthBar.SetColor(Color.Lerp(healthColor, lowHealthColor, Mathf.PingPong(Time.time * 2f, 1f)));
+
+            // The prayer cooldown is a countdown, so it is redrawn while it runs.
+            if (prayer != null && prayerStatus != null)
+                prayerStatus.text = prayer.IsReady ? "Rezo listo [R]" : $"Rezo en {Mathf.CeilToInt(prayer.CooldownLeft)} s";
+        }
+
+        void OnPrayerProgress(float progress)
+        {
+            // -1 means the Padre stopped praying (finished or let go of R).
+            prayerBar.gameObject.SetActive(progress >= 0f);
+            if (progress >= 0f) prayerBar.Set(progress, 1f);
         }
 
         void OnHealthChanged(float current, float max)

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 69500857402726779}
   - component: {fileID: 8252742590538644725}
   - component: {fileID: 9145848390486212298}
+  - component: {fileID: 5979250240870480494}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -261,6 +262,7 @@ MonoBehaviour:
   - {fileID: 5320117398522518101}
   - {fileID: 3503602647166584537}
   - {fileID: 9145848390486212298}
+  - {fileID: 5979250240870480494}
 --- !u!114 &5157468773410539650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +347,24 @@ MonoBehaviour:
   shotgun: {fileID: 8252742590538644725}
   meleeModel: {fileID: 0}
   shotgunModel: {fileID: 5424389054005128659}
+--- !u!114 &5979250240870480494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec1052da440b7a47a6aeebe2f9bd8b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.PlayerPrayer
+  tuning: {fileID: 11400000, guid: 93225ad7cadf60899a8f3a8b9c5e2fdf, type: 2}
+  movement: {fileID: 618537009719643545}
+  circlePrefab: {fileID: 1412694737254612266, guid: ea5b768130682f7fb867b4f931460866, type: 3}
+  audioSource: {fileID: 7902535171258847897}
+  prayClip: {fileID: 0}
+  doneClip: {fileID: 0}
 --- !u!1 &2419112120389781756
 GameObject:
   m_ObjectHideFlags: 0

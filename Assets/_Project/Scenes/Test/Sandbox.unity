@@ -1459,6 +1459,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883360685}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &952935865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5979250240870480494, guid: 340de122d96465aed83456fb80bfa834, type: 3}
+  m_PrefabInstance: {fileID: 3195183162106819833}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec1052da440b7a47a6aeebe2f9bd8b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.PlayerPrayer
 --- !u!1001 &1083027681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1551,6 +1562,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF_Notifications
       objectReference: {fileID: 0}
+    - target: {fileID: 7819735717709752711, guid: d85ecfbf467323130b36d3a237a4ef99, type: 3}
+      propertyPath: prayer
+      value: 
+      objectReference: {fileID: 952935865}
     - target: {fileID: 7819735717709752711, guid: d85ecfbf467323130b36d3a237a4ef99, type: 3}
       propertyPath: inventory
       value: 
@@ -1707,6 +1722,10 @@ PrefabInstance:
       value: PF_HUD
       objectReference: {fileID: 0}
     - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: prayer
+      value: 
+      objectReference: {fileID: 952935865}
+    - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: shotgun
       value: 
       objectReference: {fileID: 3195183162106819841}
@@ -1748,7 +1767,7 @@ PrefabInstance:
       objectReference: {fileID: 3195183162106819835}
     - target: {fileID: 4464120536413824434, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: disableWhileOpen.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4464120536413824434, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: 'disableWhileOpen.Array.data[0]'
@@ -1762,6 +1781,10 @@ PrefabInstance:
       propertyPath: 'disableWhileOpen.Array.data[2]'
       value: 
       objectReference: {fileID: 3195183162106819834}
+    - target: {fileID: 4464120536413824434, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[3]'
+      value: 
+      objectReference: {fileID: 952935865}
     - target: {fileID: 7682722233887721028, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: inventory
       value: 
@@ -1780,7 +1803,7 @@ PrefabInstance:
       objectReference: {fileID: 3195183162106819835}
     - target: {fileID: 7682722233887721028, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: disableWhileOpen.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7682722233887721028, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: 'disableWhileOpen.Array.data[0]'
@@ -1798,6 +1821,10 @@ PrefabInstance:
       propertyPath: 'disableWhileOpen.Array.data[3]'
       value: 
       objectReference: {fileID: 1105352045}
+    - target: {fileID: 7682722233887721028, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[4]'
+      value: 
+      objectReference: {fileID: 952935865}
     - target: {fileID: 8854533508751061123, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: m_Pivot.x
       value: 0
