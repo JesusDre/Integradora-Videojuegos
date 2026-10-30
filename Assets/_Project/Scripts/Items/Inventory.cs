@@ -37,6 +37,8 @@ namespace Animas.Items
         readonly Dictionary<ItemDefinition, int> materials = new Dictionary<ItemDefinition, int>();
 
         public IReadOnlyList<InventorySlot> Slots => slots;
+        // Read-only so only TryAdd/Remove change materials (they keep the 0–99 limit).
+        public IReadOnlyDictionary<ItemDefinition, int> Materials => materials;
 
         // Something in the inventory changed (the HUD redraws).
         public event Action Changed;
