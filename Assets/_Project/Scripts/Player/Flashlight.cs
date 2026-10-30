@@ -31,6 +31,20 @@ namespace Animas.Player
             if (toggleAction.WasPressedThisFrame()) SetOn(!IsOn);
         }
 
+        // Is this collider inside the beam? Used by the Tzitzimime (GDD §13: light hurts her while revealed).
+        public bool Illuminates(Collider target)
+        {
+            if (!IsOn || target == null) return false;
+            Vector3 to = target.bounds.center - transform.position;
+            float distance = to.magnitude;
+            if (distance > flashlightLight.range) return false;
+            if (Vector3.Angle(transform.forward, to) > flashlightLight.spotAngle * 0.5f) return false;
+            // The first solid thing along the beam must be the target itself, not a wall. Triggers don't count.
+            if (!Physics.Raycast(transform.position, to / distance, out RaycastHit hit, distance, ~0, QueryTriggerInteraction.Ignore))
+                return true;
+            return hit.collider == target;
+        }
+
         public void SetOn(bool on)
         {
             flashlightLight.enabled = on;

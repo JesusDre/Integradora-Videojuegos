@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d42002737bc204f6b8f8a7e7727e576, type: 3}
+  m_Name: TzitzimimeTuning
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Entities.TzitzimimeTuning
+  phaseTwoAt: 0.5
+  revealedFill: 1
+  litFill: 2
+  ceilingHeight: 5
+  ceilingSpeed: 2.5
+  attackInterval: 7
+  finalAttackInterval: 4
+  warningSeconds: 1.5
+  attackRadius: 3
+  attackDamage: 20
+  finalSpeed: 2.2
