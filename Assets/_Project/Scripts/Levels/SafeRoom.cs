@@ -18,7 +18,8 @@ namespace Animas.Levels
         [SerializeField] string id = "SafeRoom";
         [Tooltip("1 if the safe room is reached from section 1 (always, in the MVP).")]
         [SerializeField] int sectionAfter = 2;
-        [SerializeField] Door door;
+        [Tooltip("Every door of the room (the choza has one on each side). All close when the Padre enters.")]
+        [SerializeField] Door[] doors;
         [SerializeField] Transform respawnPoint;
         [Tooltip("Where a spirit that touches the room is sent: just outside the door.")]
         [SerializeField] Transform spiritExit;
@@ -62,7 +63,8 @@ namespace Animas.Levels
             if (inside)
             {
                 Last = this;
-                if (door != null) door.SetOpen(false);
+                foreach (Door door in doors)
+                    if (door != null) door.SetOpen(false);
             }
             // Saving on both: entering keeps the progress, leaving keeps what was crafted.
             SaveNow(player.GetComponent<PlayerPersistence>());

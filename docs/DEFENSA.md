@@ -365,7 +365,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 *Pendiente — issues #35, #39 y #45.*
 
 ### 5.13 Niveles: las tres instancias
-*Planos: issues #5, #30 y #38. Blockouts y niveles: #16, #36, #40 y #46.*
+*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles finales: #36, #40 y #46.*
 
 **Qué hay.** Un plano por instancia, visto desde arriba, con el recorrido numerado en orden, los 3 objetos clave, el inicio y la salida, el altar del cuarto seguro, los grupos de cultistas (con cuántos son), las notas y los alijos secretos, el ancla de la entidad, por dónde ronda la entidad, las luces y las zonas oscuras, y la escala (10 m y la altura del Padre, 1.8 m). Todos siguen la misma estructura del GDD: **sección 1 → cuarto seguro → sección 2 → final de la entidad → huida**.
 
@@ -387,6 +387,29 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 - **Objetos clave a la vista:** el jugador no debe perderse buscando; el reto son los cultistas, la oscuridad y la entidad.
 - **Dificultad creciente:** grupos de 2–3 cultistas en la instancia 1, de 3–4 en la 2 y de 4–5 en la 3, como dice la tabla de balance del GDD.
 - **La entidad marca el ritmo de la sección 2:** la Llorona en los canales, el Charro en el campo abierto (no entra a la capilla) y la Tzitzimime en las catacumbas.
+
+**Blockout de la instancia 1** (*issue #16*). La escena `Scenes/Levels/I1_Xochimilco` arma el plano con formas simples y las mismas coordenadas:
+- las chinampas son cajas y el agua no tiene colisión;
+- barandales invisibles impiden caer a los canales;
+- la choza es el cuarto seguro, con dos puertas, altar y veladoras;
+- hay marcadores para las 3 muñecas, las notas y el ancla con sus 3 veladoras;
+- los alijos son objetos reales que se pueden recoger;
+- las 4 zonas de encuentro (G1 a G4) usan `DIF_Instancia1`, y las oleadas del ritual salen desde la orilla de la isla;
+- hay dos trajineras (el cruce y la huida) y la salida;
+- la noche se arma con luz de luna fría, niebla blanca y fondo oscuro.
+
+![Blockout: la choza](img/niveles/i1_blockout_choza.png)
+
+| Pieza nueva | Qué hace |
+|---|---|
+| `TrajineraRide` | El viaje por guion (GDD P1): F para subir; la trajinera sigue su ruta sola y deja al Padre en la otra orilla. Arriba no puede caminar, pero sí mirar, atacar y usar objetos rápidos. La de la huida se puede bloquear hasta que termine el ritual (#34). Si el Padre muere arriba, la trajinera vuelve a su muelle. |
+| `LevelExit` | Al llegar a la salida guarda ("al terminar una instancia", GDD §26), avisa "Escapaste de Xochimilco" y lanza `Reached` para el flujo de pantallas (#48). |
+| `SafeRoom` (cambio) | Ahora acepta varias puertas y cierra todas al entrar. |
+| `PathWalker` (pruebas) | Camina al Padre por el NavMesh moviendo su `CharacterController`, como un jugador, para probar recorridos completos de forma automática. |
+
+**Un detalle del NavMesh:** se hornea desde los colliders (no desde las mallas visibles); si no, el agua contaba como piso. Las zonas invisibles (encuentros, cuarto seguro, salida) se excluyen del horneado porque tapaban el puente.
+
+**Cómo se probó (Play Mode, recorrido automático a velocidad ×3).** El Padre caminó del inicio al muelle (38 m; se activó el encuentro G1) y subió a la trajinera. Llegó a la chinampa de las muñecas, caminó a la choza y al entrar se guardó en `I1_Choza` con las puertas cerradas. Salió por la puerta este, cruzó el puente a la isla hasta el muelle norte y subió a la trajinera de huida. Llegó a la salida, que guardó `salida`. Sin la trajinera, el NavMesh no une el embarcadero con la chinampa (correcto: ahí se cruza en trajinera). Consola sin errores.
 
 **Preguntas probables.**
 | Pregunta | Respuesta |

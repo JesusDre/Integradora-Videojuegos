@@ -792,7 +792,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.SafeRoom
   id: Arena_Inicio
   sectionAfter: 2
-  door: {fileID: 1324853993}
+  doors:
+  - {fileID: 1324853993}
   respawnPoint: {fileID: 2129659791}
   spiritExit: {fileID: 41305688}
 --- !u!65 &138400267
