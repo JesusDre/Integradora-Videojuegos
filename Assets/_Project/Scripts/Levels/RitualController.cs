@@ -24,6 +24,8 @@ namespace Animas.Levels
         [SerializeField] RitualBarUI bar;
         [Tooltip("The escape boat (instance 1) is locked until the ritual is complete. Optional.")]
         [SerializeField] TrajineraRide escapeRide;
+        [Tooltip("The escape door (instance 3: the tunnel) stays locked until the ritual is complete. Optional.")]
+        [SerializeField] Door escapeDoor;
         [Tooltip("Seconds of holding R to fill the bar.")]
         [SerializeField, Min(5f)] float prayerSeconds = 60f;
         [Tooltip("How close to the anchor the Padre must be to pray.")]
@@ -125,6 +127,11 @@ namespace Animas.Levels
             if (waves != null) waves.Stop();
             bar.End();
             if (escapeRide != null) escapeRide.Unlock();
+            if (escapeDoor != null)
+            {
+                escapeDoor.Unlock();
+                escapeDoor.SetOpen(true);
+            }
             Completed?.Invoke();
         }
 
