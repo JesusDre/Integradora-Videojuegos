@@ -460,7 +460,51 @@ Usar otra vez la chancla o la cruz regresa el machete; si se tira, también. Las
 | ¿Cómo se desbloquea una receta? | `NotePickup` llama a `RecipeBook.Unlock` la primera vez que se lee la nota; el altar muestra la receta desde ese momento. |
 
 ### 5.12 Entidades: La Llorona, el Charro Negro y la Tzitzimime
-*Pendiente — issues #35, #39 y #45.*
+*La Llorona: issue #35. El Charro Negro (#39) y la Tzitzimime (#45) están pendientes.*
+
+#### La Llorona (instancia 1)
+
+**Qué hace.** La Llorona ronda los canales de Xochimilco. De lejos se la ve flotando sobre el agua. Cuando se acerca, la pantalla se deforma y pierde color, y aparece el subtítulo "(Se oye un llanto) ¡Ay, mis hijos!". Si el Padre pasa a menos de 12 m, lo persigue. Si lo alcanza, lo agarra 2 s: no puede moverse, pierde 15 de vida de golpe y luego 4 por segundo. Después ella se hunde en el agua y vuelve a salir 12 s más tarde, lejos de él.
+
+Las armas no la matan (GDD §13: "se vence con crafteo y rezo"). Lo que sí funciona:
+- la **línea de sal** y el **círculo de rezo**: no los puede cruzar;
+- la luz de la **veladora**;
+- el **agua bendita** o un golpe bendito (chancla, cruz).
+
+Con cualquiera de ellos grita y se hunde. Solo se vence **completando el ritual** en el ancla. Durante el ritual siempre sabe dónde está el Padre, y cada agarre hace retroceder la barra un 10 %, porque el primer daño es de 15 (GDD P3). Al llenarse la barra se disuelve: se hunde y se encoge. Deja junto al ancla la nota que enseña la cruz de plata.
+
+![La Llorona cerca](img/ui/llorona_presencia.png)
+
+**Cómo funciona.** Es una máquina de estados, igual que el Cultista:
+
+`Hidden` (bajo el agua) → `Stalk` (recorre los canales) → `Chase` (lo persigue) → `Grab` (lo agarra) → `Retreat` (vuelve al canal) → `Hidden`. Al final del ritual pasa a `Dissolved`.
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `LloronaEntity` | `PF_Llorona` | La máquina de estados. Escucha a `SpiritBody` (sal, rezo, agua bendita, veladora), a `Health` (golpes), a `RitualController.Completed` y a `PlayerRespawn.Respawned`. |
+| `LloronaTuning` | `Data/Enemies/LloronaTuning.asset` | Todos sus números: velocidades (1.6 al acechar, 3.4 al perseguir), distancias (12 m para verlo, 22 m para perderlo), daño del agarre y tiempo bajo el agua. |
+| `EntityPresence` | `PF_Llorona` | Mientras más cerca está, más peso le da a un Volume de posprocesado (`Art/VFX/VP_LloronaPresencia`: distorsión de lente, aberración cromática, viñeta y menos color). También sube el volumen de su llanto y muestra el subtítulo. Sirve igual para las otras entidades. |
+| `Llorona_Canales` | `I1_Xochimilco` | 12 puntos sobre el agua. Va al que esté más cerca del Padre y reaparece en el más cercano que esté al menos a 15 m. |
+| `Nota_Llorona` | junto al ancla | Empieza oculta; se muestra cuando ella se disuelve. |
+
+Es un fantasma: se desliza en línea recta sobre el agua y la tierra, sin NavMesh. Así puede "recorrer los canales", donde el Padre no puede entrar. La choza es un cuarto seguro: no la deja entrar, y con el Padre adentro ella no sale del agua.
+
+Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el posprocesado (`PF_Player`).
+
+**Cómo se probó (Play Mode, `I1_Xochimilco`).**
+- Con el Padre en el embarcadero, ella salió del agua a 20 m. Se acercó por el canal y lo persiguió al estar a menos de 12 m. Lo agarró: la vida bajó de 100 a 77 (15 de golpe y el resto drenado) y la velocidad del Padre quedó en 0 durante el agarre. Luego se hundió.
+- El peso de la distorsión subió de 0 a 0.93 mientras se acercaba y volvió a 0 al hundirse.
+- Con el rezo, con el agua bendita y con una veladora colocada, en cada caso se hundió al instante.
+- Al completar el ritual se disolvió (bajó 2 m y se ocultó), la distorsión volvió a 0 y apareció su nota.
+- Consola sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué no usa NavMesh como el Cultista? | Flota sobre el agua, y el NavMesh solo cubre la tierra. Moverla en línea recta es más simple y queda con la leyenda. |
+| ¿Cómo sabe el ritual que el agarre es un golpe fuerte? | El agarre quita 15 de un solo golpe; `RitualController` escucha `Health.Damaged` y retrocede la barra con cualquier golpe de 15 o más. |
+| ¿Por qué no se le puede matar? | El GDD dice que las entidades se vencen con crafteo y rezo. Si recibe daño, se cura y huye. |
+| ¿Cómo se ve que está cerca? | `EntityPresence` cambia el peso de un Volume de posprocesado según la distancia, y muestra un subtítulo por si no hay sonido. |
 
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles finales: #36, #40 y #46.*
