@@ -15,6 +15,8 @@ namespace Animas.UI
     {
         [SerializeField] Inventory inventory;
         [SerializeField] Health playerHealth;
+        [Tooltip("Optional: lists the key items under the materials.")]
+        [SerializeField] KeyItemBag keyItems;
         [Tooltip("Where dropped items fall: the player's camera, so they land in front of him.")]
         [SerializeField] Transform dropPoint;
         [Tooltip("Turned off while the screen is open: camera, attack, interaction, quick slot keys.")]
@@ -114,6 +116,13 @@ namespace Animas.UI
             foreach (var pair in inventory.Materials)
                 if (pair.Value > 0) text.Append($"{pair.Key.displayName} {pair.Value}   ");
             materialsLabel.text = "Materiales: " + (text.Length == 0 ? "ninguno" : text.ToString());
+
+            if (keyItems != null && keyItems.KeyItems.Count > 0)
+            {
+                text.Clear();
+                foreach (var pair in keyItems.KeyItems) text.Append($"{pair.Key.displayName} ×{pair.Value}   ");
+                materialsLabel.text += "\nObjetos clave: " + text;
+            }
         }
     }
 }

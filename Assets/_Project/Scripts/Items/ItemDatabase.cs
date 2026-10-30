@@ -9,11 +9,19 @@ namespace Animas.Items
     {
         public ItemDefinition[] items;
         public RecipeDefinition[] recipes;
+        public NoteDefinition[] notes;
 
         public ItemDefinition FindItem(string assetName)
         {
             foreach (ItemDefinition item in items)
                 if (item != null && item.name == assetName) return item;
+            return null;
+        }
+
+        public NoteDefinition FindNote(string assetName)
+        {
+            foreach (NoteDefinition note in notes)
+                if (note != null && note.name == assetName) return note;
             return null;
         }
 

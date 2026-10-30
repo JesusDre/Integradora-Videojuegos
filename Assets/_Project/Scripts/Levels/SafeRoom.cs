@@ -72,7 +72,8 @@ namespace Animas.Levels
 
         void SaveNow(PlayerPersistence player)
         {
-            if (player == null) return;
+            // Never save a dead Padre (he could be carried out of the room by a respawn teleport).
+            if (player == null || player.GetComponent<Health>().IsDead) return;
             SaveSystem.Save(player.Capture(id, sectionAfter));
             Saved?.Invoke(this);
         }

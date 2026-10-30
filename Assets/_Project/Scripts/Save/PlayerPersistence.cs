@@ -14,6 +14,7 @@ namespace Animas.Save
         [SerializeField] Health health;
         [SerializeField] Inventory inventory;
         [SerializeField] RecipeBook recipeBook;
+        [SerializeField] KeyItemBag keyItems;
 
         public SaveData Capture(string checkpoint, int section)
         {
@@ -35,6 +36,13 @@ namespace Animas.Save
                 data.materialCounts.Add(pair.Value);
             }
             foreach (RecipeDefinition recipe in recipeBook.Known) data.recipes.Add(recipe.name);
+            if (keyItems != null)
+            {
+                foreach (var pair in keyItems.KeyItems)
+                    for (int i = 0; i < pair.Value; i++) data.keyItems.Add(pair.Key.name);
+                data.collectedKeyItems.AddRange(keyItems.Collected);
+                foreach (NoteDefinition note in keyItems.NotesRead) data.notes.Add(note.name);
+            }
             return data;
         }
 
@@ -55,6 +63,25 @@ namespace Animas.Save
                 else Debug.LogWarning($"[PlayerPersistence] Unknown recipe in save: {name}");
             }
             recipeBook.SetKnown(recipes);
+
+            if (keyItems != null)
+            {
+                var carried = new Dictionary<ItemDefinition, int>();
+                foreach (string name in data.keyItems)
+                {
+                    ItemDefinition item = Find(name);
+                    if (item != null) carried[item] = carried.TryGetValue(item, out int n) ? n + 1 : 1;
+                }
+                var notes = new List<NoteDefinition>();
+                foreach (string name in data.notes)
+                {
+                    NoteDefinition note = database.FindNote(name);
+                    if (note != null) notes.Add(note);
+                }
+                var pairs = new List<(ItemDefinition, int)>();
+                foreach (var pair in carried) pairs.Add((pair.Key, pair.Value));
+                keyItems.SetContents(pairs, data.collectedKeyItems, notes);
+            }
 
             health.Revive(Mathf.Max(minimumHealth, data.health));
         }

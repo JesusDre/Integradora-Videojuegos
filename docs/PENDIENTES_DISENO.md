@@ -28,6 +28,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #26 | Dentro del cuarto seguro los cultistas no ven ni oyen al Padre (el GDD dice que es la única zona sin amenazas) | `CultistAI` / `SafeRoom` |
 | #27 | Escalado por instancia (velocidad, daño, vista y espera de los cultistas), oleadas cada vez que se vence la anterior o a los 25 s, y el botín con sus probabilidades | `Data/Difficulty/DIF_*`, `Data/Enemies/CultistTuning_*` (tabla en GDD §20) |
 | #31 | Agua bendita: 20 de daño a espíritus en 3 m. Línea de sal de 3 m. Veladora: 45 s, revela a 8 m. Copal: humo de 7 m. Cruz: 10 normal, carga de 1 s, 40 a espíritus cargada. El molotov no quema al Padre | `Data/Items/Effects`, `Prefabs/Items/Effects`, `WPN_CruzPlata` |
+| #32 | Los objetos clave no ocupan espacios del inventario (bolsa aparte, como los materiales). Textos iniciales de 6 notas (se pueden reescribir en #33) | `KeyItemBag`, `Data/Notes` |
 
 ## Decididas (29 oct 2026, ya están en el GDD)
 - **P4** El inventario y los materiales pasan completos a la siguiente instancia.
