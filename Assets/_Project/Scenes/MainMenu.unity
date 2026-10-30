@@ -1364,11 +1364,9 @@ MonoBehaviour:
   m_text: "<b>\xC1nimas mexicanas</b>\nProyecto integrador de videojuegos \xB7 2026\n\n<b>Equipo</b>\nJuan
     Manuel Chavez Arredondo\nAlison Larissa Mart\xEDnez Aguilar\nHanna Romybsi P\xE9rez
     Caspeta\nLuis David Rojas Vargas\nNadia Yuridia Salinas Cervantes\nJesus Juarez
-    Perez\n\n<b>Desarrollo</b> (programaci\xF3n, arte, audio, niveles y textos)\nJesus
-    Juarez Perez, con Claude (Anthropic) como asistente\n\n<b>Herramientas</b>\nUnity
-    6 (URP) \xB7 Blender con scripts propios \xB7 Fuente Liberation Sans (SIL OFL
-    1.1)\n\nInspirado en las leyendas de la Llorona, el Charro Negro y las tzitzimime.\nSe
-    respetan sus leyendas; no se parodian."
+    Perez\n\n<b>Herramientas</b>\nUnity 6 (URP) \xB7 Blender con scripts propios
+    \xB7 Fuente Liberation Sans (SIL OFL 1.1)\n\nInspirado en las leyendas de la
+    Llorona, el Charro Negro y las tzitzimime.\nSe respetan sus leyendas; no se parodian."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
