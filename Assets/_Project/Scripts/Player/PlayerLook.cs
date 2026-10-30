@@ -1,3 +1,4 @@
+using Animas.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,12 +11,13 @@ namespace Animas.Player
         [SerializeField] PlayerTuning tuning;
         [SerializeField] Transform cameraPivot;
 
-        // Settable from the Options menu (issue #47); starts at the tuning default.
-        public float Sensitivity { get; set; }
+        // The tuning default times the Options multiplier (GameSettings, issue #47).
+        public float Sensitivity { get; private set; }
 
         InputAction lookAction;
         float pitch;
         float kick;  // extra upward tilt from a swing or a hit, fading back to 0
+        bool invertY;
 
         // A small jolt of the camera: feedback for swings and for being hit.
         public void AddKick(float degrees) => kick += degrees;
@@ -23,19 +25,28 @@ namespace Animas.Player
         void Awake()
         {
             lookAction = InputSystem.actions.FindAction("Player/Look", true);
-            Sensitivity = tuning.mouseSensitivity;
+            ApplySettings();
         }
 
         void OnEnable()
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            GameSettings.Changed += ApplySettings;
+            ApplySettings();
         }
 
         void OnDisable()
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            GameSettings.Changed -= ApplySettings;
+        }
+
+        void ApplySettings()
+        {
+            Sensitivity = tuning.mouseSensitivity * GameSettings.Sensitivity;
+            invertY = GameSettings.InvertY;
         }
 
         void Update()
@@ -47,7 +58,8 @@ namespace Animas.Player
             transform.Rotate(0f, delta.x, 0f);
 
             // Clamping the pitch keeps the camera from flipping upside down (the rubric checks unplayable angles).
-            pitch = Mathf.Clamp(pitch - delta.y, -tuning.maxPitch, tuning.maxPitch);
+            float vertical = invertY ? -delta.y : delta.y;
+            pitch = Mathf.Clamp(pitch - vertical, -tuning.maxPitch, tuning.maxPitch);
             // The kick decays over time (deltaTime), so it lasts the same on any computer.
             kick = Mathf.MoveTowards(kick, 0f, 20f * Time.deltaTime);
             cameraPivot.localRotation = Quaternion.Euler(pitch - kick, 0f, 0f);

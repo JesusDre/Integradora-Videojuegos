@@ -1,10 +1,11 @@
+using Animas.Core;
 using TMPro;
 using UnityEngine;
 
 namespace Animas.UI
 {
     // What the Padre says, at the bottom of the screen (GDD §16 and §25). The notes and the
-    // Padre's lines (#33) call Show; the subtitles on/off option (#47) will switch this off.
+    // Padre's lines (#33) call Show; the subtitles on/off option (#47) silences it.
     public class SubtitleUI : MonoBehaviour
     {
         [SerializeField] GameObject root;
@@ -19,6 +20,7 @@ namespace Animas.UI
 
         public void Show(string line)
         {
+            if (!GameSettings.Subtitles) return;
             label.text = line;
             root.SetActive(true);
             hideAt = Time.time + Mathf.Max(minimumSeconds, line.Length * secondsPerCharacter);

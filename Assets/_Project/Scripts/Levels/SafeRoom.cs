@@ -82,6 +82,17 @@ namespace Animas.Levels
 
         public Vector3 PushOut(Vector3 point) => spiritExit != null ? spiritExit.position : point;
 
+        // "Continuar" from the menu: the saved safe room becomes the respawn point before the Padre
+        // has entered any room in this session.
+        public static SafeRoom FindById(string roomId)
+        {
+            foreach (SafeRoom room in FindObjectsByType<SafeRoom>(FindObjectsSortMode.None))
+                if (room.id == roomId) return room;
+            return null;
+        }
+
+        public void MarkAsLast() => Last = this;
+
         // Domain reload can be off in the Editor: start each Play Mode clean.
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetOnPlay()

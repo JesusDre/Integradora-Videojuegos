@@ -402,7 +402,7 @@ MonoBehaviour:
   deathHandler: {fileID: 4171033038306139916}
   persistence: {fileID: 2270269953759454414}
   minimumHealth: 60
-  autoRespawnSeconds: 3
+  autoRespawnSeconds: 0
 --- !u!114 &4356258946889775197
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,13 +32,14 @@ namespace Animas.UI
 
         public bool IsOpen => panel.activeSelf;
 
-        InputAction toggleAction;
+        InputAction toggleAction, pauseAction;
         int selected;
         readonly StringBuilder text = new StringBuilder();
 
         void Awake()
         {
             toggleAction = InputSystem.actions.FindAction("Player/Inventory", true);
+            pauseAction = InputSystem.actions.FindAction("Player/Pause", true);
             for (int i = 0; i < slots.Length; i++)
             {
                 int index = i;  // a copy for the lambda; using i would make every button select the last slot
@@ -71,6 +72,8 @@ namespace Animas.UI
         void Update()
         {
             if (toggleAction.WasPressedThisFrame() && !playerHealth.IsDead) SetOpen(!IsOpen);
+            // Esc also closes it (the pause menu sees it open and doesn't pause on that press).
+            else if (IsOpen && pauseAction.WasPressedThisFrame()) SetOpen(false);
         }
 
         public void SetOpen(bool open)
