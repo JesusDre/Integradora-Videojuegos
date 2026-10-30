@@ -10,12 +10,15 @@ namespace Animas.Levels
         [Tooltip("Degrees per second.")]
         [SerializeField] float swingSpeed = 180f;
         [SerializeField] bool startOpen;
+        [Tooltip("A locked door can't be opened with F (the hacienda gate until the Charro is defeated).")]
+        [SerializeField] bool locked;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip openClip;
         [SerializeField] AudioClip closeClip;
 
         public bool IsOpen { get; private set; }
-        public string Prompt => IsOpen ? "Cerrar puerta" : "Abrir puerta";
+        public bool Locked => locked;
+        public string Prompt => locked ? "Cerrado" : IsOpen ? "Cerrar puerta" : "Abrir puerta";
 
         Quaternion closedRotation;
         Quaternion openRotation;
@@ -28,7 +31,12 @@ namespace Animas.Levels
             transform.localRotation = IsOpen ? openRotation : closedRotation;
         }
 
-        public void Interact(Interactor interactor) => SetOpen(!IsOpen);
+        public void Interact(Interactor interactor)
+        {
+            if (!locked) SetOpen(!IsOpen);
+        }
+
+        public void Unlock() => locked = false;
 
         // Used by the safe room, which closes its door behind the Padre.
         public void SetOpen(bool open)

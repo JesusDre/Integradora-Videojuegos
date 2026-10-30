@@ -31,6 +31,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #32 | Los objetos clave no ocupan espacios del inventario (bolsa aparte, como los materiales). Textos iniciales de 6 notas (se pueden reescribir en #33) | `KeyItemBag`, `Data/Notes` |
 | #34 | El ritual se llena con 60 s de R mantenida, a 4 m del ancla; al morir se reinicia completo | `RitualController` en cada nivel |
 | #35 | Agarre de la Llorona: 2 s, 15 de golpe + 4/s. Persigue a 3.4 m/s (el Padre corre a 5.5), lo ve a 12 m, se rinde a 22 m, queda 12 s bajo el agua. La veladora y el agua bendita la hunden, igual que la sal y el rezo. Las armas no la dañan. | `Data/Enemies/LloronaTuning.asset`, `LloronaEntity` |
+| #39 | Charro: trota a 5 m/s, embiste a 12 m/s cuando el Padre está a 14 m (25 de daño, sigue 8 m de largo), queda débil 4 s tras cruzar una canaleta llena; las armas no le hacen nada. Las canaletas solo aceptan agua bendita después de colocar las monedas | `Data/Enemies/CharroTuning.asset`, `HolyWaterChannel` |
 | #35 | Se activó el posprocesado en la cámara del Padre para la distorsión del llanto (también se ven la viñeta y el bloom del Global Volume en todas las escenas) | `PF_Player` (cámara) |
 
 ## Decididas (29 oct 2026, ya están en el GDD)

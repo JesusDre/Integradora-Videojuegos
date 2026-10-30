@@ -460,7 +460,7 @@ Usar otra vez la chancla o la cruz regresa el machete; si se tira, también. Las
 | ¿Cómo se desbloquea una receta? | `NotePickup` llama a `RecipeBook.Unlock` la primera vez que se lee la nota; el altar muestra la receta desde ese momento. |
 
 ### 5.12 Entidades: La Llorona, el Charro Negro y la Tzitzimime
-*La Llorona: issue #35. El Charro Negro (#39) y la Tzitzimime (#45) están pendientes.*
+*La Llorona: issue #35. El Charro Negro: #39. La Tzitzimime (#45) está pendiente.*
 
 #### La Llorona (instancia 1)
 
@@ -505,6 +505,62 @@ Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el po
 | ¿Cómo sabe el ritual que el agarre es un golpe fuerte? | El agarre quita 15 de un solo golpe; `RitualController` escucha `Health.Damaged` y retrocede la barra con cualquier golpe de 15 o más. |
 | ¿Por qué no se le puede matar? | El GDD dice que las entidades se vencen con crafteo y rezo. Si recibe daño, se cura y huye. |
 | ¿Cómo se ve que está cerca? | `EntityPresence` cambia el peso de un Volume de posprocesado según la distancia, y muestra un subtítulo por si no hay sonido. |
+
+#### El Charro Negro (instancia 2)
+
+**Qué hace.** El Charro trota detrás del Padre a 5 m/s, un poco más lento que correr (5.5). Cuando el Padre está a menos de 14 m, embiste: corre en línea recta a 12 m/s hacia donde estaba el Padre y sigue 8 m más. La embestida no gira, así que hacerse a un lado en el último momento la esquiva. Si lo alcanza, quita 25. Después se detiene 1.5 s para dar la vuelta.
+
+- **La capilla:** no puede entrar (los cultistas sí); espera en la puerta.
+- **Fase 1:** las armas no le hacen nada, porque no tiene barra de vida que vaciar.
+- **Fase final (GDD P2 y P8):** empieza cuando el Padre coloca las 3 monedas del pacto en el pedestal de la capilla. Entonces las 3 canaletas frente a la capilla aceptan agua bendita: con F y 1 agua bendita se llenan, brillan y duran 20 s. Si el Charro embiste y cruza una canaleta llena, queda débil 4 s: se detiene, brilla y aparece "¡El Charro está débil! Golpéalo con la cruz cargada".
+- **Cómo se vence:** un golpe cargado de la cruz de plata mientras está débil cuenta como 1 de 3. Con el tercero se disuelve, el portón se abre ("¡Corre al portón!") y el Padre huye a pie hasta la salida.
+- **Si el Padre muere:** vuelve la fase 1. Las monedas regresan al mundo, los golpes se reinician y las canaletas se vacían.
+
+![Charro débil sobre la canaleta](img/ui/charro_debil.png)
+
+**Cómo funciona.** También es una máquina de estados:
+
+`Chase` (lo persigue) → `Charge` (embiste) → `Recover` (se detiene) → `Chase`. Si cruza el agua bendita: `Weakened` (débil). Con 3 golpes: `Dissolved`. Si el Padre está muerto o en el cuarto seguro: `Idle` (vuelve a su sitio).
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `CharroNegroEntity` | `PF_Charro` | La máquina de estados. Usa NavMeshAgent (va a caballo por tierra). Escucha `PlayerCombat.ChargedHitLanded` (solo la cruz se carga), `Anchor.OfferingsComplete` del pedestal y `PlayerRespawn.Respawned`. |
+| `CharroTuning` | `Data/Enemies/CharroTuning.asset` | Velocidades, distancia de embestida, daño, segundos débil y golpes necesarios. |
+| `HolyWaterChannel` | cada canaleta | F + 1 agua bendita la llena 20 s (el brillo se apaga en los últimos 3 s). `Crossed` revisa si el Charro pasó por encima en este cuadro. |
+| `SpiritBarrier` | capilla | Zona que los espíritus no pueden pisar; a la gente no la afecta. Es otra "barrera" como el círculo de rezo y la sal, así que `SpiritBody` lo saca sin código nuevo. |
+| `Anchor` (reutilizado) | pedestal | El mismo script del ancla de la Llorona, pero pidiendo monedas del pacto. |
+| `Door` (cambio) | portón | Ahora puede estar con candado (`locked`): F dice "Cerrado" hasta que el Charro se disuelve. |
+
+**Escena de prueba:** `Scenes/Test/CharroArena`. Tiene un campo de 70 × 70 m con:
+- la capilla y su pedestal;
+- 3 canaletas;
+- 3 monedas;
+- el cuarto seguro;
+- el portón y la salida;
+- agua bendita y cruz junto al inicio.
+
+El nivel real de la hacienda es #40.
+
+**Cómo se probó (Play Mode, `CharroArena`).**
+- Persiguió al Padre a ~5 m/s. Al estar cerca, embistió y le quitó 25.
+- Con el Padre dentro de la capilla, se quedó parado en la puerta (0, 14) y no entró.
+- Antes de las monedas, la canaleta respondió "Coloca primero las monedas…" y no gastó agua bendita. Después, se llenó y gastó 1.
+- Al cruzar la canaleta llena quedó débil. Tres golpes cargados con la cruz (con el ataque real de `PlayerCombat`) lo disolvieron: el portón se abrió y la salida marcó `Done`.
+- Si se quedaba parado sobre la canaleta, la siguiente embestida ya no lo debilitaba: cada golpe pide un cruce nuevo.
+- Al morir con 1 golpe dado: golpes = 0, pedestal vacío, canaletas cerradas.
+- Consola sin errores.
+
+**Errores que se encontraron en la prueba.**
+- Con el Editor en segundo plano (pocos cuadros por segundo), el caballo a 12 m/s "saltaba" la canaleta de 1 m sin tocarla. Ahora `Crossed` revisa todo el tramo que avanzó en el cuadro, no solo dónde terminó.
+- Tras un golpe, el Charro quedaba sobre el agua y su siguiente embestida lo debilitaba al instante, así que los 3 golpes salían seguidos. Ahora solo cuenta una embestida que empieza fuera de la canaleta.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué el Charro usa NavMesh y la Llorona no? | Él va a caballo por tierra y debe rodear la capilla y los muros; ella flota sobre el agua. |
+| ¿Cómo se sabe que el golpe fue con la cruz cargada? | `PlayerCombat` lanza `ChargedHitLanded` solo con golpes cargados, y la cruz es la única arma que carga. El Charro además revisa que esté débil. |
+| ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
+| ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
 
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles finales: #36, #40 y #46.*
