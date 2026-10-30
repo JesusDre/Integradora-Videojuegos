@@ -50,7 +50,7 @@ Abre una terminal nueva y verifica con `unity --version`. Luego, dentro de la ca
 unity pipeline install              # agrega el paquete com.unity.pipeline (Unity 6.0+) al manifest
 unity mcp configure --list          # clientes soportados y sus rutas
 unity mcp configure claude          # registra el MCP de Unity en Claude Desktop
-unity mcp configure claude-code     # y/o en Claude Code
+unity mcp configure claude-code     # y/o en Claude Code (CLI); en la app de escritorio ya viene en el .mcp.json del repo como "unity-editor-mcp"
 ```
 Con el proyecto abierto en el Editor: `unity status` debe mostrar un Editor en estado `ready`, y `unity command` lista lo que Claude puede hacer.
 - Si el proyecto tiene errores de compilación, el Editor entra en **Safe Mode** y no responde: arregla el C# y reinicia Unity (`unity pipeline list` lo confirma).
@@ -60,7 +60,16 @@ Con el proyecto abierto en el Editor: `unity status` debe mostrar un Editor en e
 ## 3. Blender y Blender MCP (comunitario)
 Es el proyecto de `ahujasid` (antes `blender-mcp`; desde la 2.0 de septiembre de 2026 se llama `mcp-for-blender` y `uvx blender-mcp` sigue funcionando como alias). Repo: https://github.com/ahujasid/mcp-for-blender.
 Requisitos: Blender 3.0 o más nuevo, Python 3.10+, `uv` (instalador oficial, no `pip install uv`).
-Versión: `uvx mcp-for-blender` baja siempre la última. Para no llevarte sorpresas, elige una versión probada y fíjenla en `.mcp.json` y en Desktop como `"args": ["mcp-for-blender@X.Y.Z"]`.
+Versión: el `.mcp.json` fija `mcp-for-blender@2.2.6` (probada el 29 oct 2026). Para cambiarla, actualiza el `.mcp.json` y reinstala el addon con `uvx mcp-for-blender@X.Y.Z install-addon`.
+
+**Blender en este equipo (Fedora 43):** el paquete `blender` 5.1.2 de Fedora no arranca (`undefined symbol: ...MaterialX_v1_39_4...`: se compiló contra otra versión de MaterialX). Se usa el oficial de blender.org, que trae sus propias librerías:
+```bash
+# Blender 5.2.3 LTS en ~/.local/opt, comando `blender` en ~/.local/bin (verificar con el .sha256 publicado)
+curl -LO https://download.blender.org/release/Blender5.2/blender-5.2.3-linux-x64.tar.xz
+tar -xJf blender-5.2.3-linux-x64.tar.xz -C ~/.local/opt
+ln -sfn ~/.local/opt/blender-5.2.3-linux-x64/blender ~/.local/bin/blender
+```
+Si Blender no ha abierto nunca, `install-addon` no encuentra la carpeta: usa `BLENDERMCP_ADDONS_DIR=~/.config/blender/5.2/scripts/addons`. El addon arranca su servidor solo al abrir Blender (opción *Auto-Start Server*).
 Nota: el README nombra el botón del addon de dos formas ("Start MCP Server" y "Connect to Claude"); es el mismo paso.
 Instalación en un comando (instala uv, configura Claude Desktop y Claude Code, instala y activa el addon):
 ```powershell
