@@ -141,7 +141,7 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 *Pendiente — issues #44 y #50.*
 
 ### 5.16 Arte: modelos, animaciones e iluminación
-*Cultista: issues #3 y #4. Pendiente: La Llorona (#18), brazos del Padre (#28), Charro Negro (#37), Tzitzimime (#41) e iluminación.*
+*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. Pendiente: brazos del Padre (#28), Charro Negro (#37), Tzitzimime (#41) e iluminación.*
 
 **Qué hace.** Los personajes se diseñan en una **ficha** (`docs/personajes/`) y se construyen en Blender **con código**: un script arma el modelo low-poly con formas simples, le pone esqueleto, lo anima y lo exporta a Unity. El Cultista es el primero: túnica negra plisada, esclavina, capucha de tela honda, máscara ritual de hueso con la estrella de ocho puntas en la frente y ojos rojos, y un machete. Tiene unos 1 780 triángulos y 5 animaciones: `Idle`, `Walk`, `Run`, `Attack` y `Death`.
 
@@ -162,6 +162,8 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 - **Animaciones en el sitio:** el personaje no se desplaza dentro de la animación; lo mueve el `NavMeshAgent`. Así la velocidad real y la del dibujo no se pelean.
 - **Rotaciones en ejes del mundo:** el script describe las poses como "el brazo apunta hacia adelante y abajo", no con ángulos locales de cada hueso, que son difíciles de razonar.
 
+**La Llorona** (`Tools/Blender/ent_llorona.py`, ficha `docs/personajes/llorona.md`) se hizo con el mismo método: vestido blanco largo y plisado que toca el suelo (parece flotar), cabello negro que le tapa la cara por completo, brazos y dedos más largos de lo normal, unos 1 270 triángulos. Sus animaciones son `Idle` (solloza encorvada), `Stalk` (se desliza lenta), `Walk` (se acerca con los brazos al frente), `Grab` (abre los brazos y los cierra sobre el jugador) y `Vanish` (se dobla y se hunde en el suelo; el desvanecido lo hará el material en el #35). Su Animator es `AC_Llorona`.
+
 **Cómo se probó.** En Blender se renderizaron cuadros de cada animación desde el FBX exportado. En Unity, el avatar es Humanoid válido con los 19 huesos mapeados, el personaje mira hacia +Z, y en Play Mode pasa por `Locomotion`, `Attack` (0.87 s) y `Death` (termina tirado en el suelo) sin errores.
 
 **Preguntas probables.**
@@ -170,6 +172,8 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 | ¿Por qué no usaron Mixamo como decía el plan? | Mixamo pide cuenta de Adobe y subir el modelo; con código el esqueleto y las animaciones son nuestros, se regeneran y no dependen de un servicio. |
 | ¿Qué es un rig? | El esqueleto: huesos dentro del modelo. Al girar un hueso, la parte del modelo pegada a él se mueve. |
 | ¿Por qué tan pocos polígonos? | El GDD pide low-poly y en una oleada hay varios cultistas a la vez; unos 1 780 triángulos dejan rendimiento de sobra. |
+| ¿Por qué no se le ve la cara a la Llorona? | Es fiel a la leyenda y da más miedo lo que no se ve; además evita modelar y animar un rostro. El cabello son láminas que caen frente a la cara. |
+| ¿Cómo "flota" la Llorona? | El vestido toca el suelo y las piernas casi no se mueven al deslizarse, así que el movimiento se lee como un deslizamiento, no como pasos. |
 | ¿Por qué una máscara y no una cara? | Se ve de lejos con la linterna en la oscuridad, refuerza la identidad del culto (la estrella en la frente) y evita modelar y animar un rostro. |
 | ¿Cómo sabe Unity qué animación poner? | El Animator Controller tiene estados y transiciones: `Speed` elige entre quieto, caminar y correr; los triggers `Attack` y `Die` saltan a esas animaciones. |
 | ¿Qué es Humanoid? | Un tipo de esqueleto que Unity entiende como cuerpo humano (cabeza, brazos, piernas). Permite compartir animaciones entre personajes humanos. |

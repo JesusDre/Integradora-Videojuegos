@@ -146,26 +146,35 @@ class PartBuilder:
         return self._tag(faces, material, bone)
 
     def lathe(self, profile, material, bone, center=(0.0, 0.0), segments=16, folds=0, fold_depth=0.0,
-              cap_bottom=False, cap_top=False, inward=False, scale_y=1.0):
+              cap_bottom=False, cap_top=False, inward=False, scale_y=1.0, arc=None):
         """Surface of revolution around a vertical axis, from a profile of (z, radius) points, bottom to top.
         folds/fold_depth push the radius in and out around the circle so cloth reads as pleated.
         inward=True flips the faces so the surface is seen from inside (the lining of a hood).
-        scale_y squashes the shape front-to-back (bodies are deeper than wide only in cartoons)."""
+        scale_y squashes the shape front-to-back (bodies are deeper than wide only in cartoons).
+        arc=(start, end) in degrees builds only part of the circle (an open sheet, e.g. hair falling in front
+        of the face); 270 is the front (-Y), 90 the back."""
         cx, cy = center
         rings = []
+        closed = arc is None
+        count = segments if closed else segments + 1
         for z, radius in profile:
             ring = []
-            for i in range(segments):
-                a = 2 * math.pi * i / segments
+            for i in range(count):
+                if closed:
+                    a = 2 * math.pi * i / segments
+                else:
+                    a = math.radians(arc[0] + (arc[1] - arc[0]) * i / segments)
                 r = radius * (1.0 + fold_depth * math.cos(folds * a)) if folds else radius
                 ring.append(self.bm.verts.new((cx + r * math.cos(a), cy + r * math.sin(a) * scale_y, z)))
             rings.append(ring)
         faces = []
         for lower, upper in zip(rings, rings[1:]):
             for i in range(segments):
-                quad = (lower[i], lower[(i + 1) % segments], upper[(i + 1) % segments], upper[i])
+                j = (i + 1) % count
+                quad = (lower[i], lower[j], upper[j], upper[i])
                 faces.append(self.bm.faces.new(quad[::-1] if inward else quad))
-        if inward:
+        if inward or not closed:
+            # Open sheets have no inside/outside for Blender to guess; trust the winding (outward unless inward).
             self._keep_winding.update(faces)
         if cap_bottom:
             faces.append(self.bm.faces.new(rings[0][::-1] if not inward else rings[0]))

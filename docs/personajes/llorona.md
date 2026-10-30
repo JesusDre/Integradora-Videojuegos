@@ -33,7 +33,7 @@
 Vestido con rugosidad baja (mojado brilla un poco). Cabello liso brillante. Piel mate. El brillo espectral se usa para el efecto de desvanecerse y lo controla el código (#35).
 
 ## Presupuesto
-Menos de 3 500 triángulos.
+Menos de 3 500 triángulos; el modelo actual tiene unos 1 270.
 
 ## Esqueleto
 Humanoide estándar. Las piernas existen (Unity Humanoid las pide) pero quedan dentro del vestido; el cabello sigue al hueso `Head` y a `Chest` en la parte baja.
@@ -48,5 +48,7 @@ Humanoide estándar. Las piernas existen (Unity Humanoid las pide) pero quedan d
 | `Vanish` | 1.5 s | no | se encoge y se hunde, brazos al cuerpo | Se retira por la sal / fin del ritual |
 
 ## Notas
+- El cabello son láminas abiertas (al frente, atrás y a los lados de la cabeza) con mechones marcados; los costados del torso quedan libres para que los brazos se muevan.
+- En Unity: `AC_Llorona` mezcla `Idle`, `Stalk` y `Walk` con el parámetro `Speed` (0, 0.8 y 2) y tiene los triggers `Grab` y `Vanish`.
 - El llanto (audio) y la distorsión de pantalla cuando está cerca son lo que más asusta; el modelo debe ser simple y quedar casi siempre en penumbra.
 - No se ve caminar: como el vestido toca el suelo, el movimiento se lee como un deslizamiento.
