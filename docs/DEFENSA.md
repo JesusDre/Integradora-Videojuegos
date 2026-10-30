@@ -108,15 +108,14 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 |---|---|---|
 | `Health` | Padre, Cultista y entidades | Vida actual y máxima. `TakeDamage` y `Heal` siempre la mantienen entre 0 y el máximo (`Mathf.Clamp`). Avisa con eventos: `Changed` (para la barra del HUD), `Damaged` (para los efectos) y `Died`. Tiene un tipo, humano o espíritu, para el daño reducido a espíritus. |
 | `MeleeWeaponDefinition` | archivo de datos `Data/Items/Weapons/WPN_Machete.asset` | Daño a humanos (20) y a espíritus (5, una cuarta parte), espera entre golpes, alcance, gasto de resistencia y los sonidos. La chancla bendita será otro archivo igual con otros números. |
-| `PlayerCombat` | Padre | Al hacer clic revisa la espera y la resistencia (`TrySpend`), lanza un rayo grueso (`Physics.SphereCast`) desde la cámara y le quita vida al primer `Health` que toque. |
+| `PlayerCombat` | Padre | Al hacer clic revisa la espera y la resistencia (`TrySpend`), lanza un rayo grueso (`Physics.SphereCastNonAlloc`) desde la cámara y le quita vida al `Health` más cercano que toque, ignorando el cuerpo del propio Padre. |
 | `PlayerDeathHandler` | Padre | Al morir apaga movimiento, cámara, combate, interacción y linterna, y libera el cursor. La pantalla de derrota (#48) escuchará el mismo evento. |
-| `HealingPickup` | venda de prueba | Con F cura 30; si la vida está llena no se gasta. Cuando exista el inventario (#14), las vendas irán a los objetos rápidos. |
 | `HitFlash` | enemigos | Tiñe de rojo el modelo 0.12 s al recibir daño, con un `MaterialPropertyBlock` (no modifica el material compartido). |
 | `DeathAnimation` | enemigos | Al morir dispara la animación `Die` y apaga sus colliders para que el cuerpo no estorbe. |
 | `DamageFlashUI` | prefab `PF_DamageFlash` (UI) | Imagen roja a pantalla completa que aparece con cada golpe (más fuerte si el golpe es mayor) y se desvanece. |
 | `DamageZone` | escena de prueba | Zona que quita 10 de vida por segundo a quien esté dentro (servirá para fuego o agua maldita). |
 
-En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, una venda sobre la mesa y una zona de daño en la esquina.
+En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre la mesa (se recogen al inventario y se usan con 1–4, ver 5.3) y una zona de daño en la esquina.
 
 **Por qué así.**
 - **Un solo `Health` para todos:** el Padre, los cultistas y las entidades se dañan igual; el combate, la IA y el HUD solo necesitan conocer ese componente.
@@ -134,7 +133,34 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, una venda sobr
 | ¿Cómo sabe el jugador que golpeó? | Tirón de cámara al golpear, destello rojo en el enemigo y sonido de impacto (espacio listo para el clip); al recibir daño, la pantalla se tiñe de rojo. |
 
 ### 5.3 Inventario, materiales y objetos rápidos
-*Pendiente — issues #14 y #22.*
+*Issue #14 (la pantalla del inventario y el HUD son #22).*
+
+**Qué hace.** El Padre carga 8 espacios de objetos; los primeros 4 son los objetos rápidos y se usan con las teclas 1–4 (por ejemplo, una venda cura 30). Los materiales de crafteo (sal, botellas…) no ocupan espacios: van a una bolsa aparte con un máximo de 99 de cada uno. Con F se recogen objetos del suelo; si no caben, se quedan ahí. Cada acción muestra un aviso corto abajo de la pantalla: "Recogiste: venda", "Inventario lleno", "Ya tienes la vida completa".
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `ItemDefinition` | archivos de datos en `Data/Items/` (`ITM_Venda`, `ITM_AguaBendita`, `MAT_Sal`, `MAT_Botella`) | Nombre, descripción, icono, categoría (arma, munición, objeto de fe, consumible, material, objeto clave, nota), cuánto se apila, cuánto cura y qué modelo usa al tirarse. Un objeto nuevo es un archivo nuevo, sin código. |
+| `Inventory` | Padre | Los 8 espacios (`InventorySlot`: objeto + cantidad) y la bolsa de materiales (`Dictionary`). `TryAdd` mete lo que quepa y devuelve cuánto entró; `Remove` quita todo o nada (para el crafteo); `UseSlot` usa un objeto; `Drop` lo tira al suelo. Avisa con eventos: `Changed` (para la UI) y `Notice` (para los avisos). |
+| `PickupItem` | objetos en el mundo (`PF_Pickup_Generic`) | Implementa `IInteractable`: muestra "Recoger venda ×2" y con F llama a `TryAdd`. Si solo entra una parte, el resto se queda en el suelo. |
+| `QuickSlotInput` | Padre | Lee las acciones `QuickSlot1`–`QuickSlot4` del Input System y llama a `UseSlot`. Se apaga al morir. |
+| `NotificationUI` | prefab `PF_Notifications` (UI) | Escucha `Notice` y muestra el texto 2 s; luego se desvanece en medio segundo. |
+
+**Detalles que importan.**
+- **Nunca se pierde nada en silencio:** con el inventario lleno o 99 materiales, el objeto no desaparece; se queda en el suelo y el jugador recibe un aviso.
+- **Una venda no se gasta con la vida llena:** `UseSlot` usa el valor que devuelve `Health.Heal`; si curó 0, el objeto se conserva.
+- **Recoger de cerca:** al mirar hacia abajo un objeto pegado, el rayo de interacción empezaba dentro del cuerpo del Padre y chocaba con él. Ahora `Interactor` ignora el cuerpo propio y, si el rayo fino toca la mesa, usa un rayo grueso (20 cm) que elige el objeto usable más cercano. El machete usa la misma corrección.
+- **Sin basura de memoria:** los rayos usan versiones `NonAlloc` con un arreglo reutilizado, porque se lanzan en cada cuadro.
+
+**Cómo se probó (Play Mode).** 9 vendas → entran 8 y aparece "Inventario lleno", la novena se queda en la mesa; 120 de sal → entran 99 con aviso; usar una venda cura 30; tirar un objeto lo deja en el suelo con el mismo objeto; mirando la venda desde 75, 45, 30, 20 y 10 cm de la mesa siempre aparece "Recoger venda" (antes fallaba de cerca). Sin errores en la consola.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué los materiales van aparte? | El GDD pide juntar muchos materiales para craftear; si ocuparan espacios, el inventario de 8 se llenaría enseguida. |
+| ¿Por qué ScriptableObjects para los objetos? | Los datos (cuánto cura, cuánto se apila) se cambian en el Inspector durante los playtests sin tocar código, y varios objetos del mundo comparten el mismo archivo. |
+| ¿Cómo se entera la UI de los cambios? | Por el evento `Changed`; el inventario no conoce a la UI. La pantalla de inventario (#22) solo tendrá que suscribirse. |
+| ¿Qué pasa con el agua bendita? | Ya se puede recoger y guardar; su uso (contra entidades) llega con los objetos de fe. Por ahora avisa "todavía no se puede usar". |
 
 ### 5.4 IA del Cultista
 *Issue #15.*

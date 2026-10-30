@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 7902535171258847897}
   - component: {fileID: 5209770782421535170}
   - component: {fileID: 4171033038306139916}
+  - component: {fileID: 5157468773410539650}
+  - component: {fileID: 3503602647166584537}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -254,6 +256,34 @@ MonoBehaviour:
   - {fileID: 5209770782421535170}
   - {fileID: 460313616379721340}
   - {fileID: 5320117398522518101}
+  - {fileID: 3503602647166584537}
+--- !u!114 &5157468773410539650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43eae784c895f270db15b7b816652e7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.Inventory
+  owner: {fileID: 1857532811624091855}
+  fallbackPickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
+--- !u!114 &3503602647166584537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af8882b6d93c7580d89eb8003eef99d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.QuickSlotInput
+  inventory: {fileID: 5157468773410539650}
 --- !u!1 &5835415931922492238
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,3 +605,4 @@ MonoBehaviour:
   interactableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  aimAssistRadius: 0.2
