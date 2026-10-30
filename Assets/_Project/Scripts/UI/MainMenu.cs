@@ -59,7 +59,13 @@ namespace Animas.UI
             Cursor.visible = true;
             Time.timeScale = 1f;
             RefreshInstances();
-            ShowMain();
+            // After the final victory the menu opens on the credits (GDD §17).
+            if (SceneFlow.ShowCreditsOnMenu)
+            {
+                SceneFlow.ShowCreditsOnMenu = false;
+                Show(creditsPanel, creditsBackButton);
+            }
+            else ShowMain();
         }
 
         void Update()

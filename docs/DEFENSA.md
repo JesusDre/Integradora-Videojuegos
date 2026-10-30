@@ -109,7 +109,7 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 | `Health` | Padre, Cultista y entidades | Vida actual y máxima. `TakeDamage` y `Heal` siempre la mantienen entre 0 y el máximo (`Mathf.Clamp`). Avisa con eventos: `Changed` (para la barra del HUD), `Damaged` (para los efectos) y `Died`. Tiene un tipo, humano o espíritu, para el daño reducido a espíritus. |
 | `MeleeWeaponDefinition` | archivo de datos `Data/Items/Weapons/WPN_Machete.asset` | Daño a humanos (20) y a espíritus (5, una cuarta parte), espera entre golpes, alcance, gasto de resistencia y los sonidos. La chancla bendita será otro archivo igual con otros números. |
 | `PlayerCombat` | Padre | Al hacer clic revisa la espera y la resistencia (`TrySpend`), lanza un rayo grueso (`Physics.SphereCastNonAlloc`) desde la cámara y le quita vida al `Health` más cercano que toque, ignorando el cuerpo del propio Padre. |
-| `PlayerDeathHandler` | Padre | Al morir apaga movimiento, cámara, combate, interacción y linterna, y libera el cursor. La pantalla de derrota (#48) escuchará el mismo evento. |
+| `PlayerDeathHandler` | Padre | Al morir apaga movimiento, cámara, combate, interacción y linterna, y libera el cursor. La pantalla de derrota (`DeathScreen`, #47) escucha el mismo evento. |
 | `HitFlash` | enemigos | Tiñe de rojo el modelo 0.12 s al recibir daño, con un `MaterialPropertyBlock` (no modifica el material compartido). |
 | `DeathAnimation` | enemigos | Al morir dispara la animación `Die` y apaga sus colliders para que el cuerpo no estorbe. |
 | `DamageFlashUI` | prefab `PF_DamageFlash` (UI) | Imagen roja a pantalla completa que aparece con cada golpe (más fuerte si el golpe es mayor) y se desvanece. |
@@ -315,7 +315,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 ### 5.8 Cuarto seguro, checkpoint y guardado
 *Issue #26.*
 
-**Qué hace.** Cada instancia tiene un cuarto seguro con puerta y altar. Al entrar, la puerta se cierra detrás del Padre y el juego guarda; al salir guarda otra vez, para conservar lo fabricado en el altar (GDD §26). Adentro no hay amenazas: los cultistas no lo ven ni lo oyen y los espíritus no pueden entrar. Si el Padre muere, reaparece en el último cuarto seguro con lo que tenía al guardarse y con al menos 60 de vida (o más, si se guardó con más). Mientras no exista la pantalla de derrota (#48), reaparece solo a los 3 segundos.
+**Qué hace.** Cada instancia tiene un cuarto seguro con puerta y altar. Al entrar, la puerta se cierra detrás del Padre y el juego guarda; al salir guarda otra vez, para conservar lo fabricado en el altar (GDD §26). Adentro no hay amenazas: los cultistas no lo ven ni lo oyen y los espíritus no pueden entrar. Si el Padre muere, reaparece en el último cuarto seguro con lo que tenía al guardarse y con al menos 60 de vida (o más, si se guardó con más). Desde #47 lo trae de vuelta la pantalla de derrota (Reintentar); antes reaparecía solo a los 3 segundos.
 
 **Qué se guarda** (un archivo `partida.json` en `Application.persistentDataPath`): escena, sección, cuarto seguro, vida, los 8 espacios del inventario, los materiales y las recetas conocidas; ya hay lugar para las notas y los objetos clave (#32).
 
@@ -571,7 +571,7 @@ El nivel real de la hacienda es #40.
    - La barra **no avanza** mientras ella es invisible ("La barra no avanza: usa copal para revelarla").
    - Con el humo del copal queda revelada 15 s y la barra avanza normal.
    - Si además la alumbra con la linterna, avanza al doble: "luz y rezo" (GDD P9).
-3. **Fase 3, barra llena:** baja al piso en su forma final, con brillo rojo, y camina tras el Padre atacando cada 4 s mientras él huye a la salida. Llegar a la salida termina la campaña; la pantalla de victoria es #48.
+3. **Fase 3, barra llena:** baja al piso en su forma final, con brillo rojo, y camina tras el Padre atacando cada 4 s mientras él huye a la salida. Llegar a la salida termina la campaña y muestra la victoria final (#48).
 
 Las armas no la dañan. Si el Padre muere, ella vuelve a dormir y el ritual empieza de nuevo.
 
@@ -654,7 +654,7 @@ El nivel real del convento es #46.
 | Pieza nueva | Qué hace |
 |---|---|
 | `TrajineraRide` | El viaje por guion (GDD P1): F para subir; la trajinera sigue su ruta sola y deja al Padre en la otra orilla. Arriba no puede caminar, pero sí mirar, atacar y usar objetos rápidos. La de la huida se puede bloquear hasta que termine el ritual (#34). Si el Padre muere arriba, la trajinera vuelve a su muelle. |
-| `LevelExit` | Al llegar a la salida guarda ("al terminar una instancia", GDD §26), avisa "Escapaste de Xochimilco" y lanza `Reached` para el flujo de pantallas (#48). |
+| `LevelExit` | Cuando el Padre llega vivo a la salida, avisa "Escapaste de Xochimilco" y lanza `Reached`. La pantalla de victoria (#48) guarda y muestra el resumen. |
 | `SafeRoom` (cambio) | Ahora acepta varias puertas y cierra todas al entrar. |
 | `PathWalker` (pruebas) | Camina al Padre por el NavMesh moviendo su `CharacterController`, como un jugador, para probar recorridos completos de forma automática. |
 
@@ -670,7 +670,7 @@ El nivel real del convento es #46.
 | ¿Son definitivos? | Son la base para el blockout; si un playtest muestra que algo es muy largo o difícil, se mueven los números en el script y se redibuja. |
 
 ### 5.14 UI: HUD, menús, pausa, derrota, victoria y créditos
-*HUD e inventario: issue #22. Menús, pausa, derrota y créditos: #47. Victoria y flujo entre instancias: pendiente (#48).*
+*HUD e inventario: issue #22. Menús, pausa, derrota y créditos: #47. Victoria y flujo entre instancias: #48.*
 
 **Qué hace el HUD.** Siguiendo el GDD (sección 16): abajo a la izquierda, la barra de vida (roja, con el número) y la de resistencia (dorada); abajo al centro, los 4 espacios rápidos con su tecla (1–4) y cuántos hay. Con poca vida (30 o menos) la barra parpadea; cuando el Padre se agota, la resistencia se pone gris hasta que puede volver a correr. Arriba al centro aparece la barra del ritual solo durante el ritual, y abajo, los subtítulos de lo que dice el Padre. El punto del centro y el "[F] …" ya existían (5.1).
 
@@ -730,7 +730,7 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 |---|---|---|
 | `MainMenu` | escena `MainMenu` | Muestra un panel a la vez (principal, selección, opciones, créditos) y deja seleccionado el primer botón para que el teclado funcione. Esc regresa al panel principal. |
 | `InstanceCatalog` | `Data/InstanceCatalog.asset` | La lista de instancias: nombre, descripción y escena. Mientras no existan los niveles finales, la 2 y la 3 cargan `CharroArena` y `TzitzimimeArena`; luego basta cambiar el nombre de escena en el Inspector. |
-| `GameProgress` | estático | Qué instancias están abiertas (la 1 siempre). #48 abrirá la siguiente al ganar. |
+| `GameProgress` | estático | Qué instancias están abiertas (la 1 siempre). La pantalla de victoria (#48) abre la siguiente. |
 | `SceneFlow` | estático | Cargar menú, empezar instancia o continuar. Siempre devuelve el tiempo a velocidad normal antes de cambiar de escena. |
 | `GameSettings` | estático | Los valores de Opciones en `PlayerPrefs` (aparte de la partida). Lanza `Changed` y cada sistema se actualiza solo: `PlayerLook` (sensibilidad e invertir Y), `SubtitleUI` (no muestra nada si están apagados), `AudioListener` (volumen general) y `AudioVolume` (música, efectos y voces). |
 | `OptionsUI` | prefab `PF_OptionsPanel` | Lee los valores al abrirse y escribe cada cambio en `GameSettings`. |
@@ -763,6 +763,59 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | ¿Dónde se guardan las opciones? | En `PlayerPrefs`, el almacén pequeño de Unity para configuraciones, separado de `partida.json`. |
 | ¿Cómo se navega con teclado? | El `EventSystem` con `InputSystemUIInputModule` mueve la selección entre botones según su posición; cada menú deja seleccionado su primer botón al abrirse. |
 | ¿Qué pasa si das Reintentar sin haber llegado a un cuarto seguro? | `Respawn()` devuelve `false` y la instancia se carga desde el principio. |
+
+#### Victoria, paso entre instancias y créditos finales (#48)
+
+**Qué hace.** Al llegar **vivo** a la salida de una instancia, el juego se detiene y aparece el resumen:
+- el título: "Escapaste de Xochimilco", "Escapaste de la hacienda"…;
+- tiempo, muertes y notas leídas;
+- los botones **Siguiente instancia** y **Salir al menú**.
+
+En ese momento:
+- se desbloquea la siguiente instancia en la selección;
+- se guarda el **equipaje**: los 8 espacios, los materiales, las recetas y las notas pasan completos (GDD P4). No pasan los objetos clave, porque cada instancia tiene los suyos, y la vida empieza en 100.
+- **Continuar** en el menú queda apuntando al inicio de la siguiente instancia.
+
+Al escapar del ex-convento llega la **victoria final**:
+- dice "¡La Tzitzimime ha sido sellada!" con un cierre de la historia;
+- **Ver créditos** lleva al menú con los créditos abiertos;
+- se borra la partida, porque ya no hay nada que continuar; la selección de instancias sigue abierta.
+
+![Victoria de instancia](img/ui/victoria_instancia.png)
+![Victoria final](img/ui/victoria_final.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `VictoryScreen` | prefab `PF_VictoryScreen` en cada nivel | Escucha `LevelExit.Reached`. Busca en `InstanceCatalog` qué instancia es; si hay siguiente, la desbloquea y guarda el equipaje; si es la última, borra la partida. Detiene el juego (`timeScale` 0 y acciones del Padre apagadas) y cuenta las muertes con `Health.Died`. |
+| `PlayerPersistence.CaptureForNextInstance` | Padre | Hace una foto del Padre para la siguiente instancia: inventario, materiales, recetas y notas, sin objetos clave y con la vida completa. |
+| `SaveSystem.SaveCarry` / `LoadCarry` | estático | El equipaje va en su propio archivo (`equipaje_<escena>.json`), aparte de `partida.json`. Así elegir la instancia 2 desde la selección también te da lo que llevabas al terminar la 1. |
+| `PlayerRespawn.Start` (cambio) | Padre | Al cargar un nivel: con Continuar, va al cuarto seguro guardado (o a la entrada con el equipaje); al empezar una instancia, aplica su equipaje si existe. |
+| `SceneFlow` (cambio) | estático | `StartInstance` marca "instancia nueva". Siempre vuelve a encender las acciones del Padre al cambiar de escena, porque viven en un asset que sobrevive entre escenas. `ShowCreditsOnMenu` abre los créditos al volver al menú. |
+| `LevelExit` (cambio) | salida | Ya no guarda (eso lo hace la victoria) y no cuenta a un Padre muerto. |
+
+**Por qué así.**
+- El equipaje va aparte de la partida: si el jugador vuelve a elegir una instancia desde el menú, empieza con lo que llevaba al terminar la anterior, y no vacío ni con cosas de otra partida.
+- Los objetos clave no pasan: las muñecas de Xochimilco no sirven en la hacienda, y cada ancla pide sus propias ofrendas.
+
+**Cómo se probó (Play Mode, desde el menú).**
+1. Se borraron la partida, el equipaje y el progreso. Nueva partida → I1. Se le dieron al Padre 2 vendas, 3 aguas benditas, 7 de sal, 1 muñeca y 30 de daño, y se le llevó a la salida.
+2. Victoria: "Escapaste de Xochimilco", juego detenido, instancia 2 desbloqueada.
+3. **Siguiente instancia** → `CharroArena` con las vendas, el agua bendita y la sal, 0 muñecas y vida 100.
+4. Salida → "Siguiente instancia". Luego Salir al menú → **Continuar** → `TzitzimimeArena` con el mismo equipaje.
+5. Desde la pausa, Salir al menú → selección → instancia 2 → salida → siguiente → `TzitzimimeArena` con equipaje.
+6. Salida final: "¡La Tzitzimime ha sido sellada!" → **Ver créditos** → menú con los créditos abiertos, sin partida guardada y con las 3 instancias abiertas.
+
+**Errores que se encontraron en la prueba.**
+- Si el Padre moría y su cuerpo terminaba en la zona de salida, contaba como escape. Ahora solo cuenta un Padre vivo.
+- Decía "Escapaste de el ex-convento". Ahora cada nivel escribe su propio "de"/"del".
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo pasa el inventario a la siguiente instancia? | La victoria guarda un `SaveData` con el inventario en `equipaje_<escena>.json`. Al cargar la siguiente escena, `PlayerRespawn` lo lee y se lo devuelve al Padre con `PlayerPersistence.Restore`. |
+| ¿Cómo se sabe cuál es la siguiente instancia? | `InstanceCatalog` tiene las 3 en orden; se busca la escena actual y se toma la que sigue. |
+| ¿Qué pasa al terminar el juego? | Victoria final, créditos y menú. Se borra la partida, pero la selección de instancias sigue abierta para rejugar. |
 
 ### 5.15 Audio y feedback
 *Pendiente — issues #44 y #50.*

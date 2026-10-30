@@ -27,13 +27,29 @@ namespace Animas.Save
 
         void Start()
         {
-            if (!SceneFlow.PendingContinue) return;
-            SceneFlow.ClearContinue();
-            SaveData data = SaveSystem.Load();
-            SafeRoom room = data != null ? SafeRoom.FindById(data.checkpoint) : null;
-            if (room == null) return;
-            room.MarkAsLast();
-            Respawn();
+            string scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            if (SceneFlow.PendingContinue)
+            {
+                // "Continuar": back to the saved safe room, or to the entrance if the save is the
+                // start of this instance (just finished the previous one).
+                SceneFlow.ClearStart();
+                SaveData data = SaveSystem.Load();
+                if (data == null || data.scene != scene) return;
+                SafeRoom room = SafeRoom.FindById(data.checkpoint);
+                if (room != null)
+                {
+                    room.MarkAsLast();
+                    Respawn();
+                }
+                else persistence.Restore(data, minimumHealth);
+            }
+            else if (SceneFlow.PendingNewInstance)
+            {
+                // Starting an instance from the menu or "Siguiente instancia": bring the luggage, if any.
+                SceneFlow.ClearStart();
+                SaveData carry = SaveSystem.LoadCarry(scene);
+                if (carry != null) persistence.Restore(carry, minimumHealth);
+            }
         }
 
         void OnEnable() => health.Died += OnDied;
