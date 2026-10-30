@@ -12,6 +12,8 @@ namespace Animas.Player
 
         public bool IsRunning { get; private set; }
         public bool IsMoving { get; private set; }
+        // Other systems slow the Padre down (praying leaves him almost still). 1 = normal speed.
+        public float SpeedMultiplier { get; set; } = 1f;
 
         CharacterController characterController;
         PlayerStamina stamina;
@@ -35,8 +37,9 @@ namespace Animas.Player
             Vector3 direction = Vector3.ClampMagnitude(transform.right * input.x + transform.forward * input.y, 1f);
             IsMoving = direction.sqrMagnitude > 0.01f;
 
-            IsRunning = IsMoving && sprintAction.IsPressed() && stamina.CanSpend;
-            float speed = IsRunning ? tuning.runSpeed : tuning.walkSpeed;
+            // No running while slowed down (praying).
+            IsRunning = IsMoving && SpeedMultiplier >= 1f && sprintAction.IsPressed() && stamina.CanSpend;
+            float speed = (IsRunning ? tuning.runSpeed : tuning.walkSpeed) * SpeedMultiplier;
             if (IsRunning) stamina.Spend(tuning.runCostPerSecond * Time.deltaTime);
 
             // A small downward push while grounded keeps isGrounded stable on slopes and steps.

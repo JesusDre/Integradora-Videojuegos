@@ -1,4 +1,5 @@
 using Animas.Items;
+using Animas.Player;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ namespace Animas.UI
     public class NotificationUI : MonoBehaviour
     {
         [SerializeField] Inventory inventory;
+        [Tooltip("Optional: \"Aún no puedes rezar\".")]
+        [SerializeField] PlayerPrayer prayer;
         [SerializeField] TMP_Text label;
         [SerializeField, Min(0.1f)] float visibleSeconds = 2f;
         [SerializeField, Min(0.1f)] float fadeSeconds = 0.5f;
@@ -24,12 +27,14 @@ namespace Animas.UI
                 return;
             }
             inventory.Notice += Show;
+            if (prayer != null) prayer.Notice += Show;
             label.alpha = 0f;
         }
 
         void OnDisable()
         {
             if (inventory != null) inventory.Notice -= Show;
+            if (prayer != null) prayer.Notice -= Show;
         }
 
         public void Show(string message)

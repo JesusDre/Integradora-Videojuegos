@@ -262,7 +262,31 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo evitan que dispare al hacer clic en un menú? | El menú apaga `WeaponSwitcher`, y este apaga el arma en la mano. |
 
 ### 5.7 Rezo y ritual
-*Pendiente — issues #25 y #34.*
+*Rezo: issue #25. Ritual final: pendiente (#34).*
+
+**Qué hace el rezo.** Manteniendo R durante 3 segundos, el Padre reza: casi no puede moverse (va al 15 % de su velocidad) y una barra bajo la mira se llena. Si suelta R antes, se cancela sin castigo. Al completarse deja en el suelo un círculo de luz dorada de 4 m de radio que los espíritus no pueden cruzar durante 10 segundos; en el último segundo se desvanece. Después hay que esperar 20 segundos para volver a rezar: el HUD dice "Rezo listo [R]" o "Rezo en 13 s", y si aprietas R antes avisa "Aún no puedes rezar". El círculo no detiene a los cultistas: son humanos (GDD §5).
+
+![Rezo](img/ui/rezo.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `PlayerPrayer` | Padre | Lee la acción `Pray` (R): mide cuánto se mantiene, frena al Padre con `PlayerController.SpeedMultiplier`, crea el círculo y lleva el enfriamiento. Avisa con eventos (`ProgressChanged`, `Completed`, `Notice`). |
+| `PrayerCircle` | prefab `PF_PrayerCircle` | El anillo (`LineRenderer`) y su luz. Es un `ISpiritWard`: dice si un punto está dentro y a dónde empujarlo afuera. |
+| `SpiritWards` | código | La lista de barreras activas. Un espíritu pregunta ahí si puede estar donde está. La línea de sal (#31) se sumará como otra barrera. |
+| `SpiritBody` | cada espíritu | En cada cuadro pregunta a `SpiritWards`; si entró a una barrera, lo regresa al borde (`NavMeshAgent.Warp`) y avisa con `Repelled`. |
+| `PlayerTuning` | `Data` | 3 s, 4 m, 10 s, 20 s y la velocidad al rezar: se ajustan sin tocar código. |
+
+**Por qué así.** La barrera es una interfaz (`ISpiritWard`) para que el rezo, la línea de sal y lo que venga funcionen igual: el espíritu no necesita saber qué lo detuvo. Rezar cuesta (quedarse quieto y vulnerable) para que sea una decisión, no un botón para spamear.
+
+**Cómo se probó (Play Mode, `EnemyArena`, con la tecla R real simulada).** A los 1.2 s: rezando, velocidad al 15 % y barra visible. A los 3.5 s: círculo creado, enfriamiento de 19 s y velocidad normal. El espíritu de prueba (botón "Aparecer espíritu de prueba") se quedó a 4.3 m del Padre mientras duró el círculo; al acabar los 10 s llegó hasta 0.7 m. R durante el enfriamiento no rezó y mostró "Aún no puedes rezar (14 s)". Consola sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe el espíritu que no puede entrar? | `SpiritBody` llama a `SpiritWards.TryRepel(posición)` en cada cuadro; si está dentro de una barrera, recibe un punto afuera y se mueve ahí. |
+| ¿Por qué el círculo se queda donde rezó y no sigue al Padre? | Así es una zona segura que el jugador debe usar con cabeza; si lo siguiera, sería invencible 10 s. |
+| ¿Qué pasa si sueltas R antes? | Se cancela: el Padre recupera su velocidad y no empieza el enfriamiento. |
 
 ### 5.8 Cuarto seguro, checkpoint y guardado
 *Pendiente — issue #26.*

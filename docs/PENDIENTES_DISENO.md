@@ -23,6 +23,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #24 | No hay tecla de recarga en los controles del GDD: la escopeta recarga sola (2 s) cuando se vacía o cuando recoges balas teniéndola vacía | `PlayerShotgun` |
 | #24 | El Padre tiene la escopeta desde el inicio; Q o la rueda alternan machete y escopeta | `WeaponSwitcher` |
 | #24 | La escopeta con balas de sal hace el 25 % a los espíritus (tabla de balance), aunque la receta diga que sirve contra ellos | `WPN_Escopeta.asset` (spiritMultiplier) |
+| #25 | Mientras mantiene R, el Padre va al 15 % de su velocidad; el círculo se queda donde rezó (no lo sigue) y el enfriamiento de 20 s empieza al completar el rezo | `PlayerTuning` |
 
 ## Decididas (29 oct 2026, ya están en el GDD)
 - **P4** El inventario y los materiales pasan completos a la siguiente instancia.

@@ -27,5 +27,13 @@ namespace Animas.Player
 
         [Header("Interaction")]
         [Min(0.5f)] public float interactDistance = 2.5f;
+
+        [Header("Prayer (hold R)")]
+        [Min(0.1f)] public float prayHoldSeconds = 3f;
+        [Min(0.5f)] public float prayRadius = 4f;
+        [Min(0.5f)] public float prayDuration = 10f;
+        [Min(0f)] public float prayCooldown = 20f;
+        [Tooltip("Speed while holding R: the GDD says the Padre is almost still and vulnerable.")]
+        [Range(0f, 1f)] public float praySpeedMultiplier = 0.15f;
     }
 }

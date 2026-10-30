@@ -27,6 +27,9 @@ namespace Animas.Testing
         [Tooltip("Spawned cultists walk between these.")]
         [SerializeField] Transform[] spawnPatrol;
         [SerializeField, Min(1)] int maxSpawned = 6;
+        [Tooltip("A spirit that only walks toward the Padre: to test the prayer circle and salt lines.")]
+        [SerializeField] GameObject testSpiritPrefab;
+        [SerializeField] Transform spiritSpawnPoint;
         [SerializeField] ItemGift[] testItems;
         [Tooltip("The arena's main light: the lights button switches between lit (to watch) and dark (like the real levels).")]
         [SerializeField] Light mainLight;
@@ -34,6 +37,7 @@ namespace Animas.Testing
         [SerializeField] Color darkAmbient = new Color(0.03f, 0.035f, 0.05f);
 
         readonly List<CultistAI> spawned = new List<CultistAI>();
+        readonly List<GameObject> spirits = new List<GameObject>();
         int nextSpawnPoint;
         bool dark;
         float litIntensity;
@@ -73,12 +77,27 @@ namespace Animas.Testing
             Notify("Apareció un cultista");
         }
 
+        public void SpawnSpirit()
+        {
+            spirits.RemoveAll(s => s == null);
+            if (spirits.Count >= 2)
+            {
+                Notify("Ya hay 2 espíritus de prueba");
+                return;
+            }
+            spirits.Add(Instantiate(testSpiritPrefab, spiritSpawnPoint.position, spiritSpawnPoint.rotation));
+            Notify("Apareció un espíritu: reza con R para alejarlo");
+        }
+
         public void RemoveSpawned()
         {
             foreach (CultistAI cultist in spawned)
                 if (cultist != null) Destroy(cultist.gameObject);
+            foreach (GameObject spirit in spirits)
+                if (spirit != null) Destroy(spirit);
             spawned.Clear();
-            Notify("Cultistas de prueba eliminados");
+            spirits.Clear();
+            Notify("Enemigos de prueba eliminados");
         }
 
         public void HealPlayer()
