@@ -3616,15 +3616,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.Interactor
 --- !u!114 &1017074537 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5209770782421535170, guid: 340de122d96465aed83456fb80bfa834, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9145848390486212298, guid: 340de122d96465aed83456fb80bfa834, type: 3}
   m_PrefabInstance: {fileID: 1017074532}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45194b435c16710e4b9a0c8e67316e4e, type: 3}
+  m_Script: {fileID: 11500000, guid: ac508ea3b8c763aa89a61820d0bf342f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.PlayerCombat
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.WeaponSwitcher
 --- !u!114 &1017074538 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7599449922072824569, guid: 340de122d96465aed83456fb80bfa834, type: 3}
@@ -3641,6 +3641,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1062469166424127423, guid: 340de122d96465aed83456fb80bfa834, type: 3}
   m_PrefabInstance: {fileID: 1017074532}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1017074540 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8252742590538644725, guid: 340de122d96465aed83456fb80bfa834, type: 3}
+  m_PrefabInstance: {fileID: 1017074532}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde951a0c205fcae98459b266e39dac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.PlayerShotgun
 --- !u!1 &1101050222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3765,6 +3776,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF_HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: shotgun
+      value: 
+      objectReference: {fileID: 1017074540}
+    - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: weapons
+      value: 
+      objectReference: {fileID: 1017074537}
     - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5694,6 +5713,8 @@ MonoBehaviour:
     amount: 2
   - item: {fileID: 11400000, guid: 1ccfd50f92ef26b439d9f87d959f7510, type: 2}
     amount: 2
+  - item: {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
+    amount: 10
   mainLight: {fileID: 1948277945}
   darkIntensity: 0.05
   darkAmbient: {r: 0.03, g: 0.035, b: 0.05, a: 1}
