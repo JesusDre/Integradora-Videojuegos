@@ -21,6 +21,7 @@ Paquetes además de la plantilla: AI Navigation, ProBuilder y Pipeline (para que
 ├─ .claude/commands/         → comandos: /siguiente-issue, /revisar-rubrica, /importar-asset
 └─ docs/
    ├─ GDD.md                 → diseño, fuente de verdad (v2.2)
+   ├─ DEFENSA.md             → explicación del proyecto para la defensa (léanla todos)
    ├─ PENDIENTES_DISENO.md   → registro de decisiones de diseño
    ├─ RUBRICA.md             → rúbrica del curso
    ├─ ARQUITECTURA_UNITY.md  → carpetas, scripts y principios de código
@@ -37,6 +38,9 @@ Paquetes además de la plantilla: AI Navigation, ProBuilder y Pipeline (para que
 3. En Claude Desktop crea un Project con los documentos de `docs/` y pega las instrucciones que vienen en `HERRAMIENTAS_MCP.md`.
 4. Abre Claude Code en el repo y escribe `/siguiente-issue Sprint 3`. Quien no use Blender puede rechazar el servidor `blender` cuando Claude Code pregunte por el `.mcp.json`.
 5. Si cambia el diseño, se actualiza `docs/GDD.md` (es la fuente de verdad para la IA) y la duda o decisión se anota en `docs/PENDIENTES_DISENO.md`.
+
+## Defensa
+Todo el trabajo lo hace Jesús con Claude. Para la defensa individual, **cada integrante lee `docs/DEFENSA.md`** y practica con el prompt #9 de `docs/PROMPTS.md`.
 
 ## Reglas del repo
 - Un issue = una rama = un pull request; nada se sube directo a `main`.

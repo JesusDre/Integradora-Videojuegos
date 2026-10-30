@@ -1,6 +1,6 @@
 # Arquitectura propuesta en Unity
 
-Propuesta inicial para que Claude y el equipo escriban código consistente. Se puede ajustar, pero cualquier cambio se anota aquí.
+Propuesta inicial para que Claude y Jesús escriban código consistente. Se puede ajustar, pero cualquier cambio se anota aquí.
 
 ## Stack
 - **Unity 6.3 LTS `6000.3.27f1`** (la de `ProjectSettings/ProjectVersion.txt`, anotada en el README; todos usan la misma).

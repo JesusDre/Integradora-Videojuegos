@@ -1,12 +1,12 @@
 # Ánimas mexicanas — contexto para Claude
 
-Juego de terror en primera persona, **un jugador**, hecho en **Unity** para un curso. Un sacerdote exorcista (Padre Anselmo Quiroz) debe escapar de 3 lugares malditos de México. Equipo de 6 personas; toda la programación la hace Jesús contigo (Claude Code), no hay más programadores. Entrega a mediados de diciembre de 2026.
+Juego de terror en primera persona, **un jugador**, hecho en **Unity** para un curso. Un sacerdote exorcista (Padre Anselmo Quiroz) debe escapar de 3 lugares malditos de México. Equipo de 6 personas, pero **todo el trabajo (código, arte, audio, UI, niveles y textos) lo hace Jesús contigo**; los demás integrantes solo presentan la defensa individual, apoyados en `docs/DEFENSA.md`. Entrega a mediados de diciembre de 2026.
 
 Antes de trabajar, lee `docs/GDD.md` (diseño), `docs/RUBRICA.md` (cómo se califica) y `docs/ARQUITECTURA_UNITY.md` (cómo se organiza el código). Si algo contradice al GDD, gana el GDD; si el GDD es ambiguo, **pregunta antes de inventar**. Las decisiones abiertas están en `docs/PENDIENTES_DISENO.md`: si un issue toca una marcada "(Pendiente Pn)" en el GDD, dilo y pregunta antes de implementar esa parte.
 
 ## Idioma y estilo
 - Responde en español. Código, nombres de clases y comentarios técnicos en inglés; textos del juego en español.
-- Código simple y legible: este equipo tiene que **explicar su código en una defensa individual**. Prefiere soluciones claras a trucos. Comenta el porqué, no el qué.
+- Código simple y legible: **cada integrante** tiene que explicar el proyecto en una defensa individual, aunque no lo haya escrito. Prefiere soluciones claras a trucos. Comenta el porqué, no el qué.
 - Cambios pequeños y revisables: un issue = una rama = un pull request.
 
 ## Alcance (no lo amplíes)
@@ -29,7 +29,8 @@ WASD mover · Mouse cámara · Shift correr (con resistencia) · Clic izq. ataca
 - Si hay errores de compilación, el Editor entra en Safe Mode y no responde: arregla los errores de C# primero.
 - Configuración obligatoria del proyecto: Asset Serialization = Force Text; Version Control = Visible Meta Files; `.gitignore` de Unity; Git LFS según `.gitattributes`. Si agregas un formato binario nuevo, súmalo a `.gitattributes` en el mismo pull request.
 - Nunca subas `Library/`, `Temp/`, `Logs/`, `Obj/` ni `Builds/`. No hagas push a `main`: abre pull request y que lo revise Jesús.
-- Todo asset externo lleva su fuente y licencia en `docs/LICENCIAS.md` (o en la hoja compartida del equipo).
+- Todo asset externo lleva su fuente y licencia en `docs/LICENCIAS.md`.
+- Cada issue que agregue o cambie un sistema actualiza su sección en `docs/DEFENSA.md` en el mismo pull request: qué hace, cómo funciona (con los scripts reales), por qué se hizo así y qué preguntas podría hacer el profesor. Escríbelo para alguien que no programa.
 
 ## Reglas que la rúbrica castiga (revísalas siempre)
 - Movimiento con `Time.deltaTime`. Valores (vida, resistencia, inventario, munición) con límites y validaciones.
@@ -39,4 +40,4 @@ WASD mover · Mouse cámara · Shift correr (con resistencia) · Clic izq. ataca
 - El build debe abrir y llegar a victoria o derrota sin errores.
 
 ## Definición de terminado de un issue
-Compila sin errores ni warnings nuevos · probado en Play Mode · criterio de finalización del issue cumplido · pull request pequeño y descrito · el autor puede explicar cada línea.
+Compila sin errores ni warnings nuevos · probado en Play Mode · criterio de finalización del issue cumplido · `docs/DEFENSA.md` actualizado · pull request pequeño y descrito · Jesús puede explicar cada línea.

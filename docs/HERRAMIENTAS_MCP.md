@@ -4,16 +4,16 @@ Los comandos de Unity CLI y de Blender MCP vienen de su documentación oficial a
 
 ## Resumen
 
-| Herramienta | Para qué | Quién |
-|---|---|---|
-| Git, Git LFS, GitHub CLI (`gh`) | Repo, issues y pull requests | Todos |
-| Unity Hub + Unity 6 LTS (misma versión) | El juego | Todos los que toquen Unity |
-| Unity CLI + MCP de Unity | Que Claude edite escenas, prefabs y GameObjects en el Editor abierto | Jesús |
-| Claude Desktop (Projects) | Diseño, textos, planificación, dudas | Todos |
-| Claude Code (en el repo) | Código C#, git, `gh`, Unity MCP | Jesús |
-| `uv` + Blender + Blender MCP | Que Claude limpie, modele y exporte assets sin saber Blender | Juan y quien arme ambiente |
-| Meshy / Tripo (web) + Mixamo | Personajes 3D con rig y animaciones | Juan |
-| Audacity + bibliotecas de audio | Editar y conseguir sonidos | Nadia y Hanna |
+| Herramienta | Para qué |
+|---|---|
+| Git, Git LFS, GitHub CLI (`gh`) | Repo, issues y pull requests |
+| Unity Hub + Unity 6 LTS (misma versión) | El juego |
+| Unity CLI + MCP de Unity | Que Claude edite escenas, prefabs y GameObjects en el Editor abierto |
+| Claude Desktop (Projects) | Diseño, textos, planificación, dudas |
+| Claude Code (en el repo) | Código C#, git, `gh`, Unity MCP |
+| `uv` + Blender + Blender MCP | Que Claude limpie, modele y exporte assets sin saber Blender |
+| Meshy / Tripo (web) + Mixamo | Personajes 3D con rig y animaciones |
+| Audacity + bibliotecas de audio | Editar y conseguir sonidos |
 
 Orden de instalación: Git/gh/LFS → Unity → Unity CLI y MCP → Claude Desktop/Code → uv, Blender y Blender MCP → IA 3D.
 
@@ -60,7 +60,7 @@ Con el proyecto abierto en el Editor: `unity status` debe mostrar un Editor en e
 ## 3. Blender y Blender MCP (comunitario)
 Es el proyecto de `ahujasid` (antes `blender-mcp`; desde la 2.0 de septiembre de 2026 se llama `mcp-for-blender` y `uvx blender-mcp` sigue funcionando como alias). Repo: https://github.com/ahujasid/mcp-for-blender.
 Requisitos: Blender 3.0 o más nuevo, Python 3.10+, `uv` (instalador oficial, no `pip install uv`).
-Versión: `uvx mcp-for-blender` baja siempre la última. Para que todo el equipo use la misma, elijan una versión probada y fíjenla en `.mcp.json` y en Desktop como `"args": ["mcp-for-blender@X.Y.Z"]`.
+Versión: `uvx mcp-for-blender` baja siempre la última. Para no llevarte sorpresas, elige una versión probada y fíjenla en `.mcp.json` y en Desktop como `"args": ["mcp-for-blender@X.Y.Z"]`.
 Nota: el README nombra el botón del addon de dos formas ("Start MCP Server" y "Connect to Claude"); es el mismo paso.
 Instalación en un comando (instala uv, configura Claude Desktop y Claude Code, instala y activa el addon):
 ```powershell
