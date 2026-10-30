@@ -146,26 +146,35 @@ class PartBuilder:
         return self._tag(faces, material, bone)
 
     def lathe(self, profile, material, bone, center=(0.0, 0.0), segments=16, folds=0, fold_depth=0.0,
-              cap_bottom=False, cap_top=False, inward=False, scale_y=1.0):
+              cap_bottom=False, cap_top=False, inward=False, scale_y=1.0, arc=None):
         """Surface of revolution around a vertical axis, from a profile of (z, radius) points, bottom to top.
         folds/fold_depth push the radius in and out around the circle so cloth reads as pleated.
         inward=True flips the faces so the surface is seen from inside (the lining of a hood).
-        scale_y squashes the shape front-to-back (bodies are deeper than wide only in cartoons)."""
+        scale_y squashes the shape front-to-back (bodies are deeper than wide only in cartoons).
+        arc=(start, end) in degrees builds only part of the circle (an open sheet, e.g. hair falling in front
+        of the face); 270 is the front (-Y), 90 the back."""
         cx, cy = center
         rings = []
+        closed = arc is None
+        count = segments if closed else segments + 1
         for z, radius in profile:
             ring = []
-            for i in range(segments):
-                a = 2 * math.pi * i / segments
+            for i in range(count):
+                if closed:
+                    a = 2 * math.pi * i / segments
+                else:
+                    a = math.radians(arc[0] + (arc[1] - arc[0]) * i / segments)
                 r = radius * (1.0 + fold_depth * math.cos(folds * a)) if folds else radius
                 ring.append(self.bm.verts.new((cx + r * math.cos(a), cy + r * math.sin(a) * scale_y, z)))
             rings.append(ring)
         faces = []
         for lower, upper in zip(rings, rings[1:]):
             for i in range(segments):
-                quad = (lower[i], lower[(i + 1) % segments], upper[(i + 1) % segments], upper[i])
+                j = (i + 1) % count
+                quad = (lower[i], lower[j], upper[j], upper[i])
                 faces.append(self.bm.faces.new(quad[::-1] if inward else quad))
-        if inward:
+        if inward or not closed:
+            # Open sheets have no inside/outside for Blender to guess; trust the winding (outward unless inward).
             self._keep_winding.update(faces)
         if cap_bottom:
             faces.append(self.bm.faces.new(rings[0][::-1] if not inward else rings[0]))
@@ -362,6 +371,19 @@ def arms_down(spread=12.0, forward=0.0, elbow=0.0):
 
 # ---------------------------------------------------------------- export and sheet
 
+def scale_character(armature, mesh_objects, factor):
+    """Scale the finished model and skeleton uniformly and bake it in (scale stays 1 in the FBX).
+    Call before creating the Animator; hip offsets in the animations must then be scaled too."""
+    bpy.ops.object.select_all(action="DESELECT")
+    # Only the armature gets the scale: the meshes are its children and inherit it. Scaling them too
+    # would apply the factor twice.
+    armature.scale = (factor, factor, factor)
+    for obj in (armature, *mesh_objects):
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = armature
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+
+
 def export_fbx(armature, mesh_objects, filename):
     os.makedirs(MODELS_DIR, exist_ok=True)
     path = os.path.join(MODELS_DIR, filename)
@@ -400,7 +422,10 @@ def render_sheet(target_height, filename_base, resolution=(900, 1200)):
     scene.world = world
     cam_data = bpy.data.cameras.new("SheetCam")
     cam_data.type = "ORTHO"
-    cam_data.ortho_scale = target_height * 1.25
+    # Ortho scale covers the image height; arms in T-pose can be wider than the figure is tall.
+    span = max((v.co.x for o in bpy.data.objects if o.type == "MESH" for v in o.data.vertices), default=0) * 2
+    aspect = resolution[0] / resolution[1]
+    cam_data.ortho_scale = max(target_height * 1.25, span * 1.1 / aspect)
     cam = bpy.data.objects.new("SheetCam", cam_data)
     bpy.context.collection.objects.link(cam)
     scene.camera = cam
