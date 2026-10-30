@@ -23,6 +23,9 @@ namespace Animas.Entities
         [SerializeField] CharroTuning tuning;
         [Tooltip("The chapel pedestal for the 3 coins (an Anchor). Completing it opens the final phase.")]
         [SerializeField] Anchor pedestal;
+        [Tooltip("Optional trigger box: the ground he rides (GDD plan: between the tienda, the panteón and the chapel). " +
+                 "Outside it he lets the Padre go and returns. Empty = he hunts everywhere (test arena).")]
+        [SerializeField] BoxCollider territory;
         [Tooltip("The hacienda gate: opens when he's defeated.")]
         [SerializeField] Door gate;
         [SerializeField] Animator animator;
@@ -114,7 +117,7 @@ namespace Animas.Entities
             if (hasSpeedParam) animator.SetFloat(SpeedParam, agent.velocity.magnitude);
         }
 
-        // The Padre is dead or in the safe room: back home until he comes out.
+        // The Padre is dead, in the safe room or off his ground: back home until he returns.
         void UpdateIdle()
         {
             if (PlayerHuntable()) Enter(State.Chase, 0f);
@@ -271,7 +274,8 @@ namespace Animas.Entities
             StateChanged?.Invoke(state);
         }
 
-        bool PlayerHuntable() => !playerHealth.IsDead && !SafeRoom.PlayerInside;
+        bool PlayerHuntable() => !playerHealth.IsDead && !SafeRoom.PlayerInside
+            && (territory == null || territory.bounds.Contains(player.position + Vector3.up));
 
         static float FlatDistance(Vector3 a, Vector3 b)
         {
