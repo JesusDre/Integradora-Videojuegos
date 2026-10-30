@@ -670,7 +670,7 @@ El nivel real del convento es #46.
 | ¿Son definitivos? | Son la base para el blockout; si un playtest muestra que algo es muy largo o difícil, se mueven los números en el script y se redibuja. |
 
 ### 5.14 UI: HUD, menús, pausa, derrota, victoria y créditos
-*HUD e inventario: issue #22. Menús, pausa, derrota, victoria y créditos: pendientes (#47 y #48).*
+*HUD e inventario: issue #22. Menús, pausa, derrota y créditos: #47. Victoria y flujo entre instancias: pendiente (#48).*
 
 **Qué hace el HUD.** Siguiendo el GDD (sección 16): abajo a la izquierda, la barra de vida (roja, con el número) y la de resistencia (dorada); abajo al centro, los 4 espacios rápidos con su tecla (1–4) y cuántos hay. Con poca vida (30 o menos) la barra parpadea; cuando el Padre se agota, la resistencia se pone gris hasta que puede volver a correr. Arriba al centro aparece la barra del ritual solo durante el ritual, y abajo, los subtítulos de lo que dice el Padre. El punto del centro y el "[F] …" ya existían (5.1).
 
@@ -704,6 +704,65 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | ¿Cómo se actualiza la barra de vida? | `Health` lanza el evento `Changed(actual, máximo)`; `HUDController` lo escucha y le pasa los números a `StatBar`, que llena la imagen en proporción. |
 | ¿Por qué el inventario no pausa? | Elegir objetos tiene un costo: si te persiguen, abrirlo te deja vulnerable. Para detener el juego está la pausa. |
 | ¿Qué pasa si el Padre muere con el inventario abierto? | `InventoryUI` escucha `Died` y lo cierra sin devolver los controles, para no interferir con `PlayerDeathHandler`. |
+
+#### Menús, pausa, opciones y derrota (#47)
+
+**Qué hay.** Todo se maneja con el mouse o con el teclado (flechas, Enter y Esc).
+- **Menú principal** (escena `MainMenu`, la primera del build):
+  - **Nueva partida:** abre la selección de instancia.
+  - **Continuar:** carga la escena guardada y pone al Padre en el cuarto seguro donde se guardó. Está apagado si no hay partida guardada.
+  - **Opciones**, **Créditos** y **Salir**.
+- **Selección de instancia:** las 3 instancias en orden. Las que no se han desbloqueado dicen "(bloqueada)" y no se pueden elegir. Al pasar el mouse o el teclado por una, abajo aparece su descripción.
+- **Opciones** (GDD §17): sensibilidad del mouse (×0.25 a ×3), invertir eje Y, volumen general, música, efectos, voces y subtítulos sí/no. Se guardan al momento y sirven igual desde el menú y desde la pausa.
+- **Pausa (Esc):** Continuar · Reiniciar (vuelve al último cuarto seguro, igual que Reintentar) · Opciones · Salir al menú. El juego se congela.
+- **Derrota:** 1.5 s después de morir aparece "Has caído" con **Reintentar** y **Salir al menú**. Reemplaza la reaparición automática de 3 s que había desde #26.
+- **Créditos:** proyecto, desarrollo, equipo, herramientas, fuente y la nota de respeto a las leyendas.
+
+![Menú principal](img/ui/menu_principal.png)
+![Selección de instancia](img/ui/menu_instancias.png)
+![Opciones](img/ui/menu_opciones.png)
+![Pausa](img/ui/pausa.png)
+![Derrota](img/ui/derrota.png)
+![Créditos](img/ui/menu_creditos.png)
+
+**Cómo funciona.**
+| Script | Dónde | Qué hace |
+|---|---|---|
+| `MainMenu` | escena `MainMenu` | Muestra un panel a la vez (principal, selección, opciones, créditos) y deja seleccionado el primer botón para que el teclado funcione. Esc regresa al panel principal. |
+| `InstanceCatalog` | `Data/InstanceCatalog.asset` | La lista de instancias: nombre, descripción y escena. Mientras no existan los niveles finales, la 2 y la 3 cargan `CharroArena` y `TzitzimimeArena`; luego basta cambiar el nombre de escena en el Inspector. |
+| `GameProgress` | estático | Qué instancias están abiertas (la 1 siempre). #48 abrirá la siguiente al ganar. |
+| `SceneFlow` | estático | Cargar menú, empezar instancia o continuar. Siempre devuelve el tiempo a velocidad normal antes de cambiar de escena. |
+| `GameSettings` | estático | Los valores de Opciones en `PlayerPrefs` (aparte de la partida). Lanza `Changed` y cada sistema se actualiza solo: `PlayerLook` (sensibilidad e invertir Y), `SubtitleUI` (no muestra nada si están apagados), `AudioListener` (volumen general) y `AudioVolume` (música, efectos y voces). |
+| `OptionsUI` | prefab `PF_OptionsPanel` | Lee los valores al abrirse y escribe cada cambio en `GameSettings`. |
+| `PauseMenu` | prefab `PF_PauseMenu` | Con Esc pone `Time.timeScale = 0` y pausa el audio. Apaga todas las acciones del Padre menos la pausa y apaga `PlayerLook`, lo que suelta el mouse. Si hay un inventario, altar o nota abierto, Esc cierra eso y no pausa. |
+| `DeathScreen` | prefab `PF_DeathScreen` | Escucha `Health.Died`, espera y aparece con un fundido. Reintentar llama a `PlayerRespawn.Respawn()`; si aún no se llegó a ningún cuarto seguro, recarga la instancia. |
+| `SafeRoom.FindById` y `PlayerRespawn.Start` (cambios) | — | Para Continuar: al cargar la escena, buscan el cuarto seguro guardado y ponen ahí al Padre. |
+
+**Por qué así.**
+- Las opciones van en `PlayerPrefs` y no en la partida: borrar o empezar una partida no debe cambiar la sensibilidad de nadie.
+- Los menús son prefabs: cada escena con el Padre solo arrastra `PF_PauseMenu` y `PF_DeathScreen` y les asigna al jugador.
+- Pausar apagando las acciones del Input System, y no script por script, evita olvidar alguno: ni ataque, ni rezo, ni inventario funcionan con el menú abierto.
+
+**Cómo se probó (Play Mode).**
+- **Menú:** con las flechas se pasó por Nueva partida → Continuar → Opciones y de regreso; Enter abrió la selección (solo la instancia 1 abierta, con su descripción) y Esc volvió.
+- **Opciones:** con la flecha derecha la sensibilidad pasó a ×1.55. Volumen general 0.5 → `AudioListener.volume` 0.5. Subtítulos apagados → guardado. Luego se regresaron a sus valores.
+- **Pausa en I1:** Esc → `timeScale` 0, ataque apagado, mouse libre. Opciones y Esc regresaron a la pausa. Continuar devolvió todo.
+- **Esc con el inventario abierto:** lo cerró y no pausó.
+- **Derrota:**
+  - Sin cuarto seguro: Reintentar recargó la instancia (vida 100).
+  - Después de pasar por la choza: Reintentar y Reiniciar pusieron al Padre en la choza.
+- **Salir y continuar:** Salir al menú → menú con tiempo normal y mouse libre. Continuar → I1, en la choza guardada.
+- Sin errores en la consola en las sesiones limpias.
+
+**Un error que salió en la prueba.** El inventario no se cerraba con Esc, así que había que cerrarlo con Tab antes de poder pausar. Ahora Esc también lo cierra.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo se pausa el juego? | `Time.timeScale = 0`: todo lo que usa `Time.deltaTime` se detiene. Además se apagan las acciones del Padre y se pausa el audio. |
+| ¿Dónde se guardan las opciones? | En `PlayerPrefs`, el almacén pequeño de Unity para configuraciones, separado de `partida.json`. |
+| ¿Cómo se navega con teclado? | El `EventSystem` con `InputSystemUIInputModule` mueve la selección entre botones según su posición; cada menú deja seleccionado su primer botón al abrirse. |
+| ¿Qué pasa si das Reintentar sin haber llegado a un cuarto seguro? | `Respawn()` devuelve `false` y la instancia se carga desde el principio. |
 
 ### 5.15 Audio y feedback
 *Pendiente — issues #44 y #50.*

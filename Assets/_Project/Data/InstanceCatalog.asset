@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89712e98bf1dcc8ba9641c2ef6bcc836, type: 3}
+  m_Name: InstanceCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.InstanceCatalog
+  menuScene: MainMenu
+  instances:
+  - displayName: "1 \xB7 Xochimilco"
+    description: "Canales, chinampas y la Isla de las Mu\xF1ecas. La Llorona recorre
+      el agua."
+    sceneName: I1_Xochimilco
+  - displayName: "2 \xB7 Hacienda"
+    description: "Una hacienda abandonada del Baj\xEDo. El Charro Negro cabalga entre
+      la capilla y el port\xF3n. (Escena de prueba hasta el nivel #40.)"
+    sceneName: CharroArena
+  - displayName: "3 \xB7 Ex-convento"
+    description: Claustro, criptas y catacumbas. La Tzitzimime espera en el techo.
+      (Escena de prueba hasta el nivel #46.)
+    sceneName: TzitzimimeArena

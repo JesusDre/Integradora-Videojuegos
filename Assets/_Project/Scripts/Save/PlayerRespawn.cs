@@ -8,22 +8,33 @@ using UnityEngine;
 namespace Animas.Save
 {
     // After dying, the Padre comes back in the last safe room with what he had when it saved,
-    // and at least 60 life (GDD §6). The defeat screen with "Reintentar" (#48) will call Respawn;
-    // until it exists, autoRespawnSeconds brings him back by itself.
+    // and at least 60 life (GDD §6). The defeat screen's "Reintentar" and the pause's "Reiniciar" call
+    // Respawn. "Continuar" in the main menu uses it too, right after the level loads.
     public class PlayerRespawn : MonoBehaviour
     {
         [SerializeField] Health health;
         [SerializeField] PlayerDeathHandler deathHandler;
         [SerializeField] PlayerPersistence persistence;
         [SerializeField, Range(1f, 100f)] float minimumHealth = 60f;
-        [Tooltip("0 = wait for the defeat screen. Temporary until #48.")]
-        [SerializeField, Min(0f)] float autoRespawnSeconds = 3f;
+        [Tooltip("0 = wait for the defeat screen (normal). More = come back by itself (scenes without menus).")]
+        [SerializeField, Min(0f)] float autoRespawnSeconds = 0f;
 
         public event Action Respawned;
 
         CharacterController body;
 
         void Awake() => body = GetComponent<CharacterController>();
+
+        void Start()
+        {
+            if (!SceneFlow.PendingContinue) return;
+            SceneFlow.ClearContinue();
+            SaveData data = SaveSystem.Load();
+            SafeRoom room = data != null ? SafeRoom.FindById(data.checkpoint) : null;
+            if (room == null) return;
+            room.MarkAsLast();
+            Respawn();
+        }
 
         void OnEnable() => health.Died += OnDied;
         void OnDisable() => health.Died -= OnDied;

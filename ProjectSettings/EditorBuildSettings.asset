@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/MainMenu.unity
+    guid: 95233542c36ce28c797fecd88b81fa23
+  - enabled: 1
+    path: Assets/_Project/Scenes/Levels/I1_Xochimilco.unity
+    guid: a272c8b6c2ef87fd78a1bb136311c2e2
+  - enabled: 1
+    path: Assets/_Project/Scenes/Test/CharroArena.unity
+    guid: 9e867cccf0775f68d903ce9ef8d4b3a1
+  - enabled: 1
+    path: Assets/_Project/Scenes/Test/TzitzimimeArena.unity
+    guid: 244c0578192e9f6268483f6dea712a89
+  - enabled: 1
+    path: Assets/_Project/Scenes/Test/EnemyArena.unity
+    guid: 006db76425d4560918722614ee174d54
+  - enabled: 1
     path: Assets/_Project/Scenes/Test/Sandbox.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
