@@ -7,10 +7,13 @@ He is modeled standing in a T-pose (Humanoid rest pose); the riding pose comes f
 in Unity he is mounted on the horse's "Saddle" bone (ent_caballo.fbx).
 """
 
+import math
 import os
 import sys
 
 sys.path.append(os.path.dirname(__file__))
+from mathutils import Quaternion  # noqa: E402
+
 import lowpoly_humanoid as lp  # noqa: E402
 
 lp.reset_scene()
@@ -22,6 +25,9 @@ tie = lp.make_material("Charro_Mono", "#5A0B0B", roughness=0.5)
 void = lp.make_material("Charro_Rostro", "#050505", roughness=1.0)
 eyes = lp.make_material("Charro_Ojos", "#FF3010", roughness=0.3, emission_strength=6.0)
 boots = lp.make_material("Charro_Botas", "#141012", roughness=0.45)
+shirt = lp.make_material("Charro_Camisa", "#2A2A2E", roughness=0.7)
+gloves = lp.make_material("Charro_Guantes", "#0A0A0C", roughness=0.5)
+bone_mat = lp.make_material("Charro_Hueso", "#CFC6B0", roughness=0.6)
 
 bones = lp.humanoid_bones(hips=0.97, chest_top=1.42, shoulder_z=1.46, head_top=1.76, shoulder_x=0.20,
                           elbow_x=0.48, wrist_x=0.74, hand_x=0.85)
@@ -44,31 +50,60 @@ for side, sign in (("Left", 1), ("Right", -1)):
         r = 0.075 - (0.90 - z) * 0.05
         b.sphere((x + sign * r, 0, z), 0.012, silver, bone, segments=6, rings=4)
 
-# Short charro jacket with silver buttons and embroidery, white-less: all black, with a dark red bow tie.
-b.lathe([(1.00, 0.165), (1.20, 0.18)], suit, "Spine", segments=14, scale_y=0.75)
-b.lathe([(1.20, 0.18), (1.38, 0.205), (1.47, 0.11)], suit, "Chest", segments=14, scale_y=0.75, cap_top=True)
-for x in (-0.075, 0.075):
-    for i, z in enumerate((1.08, 1.17, 1.26, 1.34)):
-        bone = "Spine" if z < 1.2 else "Chest"
-        b.sphere((x, -0.13 - (0.01 if z > 1.2 else 0.0), z), 0.011, silver, bone, segments=6, rings=4)
-b.box((0, -0.155, 1.30), (0.02, 0.005, 0.18), silver, "Chest")  # embroidered front seam
+# Short fitted charro jacket: narrow waist, broad chest, padded shoulders, lapels open in a V over a dark
+# shirt, two rows of silver buttons and silver embroidery (grecas) on the back.
+b.lathe([(1.00, 0.165), (1.10, 0.16), (1.20, 0.18)], suit, "Spine", segments=16, scale_y=0.72)
+b.lathe([(1.20, 0.18), (1.32, 0.21), (1.40, 0.215), (1.47, 0.12)], suit, "Chest", segments=16, scale_y=0.72, cap_top=True)
+b.box((0, -0.153, 1.36), (0.075, 0.006, 0.14), shirt, "Chest")
+for sign in (1, -1):
+    lean = Quaternion((0, 1, 0), math.radians(-18 * sign))
+    b.box((sign * 0.055, -0.158, 1.35), (0.035, 0.008, 0.17), suit, "Chest", rotation=lean)       # lapel
+    b.box((sign * 0.072, -0.163, 1.35), (0.006, 0.004, 0.17), silver, "Chest", rotation=lean)     # its silver edge
+for x in (-0.07, 0.07):
+    for z in (1.08, 1.16, 1.24):
+        b.sphere((x, -0.118 if z < 1.2 else -0.13, z), 0.011, silver, "Spine" if z < 1.2 else "Chest", segments=6, rings=4)
+# Embroidered band across the back: two silver lines with diamonds between them.
+for z in (1.30, 1.37):
+    b.box((0, 0.153, z), (0.24, 0.006, 0.007), silver, "Chest")
+for x in (-0.09, -0.03, 0.03, 0.09):
+    b.box((x, 0.153, 1.335), (0.022, 0.006, 0.022), silver, "Chest", rotation=Quaternion((0, 1, 0), math.radians(45)))
 for x in (-0.03, 0.03):
-    b.box((x, -0.095, 1.44), (0.05, 0.02, 0.035), tie, "Chest")
-b.sphere((0, -0.105, 1.44), 0.013, tie, "Chest", segments=6, rings=4)
+    b.box((x, -0.095, 1.445), (0.05, 0.02, 0.035), tie, "Chest")
+b.sphere((0, -0.105, 1.445), 0.013, tie, "Chest", segments=6, rings=4)
 
-# Arms: black sleeves with silver cuffs and black gloves.
+# Arms: tapered sleeves with the elbow and wrist covered by rounded joints (no tube seams when they bend),
+# silver embroidery at the cuffs, and black gloves with jointed fingers.
 for side, sign in (("Left", 1), ("Right", -1)):
-    b.tube((sign * 0.15, 0, 1.46), (sign * 0.48, 0, 1.46), 0.07, 0.058, suit, f"{side}UpperArm", segments=8)
-    b.tube((sign * 0.48, 0, 1.46), (sign * 0.74, 0, 1.46), 0.056, 0.05, suit, f"{side}LowerArm", segments=8)
-    b.tube((sign * 0.70, 0, 1.46), (sign * 0.74, 0, 1.46), 0.055, 0.055, silver, f"{side}LowerArm", segments=8, cap=False)
-    b.box((sign * 0.80, 0, 1.46), (0.11, 0.04, 0.085), boots, f"{side}Hand")
-    b.box((sign * 0.77, -0.035, 1.47), (0.05, 0.025, 0.025), boots, f"{side}Hand")
+    z = 1.46
+    # The sleeve starts at the shoulder joint (a tube starting inside the body would swing up through the
+    # shoulder when the arm comes down); a round joint covers the shoulder instead.
+    b.sphere((sign * 0.20, 0, z), 0.07, suit, f"{side}UpperArm", segments=10, rings=6)
+    b.tube((sign * 0.20, 0, z), (sign * 0.48, 0, z), 0.068, 0.055, suit, f"{side}UpperArm", segments=10)
+    b.sphere((sign * 0.48, 0, z), 0.057, suit, f"{side}LowerArm", segments=10, rings=6)
+    b.tube((sign * 0.48, 0, z), (sign * 0.72, 0, z), 0.055, 0.048, suit, f"{side}LowerArm", segments=10)
+    for dx in (0.66, 0.70):
+        b.tube((sign * dx, 0, z), (sign * (dx + 0.012), 0, z), 0.051, 0.051, silver, f"{side}LowerArm", segments=10, cap=False)
+    b.sphere((sign * 0.745, 0, z), 0.04, gloves, f"{side}Hand", segments=8, rings=5)
+    b.tube((sign * 0.745, 0, z), (sign * 0.81, 0, z - 0.004), 0.038, 0.042, gloves, f"{side}Hand", segments=8)
+    for dz in (-0.024, -0.008, 0.008, 0.024):
+        joint = (sign * 0.86, -0.005, z + dz - 0.006)
+        b.tube((sign * 0.81, 0, z + dz), joint, 0.011, 0.01, gloves, f"{side}Hand", segments=5)
+        b.tube(joint, (sign * 0.895, -0.018, z + dz - 0.024), 0.01, 0.007, gloves, f"{side}Hand", segments=5)
+    b.tube((sign * 0.77, -0.03, z), (sign * 0.82, -0.055, z - 0.015), 0.012, 0.008, gloves, f"{side}Hand", segments=5)
 
-# No face under the hat: darkness and two red glowing eyes.
-b.tube((0, 0, 1.44), (0, 0, 1.56), 0.045, 0.042, void, "Neck", segments=8)
-b.sphere((0, 0, 1.62), 0.105, void, "Head", segments=10, rings=6)
+# Under the hat, a bare skull: the charro who sold his soul. Bone-colored cranium and cheekbones, deep
+# black sockets with glowing red embers, a nose cavity and a jaw with a dark line of teeth.
+b.tube((0, 0, 1.44), (0, 0, 1.56), 0.042, 0.04, bone_mat, "Neck", segments=8)
+b.sphere((0, 0.005, 1.635), 1.0, bone_mat, "Head", segments=12, rings=8, scale=(0.085, 0.095, 0.095))
+b.sphere((0, -0.03, 1.565), 1.0, bone_mat, "Head", segments=10, rings=6, scale=(0.06, 0.06, 0.04))     # jaw
 for x in (-0.035, 0.035):
-    b.sphere((x, -0.098, 1.635), 0.011, eyes, "Head", segments=6, rings=4)
+    b.sphere((x * 1.6, -0.06, 1.605), 0.022, bone_mat, "Head", segments=6, rings=4)                    # cheekbones
+    b.sphere((x, -0.072, 1.635), 0.025, void, "Head", segments=8, rings=5, scale=(1.0, 0.7, 0.9))      # sockets
+    b.sphere((x, -0.084, 1.633), 0.009, eyes, "Head", segments=6, rings=4)                             # embers
+b.sphere((0, -0.088, 1.60), 1.0, void, "Head", segments=6, rings=4, scale=(0.012, 0.008, 0.016))      # nose
+b.box((0, -0.083, 1.565), (0.06, 0.012, 0.008), void, "Head")                                          # teeth line
+for x in (-0.024, -0.008, 0.008, 0.024):
+    b.box((x, -0.085, 1.565), (0.004, 0.01, 0.02), void, "Head")
 
 # Wide-brimmed charro hat: a brim with the edge rolled up (closed loop profile, so it reads from above
 # and below), a tall crown and a silver band.

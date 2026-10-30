@@ -4,8 +4,9 @@
 **Archivos:** `ent_charro.fbx` (jinete) y `ent_caballo.fbx` (caballo) · **Scripts:** `Tools/Blender/ent_charro.py`, `Tools/Blender/ent_caballo.py`
 
 ## Silueta y lectura
-- Jinete con **traje de charro negro** (chaqueta corta, pantalón ajustado con botonadura plateada) y **sombrero de ala ancha**. Bajo el sombrero no hay cara: solo oscuridad y un brillo tenue de ojos.
-- **Caballo negro** grande, crin larga, ojos con brillo rojo y aliento de vapor (partículas en Unity).
+- Jinete con **traje de charro negro**: chaqueta corta entallada con solapas en V sobre camisa oscura, botonadura de plata y una franja bordada en la espalda; pantalón ajustado con botonadura plateada; guantes negros. **Sombrero de ala ancha**.
+- Bajo el sombrero, una **calavera** color hueso: cuencas negras con brasas rojas, cavidad de la nariz y mandíbula con dientes marcados. Es el charro que vendió su alma; con la linterna se ve bajo el ala.
+- **Caballo negro** grande de cuerpo continuo (cruz, lomo y grupa marcados), patas con rodillas, corvejones, menudillos y cascos, cabeza con frente, quijada y hocico, brida y riendas, crin larga cayendo a un lado del cuello y cola hasta casi el suelo. Ojos con brillo rojo y aliento de vapor (partículas en Unity).
 - Elegante y amenazante, no caricaturesco (anexo del GDD).
 - Jinete y caballo son **dos modelos**: el jinete se monta en un punto del caballo (`Saddle`). Así el caballo, que es cuadrúpedo, tiene su propio esqueleto genérico.
 
@@ -27,10 +28,12 @@
 | Caballo | negro azabache | `#09090B` |
 | Crin y cola | negro con brillo | `#151518` |
 | Ojos (jinete y caballo) | rojo (emisivo) | `#FF3010` |
+| Calavera | hueso | `#CFC6B0` |
+| Camisa | gris muy oscuro | `#2A2A2E` |
 | Silla de montar | cuero café oscuro | `#2A1A10` |
 
 ## Presupuesto
-Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales tienen unos 1 800 (jinete) y 1 590 (caballo).
+Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales tienen unos 3 290 (jinete) y 2 720 (caballo).
 
 ## Esqueletos
 - **Jinete:** humanoide estándar (Unity Humanoid).
@@ -51,5 +54,5 @@ Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales 
 ## Notas
 - Es el modelo más riesgoso (PIPELINE_ASSETS): se hizo primero el caballo en formas simples y se probó el galope antes de pulir.
 - **Cómo quedó:** `Tools/Blender/ent_caballo.py` y `Tools/Blender/ent_charro.py`. El caballo tiene 21 huesos (columna de 3, cuello de 2, cabeza, cola de 2, 4 patas de 3 huesos y `Saddle`); las patas traseras tienen el muslo y el corvejón en ángulo como un caballo real. Sus clips son `Idle`, `Gallop`, `Charge` (se encabrita y arremete), `Hit` y `Dissolve`.
-- El jinete se modela de pie en T y la postura de montar sale de sus clips: `RideIdle`, `RideGallop`, `Offer` y `Dissolve`. Debajo del sombrero no hay cara: oscuridad y dos ojos rojos.
+- El jinete se modela de pie en T y la postura de montar sale de sus clips: `RideIdle`, `RideGallop`, `Offer` y `Dissolve`. Debajo del sombrero hay una calavera con brasas rojas en los ojos.
 - En Unity, `PF_CharroNegro` (Prefabs/Enemies) es el caballo con el jinete como hijo del hueso `Saddle`, así que el jinete sigue cada movimiento (al encabritarse, la silla sube 40 cm y él va con ella). Cada uno tiene su Animator: `AC_Caballo` (Speed: Idle → Gallop a 6 m/s; triggers `Charge`, `Hit`, `Dissolve`) y `AC_Charro` (Speed: RideIdle → RideGallop; triggers `Offer`, `Dissolve`).

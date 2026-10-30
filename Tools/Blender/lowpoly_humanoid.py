@@ -116,6 +116,7 @@ class PartBuilder:
         self.face_bone = {}      # face index -> bone name (filled when finishing)
         self._pending = []       # (faces, bone)
         self._keep_winding = set()  # faces whose direction is intentional (linings seen from inside)
+        self._vert_bone = {}        # per-vertex bone for shapes that span several bones (loft)
 
     def _slot(self, material):
         if material not in self.materials:
@@ -181,6 +182,34 @@ class PartBuilder:
         if cap_top:
             faces.append(self.bm.faces.new(rings[-1] if not inward else rings[-1][::-1]))
         return self._tag(faces, material, bone)
+
+    def loft(self, rings, material, segments=12, cap_start=True, cap_end=True):
+        """One continuous tube through a list of rings: (center, width, height, bone). Each ring lies across
+        the path (perpendicular to it), so it works for a horse's body, neck or head. Every ring follows its
+        own bone, so one smooth shape can bend along several bones (rump, back and shoulders)."""
+        centers = [Vector(c) for c, _, _, _ in rings]
+        side = Vector((1, 0, 0))  # the creatures are symmetric left/right
+        loops = []
+        for i, (center, width, height, bone) in enumerate(rings):
+            ahead = centers[min(i + 1, len(centers) - 1)] - centers[max(i - 1, 0)]
+            tangent = ahead.normalized()
+            up = tangent.cross(side).normalized()
+            loop = []
+            for k in range(segments):
+                a = 2 * math.pi * k / segments
+                v = self.bm.verts.new(centers[i] + side * (width * math.cos(a)) + up * (height * math.sin(a)))
+                self._vert_bone[v] = bone
+                loop.append(v)
+            loops.append(loop)
+        faces = []
+        for lower, upper in zip(loops, loops[1:]):
+            for k in range(segments):
+                faces.append(self.bm.faces.new((lower[k], lower[(k + 1) % segments], upper[(k + 1) % segments], upper[k])))
+        if cap_start:
+            faces.append(self.bm.faces.new(loops[0]))
+        if cap_end:
+            faces.append(self.bm.faces.new(loops[-1]))
+        return self._tag(faces, material, rings[0][3])
 
     def prism(self, outline, x_center, thickness, material, bone):
         """Flat shape drawn in the side plane (y, z) and extruded along X: blades, straps, badges."""
@@ -268,6 +297,7 @@ class PartBuilder:
                 if f.is_valid:
                     for v in f.verts:
                         vert_bone[v] = bone
+        vert_bone.update({v: b for v, b in self._vert_bone.items() if v.is_valid})
         self.bm.verts.ensure_lookup_table()
         index_bone = {v.index: b for v, b in vert_bone.items() if v.is_valid}
         mesh = bpy.data.meshes.new(name + "_Mesh")
