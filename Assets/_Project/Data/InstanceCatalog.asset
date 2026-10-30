@@ -19,9 +19,9 @@ MonoBehaviour:
       el agua."
     sceneName: I1_Xochimilco
   - displayName: "2 \xB7 Hacienda"
-    description: "Una hacienda abandonada del Baj\xEDo. El Charro Negro cabalga entre
-      la capilla y el port\xF3n. (Escena de prueba hasta el nivel #40.)"
-    sceneName: CharroArena
+    description: "Una hacienda abandonada del Baj\xEDo al atardecer. El Charro Negro
+      cabalga entre la capilla, el pante\xF3n y el port\xF3n."
+    sceneName: I2_Hacienda
   - displayName: "3 \xB7 Ex-convento"
     description: Claustro, criptas y catacumbas. La Tzitzimime espera en el techo.
       (Escena de prueba hasta el nivel #46.)

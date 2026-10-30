@@ -616,7 +616,7 @@ El nivel real del convento es #46.
 | ¿Cómo se esquiva el ataque? | El círculo rojo avisa 1.5 s antes; basta con salir de él. |
 
 ### 5.13 Niveles: las tres instancias
-*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles finales: #36, #40 y #46.*
+*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Nivel de la instancia 2: #40. Pendientes: arte final de la 1 (#36) y nivel de la 3 (#46).*
 
 **Qué hay.** Un plano por instancia, visto desde arriba, con el recorrido numerado en orden, los 3 objetos clave, el inicio y la salida, el altar del cuarto seguro, los grupos de cultistas (con cuántos son), las notas y los alijos secretos, el ancla de la entidad, por dónde ronda la entidad, las luces y las zonas oscuras, y la escala (10 m y la altura del Padre, 1.8 m). Todos siguen la misma estructura del GDD: **sección 1 → cuarto seguro → sección 2 → final de la entidad → huida**.
 
@@ -660,7 +660,51 @@ El nivel real del convento es #46.
 
 **Un detalle del NavMesh:** se hornea desde los colliders (no desde las mallas visibles); si no, el agua contaba como piso. Las zonas invisibles (encuentros, cuarto seguro, salida) se excluyen del horneado porque tapaban el puente.
 
-**Cómo se probó (Play Mode, recorrido automático a velocidad ×3).** El Padre caminó del inicio al muelle (38 m; se activó el encuentro G1) y subió a la trajinera. Llegó a la chinampa de las muñecas, caminó a la choza y al entrar se guardó en `I1_Choza` con las puertas cerradas. Salió por la puerta este, cruzó el puente a la isla hasta el muelle norte y subió a la trajinera de huida. Llegó a la salida, que guardó `salida`. Sin la trajinera, el NavMesh no une el embarcadero con la chinampa (correcto: ahí se cruza en trajinera). Consola sin errores.
+**Cómo se probó (Play Mode, recorrido automático a velocidad ×3).** El Padre caminó del inicio al muelle (38 m; se activó el encuentro G1) y subió a la trajinera. Llegó a la chinampa de las muñecas, caminó a la choza y al entrar se guardó en `I1_Choza` con las puertas cerradas. Salió por la puerta este, cruzó el puente a la isla hasta el muelle norte y subió a la trajinera de huida. Llegó a la salida. Sin la trajinera, el NavMesh no une el embarcadero con la chinampa (correcto: ahí se cruza en trajinera). Consola sin errores.
+
+**Nivel de la instancia 2: la hacienda** (*issue #40*). La escena `Scenes/Levels/I2_Hacienda` arma el plano de 180 × 130 m con formas simples. Las coordenadas son las mismas del plano; los planos dibujan "y" y en Unity es "z".
+
+**Sección 1.**
+- El Padre llega por el campo de agave, entre hileras de agaves.
+- **Trojes** a oscuras, con techo: un muro interior, puertas al este y al oeste, la primera moneda y el encuentro G1 (3 cultistas).
+- **Casa grande:** muros de 4.5 m alrededor de un patio abierto con fuente. El encuentro G2 (4 cultistas) está en el patio. La segunda moneda está en el despacho y la nota de la chancla bendita en la cocina, con dos lámparas.
+
+**Cuarto seguro:** la **tienda de raya**. Es la misma choza de la instancia 1 movida aquí, con el id `I2_TiendaRaya`, altar y dos puertas.
+
+**Sección 2.**
+- Campo abierto donde cabalga el Charro (`Charro_Territorio`).
+- **Panteón:** bardas bajas y filas de tumbas. Tiene el encuentro G3 (4 cultistas), la tercera moneda y una nota nueva que explica cómo vencer al Charro.
+- **Capilla:** techo, 3 veladoras, el pedestal de las monedas, la **pila de agua bendita** y la barrera que el Charro no cruza. Enfrente están las **3 canaletas**.
+
+**Huida.** Un camino de tierra lleva al **portón**, que está con candado hasta vencer al Charro. En el camino está el encuentro G4 (3 cultistas) y la salida queda afuera.
+
+**Luz.** Un atardecer que se apaga: sol naranja muy bajo, niebla café y luces cálidas solo en la casa y la capilla (GDD §22: ocre, negro y rojo apagado).
+
+![Hacienda: la capilla y sus canaletas](img/niveles/i2_blockout_capilla.png)
+![Hacienda: de las trojes a la casa grande](img/niveles/i2_blockout_casa.png)
+
+| Pieza nueva | Qué hace |
+|---|---|
+| `HolyWaterFont` | La pila de la capilla (GDD §18): F da 1 agua bendita, hasta 3 veces; se rellena cuando el Padre reaparece. Si no hay espacio en el inventario, no gasta usos. |
+| `CharroNegroEntity.territory` (cambio) | Una caja opcional con el terreno donde cabalga el Charro (como en el plano). Si el Padre sale de ella, el Charro lo deja y regresa a su lugar. Así no persigue al Padre por las trojes desde el primer minuto. |
+| `NOTE_I2_Capilla` | Nota del panteón: pedestal, canaletas y tres golpes de cruz. |
+
+**Cómo se probó (Play Mode, recorrido automático con `PathWalker` a velocidad ×4; enemigos apagados para probar la geometría).**
+1. Inicio → trojes (moneda 1) → despacho (moneda 2) → cocina.
+2. Tienda de raya: se guardó `I2_TiendaRaya` con 2 monedas.
+3. Panteón: nota y moneda 3 (estaba sobre una tumba; se movió al pasillo) → pedestal de la capilla con las 3.
+4. Pila: dio 3 aguas benditas y quedó vacía.
+5. Canaleta llena y el Charro despierto: 3 embestidas sobre el agua y 3 golpes de cruz cargada. Se disolvió y el portón se abrió.
+6. Camino → portón → salida: victoria "Escapaste de la hacienda" (2:10 a velocidad ×4).
+
+**Con los enemigos encendidos:**
+- G1, G2 y G3 aparecieron con 3, 4 y 4 cultistas, todos sobre el NavMesh y patrullando.
+- El Charro esperó quieto mientras el Padre estaba en la sección 1. Cuando entró a su terreno, embistió (−25), y al salir el Padre regresó a su lugar.
+- Consola sin errores.
+
+**Detalles que salieron en la prueba.**
+- La choza se movió de su posición original. Al hornear el NavMesh hay que sincronizar la física (`Physics.SyncTransforms`); si no, los muros cuentan donde estaban antes. Se volvieron a hornear `I2_Hacienda`, `CharroArena` y `TzitzimimeArena`.
+- Las puertas del cuarto seguro cuentan como muro en el NavMesh porque empiezan cerradas: los cultistas no deben entrar. El Padre no usa el NavMesh, así que no le afecta.
 
 **Preguntas probables.**
 | Pregunta | Respuesta |
@@ -729,7 +773,7 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | Script | Dónde | Qué hace |
 |---|---|---|
 | `MainMenu` | escena `MainMenu` | Muestra un panel a la vez (principal, selección, opciones, créditos) y deja seleccionado el primer botón para que el teclado funcione. Esc regresa al panel principal. |
-| `InstanceCatalog` | `Data/InstanceCatalog.asset` | La lista de instancias: nombre, descripción y escena. Mientras no existan los niveles finales, la 2 y la 3 cargan `CharroArena` y `TzitzimimeArena`; luego basta cambiar el nombre de escena en el Inspector. |
+| `InstanceCatalog` | `Data/InstanceCatalog.asset` | La lista de instancias: nombre, descripción y escena. La 1 y la 2 cargan sus niveles (`I1_Xochimilco`, `I2_Hacienda`); la 3 carga `TzitzimimeArena` hasta que exista su nivel (#46). Cambiar de escena es cambiar un nombre en el Inspector. |
 | `GameProgress` | estático | Qué instancias están abiertas (la 1 siempre). La pantalla de victoria (#48) abre la siguiente. |
 | `SceneFlow` | estático | Cargar menú, empezar instancia o continuar. Siempre devuelve el tiempo a velocidad normal antes de cambiar de escena. |
 | `GameSettings` | estático | Los valores de Opciones en `PlayerPrefs` (aparte de la partida). Lanza `Changed` y cada sistema se actualiza solo: `PlayerLook` (sensibilidad e invertir Y), `SubtitleUI` (no muestra nada si están apagados), `AudioListener` (volumen general) y `AudioVolume` (música, efectos y voces). |
