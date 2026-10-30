@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 2270269953759454414}
   - component: {fileID: 9222903655437723414}
   - component: {fileID: 4356258946889775197}
+  - component: {fileID: 852158391470868832}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -384,6 +385,7 @@ MonoBehaviour:
   health: {fileID: 1857532811624091855}
   inventory: {fileID: 5157468773410539650}
   recipeBook: {fileID: 69500857402726779}
+  keyItems: {fileID: 852158391470868832}
 --- !u!114 &9222903655437723414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,6 +419,18 @@ MonoBehaviour:
   combat: {fileID: 5209770782421535170}
   weapons: {fileID: 9145848390486212298}
   inventory: {fileID: 5157468773410539650}
+--- !u!114 &852158391470868832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c36a4ba4bff5a3ebb867cce3deb42bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.KeyItemBag
 --- !u!1 &2419112120389781756
 GameObject:
   m_ObjectHideFlags: 0

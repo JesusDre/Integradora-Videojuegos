@@ -396,7 +396,44 @@ Usar otra vez la chancla o la cruz regresa el machete; si se tira, también. Las
 - Consola sin errores.
 
 ### 5.11 Objetos clave, notas y recetas desbloqueables
-*Pendiente — issue #32.*
+*Issue #32.*
+
+**Qué hace.** Cada instancia tiene 3 objetos clave (muñecas ofrenda, monedas del pacto o fragmentos de obsidiana). Se toman con F y no ocupan los 8 espacios: van aparte, como los materiales, para que el jugador nunca tenga que tirar una venda por una ofrenda. Al tomar uno aparece "Muñeca ofrenda (2/3)", y el inventario los lista. En el ancla, F coloca todos los que traigas; con los 3 aparece "Las ofrendas están completas" y empieza el ritual (#34). Las notas se leen con F en un papel en pantalla. La primera vez que lees una que enseña algo, aprendes su receta: "Receta nueva en el altar: cruz de plata".
+
+![Nota](img/ui/nota.png)
+
+**Si el Padre muere** (GDD §6), todo vuelve al último guardado sin que el nivel quede trabado:
+- vuelven a aparecer en el mundo solo los objetos clave que tomó después de guardar;
+- el ancla se vacía (el ritual se repite);
+- las notas leídas y las recetas guardadas se conservan.
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `KeyItemBag` | Padre | Cuántos objetos clave lleva, cuáles del mundo ya tomó (por un id único, p. ej. `I1_Muneca3`) y qué notas leyó. Todo eso entra al guardado. |
+| `KeyItemPickup` | cada objeto clave | No se destruye al tomarlo: se oculta mientras su id esté en la bolsa y reaparece si un guardado anterior ya no lo tiene. |
+| `NoteDefinition` | `Data/Notes/NOTE_*` | Título, texto y la receta que enseña (si enseña una). |
+| `NotePickup` + `NoteUI` | nota en el mundo + `PF_HUD` | Abre el papel en pantalla (la cámara y los controles se pausan, el juego no) y desbloquea la receta en el `RecipeBook`. |
+| `Anchor` | ancla de la entidad | Recibe las ofrendas, muestra los modelos colocados y lanza `OfferingsComplete`. Se vacía con `PlayerRespawn.Respawned`. |
+| `PlayerPersistence` (cambio) | Padre | Guarda y restaura objetos clave, ids tomados y notas leídas (`ItemDatabase` ahora también lista las notas). |
+
+**Las notas de ahora** (textos cortos que #33 puede ampliar): en Xochimilco, 3 notas que dicen dónde están las ofrendas, que la sal detiene a la Llorona y para qué son las veladoras del ancla. Además, la que deja la Llorona enseña la cruz de plata, la de la hacienda la chancla bendita y la del convento el copal.
+
+**Cómo se probó (Play Mode, `I1_Xochimilco`).**
+1. Leer la nota abrió el papel y desactivó la cámara; la nota de la Llorona enseñó la cruz de plata y avisó.
+2. Se tomaron las muñecas 1 y 2 (desaparecieron, "1/3" y "2/3") y se entró a la choza: se guardaron 2 muñecas, 2 ids y 1 nota.
+3. Al salir se tomó la 3 y el Padre murió. Reapareció con 2 muñecas: la 3 volvió a su lugar y la 1 y la 2 no.
+4. Retomó la 3 y en el ancla colocó las 3 (completa, evento lanzado, modelos visibles).
+5. Al morir ahí, el ancla se vació y la muñeca 3 volvió al mundo para retomarla.
+
+**Un error que se encontró en la prueba:** el cuarto seguro podía guardar en el mismo cuadro en que el Padre moría (teletransporte). Ahora `SafeRoom` nunca guarda a un Padre muerto.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué los objetos clave no ocupan espacio? | Son de misión: si ocuparan espacio, el jugador podría tirarlos o quedarse sin lugar para curarse, y eso no aporta decisión, solo frustración. |
+| ¿Cómo evitan que el nivel quede sin la tercera muñeca si mueres? | Cada muñeca tiene un id; al cargar, las que no están en la bolsa guardada vuelven a aparecer. |
+| ¿Cómo se desbloquea una receta? | `NotePickup` llama a `RecipeBook.Unlock` la primera vez que se lee la nota; el altar muestra la receta desde ese momento. |
 
 ### 5.12 Entidades: La Llorona, el Charro Negro y la Tzitzimime
 *Pendiente — issues #35, #39 y #45.*

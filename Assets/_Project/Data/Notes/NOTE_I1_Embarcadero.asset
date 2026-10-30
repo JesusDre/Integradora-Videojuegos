@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f77ba4a985e5a66886efd0a3370a34, type: 3}
+  m_Name: NOTE_I1_Embarcadero
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
+  title: Nota del embarcadero
+  text: "Tres ofrendas para la que llora en el agua. Una en el embarcadero, otra
+    entre las mu\xF1ecas de la chinampa y la \xFAltima en la isla, junto al \xE1rbol
+    viejo.\n\nCuando las tres est\xE9n en su lugar, ella despertar\xE1 y la estrella
+    negra brillar\xE1 sobre el canal."
+  unlocksRecipe: {fileID: 0}

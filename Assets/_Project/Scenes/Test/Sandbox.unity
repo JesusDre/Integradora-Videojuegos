@@ -633,6 +633,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241134460}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &281722967 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 852158391470868832, guid: 340de122d96465aed83456fb80bfa834, type: 3}
+  m_PrefabInstance: {fileID: 3195183162106819833}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c36a4ba4bff5a3ebb867cce3deb42bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.KeyItemBag
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,6 +1765,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3195183162106819836}
     - target: {fileID: 4464120536413824434, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: keyItems
+      value: 
+      objectReference: {fileID: 281722967}
+    - target: {fileID: 4464120536413824434, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: dropPoint
       value: 
       objectReference: {fileID: 3195183162106819839}
@@ -1789,6 +1804,78 @@ PrefabInstance:
       propertyPath: 'disableWhileOpen.Array.data[3]'
       value: 
       objectReference: {fileID: 952935865}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 3195183162106819835}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: disableWhileOpen.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3195183162106819838}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3195183162106819837}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[2]'
+      value: 
+      objectReference: {fileID: 3195183162106819834}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[3]'
+      value: 
+      objectReference: {fileID: 952935865}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1105352045}
+    - target: {fileID: 6070888208227813367, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1105352046}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 3195183162106819835}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: disableWhileOpen.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3195183162106819838}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3195183162106819837}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[2]'
+      value: 
+      objectReference: {fileID: 3195183162106819834}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[3]'
+      value: 
+      objectReference: {fileID: 952935865}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1105352045}
+    - target: {fileID: 6590510393986251898, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: 'disableWhileOpen.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1105352046}
     - target: {fileID: 7682722233887721028, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: inventory
       value: 
@@ -1925,6 +2012,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ee80c1d1783b2e48808cf0e6231789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.InventoryUI
+--- !u!114 &1105352046 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7682722233887721028, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+  m_PrefabInstance: {fileID: 1105352044}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab9e849e78f3ad188dcb89bb0d75c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.AltarUI
 --- !u!1001 &1288982170
 PrefabInstance:
   m_ObjectHideFlags: 0
