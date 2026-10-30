@@ -219,7 +219,35 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 *Pendiente — issues #35, #39 y #45.*
 
 ### 5.13 Niveles: las tres instancias
-*Pendiente — issues #16, #36, #40 y #46.*
+*Planos: issues #5, #30 y #38. Blockouts y niveles: #16, #36, #40 y #46.*
+
+**Qué hay.** Un plano por instancia, visto desde arriba, con el recorrido numerado en orden, los 3 objetos clave, el inicio y la salida, el altar del cuarto seguro, los grupos de cultistas (con cuántos son), las notas y los alijos secretos, el ancla de la entidad, por dónde ronda la entidad, las luces y las zonas oscuras, y la escala (10 m y la altura del Padre, 1.8 m). Todos siguen la misma estructura del GDD: **sección 1 → cuarto seguro → sección 2 → final de la entidad → huida**.
+
+![Instancia 1](img/niveles/instancia1_xochimilco.png)
+![Instancia 2](img/niveles/instancia2_hacienda.png)
+![Instancia 3](img/niveles/instancia3_convento.png)
+
+**Resumen de cada una.**
+| Instancia | Sección 1 | Cuarto seguro | Sección 2 y final | Huida |
+|---|---|---|---|---|
+| 1. Xochimilco | Embarcadero y cruce en trajinera por guion; 2 muñecas | Choza del cuidador | La isla con la Llorona rondando los canales; 3.ª muñeca; ritual en el ancla con 3 veladoras (3 oleadas de 3) | En trajinera, por guion |
+| 2. Hacienda | Trojes y casa grande; 2 monedas | Tienda de raya | Campo abierto con el Charro a caballo y panteón (3.ª moneda); capilla con pedestal, pila y 3 canaletas | A pie por el camino hasta el portón |
+| 3. Ex-convento | Templo, coro alto (+5 m) y claustro; 2 fragmentos | Celda del prior | Criptas (−4 m) a oscuras (3.er fragmento) y catacumbas (−9 m) con el ritual (4 oleadas de 4) | Túnel que sube a la barranca |
+
+**Cómo se hicieron.** Con el script `Tools/Planos/dibujar_planos.py`, que dibuja cada plano a partir de coordenadas en metros (x al este, y al norte). Así, cambiar el nivel es cambiar unos números y volver a correr el script, y el blockout en Unity copia las mismas coordenadas (1 unidad = 1 m). La leyenda calcula sola cuánto se camina.
+
+**Por qué así.**
+- **Recorrido en orden y legible sin explicación** (criterio del issue #5): números grandes en el mapa y la descripción de cada paso al lado.
+- **Objetos clave a la vista:** el jugador no debe perderse buscando; el reto son los cultistas, la oscuridad y la entidad.
+- **Dificultad creciente:** grupos de 2–3 cultistas en la instancia 1, de 3–4 en la 2 y de 4–5 en la 3, como dice la tabla de balance del GDD.
+- **La entidad marca el ritmo de la sección 2:** la Llorona en los canales, el Charro en el campo abierto (no entra a la capilla) y la Tzitzimime en las catacumbas.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo saben que dura unos 10 minutos? | Cada plano camina entre 150 y 470 m; a 3 m/s eso son 1 a 3 minutos de puro caminar, y el resto se va en explorar, pelear, craftear y el final. Se confirmará en los playtests (#21). |
+| ¿Dónde se guarda el progreso? | Al entrar y al salir del cuarto seguro de cada instancia; la huida no tiene checkpoint (GDD §5). |
+| ¿Son definitivos? | Son la base para el blockout; si un playtest muestra que algo es muy largo o difícil, se mueven los números en el script y se redibuja. |
 
 ### 5.14 UI: HUD, menús, pausa, derrota, victoria y créditos
 *HUD e inventario: issue #22. Menús, pausa, derrota, victoria y créditos: pendientes (#47 y #48).*
