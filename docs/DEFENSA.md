@@ -460,7 +460,7 @@ Usar otra vez la chancla o la cruz regresa el machete; si se tira, también. Las
 | ¿Cómo se desbloquea una receta? | `NotePickup` llama a `RecipeBook.Unlock` la primera vez que se lee la nota; el altar muestra la receta desde ese momento. |
 
 ### 5.12 Entidades: La Llorona, el Charro Negro y la Tzitzimime
-*La Llorona: issue #35. El Charro Negro: #39. La Tzitzimime (#45) está pendiente.*
+*La Llorona: issue #35. El Charro Negro: #39. La Tzitzimime: #45.*
 
 #### La Llorona (instancia 1)
 
@@ -561,6 +561,59 @@ El nivel real de la hacienda es #40.
 | ¿Cómo se sabe que el golpe fue con la cruz cargada? | `PlayerCombat` lanza `ChargedHitLanded` solo con golpes cargados, y la cruz es la única arma que carga. El Charro además revisa que esté débil. |
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
+
+#### La Tzitzimime (instancia 3, jefe final)
+
+**Qué hace.** Sigue la barra del mismo ritual de la Llorona (`RitualController`), en tres fases:
+
+1. **Fase 1:** se colocan los 3 fragmentos de obsidiana en el ancla y se reza con R. Solo llegan oleadas de cultistas (tabla de la instancia 3: 4 oleadas de 4).
+2. **Fase 2, a la mitad de la barra:** aparece colgada del techo de la catacumba, invisible ("Algo se arrastra por el techo… Revélala con copal"). Sigue al Padre por arriba y cada 7 s ataca un área: primero aparece un círculo rojo en el piso y 1.5 s después golpea con 20. Si el Padre sale del círculo a tiempo, no le pasa nada; si no, el golpe hace retroceder la barra.
+   - La barra **no avanza** mientras ella es invisible ("La barra no avanza: usa copal para revelarla").
+   - Con el humo del copal queda revelada 15 s y la barra avanza normal.
+   - Si además la alumbra con la linterna, avanza al doble: "luz y rezo" (GDD P9).
+3. **Fase 3, barra llena:** baja al piso en su forma final, con brillo rojo, y camina tras el Padre atacando cada 4 s mientras él huye a la salida. Llegar a la salida termina la campaña; la pantalla de victoria es #48.
+
+Las armas no la dañan. Si el Padre muere, ella vuelve a dormir y el ritual empieza de nuevo.
+
+![Tzitzimime revelada en el techo](img/ui/tzitzimime_revelada.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `TzitzimimeEntity` | `PF_Tzitzimime` | Estados `Dormant` → `Ceiling` → `FinalForm`. Lee el avance del ritual para pasar a la fase 2 y le dice a la barra qué tan rápido llenarse. Escucha `RitualController.Completed` y `PlayerRespawn.Respawned`. |
+| `TzitzimimeTuning` | `Data/Enemies/TzitzimimeTuning.asset` | Dónde empieza la fase 2 (50 %), velocidades de llenado, altura del techo, ataques (cada 7 s / 4 s, 1.5 s de aviso, 3 m, 20 de daño) y velocidad en la huida. |
+| `RitualController.FillMultiplier` (cambio) | ritual | Multiplica la velocidad de la barra. Vale 1 normalmente; la Tzitzimime lo pone en 0, 1 o 2. |
+| `Flashlight.Illuminates` (nuevo) | linterna | Dice si un objeto está dentro del haz: distancia, ángulo del cono y que no haya pared en medio. |
+| Copal (ya existía, #31) | `PF_HumoCopal` | Revela espíritus 15 s (`SpiritBody.Reveal`). |
+
+Mientras está en el techo cuelga de cabeza: el modelo se gira 180°.
+
+**Escena de prueba:** `Scenes/Test/TzitzimimeArena`. Es una catacumba de 24 × 20 m con techo a 5 m, antorchas, el ancla y las oleadas. También tiene:
+- 3 fragmentos de obsidiana, copal y agua bendita;
+- el cuarto seguro;
+- la salida.
+
+El nivel real del convento es #46.
+
+**Cómo se probó (Play Mode, `TzitzimimeArena`).**
+- **Fase 1:** con las ofrendas colocadas y R mantenida (simulada), la barra llegó a 0.5 y apareció en el techo.
+- **Barra detenida:** sin copal, la barra se quedó fija en 0.51.
+- **Ataque:** el círculo rojo apareció sobre el Padre; él no se movió, perdió 20 y la barra bajó a 0.41. En otro ataque se movió 3.6 m durante el aviso y no perdió vida.
+- **Copal y linterna:** con copal el multiplicador pasó a 1; con la linterna apuntándole, a 2; al apagarla volvió a 1.
+- **Fase 3:** con la barra llena bajó al piso y siguió al Padre (atacándolo una vez) hasta la salida, que marcó `Done`.
+- **Muerte:** al morir en la fase 2 volvió a `Dormant`, con la barra en 0 y el multiplicador en 1.
+- Consola sin errores. Las oleadas se apagaron en esta prueba porque ya se probaron en #34.
+
+**Errores que se encontraron en la prueba.**
+- De pie en el techo, desde abajo solo se le veían los pies. Ahora cuelga de cabeza.
+- La linterna nunca "la alumbraba": el rayo para revisar paredes chocaba con su propio cuerpo. Ahora `Illuminates` acepta que lo primero que toque el rayo sea ella misma.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo se "daña" con luz y rezo si no tiene vida? | Su "vida" es la barra del ritual: el rezo la llena, la luz la llena más rápido, y sin copal no se llena. |
+| ¿Por qué no se reutilizó el código de la Llorona? | Comparten piezas (`SpiritBody`, `RitualController`, `EntityPresence`), pero cada entidad tiene fases distintas según el GDD. Un script por entidad es más fácil de explicar que uno lleno de condiciones. |
+| ¿Cómo se esquiva el ataque? | El círculo rojo avisa 1.5 s antes; basta con salir de él. |
 
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles finales: #36, #40 y #46.*

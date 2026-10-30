@@ -34,6 +34,9 @@ namespace Animas.Levels
 
         public Stage Current { get; private set; } = Stage.WaitingOfferings;
         public float Progress { get; private set; }
+        // How fast praying fills the bar (1 = normal). The Tzitzimime sets 0 while she's invisible and
+        // more while the flashlight is on her (GDD §13: only revealed, with light and prayer).
+        public float FillMultiplier { get; set; } = 1f;
 
         public event Action<Stage> StageChanged;
         // The entity AI (#35, #45) listens: weaken and dissolve when the ritual completes.
@@ -90,7 +93,7 @@ namespace Animas.Levels
             if (!atAnchor || !prayAction.IsPressed()) return;
 
             if (Current == Stage.Ready) BeginRitual();
-            Progress = Mathf.Clamp01(Progress + Time.deltaTime / prayerSeconds);
+            Progress = Mathf.Clamp01(Progress + Time.deltaTime / prayerSeconds * FillMultiplier);
             bar.SetProgress(Progress);
             if (Progress >= 1f) Finish();
         }
@@ -130,6 +133,7 @@ namespace Animas.Levels
         {
             if (Current == Stage.Complete) return;
             Progress = 0f;
+            FillMultiplier = 1f;
             wavesStarted = false;
             if (waves != null) waves.ResetWaves();
             foreach (RitualCandle candle in candles) candle.SetLit(false);
