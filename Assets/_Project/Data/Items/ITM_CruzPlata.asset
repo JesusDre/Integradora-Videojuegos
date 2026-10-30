@@ -20,3 +20,4 @@ MonoBehaviour:
   healAmount: 0
   useEffect: {fileID: 11400000, guid: 2a860fab9dd568241ac663e2b94cab9f, type: 2}
   worldPrefab: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 79e5cb8280d08a71cb5b51f2b1023636, type: 3}

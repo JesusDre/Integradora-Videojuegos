@@ -18,4 +18,6 @@ MonoBehaviour:
   category: 5
   maxStack: 99
   healAmount: 0
+  useEffect: {fileID: 0}
   worldPrefab: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 21eb7b1f17bc68f4a813ec347bda8c82, type: 3}
