@@ -29,7 +29,7 @@ eyes = lp.make_material("Tzitzimime_Ojos", "#FF1A0A", roughness=0.3, emission_st
 
 # Long, thin limbs: a figure stretched beyond human proportions.
 bones = lp.humanoid_bones(hips=0.95, chest_top=1.40, shoulder_z=1.44, head_top=1.74, shoulder_x=0.17,
-                          elbow_x=0.50, wrist_x=0.82, hand_x=0.92, leg_x=0.09)
+                          elbow_x=0.54, wrist_x=0.92, hand_x=1.02, leg_x=0.09)
 rig = lp.build_armature("Tzitzimime", bones)
 
 b = lp.PartBuilder()
@@ -63,52 +63,63 @@ for z in (0.98, 1.05, 1.12, 1.19, 1.26, 1.33):
 b.lathe([(0.90, 0.155), (0.95, 0.16)], bone_mat, "Hips", segments=12, scale_y=0.72)   # pelvis rim
 starry((0, 0, 1.0), (0, 0, 1.4), 0.10, "Chest", 10)
 
-# Skirt of night with a torn hem, also starred.
-hem = b.lathe([(0.25, 0.30), (0.55, 0.24), (0.85, 0.16)], night, "Hips", segments=16, folds=8, fold_depth=0.12, scale_y=0.8)
-for v in {v for f in hem for v in f.verts}:
-    if v.co.z < 0.26:
-        v.co.z += rng.uniform(0.0, 0.18)
-b.lathe([(0.25, 0.29), (0.55, 0.23), (0.85, 0.15)], night, "Hips", segments=16, folds=8, fold_depth=0.12,
-        scale_y=0.8, inward=True)   # lining: the skirt is never see-through from below
-starry((0, 0, 0.4), (0, 0, 0.8), 0.24, "Hips", 10)
+# Loincloth instead of a skirt: torn strips of night-cloth front and back, with bones hanging between
+# them, so the skeletal legs show.
+for y, sign in ((-0.105, -1), (0.105, 1)):
+    for i, x in enumerate((-0.07, 0.0, 0.07)):
+        length = rng.uniform(0.28, 0.40)
+        b.box((x, y, 0.88 - length / 2), (0.06, 0.012, length), night, "Hips")
+        starry((x, y, 0.85), (x, y, 0.88 - length), 0.008, "Hips", 1)
+for x in (-0.115, 0.115):
+    b.tube((x, -0.06, 0.88), (x * 1.1, -0.07, 0.62), 0.012, 0.008, bone_mat, "Hips", segments=5)
+    b.tube((x, 0.06, 0.88), (x * 1.1, 0.07, 0.66), 0.012, 0.008, bone_mat, "Hips", segments=5)
+# A row of bony spikes down the back.
+for z in (1.02, 1.12, 1.22, 1.32):
+    bone = "Spine" if z < 1.17 else "Chest"
+    b.tube((0, 0.09, z), (0, 0.17, z + 0.05), 0.022, 0.0, bone_mat, bone, segments=5)
 
 # Skull with deep sockets, red eyes and a jaw full of teeth.
 b.tube((0, 0.01, 1.40), (0, 0.01, 1.55), 0.035, 0.032, bone_mat, "Neck", segments=8)
 b.sphere((0, 0.005, 1.63), 1.0, bone_mat, "Head", segments=12, rings=8, scale=(0.085, 0.095, 0.10))
-b.sphere((0, -0.035, 1.555), 1.0, bone_mat, "Head", segments=10, rings=6, scale=(0.06, 0.06, 0.04))
+b.sphere((0, -0.03, 1.525), 1.0, bone_mat, "Head", segments=10, rings=6, scale=(0.06, 0.06, 0.035))   # jaw hanging open
 for x in (-0.035, 0.035):
     b.sphere((x, -0.072, 1.635), 0.026, void, "Head", segments=8, rings=5, scale=(1.0, 0.7, 0.9))
     b.sphere((x, -0.086, 1.633), 0.011, eyes, "Head", segments=6, rings=4)
 b.sphere((0, -0.088, 1.598), 1.0, void, "Head", segments=6, rings=4, scale=(0.012, 0.008, 0.016))
-b.box((0, -0.088, 1.553), (0.065, 0.012, 0.008), void, "Head")
+b.box((0, -0.075, 1.548), (0.06, 0.03, 0.05), void, "Head")                            # open mouth
 for x in (-0.027, -0.009, 0.009, 0.027):
-    b.box((x, -0.092, 1.553), (0.012, 0.01, 0.024), bone_mat, "Head")                   # teeth
+    b.tube((x, -0.09, 1.575), (x, -0.092, 1.55), 0.006, 0.0, bone_mat, "Head", segments=4)   # upper fangs
+    b.tube((x, -0.08, 1.522), (x, -0.082, 1.545), 0.005, 0.0, bone_mat, "Head", segments=4)  # lower teeth
 
-# Headdress: a crown of obsidian rays like a starburst, each with a glowing red tip.
-for i in range(11):
-    a = math.radians(-100 + i * 20)          # fan across the top and sides of the head
-    tilt = math.radians(-12)                  # leaning back a little
-    root = Vector((0.07 * math.sin(a), 0.03, 1.66 + 0.07 * math.cos(a)))
-    direction = Vector((math.sin(a), math.sin(tilt) * -1, math.cos(a))).normalized()
-    length = 0.42 if i % 2 == 0 else 0.30
-    tip = root + direction * length
-    b.tube(tuple(root), tuple(root + direction * (length - 0.06)), 0.03, 0.012, obsidian, "Head", segments=5)
-    b.tube(tuple(root + direction * (length - 0.07)), tuple(tip), 0.013, 0.0, edge, "Head", segments=5)
+# Headdress: a black sun behind the head, like a ceremonial disc: an obsidian disc with a glowing red rim
+# and a fan of short rays around its upper part.
+CENTER = Vector((0, 0.11, 1.70))
+b.tube(tuple(CENTER), tuple(CENTER + Vector((0, 0.025, 0))), 0.20, 0.20, obsidian, "Head", segments=16)
+b.tube(tuple(CENTER + Vector((0, 0.026, 0))), tuple(CENTER + Vector((0, 0.035, 0))), 0.215, 0.215, edge, "Head", segments=16)
+for i in range(13):
+    a = math.radians(-110 + i * (220 / 12))
+    out = Vector((math.sin(a), 0, math.cos(a)))
+    length = 0.24 if i % 2 == 0 else 0.16
+    root = CENTER + out * 0.19 + Vector((0, 0.012, 0))
+    b.tube(tuple(root), tuple(root + out * (length - 0.05)), 0.03, 0.014, obsidian, "Head", segments=5)
+    b.tube(tuple(root + out * (length - 0.06)), tuple(root + out * length), 0.015, 0.0, edge, "Head", segments=5)
 
-# Long thin arms: dark with bony forearms, and long obsidian claws.
+# Very long, bony arms: dark upper arms, forearms of two bones, knobby hands and long curved obsidian
+# claws.
 for side, sign in (("Left", 1), ("Right", -1)):
     z = 1.44
-    b.tube((sign * 0.17, 0, z), (sign * 0.52, 0, z), 0.05, 0.034, night, f"{side}UpperArm", segments=8)
-    starry((sign * 0.17, 0, z), (sign * 0.50, 0, z), 0.04, f"{side}UpperArm", 4)
-    b.tube((sign * 0.47, 0, z), (sign * 0.83, 0, z), 0.03, 0.022, bone_mat, f"{side}LowerArm", segments=8)
-    b.tube((sign * 0.47, 0, z - 0.012), (sign * 0.83, 0, z - 0.012), 0.016, 0.014, bone_mat, f"{side}LowerArm", segments=6)
-    b.tube((sign * 0.80, 0, z), (sign * 0.90, 0, z), 0.026, 0.03, bone_mat, f"{side}Hand", segments=6)
-    for dz in (-0.027, -0.009, 0.009, 0.027):
-        knuckle = (sign * 0.90, 0, z + dz)
-        b.tube(knuckle, (sign * 0.97, -0.01, z + dz - 0.01), 0.008, 0.007, bone_mat, f"{side}Hand", segments=5)
-        b.tube((sign * 0.965, -0.01, z + dz - 0.01), (sign * 1.13, -0.07, z + dz - 0.07), 0.009, 0.0,
-               obsidian, f"{side}Hand", segments=5)                                       # claw
-    b.tube((sign * 0.86, -0.025, z), (sign * 0.98, -0.09, z - 0.03), 0.009, 0.0, obsidian, f"{side}Hand", segments=5)
+    b.tube((sign * 0.17, 0, z), (sign * 0.56, 0, z), 0.05, 0.034, night, f"{side}UpperArm", segments=8)
+    starry((sign * 0.17, 0, z), (sign * 0.54, 0, z), 0.04, f"{side}UpperArm", 4)
+    b.tube((sign * 0.51, 0, z), (sign * 0.93, 0, z + 0.008), 0.028, 0.02, bone_mat, f"{side}LowerArm", segments=8)
+    b.tube((sign * 0.51, 0, z - 0.014), (sign * 0.93, 0, z - 0.014), 0.016, 0.013, bone_mat, f"{side}LowerArm", segments=6)
+    b.tube((sign * 0.90, 0, z), (sign * 1.01, 0, z), 0.026, 0.032, bone_mat, f"{side}Hand", segments=6)
+    for dz in (-0.03, -0.01, 0.01, 0.03):
+        joint = (sign * 1.07, -0.01, z + dz - 0.01)
+        b.tube((sign * 1.01, 0, z + dz), joint, 0.009, 0.008, bone_mat, f"{side}Hand", segments=5)
+        b.tube(joint, (sign * 1.18, -0.07, z + dz - 0.06), 0.011, 0.006, obsidian, f"{side}Hand", segments=5)
+        b.tube((sign * 1.18, -0.07, z + dz - 0.06), (sign * 1.26, -0.15, z + dz - 0.15), 0.006, 0.0,
+               obsidian, f"{side}Hand", segments=5)                                       # long curved claw
+    b.tube((sign * 0.96, -0.03, z), (sign * 1.08, -0.12, z - 0.05), 0.01, 0.0, obsidian, f"{side}Hand", segments=5)
 
 # Legs: dark, thin, bony feet with claws.
 for side, sign in (("Left", 1), ("Right", -1)):
@@ -140,6 +151,9 @@ def merge(*dicts):
             out[k] = (x + v[0], y + v[1], z + v[2])
     return out
 
+
+# Base posture: hunched over, the head thrust forward and raised to stare at the player.
+hunch = {"Spine": (18, 0, 0), "Chest": (12, 0, 0), "Neck": (-8, 0, 0), "Head": (-20, 0, 0)}
 
 # CeilingCrawl (1.4 s): crawling on all fours like a spider. The code turns her upside down and sticks
 # her to the ceiling (#45); here she crawls as if on a floor. Aims: -Y forward, +X her left, +Z up.
@@ -176,33 +190,33 @@ stand_open = {"LeftUpperArm": (0.85, -0.3, -0.4), "RightUpperArm": (-0.85, -0.3,
               "LeftLowerArm": (0.8, -0.5, 0.0), "RightLowerArm": (-0.8, -0.5, 0.0)}
 shield = {"LeftUpperArm": (0.4, -0.7, 0.2), "RightUpperArm": (-0.4, -0.7, 0.2),
           "LeftLowerArm": (-0.6, -0.3, 0.75), "RightLowerArm": (0.6, -0.3, 0.75)}
-anim.pose(1, {}, aims=stand_open)
+anim.pose(1, hunch, aims=stand_open)
 for f, jerk in ((5, 1), (9, -1), (13, 1), (18, 0)):
     anim.pose(f, {"Spine": (-10, 0, 8 * jerk), "Chest": (-8, 0, 0), "Head": (15, 0, -10 * jerk)}, aims=shield)
-anim.pose(30, {}, aims=stand_open)
+anim.pose(30, hunch, aims=stand_open)
 
-# FinalIdle (3 s): standing tall, arms spread wide, the crown swaying, breathing slow and heavy.
+# FinalIdle (3 s): hunched, arms spread wide with the claws open, breathing slow and heavy.
 anim.new_clip("FinalIdle", 90, loop=True)
 for f, s in ((1, 0), (45, 1), (90, 0)):
-    anim.pose(f, {"Chest": (-6 * s, 0, 0), "Head": (-8 - 4 * s, 0, 5 * s)},
+    anim.pose(f, merge(hunch, {"Chest": (-6 * s, 0, 0), "Head": (-4 * s, 0, 5 * s)}),
               aims={"LeftUpperArm": (0.9, -0.25, -0.35 + 0.15 * s), "RightUpperArm": (-0.9, -0.25, -0.35 + 0.15 * s),
                     "LeftLowerArm": (0.85, -0.45, 0.1 * s), "RightLowerArm": (-0.85, -0.45, 0.1 * s)})
 
 # FinalAttack (1.2 s): winds up to one side and sweeps both claws across in front of her.
 anim.new_clip("FinalAttack", 36, loop=False)
-anim.pose(1, {}, aims=stand_open)
-anim.pose(12, {"Spine": (-6, 0, 35), "Chest": (0, 0, 15)},
+anim.pose(1, hunch, aims=stand_open)
+anim.pose(12, merge(hunch, {"Spine": (-6, 0, 35), "Chest": (0, 0, 15)}),
           aims={"LeftUpperArm": (0.6, 0.6, 0.2), "RightUpperArm": (-0.2, 0.9, 0.1),
                 "LeftLowerArm": (0.3, 0.8, 0.3), "RightLowerArm": (-0.1, 0.9, 0.2)})
-anim.pose(20, {"Spine": (12, 0, -35), "Chest": (6, 0, -15)},
+anim.pose(20, merge(hunch, {"Spine": (12, 0, -35), "Chest": (6, 0, -15)}),
           aims={"LeftUpperArm": (-0.2, -0.95, -0.1), "RightUpperArm": (-0.8, -0.5, -0.2),
                 "LeftLowerArm": (-0.5, -0.8, -0.2), "RightLowerArm": (-0.9, -0.3, -0.2)})
-anim.pose(36, {}, aims=stand_open)
+anim.pose(36, hunch, aims=stand_open)
 
 # Defeat (2 s): she reaches up, then crumbles to her knees and sinks; the "breaking into lights"
 # is a particle effect in code (#45).
 anim.new_clip("Defeat", 60, loop=False)
-anim.pose(1, {}, aims=stand_open)
+anim.pose(1, hunch, aims=stand_open)
 anim.pose(18, {"Chest": (-20, 0, 0), "Head": (-30, 0, 0)},
           aims={"LeftUpperArm": (0.3, -0.1, 0.95), "RightUpperArm": (-0.3, -0.1, 0.95),
                 "LeftLowerArm": (0.2, 0.0, 0.98), "RightLowerArm": (-0.2, 0.0, 0.98)})
