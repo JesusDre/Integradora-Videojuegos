@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca2e67db011180eaaafe0ee7eea4a31, type: 3}
+  m_Name: EFF_LanzarAguaBendita
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ThrowEffect
+  flaskPrefab: {fileID: 551476300962034496, guid: e4fc858c4fecaebdb8cda9d2cc69b7a6, type: 3}
+  throwSpeed: 12
+  upward: 2.5

@@ -356,7 +356,44 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Por qué las oleadas no esperan siempre a que mueras a todos? | Para que la tensión no baje: si el jugador se esconde, a los 25 s llega la siguiente. |
 
 ### 5.10 Objetos de fe y sus efectos
-*Pendiente — issue #31.*
+*Issue #31.*
+
+**Qué hace cada objeto** (se usan con las teclas 1–4, GDD §14 y §18):
+| Objeto | Cómo se usa | Efecto | Contra |
+|---|---|---|---|
+| Agua bendita | Se lanza hacia donde miras | Al romperse: 20 de daño a los espíritus en 3 m y los detiene 3 s. No daña humanos. | Espíritus |
+| Molotov de mezcal | Se lanza | Fuego de 3 m: 15 de daño por segundo durante 5 s. No quema al Padre. | Cultistas |
+| Línea de sal | Se pone en el suelo, de lado a lado frente al Padre | Durante 20 s ningún espíritu la cruza | Espíritus |
+| Veladora | Se pone en el suelo | Luz durante 45 s; delata (revela) a los espíritus a 8 m | Utilidad |
+| Copal | Se pone en el suelo | Humo que revela a los espíritus a 7 m durante 15 s (la Tzitzimime, fase 2) | Tzitzimime |
+| Chancla bendita | Se equipa en lugar del machete | 15 a humanos y 30 a espíritus | Espíritus |
+| Cruz de plata | Se equipa | Golpe normal de 10; manteniendo clic 1 s sale el golpe cargado (40 a espíritus), con barra "¡Cruz cargada!" | Charro Negro |
+
+Usar otra vez la chancla o la cruz regresa el machete; si se tira, también. Las cantidades que el GDD no fija están en `docs/PENDIENTES_DISENO.md`.
+
+**Cómo funciona.**
+| Pieza | Qué hace |
+|---|---|
+| `ItemEffect` | Clase base (ScriptableObject) de "qué pasa al usar". Cada objeto apunta a uno en `Data/Items/Effects`. `Inventory.UseSlot` lo llama y gasta el objeto si el efecto lo pide (las armas no se gastan). |
+| `ThrowEffect` + `ThrownFlask` | Lanzan un frasco con física (`Rigidbody`) que ignora el cuerpo del Padre; al chocar deja su efecto en el suelo. |
+| `HolyWaterSplash` / `FireArea` | La salpicadura y el fuego: buscan vidas cercanas con `Physics.OverlapSphere` y les quitan vida. El fuego aplica el daño en pasos de 0.25 s. |
+| `PlaceEffect` | Pone un objeto en el suelo frente al Padre, mirando hacia donde él mira; si no hay piso, no lo gasta. |
+| `SaltLine` | Es un `ISpiritWard` como el círculo del rezo: si un espíritu entra a la franja, lo regresa del lado de donde venía. |
+| `RevealArea` | Veladora y copal: cada medio segundo marca como revelados a los espíritus cercanos (`SpiritBody.Reveal`). |
+| `EquipMeleeEffect` + `ItemUser` | Cambian el arma cuerpo a cuerpo (`PlayerCombat.SetWeapon`) y regresan al machete cuando toca. |
+| `PlayerCombat` (cambio) | Armas con carga: mantener clic llena la barra y al soltar sale el golpe cargado; avisa con `ChargedHitLanded` (el Charro, #39, solo cuenta esos). |
+| `SpiritBody` (cambio) | `Stun` (lo detiene) y `Reveal` (lo hace visible), con eventos para las IA de las entidades. |
+
+**Por qué así.** Con un efecto por archivo, el inventario no tiene un `if` por cada objeto: el agua bendita y el molotov usan el mismo código de lanzar con distinto frasco. Y la línea de sal reutiliza las barreras del rezo, así que cualquier espíritu nuevo las respeta sin programar nada más.
+
+**Cómo se probó (Play Mode, `EnemyArena`).**
+- **Agua bendita:** un espíritu bajó de 60 a 40 y quedó detenido; un cultista junto a él siguió con 40.
+- **Molotov:** un cultista en el fuego murió en 3 s (40 de vida); el Padre siguió con 100.
+- **Línea de sal:** un espíritu que corría hacia el Padre se quedó del otro lado (a 0.6 m de la línea).
+- **Veladora y copal:** revelaron a los espíritus cercanos.
+- **Chancla:** un golpe le quitó 30 a un espíritu.
+- **Cruz:** con el clic mantenido (simulado con el Input System), la barra mostró "¡Cruz cargada!" y al soltar el golpe cargado mató al espíritu (30 → 0). Al tirar la cruz volvió el machete.
+- Consola sin errores.
 
 ### 5.11 Objetos clave, notas y recetas desbloqueables
 *Pendiente — issue #32.*

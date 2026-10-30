@@ -30,6 +30,8 @@ namespace Animas.Items
         public const int MaxPerMaterial = 99;
 
         [SerializeField] Health owner;
+        [Tooltip("Who uses the items (aim, weapons). On the Padre.")]
+        [SerializeField] ItemUser user;
         [Tooltip("Used when a dropped item has no world prefab of its own.")]
         [SerializeField] GameObject fallbackPickupPrefab;
 
@@ -49,6 +51,7 @@ namespace Animas.Items
         {
             for (int i = 0; i < SlotCount; i++) slots[i] = new InventorySlot();
             if (owner == null) owner = GetComponent<Health>();
+            if (user == null) user = GetComponent<ItemUser>();
         }
 
         public int MaterialCount(ItemDefinition material) =>
@@ -193,6 +196,19 @@ namespace Animas.Items
                 }
                 s.count--;
                 if (s.count == 0) s.Clear();
+                Changed?.Invoke();
+                return true;
+            }
+
+            // Faith objects and weapons (GDD §18): thrown, placed or equipped by their effect asset.
+            if (s.item.useEffect != null && user != null)
+            {
+                if (!s.item.useEffect.Use(user, s.item)) return false;
+                if (s.item.useEffect.ConsumesItem)
+                {
+                    s.count--;
+                    if (s.count == 0) s.Clear();
+                }
                 Changed?.Invoke();
                 return true;
             }

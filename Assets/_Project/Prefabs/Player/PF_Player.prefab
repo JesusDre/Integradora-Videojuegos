@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 5979250240870480494}
   - component: {fileID: 2270269953759454414}
   - component: {fileID: 9222903655437723414}
+  - component: {fileID: 4356258946889775197}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -277,6 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.Inventory
   owner: {fileID: 1857532811624091855}
+  user: {fileID: 4356258946889775197}
   fallbackPickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
 --- !u!114 &3503602647166584537
 MonoBehaviour:
@@ -399,6 +401,22 @@ MonoBehaviour:
   persistence: {fileID: 2270269953759454414}
   minimumHealth: 60
   autoRespawnSeconds: 3
+--- !u!114 &4356258946889775197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f04e552ce738d16abeaf8b37c69791d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemUser
+  aim: {fileID: 1062469166424127423}
+  combat: {fileID: 5209770782421535170}
+  weapons: {fileID: 9145848390486212298}
+  inventory: {fileID: 5157468773410539650}
 --- !u!1 &2419112120389781756
 GameObject:
   m_ObjectHideFlags: 0
