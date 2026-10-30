@@ -15,6 +15,10 @@ namespace Animas.Player
 
         InputAction lookAction;
         float pitch;
+        float kick;  // extra upward tilt from a swing or a hit, fading back to 0
+
+        // A small jolt of the camera: feedback for swings and for being hit.
+        public void AddKick(float degrees) => kick += degrees;
 
         void Awake()
         {
@@ -44,7 +48,9 @@ namespace Animas.Player
 
             // Clamping the pitch keeps the camera from flipping upside down (the rubric checks unplayable angles).
             pitch = Mathf.Clamp(pitch - delta.y, -tuning.maxPitch, tuning.maxPitch);
-            cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+            // The kick decays over time (deltaTime), so it lasts the same on any computer.
+            kick = Mathf.MoveTowards(kick, 0f, 20f * Time.deltaTime);
+            cameraPivot.localRotation = Quaternion.Euler(pitch - kick, 0f, 0f);
         }
     }
 }
