@@ -22,6 +22,8 @@ namespace Animas.Items
         [Header("Use")]
         [Tooltip("Health restored when used from a quick slot (bandage: 30). 0 = not a healing item.")]
         [Min(0f)] public float healAmount;
+        [Tooltip("What using it does (throw, place, equip). Empty: only healing items do something.")]
+        public ItemEffect useEffect;
 
         [Header("World")]
         [Tooltip("What appears on the floor when the player drops it. Empty: a generic box.")]

@@ -13,6 +13,30 @@ namespace Animas.Entities
         [SerializeField] NavMeshAgent agent;
 
         public event Action Repelled;
+        // Agua bendita stops a spirit's attack for a moment (GDD §18).
+        public event Action<float> Stunned;
+        // Veladora light and copal smoke make it visible (the Tzitzimime can only be hurt then).
+        public event Action Revealed;
+
+        public bool IsStunned => Time.time < stunnedUntil;
+        public bool IsRevealed => Time.time < revealedUntil;
+
+        float stunnedUntil;
+        float revealedUntil;
+
+        public void Stun(float seconds)
+        {
+            stunnedUntil = Mathf.Max(stunnedUntil, Time.time + seconds);
+            if (agent != null && agent.isOnNavMesh) agent.isStopped = true;
+            Stunned?.Invoke(seconds);
+        }
+
+        public void Reveal(float seconds)
+        {
+            bool wasHidden = !IsRevealed;
+            revealedUntil = Mathf.Max(revealedUntil, Time.time + seconds);
+            if (wasHidden) Revealed?.Invoke();
+        }
 
         void Awake()
         {
@@ -21,6 +45,9 @@ namespace Animas.Entities
 
         void LateUpdate()
         {
+            // The stun wears off by itself.
+            if (agent != null && agent.isOnNavMesh && agent.isStopped && !IsStunned) agent.isStopped = false;
+
             if (!SpiritWards.TryRepel(transform.position, out Vector3 safePoint)) return;
             // Warp keeps the NavMeshAgent in sync; moving the transform alone would fight the agent.
             if (agent != null && agent.isOnNavMesh) agent.Warp(safePoint);

@@ -31,6 +31,8 @@ namespace Animas.UI
         [SerializeField] StatBar prayerBar;
         [Tooltip("\"Rezo listo\" or the seconds left, under the stamina bar.")]
         [SerializeField] TMP_Text prayerStatus;
+        [Tooltip("The cruz de plata's charge reuses the prayer bar.")]
+        [SerializeField] PlayerCombat combat;
 
         [Header("Colors")]
         [SerializeField] Color healthColor = new Color(0.70f, 0.15f, 0.12f);
@@ -56,6 +58,7 @@ namespace Animas.UI
             if (weapons != null) weapons.Switched += OnWeaponSwitched;
             if (shotgun != null) shotgun.AmmoChanged += OnAmmoChanged;
             if (prayer != null) prayer.ProgressChanged += OnPrayerProgress;
+            if (combat != null) combat.ChargeProgress += OnChargeProgress;
         }
 
         void Start()
@@ -77,6 +80,7 @@ namespace Animas.UI
             if (weapons != null) weapons.Switched -= OnWeaponSwitched;
             if (shotgun != null) shotgun.AmmoChanged -= OnAmmoChanged;
             if (prayer != null) prayer.ProgressChanged -= OnPrayerProgress;
+            if (combat != null) combat.ChargeProgress -= OnChargeProgress;
         }
 
         void Update()
@@ -90,8 +94,14 @@ namespace Animas.UI
                 prayerStatus.text = prayer.IsReady ? "Rezo listo [R]" : $"Rezo en {Mathf.CeilToInt(prayer.CooldownLeft)} s";
         }
 
-        void OnPrayerProgress(float progress)
+        void OnChargeProgress(float progress) => ShowBar(progress, progress >= 1f ? "¡Cruz cargada!" : "Cargando la cruz…");
+
+        void OnPrayerProgress(float progress) => ShowBar(progress, "Rezando…");
+
+        void ShowBar(float progress, string text)
         {
+            var label = prayerBar.GetComponentInChildren<TMP_Text>();
+            if (label != null) label.text = text;
             // -1 means the Padre stopped praying (finished or let go of R).
             prayerBar.gameObject.SetActive(progress >= 0f);
             if (progress >= 0f) prayerBar.Set(progress, 1f);

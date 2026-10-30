@@ -20,6 +20,12 @@ namespace Animas.Items
         [Min(0f)] public float hitRadius = 0.35f;
         [Min(0f)] public float staminaCost = 15f;
 
+        [Header("Charged attack (cruz de plata)")]
+        [Tooltip("Seconds holding the click for a charged hit. 0 = this weapon has no charged attack.")]
+        [Min(0f)] public float chargeSeconds = 0f;
+        [Min(0f)] public float chargedDamageToHumans = 0f;
+        [Min(0f)] public float chargedDamageToSpirits = 0f;
+
         [Header("Feedback")]
         public AudioClip swingClip;
         public AudioClip hitClip;

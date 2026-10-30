@@ -23,11 +23,16 @@ namespace Animas.Player
 
         public event Action Swung;
         public event Action<Health, float> HitLanded;
+        // Cruz de plata: a charged hit landed (the Charro Negro, #39, only counts these).
+        public event Action<Health> ChargedHitLanded;
+        // 0..1 while holding the click with a chargeable weapon; -1 when not charging (HUD bar).
+        public event Action<float> ChargeProgress;
 
         PlayerStamina stamina;
         Health ownHealth;
         InputAction attackAction;
         float nextAttackTime;
+        float chargeStarted = -1f;
         readonly RaycastHit[] hits = new RaycastHit[16];  // reused every swing, so no garbage
 
         void Awake()
@@ -39,10 +44,40 @@ namespace Animas.Player
 
         void Update()
         {
-            if (attackAction.WasPressedThisFrame()) TryAttack();
+            if (weapon.chargeSeconds <= 0f)
+            {
+                if (attackAction.WasPressedThisFrame()) TryAttack();
+                return;
+            }
+            // Chargeable weapon: hold the click; letting go swings, charged if held long enough.
+            if (attackAction.WasPressedThisFrame()) chargeStarted = Time.time;
+            if (chargeStarted < 0f) return;
+            float progress = (Time.time - chargeStarted) / weapon.chargeSeconds;
+            if (attackAction.IsPressed())
+            {
+                ChargeProgress?.Invoke(Mathf.Clamp01(progress));
+                return;
+            }
+            chargeStarted = -1f;
+            ChargeProgress?.Invoke(-1f);
+            TryAttack(progress >= 1f);
         }
 
-        public bool TryAttack()
+        void OnDisable()
+        {
+            if (chargeStarted >= 0f) ChargeProgress?.Invoke(-1f);
+            chargeStarted = -1f;
+        }
+
+        // The chancla and the cruz replace the machete while equipped (ItemUser).
+        public void SetWeapon(MeleeWeaponDefinition newWeapon)
+        {
+            if (newWeapon == null) return;
+            weapon = newWeapon;
+            chargeStarted = -1f;
+        }
+
+        public bool TryAttack(bool charged = false)
         {
             if (Time.time < nextAttackTime) return false;
             // Exhausted: no swing at all (GDD: at 0 stamina the Padre can't run or attack until 25).
@@ -50,7 +85,7 @@ namespace Animas.Player
 
             nextAttackTime = Time.time + weapon.cooldown;
             Play(weapon.swingClip);
-            if (look != null) look.AddKick(swingKickDegrees);
+            if (look != null) look.AddKick(charged ? swingKickDegrees * 2.5f : swingKickDegrees);
             Swung?.Invoke();
 
             // A thick ray (sphere cast) is more forgiving than a thin one: grazing a cultist still counts.
@@ -73,10 +108,13 @@ namespace Animas.Player
             Health target = nearest != null ? nearest.GetComponentInParent<Health>() : null;
             if (target != null && target != ownHealth && !target.IsDead)
             {
-                float damage = target.Kind == HealthKind.Spirit ? weapon.damageToSpirits : weapon.damageToHumans;
+                float damage = target.Kind == HealthKind.Spirit
+                    ? (charged ? weapon.chargedDamageToSpirits : weapon.damageToSpirits)
+                    : (charged ? weapon.chargedDamageToHumans : weapon.damageToHumans);
                 target.TakeDamage(damage);
                 Play(weapon.hitClip);
                 HitLanded?.Invoke(target, damage);
+                if (charged) ChargedHitLanded?.Invoke(target);
             }
             return true;
         }

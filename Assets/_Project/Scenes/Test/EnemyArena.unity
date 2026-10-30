@@ -4261,6 +4261,10 @@ PrefabInstance:
       value: PF_HUD
       objectReference: {fileID: 0}
     - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
+      propertyPath: combat
+      value: 
+      objectReference: {fileID: 1799671030}
+    - target: {fileID: 3992780360121357407, guid: 572d2b569e84f85e68a2bf0b03bd71fb, type: 3}
       propertyPath: prayer
       value: 
       objectReference: {fileID: 952935865}
@@ -6970,6 +6974,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1784090796}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1799671030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5209770782421535170, guid: 340de122d96465aed83456fb80bfa834, type: 3}
+  m_PrefabInstance: {fileID: 1017074532}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45194b435c16710e4b9a0c8e67316e4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.PlayerCombat
 --- !u!1 &1806395257
 GameObject:
   m_ObjectHideFlags: 0
