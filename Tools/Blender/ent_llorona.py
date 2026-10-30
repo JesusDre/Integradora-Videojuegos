@@ -5,7 +5,9 @@ Design: docs/personajes/llorona.md. Run from the repo root:
 Outputs Assets/_Project/Art/Models/Characters/ent_llorona.fbx and the front/side sheet renders.
 """
 
+import math
 import os
+import random
 import sys
 
 sys.path.append(os.path.dirname(__file__))
@@ -18,60 +20,95 @@ dress = lp.make_material("Llorona_Vestido", "#D9DCD8", roughness=0.35)
 dress_wet = lp.make_material("Llorona_VestidoBorde", "#7F8B86", roughness=0.3)
 hair = lp.make_material("Llorona_Cabello", "#0B0B0D", roughness=0.25)
 skin = lp.make_material("Llorona_Piel", "#AEB6BA", roughness=0.7)
+hollow = lp.make_material("Llorona_Cuencas", "#0A0606", roughness=1.0)
+eyes = lp.make_material("Llorona_Ojos", "#FF1A0A", roughness=0.3, emission_strength=6.0)
 
-# Longer arms than a person: that's what makes her unsettling. She is scaled up after modeling (see K).
-bones = lp.humanoid_bones(hips=1.00, chest_top=1.44, shoulder_z=1.48, head_top=1.84,
-                          shoulder_x=0.17, elbow_x=0.47, wrist_x=0.77, hand_x=0.92, leg_x=0.09)
+# Thin body with dropped shoulders and longer arms than a person: that's what makes her unsettling.
+# She is scaled up after modeling (see K).
+bones = lp.humanoid_bones(hips=1.00, chest_top=1.42, shoulder_z=1.46, head_top=1.84,
+                          shoulder_x=0.15, elbow_x=0.46, wrist_x=0.77, hand_x=0.92, leg_x=0.08)
 rig = lp.build_armature("Llorona", bones)
 
 b = lp.PartBuilder()
-DEPTH = 0.8
+rng = random.Random(7)  # fixed seed: the torn hem and the hair strands come out the same every run
 
-# Long dress that touches the floor (no feet show: she seems to glide). The hem is a darker,
-# wet band; the skirt is pleated so the cloth reads in the flashlight.
-b.lathe([(0.0, 0.40), (0.08, 0.39)], dress_wet, "Hips", segments=22, folds=11, fold_depth=0.09, scale_y=DEPTH)
-b.lathe([(0.08, 0.39), (0.35, 0.35), (0.70, 0.27), (0.95, 0.17), (1.03, 0.15)], dress, "Hips",
-        segments=22, folds=11, fold_depth=0.09, scale_y=DEPTH)
-b.lathe([(1.03, 0.15), (1.24, 0.155)], dress, "Spine", segments=14, scale_y=0.75)
-b.lathe([(1.24, 0.155), (1.40, 0.165), (1.48, 0.09)], dress, "Chest", segments=14, scale_y=0.75, cap_top=True)
+# Long dress that falls loose to the floor (no feet show: she seems to glide). The hem is a darker,
+# wet band torn into uneven strips.
+hem = b.lathe([(0.0, 0.345), (0.12, 0.335)], dress_wet, "Hips", segments=24, folds=12, fold_depth=0.1, scale_y=0.8)
+for v in {v for f in hem for v in f.verts}:
+    if v.co.z < 0.01:
+        v.co.z += rng.uniform(0.0, 0.11)       # ragged edge
+        v.co.x *= 1.0 + rng.uniform(0.0, 0.06)  # strips hang a little loose
+b.lathe([(0.12, 0.335), (0.40, 0.30), (0.70, 0.23), (0.93, 0.15), (1.03, 0.125)], dress, "Hips",
+        segments=24, folds=12, fold_depth=0.1, scale_y=0.8)
+b.lathe([(1.03, 0.125), (1.22, 0.13)], dress, "Spine", segments=14, scale_y=0.7)
+b.lathe([(1.22, 0.13), (1.36, 0.14), (1.45, 0.075)], dress, "Chest", segments=14, scale_y=0.7, cap_top=True)
 
-# Neck and head (the face is never seen: the hair covers it).
-b.tube((0, 0.01, 1.45), (0, 0.01, 1.58), 0.038, 0.036, skin, "Neck", segments=8)
-b.sphere((0, 0.0, 1.67), 1.0, skin, "Head", segments=12, rings=8, scale=(0.085, 0.095, 0.11))
+# Neck and a gaunt face: sunken dark sockets with glowing red eyes and an open mouth. The hair hides
+# it most of the time; it shows between the strands, from below, or when she throws her head back.
+b.tube((0, 0.01, 1.43), (0, 0.01, 1.58), 0.032, 0.030, skin, "Neck", segments=8)
+b.sphere((0, 0.0, 1.67), 1.0, skin, "Head", segments=12, rings=8, scale=(0.08, 0.092, 0.112))
+for x in (-0.03, 0.03):
+    b.sphere((x, -0.078, 1.69), 0.024, hollow, "Head", segments=8, rings=5, scale=(1.0, 0.6, 0.9))
+    b.sphere((x, -0.088, 1.688), 0.009, eyes, "Head", segments=6, rings=4)
+b.sphere((0, -0.084, 1.605), 1.0, hollow, "Head", segments=8, rings=5, scale=(0.02, 0.012, 0.034))
 
-# Hair: a cap on the head, long wet locks over the face and the sides that follow the head, and longer
-# locks down the chest and back that follow the chest. Splitting it like this keeps the hair out of the
-# dress when she bows her head; the chest locks start a little higher and wider, so the seam is hidden.
-# Folds are shallow: deep folds would dip the strands into the body.
-b.lathe([(1.58, 0.105), (1.66, 0.112), (1.74, 0.095), (1.79, 0.055), (1.81, 0.0)], hair, "Head",
-        segments=14, scale_y=1.1)
-b.lathe([(1.50, 0.13), (1.60, 0.122), (1.72, 0.102)], hair, "Head",
-        segments=10, arc=(205, 335), folds=12, fold_depth=0.07, scale_y=1.15)       # over the face
-b.lathe([(1.48, 0.135), (1.62, 0.122), (1.74, 0.102)], hair, "Head",
-        segments=12, arc=(25, 155), folds=14, fold_depth=0.07, scale_y=1.15)        # back of the head
-b.lathe([(1.50, 0.13), (1.62, 0.12), (1.72, 0.10)], hair, "Head",
-        segments=4, arc=(150, 215), folds=6, fold_depth=0.06, scale_y=1.15)          # left side, above the shoulder
-b.lathe([(1.50, 0.13), (1.62, 0.12), (1.72, 0.10)], hair, "Head",
-        segments=4, arc=(325, 390), folds=6, fold_depth=0.06, scale_y=1.15)          # right side
-b.lathe([(1.10, 0.19), (1.30, 0.17), (1.46, 0.155), (1.56, 0.145)], hair, "Chest",
-        segments=10, arc=(215, 325), folds=12, fold_depth=0.06, scale_y=1.15)       # down the chest
-b.lathe([(1.00, 0.20), (1.20, 0.18), (1.40, 0.16), (1.55, 0.148)], hair, "Chest",
-        segments=12, arc=(30, 150), folds=14, fold_depth=0.06, scale_y=1.15)        # down the back
+# Hair: a cap on the head and long wet strands of different lengths, clumped like wet hair. Each strand
+# has a top part that follows the head and a lower part that follows the chest (they overlap at the
+# seam), and it hangs a little away from the body so it never cuts into the dress. The strands in front
+# of the face leave gaps, so sometimes the face and the red eyes show through.
+cap = b.lathe([(1.58, 0.100), (1.66, 0.106), (1.74, 0.09), (1.79, 0.052), (1.81, 0.0)], hair, "Head",
+               segments=14, scale_y=1.1)
+b.delete_faces(cap, lambda c, n: c.y < -0.04 and c.z < 1.76)  # the cap only covers the top and back
 
-# Thin, long arms with torn short sleeves; long fingers.
+
+def strand(angle, end_z, thickness, front):
+    a = math.radians(angle)
+    out = (math.cos(a), math.sin(a) * 1.15)
+    sway = rng.uniform(-0.015, 0.015)
+    root = (out[0] * 0.09, out[1] * 0.09, 1.76)
+    seam_head = (out[0] * 0.128, out[1] * 0.128, 1.50)
+    seam_body = (out[0] * 0.135 + sway, out[1] * 0.135, 1.53)
+    spread = 0.17 if front else 0.19
+    tip = (out[0] * spread + 2 * sway, out[1] * spread, end_z)
+    b.tube(root, seam_head, thickness, thickness * 1.1, hair, "Head", segments=5)
+    if end_z < 1.45:
+        b.tube(seam_body, tip, thickness * 1.1, thickness * 0.35, hair, "Chest", segments=5)
+
+
+# In front of the face, parted in the middle (270 is straight ahead). The part is about as wide as her
+# eyes, so depending on the angle one or both red eyes peek through.
+for angle in (216, 229, 241, 302, 314, 327):  # a bit uneven: one eye shows more than the other
+    strand(angle, rng.uniform(0.95, 1.20), rng.uniform(0.018, 0.024), front=True)
+# Down the back, to the hips.
+for i in range(11):
+    strand(22 + i * 13.6 + rng.uniform(-3, 3), rng.uniform(0.78, 1.05), rng.uniform(0.026, 0.035), front=False)
+# The sides stop above the shoulders so the arms move freely.
+for angle in (190, 205, 335, 350):
+    strand(angle, 1.50, 0.026, front=False)
+
+# Long thin arms: tapered bones with knobby elbows and wrists that cover the joints when they bend,
+# a narrow palm and long bony fingers that curl down a little; torn short sleeves.
 for side, sign in (("Left", 1), ("Right", -1)):
-    # The sleeve follows the upper arm, so it comes down with it.
-    b.tube((sign * 0.17, 0, 1.48), (sign * 0.31, 0, 1.48), 0.05, 0.045, dress, f"{side}UpperArm", segments=8, cap=False)
-    b.tube((sign * 0.17, 0, 1.48), (sign * 0.47, 0, 1.48), 0.034, 0.029, skin, f"{side}UpperArm", segments=8)
-    b.tube((sign * 0.47, 0, 1.48), (sign * 0.77, 0, 1.48), 0.029, 0.022, skin, f"{side}LowerArm", segments=8)
-    b.box((sign * 0.80, 0, 1.48), (0.07, 0.022, 0.055), skin, f"{side}Hand")
-    for dz in (-0.021, -0.007, 0.007, 0.021):
-        b.box((sign * 0.89, 0, 1.48 + dz), (0.12, 0.011, 0.011), skin, f"{side}Hand")
-    b.box((sign * 0.80, -0.03, 1.48), (0.06, 0.012, 0.012), skin, f"{side}Hand")
+    z = 1.46
+    b.tube((sign * 0.15, 0, z), (sign * 0.30, 0, z), 0.048, 0.043, dress, f"{side}UpperArm", segments=8, cap=False)
+    b.tube((sign * 0.15, 0, z), (sign * 0.46, 0, z), 0.034, 0.026, skin, f"{side}UpperArm", segments=8)
+    b.sphere((sign * 0.46, 0, z), 0.029, skin, f"{side}LowerArm", segments=8, rings=5)
+    b.tube((sign * 0.46, 0, z), (sign * 0.77, 0, z), 0.026, 0.018, skin, f"{side}LowerArm", segments=8)
+    b.sphere((sign * 0.77, 0, z), 0.021, skin, f"{side}Hand", segments=8, rings=5)
+    b.tube((sign * 0.77, 0, z), (sign * 0.84, 0, z - 0.004), 0.02, 0.024, skin, f"{side}Hand", segments=6)
+    for dz in (-0.018, -0.006, 0.006, 0.018):
+        length = 0.07 if abs(dz) < 0.01 else 0.06
+        knuckle = (sign * 0.84, 0, z + dz)
+        joint = (sign * (0.84 + length), -0.006, z + dz - 0.008)
+        tip = (sign * (0.84 + length * 1.75), -0.016, z + dz - 0.028)
+        b.tube(knuckle, joint, 0.0065, 0.0055, skin, f"{side}Hand", segments=5)
+        b.tube(joint, tip, 0.0055, 0.003, skin, f"{side}Hand", segments=5)
+    b.tube((sign * 0.79, -0.015, z), (sign * 0.84, -0.04, z - 0.012), 0.007, 0.004, skin, f"{side}Hand", segments=5)
     # Legs exist for the Humanoid rig but stay hidden inside the dress.
-    b.tube((sign * 0.09, 0, 0.97), (sign * 0.09, 0, 0.52), 0.05, 0.04, dress, f"{side}UpperLeg", segments=6)
-    b.tube((sign * 0.09, 0, 0.52), (sign * 0.09, 0, 0.10), 0.04, 0.03, dress, f"{side}LowerLeg", segments=6)
-    b.box((sign * 0.09, -0.04, 0.05), (0.06, 0.16, 0.05), dress, f"{side}Foot")
+    b.tube((sign * 0.08, 0, 0.97), (sign * 0.08, 0, 0.52), 0.045, 0.035, dress, f"{side}UpperLeg", segments=6)
+    b.tube((sign * 0.08, 0, 0.52), (sign * 0.08, 0, 0.10), 0.035, 0.028, dress, f"{side}LowerLeg", segments=6)
+    b.box((sign * 0.08, -0.04, 0.05), (0.055, 0.15, 0.05), dress, f"{side}Foot")
 
 body, triangles = b.finish("Llorona", rig)
 
@@ -148,6 +185,18 @@ anim.pose(15, merge(lp.arms_down(spread=2, forward=-25, elbow=40), hunch, {"Spin
           {"Hips": (0, 0, K * -0.15)})
 anim.pose(45, merge(lp.arms_down(spread=2, forward=-30, elbow=60), hunch, {"Spine": (35, 0, 0), "Head": (30, 0, 0)}),
           {"Hips": (0, 0, K * -0.85)})
+
+# Scream (1.2 s): she throws her head back and opens her arms; the hair falls away from the face and
+# the red eyes show. The code triggers it near the player (#35), together with the scream sound.
+anim.new_clip("Scream", 36, loop=False)
+anim.pose(1, merge(hang, hunch))
+anim.pose(8, merge(hunch, {"Spine": (-6, 0, 0), "Chest": (-12, 0, 0), "Neck": (-15, 0, 0), "Head": (-30, 0, 0)}),
+          aims={"LeftUpperArm": (0.75, -0.3, -0.35), "RightUpperArm": (-0.75, -0.3, -0.35),
+                "LeftLowerArm": (0.7, -0.55, -0.1), "RightLowerArm": (-0.7, -0.55, -0.1)})
+anim.pose(26, merge(hunch, {"Spine": (-8, 0, 0), "Chest": (-14, 0, 0), "Neck": (-17, 0, 0), "Head": (-34, 0, 4)}),
+          aims={"LeftUpperArm": (0.8, -0.25, -0.3), "RightUpperArm": (-0.8, -0.25, -0.3),
+                "LeftLowerArm": (0.75, -0.5, -0.05), "RightLowerArm": (-0.75, -0.5, -0.05)})
+anim.pose(36, merge(hang, hunch))
 
 lp.export_fbx(rig, [body], "ent_llorona.fbx")
 print(f"[llorona] done, {triangles} triangles")
