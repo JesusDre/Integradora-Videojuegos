@@ -23,6 +23,6 @@ MonoBehaviour:
       cabalga entre la capilla, el pante\xF3n y el port\xF3n."
     sceneName: I2_Hacienda
   - displayName: "3 \xB7 Ex-convento"
-    description: Claustro, criptas y catacumbas. La Tzitzimime espera en el techo.
-      (Escena de prueba hasta el nivel #46.)
-    sceneName: TzitzimimeArena
+    description: Templo, claustro, criptas y catacumbas de un ex-convento. La Tzitzimime
+      espera en el techo de las catacumbas.
+    sceneName: I3_Convento

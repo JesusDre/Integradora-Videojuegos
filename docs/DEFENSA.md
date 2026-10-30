@@ -616,7 +616,7 @@ El nivel real del convento es #46.
 | ¿Cómo se esquiva el ataque? | El círculo rojo avisa 1.5 s antes; basta con salir de él. |
 
 ### 5.13 Niveles: las tres instancias
-*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Nivel de la instancia 2: #40. Pendientes: arte final de la 1 (#36) y nivel de la 3 (#46).*
+*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Pendiente: arte final de la 1 (#36).*
 
 **Qué hay.** Un plano por instancia, visto desde arriba, con el recorrido numerado en orden, los 3 objetos clave, el inicio y la salida, el altar del cuarto seguro, los grupos de cultistas (con cuántos son), las notas y los alijos secretos, el ancla de la entidad, por dónde ronda la entidad, las luces y las zonas oscuras, y la escala (10 m y la altura del Padre, 1.8 m). Todos siguen la misma estructura del GDD: **sección 1 → cuarto seguro → sección 2 → final de la entidad → huida**.
 
@@ -706,6 +706,40 @@ El nivel real del convento es #46.
 - La choza se movió de su posición original. Al hornear el NavMesh hay que sincronizar la física (`Physics.SyncTransforms`); si no, los muros cuentan donde estaban antes. Se volvieron a hornear `I2_Hacienda`, `CharroArena` y `TzitzimimeArena`.
 - Las puertas del cuarto seguro cuentan como muro en el NavMesh porque empiezan cerradas: los cultistas no deben entrar. El Padre no usa el NavMesh, así que no le afecta.
 
+**Nivel de la instancia 3: el ex-convento** (*issue #46*). La escena `Scenes/Levels/I3_Convento` (160 × 130 m) es la única con **cuatro alturas**, como pide el plano:
+
+| Altura | Zona | Qué hay |
+|---|---|---|
+| +5 m | Coro alto del templo | Se sube por una rampa junto al muro este (en el plano, la escalera de caracol). Ahí está el primer fragmento. |
+| 0 m | Atrio, templo, claustro, celda | Templo con bancas, altar mayor y antorchas. Claustro de galerías techadas alrededor de un jardín con columnas, con G1 (4) y G2 (5). La sala capitular está a oscuras y guarda el segundo fragmento. La nota del copal está en el claustro y el alijo de resina y brasas, en una esquina. La celda del prior es el cuarto seguro (`I3_CeldaPrior`). |
+| −4 m | Criptas | Bajo tierra, por una escalera desde el patio de la celda. Filas de osarios, el encuentro G3 (4), el tercer fragmento y un alijo de sal y botellas (GDD P5). |
+| −9 m | Catacumbas | Por un pasillo en rampa desde las criptas. Aquí están el ancla, el ritual con 4 oleadas de 4 (`DIF_Instancia3`) y la Tzitzimime: el techo está a 5 m del piso, justo donde ella cuelga. |
+
+**Huida.** Un túnel de 100 m sube de −9 a 0 hasta la barranca, donde está la salida. La reja del túnel tiene candado y el ritual la abre al completarse. No hay checkpoint en la huida y el derrumbe (deseable) no se hizo.
+
+![Ex-convento: el templo y el coro alto](img/niveles/i3_blockout_templo.png)
+
+| Pieza nueva | Qué hace |
+|---|---|
+| `RitualController.escapeDoor` (cambio) | Una puerta opcional que el ritual desbloquea y abre al terminar. Es la reja del túnel, igual que la trajinera de huida en la instancia 1. |
+| `RitualAtmosphere` | La "niebla roja durante el ritual" del GDD (§9): mientras se reza en el ancla, la niebla se vuelve roja y más densa en 4 s. Al terminar o reiniciar el ritual, regresa a la niebla del nivel. |
+
+**Cómo se probó (Play Mode, `PathWalker` a ×4; cultistas apagados para probar la geometría).**
+1. Atrio → rampa → coro alto (+5 m): fragmento 1.
+2. Claustro → sala capitular: fragmento 2. Luego la nota del copal.
+3. Celda del prior: se guardó con 2 fragmentos.
+4. Escalera → criptas (−4 m): fragmento 3.
+5. Pasillo → catacumbas (−9 m): las 3 ofrendas en el ancla.
+6. Ritual: la Tzitzimime subió al techo a la mitad de la barra. Con copal y linterna se llenó; tomó su forma final, la reja se abrió y la niebla se puso roja durante el rezo.
+7. Túnel → barranca: "¡La Tzitzimime ha sido sellada!".
+
+**Con cultistas:** G1, G2 y G3 aparecieron con 4, 5 y 4, y la primera oleada del ritual con 4. Todos estaban sobre el NavMesh en su piso (0, 0, −4 y −9). Consola sin errores.
+
+**Detalles que salieron en la prueba.**
+- La rampa de las criptas a las catacumbas pasaba bajo el techo de las catacumbas con 1.5 m libres y nadie cabía. Ahora es un pasillo que baja a lo largo y entra cuando ya está abajo.
+- Las bancas del templo estaban pegadas a la rampa del coro y el Padre se atoraba en su orilla. Se separaron 2 m.
+- La reja del túnel abría hacia adentro del túnel y lo tapaba (y la Tzitzimime alcanzaba al Padre atorado). Ahora abre hacia las catacumbas.
+
 **Preguntas probables.**
 | Pregunta | Respuesta |
 |---|---|
@@ -773,7 +807,7 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | Script | Dónde | Qué hace |
 |---|---|---|
 | `MainMenu` | escena `MainMenu` | Muestra un panel a la vez (principal, selección, opciones, créditos) y deja seleccionado el primer botón para que el teclado funcione. Esc regresa al panel principal. |
-| `InstanceCatalog` | `Data/InstanceCatalog.asset` | La lista de instancias: nombre, descripción y escena. La 1 y la 2 cargan sus niveles (`I1_Xochimilco`, `I2_Hacienda`); la 3 carga `TzitzimimeArena` hasta que exista su nivel (#46). Cambiar de escena es cambiar un nombre en el Inspector. |
+| `InstanceCatalog` | `Data/InstanceCatalog.asset` | La lista de instancias: nombre, descripción y escena. Cada instancia carga su nivel (`I1_Xochimilco`, `I2_Hacienda`, `I3_Convento`); cambiar de escena es cambiar un nombre en el Inspector. |
 | `GameProgress` | estático | Qué instancias están abiertas (la 1 siempre). La pantalla de victoria (#48) abre la siguiente. |
 | `SceneFlow` | estático | Cargar menú, empezar instancia o continuar. Siempre devuelve el tiempo a velocidad normal antes de cambiar de escena. |
 | `GameSettings` | estático | Los valores de Opciones en `PlayerPrefs` (aparte de la partida). Lanza `Changed` y cada sistema se actualiza solo: `PlayerLook` (sensibilidad e invertir Y), `SubtitleUI` (no muestra nada si están apagados), `AudioListener` (volumen general) y `AudioVolume` (música, efectos y voces). |
