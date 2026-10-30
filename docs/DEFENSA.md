@@ -326,7 +326,34 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Qué pasa si se borra un objeto del juego y había uno guardado? | `PlayerPersistence` lo salta y deja un aviso en la consola; la partida carga igual. |
 
 ### 5.9 Encuentros, oleadas y dificultad
-*Pendiente — issue #27.*
+*Issue #27.*
+
+**Qué hace.** Los cultistas no están todos desde el inicio: cada sección tiene zonas de encuentro. Cuando el Padre entra a una, aparece un grupo (2–3 en Xochimilco, 3–4 en la hacienda, 4–5 en el convento) que patrulla o embosca. Pasa una sola vez y nunca dentro del cuarto seguro. En el ritual llegan oleadas (3 de 3 en Xochimilco, 4 de 4 en el convento): cada una sale cuando se vence la anterior o, a lo más, 25 s después. Cada instancia es más difícil que la anterior: cultistas más rápidos, que pegan más fuerte y ven más lejos. Al morir, un cultista puede soltar materiales (sal, trapo, tela, casquillos, balas). La tabla completa está en el GDD §20.
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `InstanceDifficulty` | `Data/Difficulty/DIF_Instancia1..3` | Cuántos cultistas por encuentro, su `CultistTuning`, las oleadas y el botín. Una instancia más difícil es otro archivo con otros números. |
+| `CultistTuning_I2`, `_I3` | `Data/Enemies` | Copias del ajuste del cultista con más velocidad, daño, vista y menos espera. |
+| `CultistSpawner` | código | Crea un cultista con el ajuste de la instancia, su ruta, alerta si es emboscada y, al morir, tira el botín (`PickupItem`). |
+| `Encounter` | zona con `BoxCollider` en el nivel | Cuando el Padre entra (revisando su posición), aparece el grupo una vez. Avisa con `Started` y `Cleared`. |
+| `WaveSpawner` | objeto en la zona del ritual | `Begin`, `Stop` y los eventos `WaveStarted` y `AllWavesDefeated`, para el ritual (#34). |
+| `CultistAI.SetTuning` | Cultista | Cambia su ajuste al aparecer. Un cultista que nace persiguiendo ya no se reinicia a patrullar. |
+
+**Por qué así.** Los encuentros por guion (no aleatorios) hacen que cada partida sea justa y que el nivel se pueda diseñar: el GDD deja el "Director de ritmo" como deseable. La dificultad vive en datos para ajustarla en los playtests.
+
+**Cómo se probó (Play Mode, `EnemyArena`, que tiene una zona de encuentro en el centro y un botón "Iniciar oleadas del ritual").**
+- **Encuentro:** al entrar a la zona aparecieron 2 cultistas (un tiro de 2–3). Al vencerlos aparecieron 2 objetos de botín, y al volver a entrar no salieron más.
+- **Oleadas:** con `Begin`, a los 2 s salió la oleada 1 (3 cultistas persiguiendo). Al vencerla salieron la 2 y la 3; al vencer la 3 terminaron (`Finished`).
+- **Instancia 3:** un cultista creado con su dificultad usó `CultistTuning_I3` (daño 14, persecución 3.9 m/s) y siguió persiguiendo después de su `Start`.
+- Consola sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo se nota que cada instancia es más difícil? | Más cultistas por grupo, más rápidos, más daño y más oleadas (tabla del GDD §20). |
+| ¿Por qué el encuentro no se repite? | Para que el jugador avance; si muere, reaparece en el cuarto seguro y lo que ya limpió no vuelve. |
+| ¿Por qué las oleadas no esperan siempre a que mueras a todos? | Para que la tensión no baje: si el jugador se esconde, a los 25 s llega la siguiente. |
 
 ### 5.10 Objetos de fe y sus efectos
 *Pendiente — issue #31.*

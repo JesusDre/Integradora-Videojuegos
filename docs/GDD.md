@@ -477,6 +477,16 @@ No hay moneda: la economía se basa en materiales y en el espacio limitado del i
 
 **Escalado:** en el MVP la dificultad sube por diseño (más cultistas por encuentro en cada instancia). El Director de ritmo (deseable) la ajustaría según la salud y los recursos del jugador.
 
+**Dificultad por instancia** (valores iniciales, en `Data/Difficulty` y `Data/Enemies`):
+
+| Instancia | Cultistas por encuentro | Persecución | Daño por golpe | Vista | Espera entre ataques | Oleadas del ritual | Botín de los cultistas |
+|---|---|---|---|---|---|---|---|
+| 1\. Xochimilco | 2–3 | 3.5 m/s | 10 | 15 m | 1.5 s | 3 de 3 | sal, trapo, a veces balas |
+| 2\. Hacienda | 3–4 | 3.7 m/s | 12 | 16 m | 1.4 s | sin barra (encuentros por guion) | sal, trapo, tela, casquillos |
+| 3\. Ex-convento | 4–5 | 3.9 m/s | 14 | 17 m | 1.3 s | 4 de 4 | sal, tela, casquillos, a veces balas |
+
+En el ritual, cada oleada llega cuando se vence la anterior o, como máximo, 25 s después.
+
 **Modos:**
 
 | Modo               | Cambios                                           |
