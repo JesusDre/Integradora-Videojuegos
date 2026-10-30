@@ -1,11 +1,13 @@
 using Animas.Core;
 using Animas.Items;
 using Animas.Player;
+using TMPro;
 using UnityEngine;
 
 namespace Animas.UI
 {
-    // The always-visible HUD (GDD §16): life and stamina bottom left, the 4 quick slots bottom center.
+    // The always-visible HUD (GDD §16): life and stamina bottom left, the 4 quick slots bottom center,
+    // the weapon in hand and, with the shotgun, its ammo (loaded | in the inventory) bottom right.
     // Everything updates from events (Health.Changed, PlayerStamina.Changed, Inventory.Changed), never
     // by checking every frame.
     public class HUDController : MonoBehaviour
@@ -16,6 +18,12 @@ namespace Animas.UI
         [SerializeField] StatBar healthBar;
         [SerializeField] StatBar staminaBar;
         [SerializeField] ItemSlotView[] quickSlots = new ItemSlotView[Inventory.QuickSlotCount];
+
+        [Header("Weapon")]
+        [SerializeField] WeaponSwitcher weapons;
+        [SerializeField] PlayerShotgun shotgun;
+        [SerializeField] TMP_Text weaponLabel;
+        [SerializeField] TMP_Text ammoLabel;
 
         [Header("Colors")]
         [SerializeField] Color healthColor = new Color(0.70f, 0.15f, 0.12f);
@@ -38,6 +46,8 @@ namespace Animas.UI
             playerHealth.Changed += OnHealthChanged;
             playerStamina.Changed += OnStaminaChanged;
             playerInventory.Changed += OnInventoryChanged;
+            if (weapons != null) weapons.Switched += OnWeaponSwitched;
+            if (shotgun != null) shotgun.AmmoChanged += OnAmmoChanged;
         }
 
         void Start()
@@ -47,6 +57,7 @@ namespace Animas.UI
             OnStaminaChanged(playerStamina.Current, playerStamina.Max);
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].SetKey((i + 1).ToString());
             OnInventoryChanged();
+            if (weapons != null) OnWeaponSwitched(weapons.Current);
         }
 
         void OnDisable()
@@ -54,6 +65,8 @@ namespace Animas.UI
             if (playerHealth != null) playerHealth.Changed -= OnHealthChanged;
             if (playerStamina != null) playerStamina.Changed -= OnStaminaChanged;
             if (playerInventory != null) playerInventory.Changed -= OnInventoryChanged;
+            if (weapons != null) weapons.Switched -= OnWeaponSwitched;
+            if (shotgun != null) shotgun.AmmoChanged -= OnAmmoChanged;
         }
 
         void Update()
@@ -78,6 +91,20 @@ namespace Animas.UI
         void OnInventoryChanged()
         {
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].Show(playerInventory.Slots[i]);
+        }
+
+        void OnWeaponSwitched(WeaponSwitcher.Slot slot)
+        {
+            bool gun = slot == WeaponSwitcher.Slot.Shotgun;
+            weaponLabel.text = gun ? shotgun.Weapon.displayName : "machete";
+            ammoLabel.gameObject.SetActive(gun);
+            if (gun) OnAmmoChanged(shotgun.Loaded, shotgun.Reserve);
+        }
+
+        void OnAmmoChanged(int loaded, int reserve)
+        {
+            // Big number: shells in the gun. Small: balas de sal left in the inventory.
+            ammoLabel.text = $"{loaded} <size=70%>| {reserve}</size>";
         }
     }
 }
