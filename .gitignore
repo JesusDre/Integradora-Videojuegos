@@ -42,3 +42,7 @@ Thumbs.db
 
 # Ajustes personales de Claude Code (los compartidos van en .claude/commands)
 .claude/settings.local.json
+
+# Python bytecode (Tools/Blender)
+__pycache__/
+*.pyc

@@ -5,6 +5,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | Archivo / pack | Tipo | Fuente (link) | Autor | Licencia | ¿Pide atribución? | Quién lo importó |
 |---|---|---|---|---|---|---|
 | TMP Essential Resources (fuente LiberationSans SDF) | Fuente | Paquete `com.unity.ugui` de Unity | Liberation Fonts (Red Hat) | SIL Open Font License 1.1 | No | Jesús |
+| `chr_cultista.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_cultista.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
 Notas:
