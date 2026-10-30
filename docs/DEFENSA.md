@@ -222,7 +222,40 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 *Pendiente — issues #16, #36, #40 y #46.*
 
 ### 5.14 UI: HUD, menús, pausa, derrota, victoria y créditos
-*Pendiente — issues #22, #47 y #48.*
+*HUD e inventario: issue #22. Menús, pausa, derrota, victoria y créditos: pendientes (#47 y #48).*
+
+**Qué hace el HUD.** Siguiendo el GDD (sección 16): abajo a la izquierda, la barra de vida (roja, con el número) y la de resistencia (dorada); abajo al centro, los 4 espacios rápidos con su tecla (1–4) y cuántos hay. Con poca vida (30 o menos) la barra parpadea; cuando el Padre se agota, la resistencia se pone gris hasta que puede volver a correr. Arriba al centro aparece la barra del ritual solo durante el ritual, y abajo, los subtítulos de lo que dice el Padre. El punto del centro y el "[F] …" ya existían (5.1).
+
+Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápidos), el nombre y la descripción del objeto elegido, los botones **Usar** y **Tirar**, y la lista de materiales. Mientras está abierto, el mouse queda libre y el Padre no puede mirar, atacar ni interactuar; el juego **no se pausa**, así que abrirlo en plena pelea es arriesgado (la pausa es Esc, #47).
+
+![HUD](img/ui/hud.png)
+![Inventario](img/ui/inventario.png)
+
+**Cómo funciona.**
+| Script | Dónde | Qué hace |
+|---|---|---|
+| `HUDController` | prefab `PF_HUD` | Escucha `Health.Changed`, `PlayerStamina.Changed` e `Inventory.Changed` y redibuja las barras y los espacios rápidos solo cuando algo cambia. |
+| `StatBar` | cada barra | Calcula vida actual ÷ vida máxima y ajusta el relleno de la imagen (`fillAmount`). Si el máximo es 0, no divide. |
+| `ItemSlotView` | cada espacio | Muestra el icono del objeto (o su nombre mientras no haya iconos), la cantidad y la tecla. |
+| `InventoryUI` | prefab `PF_HUD` | Abre y cierra con la acción `Inventory` (Tab); al abrir apaga `PlayerLook`, `PlayerCombat` e `Interactor`, y al cerrar los vuelve a encender. Si el Padre muere con el inventario abierto, lo cierra sin volver a encender los controles. |
+| `SubtitleUI` | prefab `PF_HUD` | `Show(texto)`: lo deja en pantalla según su largo (mínimo 2 s). Lo usarán las notas y las frases del Padre (#33). |
+| `RitualBarUI` | prefab `PF_HUD` | `Begin`, `SetProgress(0–1)` y `End`, para el ritual (#34). |
+
+**Paleta de la interfaz.** Paneles casi negros semitransparentes (#0E0F12), texto color hueso (#E8E1D3), vida rojo sangre (#B3261E) con alerta más clara (#FF4536), resistencia dorado de veladora (#C9A327) y ritual azul pálido (#8CBFF2). Los colores están en el Inspector de `HUDController`, así que se ajustan sin código.
+
+**Por qué así.**
+- **Eventos y no revisar cada cuadro:** la rúbrica y la arquitectura piden que la UI reaccione al juego; el HUD no pregunta 60 veces por segundo cuánta vida hay, se entera cuando cambia.
+- **Un prefab con todo:** cada escena solo arrastra `PF_HUD` y le asigna al jugador.
+- **Minimalista:** el GDD pide una UI discreta para no romper la tensión; solo se ve lo necesario.
+
+**Cómo se probó (Play Mode, `EnemyArena`).** Daño 100 → 65: la barra bajó al 65 %; resistencia gastada: la barra bajó y se recuperó; objetos de prueba: aparecieron en los espacios 1–4; en el inventario, **Usar** en una venda curó 25 → 55 y **Tirar** dejó el agua bendita en el suelo; al cerrar, el cursor se volvió a bloquear; morir con el inventario abierto lo cerró y dejó los controles apagados. Consola sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo se actualiza la barra de vida? | `Health` lanza el evento `Changed(actual, máximo)`; `HUDController` lo escucha y le pasa los números a `StatBar`, que llena la imagen en proporción. |
+| ¿Por qué el inventario no pausa? | Elegir objetos tiene un costo: si te persiguen, abrirlo te deja vulnerable. Para detener el juego está la pausa. |
+| ¿Qué pasa si el Padre muere con el inventario abierto? | `InventoryUI` escucha `Died` y lo cierra sin devolver los controles, para no interferir con `PlayerDeathHandler`. |
 
 ### 5.15 Audio y feedback
 *Pendiente — issues #44 y #50.*
