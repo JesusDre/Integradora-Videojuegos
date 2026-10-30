@@ -24,7 +24,6 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #24 | El Padre tiene la escopeta desde el inicio; Q o la rueda alternan machete y escopeta | `WeaponSwitcher` |
 | #24 | La escopeta con balas de sal hace el 25 % a los espíritus (tabla de balance), aunque la receta diga que sirve contra ellos | `WPN_Escopeta.asset` (spiritMultiplier) |
 | #25 | Mientras mantiene R, el Padre va al 15 % de su velocidad; el círculo se queda donde rezó (no lo sigue) y el enfriamiento de 20 s empieza al completar el rezo | `PlayerTuning` |
-| #26 | Mientras no exista la pantalla de derrota (#48), el Padre reaparece solo a los 3 s | `PlayerRespawn` (autoRespawnSeconds) |
 | #26 | Dentro del cuarto seguro los cultistas no ven ni oyen al Padre (el GDD dice que es la única zona sin amenazas) | `CultistAI` / `SafeRoom` |
 | #27 | Escalado por instancia (velocidad, daño, vista y espera de los cultistas), oleadas cada vez que se vence la anterior o a los 25 s, y el botín con sus probabilidades | `Data/Difficulty/DIF_*`, `Data/Enemies/CultistTuning_*` (tabla en GDD §20) |
 | #31 | Agua bendita: 20 de daño a espíritus en 3 m. Línea de sal de 3 m. Veladora: 45 s, revela a 8 m. Copal: humo de 7 m. Cruz: 10 normal, carga de 1 s, 40 a espíritus cargada. El molotov no quema al Padre | `Data/Items/Effects`, `Prefabs/Items/Effects`, `WPN_CruzPlata` |
@@ -34,6 +33,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #39 | Charro: trota a 5 m/s, embiste a 12 m/s cuando el Padre está a 14 m (25 de daño, sigue 8 m de largo), queda débil 4 s tras cruzar una canaleta llena; las armas no le hacen nada. Las canaletas solo aceptan agua bendita después de colocar las monedas | `Data/Enemies/CharroTuning.asset`, `HolyWaterChannel` |
 | #45 | Tzitzimime: aparece en el techo a la mitad de la barra; invisible la barra no avanza, revelada avanza normal y con la linterna al doble; ataque de área cada 7 s (4 s en la huida) con 1.5 s de aviso, 3 m y 20 de daño; en la forma final camina a 2.2 m/s tras el Padre. Sin derrumbe (deseable) | `Data/Enemies/TzitzimimeTuning.asset`, `TzitzimimeEntity` |
 | #47 | No hay bocetos de menús (#7): se usó la paleta del HUD. Créditos con "6 integrantes · nombres pendientes": Jesús debe poner los nombres. Las instancias 2 y 3 cargan las escenas de prueba hasta #40 y #46. Música, efectos y voces se aplican con `AudioVolume` en cada fuente; el AudioMixer llega con los issues de sonido | `MainMenu.unity` (CreditsPanel), `Data/InstanceCatalog.asset`, `AudioVolume` |
+| #48 | Resumen de instancia con tiempo, muertes y notas leídas. El equipaje no lleva objetos clave y empieza con vida 100. Elegir una instancia desde la selección también da el equipaje de la anterior. Al terminar la campaña se borra la partida (la selección sigue abierta) | `VictoryScreen`, `PlayerPersistence.CaptureForNextInstance` |
 | #35 | Se activó el posprocesado en la cámara del Padre para la distorsión del llanto (también se ven la viñeta y el bloom del Global Volume en todas las escenas) | `PF_Player` (cámara) |
 
 ## Decididas (29 oct 2026, ya están en el GDD)

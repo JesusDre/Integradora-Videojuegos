@@ -46,6 +46,21 @@ namespace Animas.Save
             return data;
         }
 
+        // What the Padre takes into the next instance (GDD P4): the 8 spaces, materials, recipes and notes,
+        // but not the key items (each instance has its own) and with full life. Starts at the entrance.
+        public SaveData CaptureForNextInstance(string nextScene)
+        {
+            SaveData data = Capture(StartCheckpoint, 1);
+            data.scene = nextScene;
+            data.health = health.Max;
+            data.keyItems.Clear();
+            data.collectedKeyItems.Clear();
+            return data;
+        }
+
+        // The checkpoint name of "the start of the instance" (no safe room reached yet).
+        public const string StartCheckpoint = "inicio";
+
         // minimumHealth: after dying the Padre comes back with at least 60 (GDD §6).
         public void Restore(SaveData data, float minimumHealth)
         {
