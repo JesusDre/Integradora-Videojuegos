@@ -30,6 +30,8 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #31 | Agua bendita: 20 de daño a espíritus en 3 m. Línea de sal de 3 m. Veladora: 45 s, revela a 8 m. Copal: humo de 7 m. Cruz: 10 normal, carga de 1 s, 40 a espíritus cargada. El molotov no quema al Padre | `Data/Items/Effects`, `Prefabs/Items/Effects`, `WPN_CruzPlata` |
 | #32 | Los objetos clave no ocupan espacios del inventario (bolsa aparte, como los materiales). Textos iniciales de 6 notas (se pueden reescribir en #33) | `KeyItemBag`, `Data/Notes` |
 | #34 | El ritual se llena con 60 s de R mantenida, a 4 m del ancla; al morir se reinicia completo | `RitualController` en cada nivel |
+| #35 | Agarre de la Llorona: 2 s, 15 de golpe + 4/s. Persigue a 3.4 m/s (el Padre corre a 5.5), lo ve a 12 m, se rinde a 22 m, queda 12 s bajo el agua. La veladora y el agua bendita la hunden, igual que la sal y el rezo. Las armas no la dañan. | `Data/Enemies/LloronaTuning.asset`, `LloronaEntity` |
+| #35 | Se activó el posprocesado en la cámara del Padre para la distorsión del llanto (también se ven la viñeta y el bloom del Global Volume en todas las escenas) | `PF_Player` (cámara) |
 
 ## Decididas (29 oct 2026, ya están en el GDD)
 - **P4** El inventario y los materiales pasan completos a la siguiente instancia.
