@@ -274,6 +274,28 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo sabe Unity qué animación poner? | El Animator Controller tiene estados y transiciones: `Speed` elige entre quieto, caminar y correr; los triggers `Attack` y `Die` saltan a esas animaciones. |
 | ¿Qué es Humanoid? | Un tipo de esqueleto que Unity entiende como cuerpo humano (cabeza, brazos, piernas). Permite compartir animaciones entre personajes humanos. |
 
+### 5.17 Cuarto de prueba de enemigos
+*Issue #77. Solo para desarrollo: no forma parte de los niveles.*
+
+**Qué es.** La escena `Scenes/Test/EnemyArena` es un cuarto para probar enemigos, combate y objetos sin jugar un nivel completo. Tiene tres zonas:
+- **Cuarto de inicio (sur):** el Padre aparece aquí. En la pared izquierda hay botones rojos que se usan con F: aparecer un cultista, quitar los cultistas extra, curar al Padre, recibir 20 de daño, recibir objetos de prueba y apagar/encender las luces (para probar con la linterna). En la mesa de la derecha hay vendas, agua bendita, sal y botellas para recoger a mano. Una pared con una puerta de 3 m tapa la vista de los cultistas hasta que el Padre sale.
+- **Zona de cultistas (centro):** dos cultistas patrullan entre pilares y cajas, que sirven para probar que no ven a través de las paredes.
+- **Galería (norte):** la Llorona, el Charro Negro con su caballo y la Tzitzimime, detrás de un muro bajo. Frente a cada uno hay un atril: cada F reproduce la siguiente animación (caminar, agarrar, gritar, desvanecerse, ataque desde el techo…). Así se revisan las animaciones antes de que exista su IA.
+
+Arriba a la izquierda, un texto muestra la vida y la resistencia del Padre, sus 8 espacios de objetos y el estado de cada cultista (patrulla, persigue, ataca, busca), su vida y su distancia.
+
+**Cómo funciona.**
+| Script | Qué hace |
+|---|---|
+| `TestButton` | Un `IInteractable` con un `UnityEvent`: lo que hace se conecta en el Inspector, sin código nuevo por cada botón. |
+| `EnemyArenaTools` | Las acciones de los botones. Los cultistas aparecen con `Instantiate` y reciben su ruta con `CultistAI.SetPatrol` (máximo 6, para no llenar el cuarto). |
+| `AnimationTestStation` | Recorre una lista de pasos: `Grab` dispara un trigger, `Speed=2` cambia un número, `OnCeiling=true` un booleano y `Reset` regresa a la pose inicial. |
+| `DebugOverlay` | El texto de depuración. El HUD real es otra cosa (#22). |
+
+**Por qué existe.** Probar a un enemigo dentro de un nivel obliga a recorrerlo cada vez. Aquí todo está a pocos pasos, y el NavMesh (`NavMesh-Arena.asset`) y los prefabs son los mismos que usarán los niveles, así que lo que funciona aquí funciona allá.
+
+**Cómo se probó (Play Mode).** Los botones aparecieron cultistas, dañaron y dieron objetos; un cultista extra persiguió al Padre y le bajó la vida de 80 a 60; los atriles dispararon las animaciones de las tres entidades; las luces se apagaron y prendieron; sin errores en la consola.
+
 ## 6. Decisiones de diseño importantes
 Las 16 decisiones que cerraron los huecos del GDD están en `docs/PENDIENTES_DISENO.md` (sección "Decididas"). Las que más preguntan:
 - **El inventario pasa de una instancia a otra:** así lo que fabricaste en Xochimilco te sirve en la hacienda, y es más simple de guardar.

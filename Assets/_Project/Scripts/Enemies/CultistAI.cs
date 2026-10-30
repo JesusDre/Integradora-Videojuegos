@@ -95,6 +95,13 @@ namespace Animas.Enemies
             animator.SetFloat(SpeedParam, agent.velocity.magnitude);
         }
 
+        // For cultists spawned at runtime (waves, test arena): give them a route before their first frame.
+        public void SetPatrol(Transform[] points)
+        {
+            patrolPoints = points ?? Array.Empty<Transform>();
+            patrolIndex = 0;
+        }
+
         // Called by loud things (the shotgun, #24): the cultist goes to look.
         public void HearNoise(Vector3 position)
         {
