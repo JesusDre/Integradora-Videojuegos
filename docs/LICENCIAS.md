@@ -9,6 +9,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | `ent_llorona.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_llorona.py` | Jesús | Propio | No | Jesús |
 | `ent_charro.fbx`, `ent_caballo.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_charro.py` y `ent_caballo.py` | Jesús | Propio | No | Jesús |
 | `ent_tzitzimime.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_tzitzimime.py` | Jesús | Propio | No | Jesús |
+| `obj_muneca.fbx`, `obj_moneda.fbx`, `obj_obsidiana.fbx` (objetos clave) | Modelo 3D | Hecho por el equipo con `Tools/Blender/obj_objetos_clave.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
 Notas:
