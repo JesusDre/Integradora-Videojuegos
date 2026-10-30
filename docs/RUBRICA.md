@@ -2,7 +2,9 @@
 
 70 puntos generales + 30 específicos de 3D.
 
-> ⚠️ **Por verificar contra la rúbrica original del curso:** tal como está transcrita, la sección A suma **78** puntos (no 70) y la B2 suma **32** (no 30), 110 en total. Algún valor se copió mal. Mientras no se compare con el documento del profesor, **usen los puntos de cada fila como peso relativo** para priorizar (ver "Cobertura en el plan" al final), no como calificación exacta. Al verificarla, corrijan las cifras y borren esta nota.
+Fuente: [I. Rúbrica de Evaluación Integradora](https://florentine-bug-aec.notion.site/I-R-brica-de-Evaluaci-n-Integradora-3d0a3d7d603a80b7bd2ce58ba68894bc) (Notion del profesor).
+
+> ✅ **Verificada contra el original el 30 oct 2026:** cada fila y cada punto coinciden. La suma rara viene del documento del profesor: la sección A dice 70 pero sus filas suman **78**, y la B2 dice 30 pero sus filas suman **32**. No es un error de copia. Usen los puntos de cada fila como peso relativo para priorizar y, si hace falta, pregunten al profesor cómo normaliza.
 
 Puntuación parcial por criterio: 100 % funciona y está bien implementado · 75 % funciona con detalles o errores menores · 50 % funciona parcialmente · 25 % implementado pero no funciona · 0 % no implementado.
 
@@ -66,6 +68,24 @@ Puntuación parcial por criterio: 100 % funciona y está bien implementado · 75
 4. Las mecánicas declaradas como obligatorias en el GDD están implementadas.
 5. Sin error crítico que impida continuar la demostración.
 6. Los integrantes demuestran conocimiento del desarrollo del proyecto.
+
+## Consideración importante (del original)
+Del 60 % que vale el saber de la tercera unidad, **30 % es la integradora** y el otro **30 % son 3 preguntas individuales** (10 % cada una). Por eso `docs/DEFENSA.md` pesa tanto: cada integrante responde por su cuenta.
+
+## Elementos adicionales / sobresalientes (del original)
+Solo cuentan una vez cubierto lo anterior, y no compensan mecánicas fundamentales faltantes. La lista incluye:
+- configuración de controles, soporte para gamepad, opciones gráficas o de audio;
+- sistema avanzado de diálogos, inventario, árbol de habilidades, generación procedural;
+- IA avanzada, **boss fights con diferentes fases**, cinemáticas, shaders, partículas avanzadas;
+- multijugador, localización, accesibilidad, tutorial integrado, logros, dificultad adaptativa.
+
+De esa lista, el proyecto ya tiene:
+- **inventario** (8 espacios);
+- **jefes por fases** (Llorona, Charro y Tzitzimime);
+- **opciones de audio** (volúmenes);
+- **accesibilidad** (subtítulos, invertir Y y sensibilidad).
+
+Del alcance deseable del GDD, el que más suma es el gamepad.
 
 > Consecuencia práctica: lo que el GDD marca como "Obligatorio (MVP)" debe existir. Si algo no va a llegar, hay que **actualizar el GDD antes de entregar**, no entregar algo que dice más de lo que hay.
 
