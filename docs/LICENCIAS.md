@@ -4,6 +4,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 
 | Archivo / pack | Tipo | Fuente (link) | Autor | Licencia | ¿Pide atribución? | Quién lo importó |
 |---|---|---|---|---|---|---|
+| TMP Essential Resources (fuente LiberationSans SDF) | Fuente | Paquete `com.unity.ugui` de Unity | Liberation Fonts (Red Hat) | SIL Open Font License 1.1 | No | Jesús |
 | | | | | | | |
 
 Notas:
