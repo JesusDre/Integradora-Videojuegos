@@ -28,10 +28,10 @@
 | Ojos | rojo intenso (emisivo) | `#FF1A0A` |
 
 ## Presupuesto
-Menos de 6 000 triángulos (es un jefe y aparece sola).
+Menos de 6 000 triángulos (es un jefe y aparece sola); el modelo actual tiene unos 2 490.
 
 ## Esqueleto
-Humanoide estándar (para reutilizar la lógica de animación), con huesos extra genéricos para el tocado (`Crown`) y las garras.
+Humanoide estándar (para reutilizar la lógica de animación). El tocado y las garras van pegados a los huesos de la cabeza y de las manos, sin huesos extra.
 
 ## Animaciones
 | Clip | Bucle | Qué se ve | Lo usa |
@@ -44,4 +44,6 @@ Humanoide estándar (para reutilizar la lógica de animación), con huesos extra
 | `Defeat` | no | se rompe en luces y desaparece | Fin del ritual |
 
 ## Notas
+- **Cómo quedó** (`Tools/Blender/ent_tzitzimime.py`): se modela a escala humana (Humanoid) y se escala a 3.2 m. Cráneo con cuencas, ojos rojos y dientes; tocado de 11 rayos de obsidiana con puntas rojas que brillan; torso oscuro con costillas y columna de hueso; falda de noche con el borde roto y forro interior; brazos largos con antebrazos de hueso y garras de obsidiana; puntos de luz (estrellas) repartidos por el cuerpo.
+- `CeilingCrawl` está animada como si gateara en el suelo: el código la voltea y la pega al techo en la fase 2 (#45). El Animator `AC_Tzitzimime` empieza en `FinalIdle`; el bool `OnCeiling` cambia al gateo y los triggers son `CeilingAttack`, `FinalAttack`, `Reveal` (desde cualquier estado) y `Defeat`.
 - La invisibilidad la hace el material (transparencia controlada por código, #45), no el modelo.
