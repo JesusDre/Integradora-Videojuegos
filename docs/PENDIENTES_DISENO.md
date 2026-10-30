@@ -26,6 +26,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #25 | Mientras mantiene R, el Padre va al 15 % de su velocidad; el círculo se queda donde rezó (no lo sigue) y el enfriamiento de 20 s empieza al completar el rezo | `PlayerTuning` |
 | #26 | Mientras no exista la pantalla de derrota (#48), el Padre reaparece solo a los 3 s | `PlayerRespawn` (autoRespawnSeconds) |
 | #26 | Dentro del cuarto seguro los cultistas no ven ni oyen al Padre (el GDD dice que es la única zona sin amenazas) | `CultistAI` / `SafeRoom` |
+| #27 | Escalado por instancia (velocidad, daño, vista y espera de los cultistas), oleadas cada vez que se vence la anterior o a los 25 s, y el botín con sus probabilidades | `Data/Difficulty/DIF_*`, `Data/Enemies/CultistTuning_*` (tabla en GDD §20) |
 
 ## Decididas (29 oct 2026, ya están en el GDD)
 - **P4** El inventario y los materiales pasan completos a la siguiente instancia.

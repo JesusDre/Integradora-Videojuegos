@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2935eed501a3670b5876ef3b073cca, type: 3}
+  m_Name: DIF_Instancia2
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.InstanceDifficulty
+  instanceName: Hacienda
+  cultistTuning: {fileID: 11400000, guid: b45437fe659cb84fdbd483fbd0f6124b, type: 2}
+  encounterMin: 3
+  encounterMax: 4
+  waveCount: 0
+  waveSize: 1
+  maxSecondsBetweenWaves: 25
+  cultistDrops:
+  - item: {fileID: 11400000, guid: ccffebe6d7ff2a4c6a66b6854d581ec1, type: 2}
+    amount: 2
+    chance: 0.5
+  - item: {fileID: 11400000, guid: 30a007bf0cd2340f08b364df51a6ba22, type: 2}
+    amount: 1
+    chance: 0.3
+  - item: {fileID: 11400000, guid: 1892e905f31ef5aa0a9f850e0bcaffed, type: 2}
+    amount: 1
+    chance: 0.5
+  - item: {fileID: 11400000, guid: f6f2d60f6ed28b35dbb1d42314f257ce, type: 2}
+    amount: 2
+    chance: 0.5

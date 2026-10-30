@@ -66,7 +66,8 @@ namespace Animas.Enemies
 
         void Start()
         {
-            Enter(State.Patrol);
+            // A cultist spawned already hunting (ambush, ritual wave) keeps chasing.
+            if (Current == State.Patrol) Enter(State.Patrol);
         }
 
         void Update()
@@ -101,6 +102,14 @@ namespace Animas.Enemies
         {
             patrolPoints = points ?? Array.Empty<Transform>();
             patrolIndex = 0;
+        }
+
+        // Harder instances use another tuning (more damage, faster): set by the encounter that spawns it.
+        public void SetTuning(CultistTuning newTuning)
+        {
+            if (newTuning == null) return;
+            tuning = newTuning;
+            if (agent != null) agent.speed = Current == State.Chase || Current == State.Attack ? tuning.chaseSpeed : tuning.patrolSpeed;
         }
 
         // Called by loud things (the shotgun, #24): the cultist goes to look.
