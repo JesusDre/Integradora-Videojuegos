@@ -7,6 +7,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | TMP Essential Resources (fuente LiberationSans SDF) | Fuente | Paquete `com.unity.ugui` de Unity | Liberation Fonts (Red Hat) | SIL Open Font License 1.1 | No | Jesús |
 | `chr_cultista.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_cultista.py` | Jesús | Propio | No | Jesús |
 | `ent_llorona.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_llorona.py` | Jesús | Propio | No | Jesús |
+| `ent_charro.fbx`, `ent_caballo.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_charro.py` y `ent_caballo.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
 Notas:

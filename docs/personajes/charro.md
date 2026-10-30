@@ -30,7 +30,7 @@
 | Silla de montar | cuero café oscuro | `#2A1A10` |
 
 ## Presupuesto
-Jinete menos de 3 500 triángulos; caballo menos de 5 000.
+Jinete menos de 3 500 triángulos; caballo menos de 5 000. Los modelos actuales tienen unos 1 800 (jinete) y 1 590 (caballo).
 
 ## Esqueletos
 - **Jinete:** humanoide estándar (Unity Humanoid).
@@ -49,4 +49,7 @@ Jinete menos de 3 500 triángulos; caballo menos de 5 000.
 | Ambos | `Dissolve` | no | se encogen y se desvanecen | Derrota |
 
 ## Notas
-- Es el modelo más riesgoso (PIPELINE_ASSETS): se hace primero el caballo en formas simples y se prueba el galope antes de pulir.
+- Es el modelo más riesgoso (PIPELINE_ASSETS): se hizo primero el caballo en formas simples y se probó el galope antes de pulir.
+- **Cómo quedó:** `Tools/Blender/ent_caballo.py` y `Tools/Blender/ent_charro.py`. El caballo tiene 21 huesos (columna de 3, cuello de 2, cabeza, cola de 2, 4 patas de 3 huesos y `Saddle`); las patas traseras tienen el muslo y el corvejón en ángulo como un caballo real. Sus clips son `Idle`, `Gallop`, `Charge` (se encabrita y arremete), `Hit` y `Dissolve`.
+- El jinete se modela de pie en T y la postura de montar sale de sus clips: `RideIdle`, `RideGallop`, `Offer` y `Dissolve`. Debajo del sombrero no hay cara: oscuridad y dos ojos rojos.
+- En Unity, `PF_CharroNegro` (Prefabs/Enemies) es el caballo con el jinete como hijo del hueso `Saddle`, así que el jinete sigue cada movimiento (al encabritarse, la silla sube 40 cm y él va con ella). Cada uno tiene su Animator: `AC_Caballo` (Speed: Idle → Gallop a 6 m/s; triggers `Charge`, `Hit`, `Dissolve`) y `AC_Charro` (Speed: RideIdle → RideGallop; triggers `Offer`, `Dissolve`).

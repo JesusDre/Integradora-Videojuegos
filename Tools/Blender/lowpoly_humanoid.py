@@ -423,7 +423,8 @@ def render_sheet(target_height, filename_base, resolution=(900, 1200)):
     cam_data = bpy.data.cameras.new("SheetCam")
     cam_data.type = "ORTHO"
     # Ortho scale covers the image height; arms in T-pose can be wider than the figure is tall.
-    span = max((v.co.x for o in bpy.data.objects if o.type == "MESH" for v in o.data.vertices), default=0) * 2
+    # Widest of the front view (X) and the side view (Y): a horse is longer than it is tall.
+    span = max((max(abs(v.co.x), abs(v.co.y)) for o in bpy.data.objects if o.type == "MESH" for v in o.data.vertices), default=0) * 2
     aspect = resolution[0] / resolution[1]
     cam_data.ortho_scale = max(target_height * 1.25, span * 1.1 / aspect)
     cam = bpy.data.objects.new("SheetCam", cam_data)
