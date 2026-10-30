@@ -195,7 +195,37 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo sabe la animación si camina o corre? | El Animator recibe la velocidad real del agente en `Speed` y mezcla quieto, caminar y correr. |
 
 ### 5.5 Altar y crafteo
-*Pendiente — issue #23.*
+*Issue #23.*
+
+**Qué hace.** En cada cuarto seguro hay un altar. Con F se abre su menú: a la izquierda, las recetas; a la derecha, qué hace el objeto, qué materiales pide (cuántos tienes / cuántos pide, en rojo los que faltan) y el botón **Bendecir y fabricar**. Al fabricar, se gastan los materiales, el objeto entra al inventario, la luz de las velas brilla un instante (el Padre lo bendice) y aparece "Bendijiste: agua bendita". Usar el altar también devuelve la vida hasta 60 si tenías menos (GDD §5). Las recetas que aún no conoces salen como "Receta desconocida" hasta que encuentres su nota (#32).
+
+![Altar](img/ui/altar.png)
+
+**Las recetas** (GDD §18): agua bendita, balas de sal, línea de sal, veladora, molotov de mezcal y venda se conocen desde el inicio; cruz de plata, chancla bendita y copal se aprenden con notas. Las cantidades exactas están en `docs/PENDIENTES_DISENO.md`.
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `RecipeDefinition` | `Data/Recipes/RCP_*.asset` | Una receta: el resultado, cuántos hace y sus ingredientes. Un ingrediente puede ser un material o un objeto (la chancla bendita pide un agua bendita). |
+| `RecipeBook` | Padre | Las recetas que conoce. `Unlock` agrega una (lo usarán las notas) y avisa con el evento `Unlocked`. |
+| `AltarCrafting` | código, sin escena | Las reglas: la receta debe conocerse, deben estar todos los ingredientes y el resultado debe caber. Solo entonces gasta y entrega. |
+| `Altar` | prefab `PF_Altar` (Prefabs/Levels) | Lo que se usa con F: cura hasta 60 % y abre el menú. `Bless()` hace brillar las velas. |
+| `AltarUI` | dentro de `PF_HUD` | El menú. Se abre con el evento `Altar.Opened`, así cualquier altar de cualquier nivel funciona sin conectarlo a mano. Mientras está abierto apaga la cámara, el ataque, la interacción y el inventario. |
+| `Inventory.CanFit` | Padre | Dice si algo cabe sin meterlo, para no gastar materiales en vano. |
+
+**Detalles que importan.**
+- **Nunca se pierden materiales:** si el resultado no cabe, los ingredientes regresan y aparece "Inventario lleno".
+- **Gastar puede liberar espacio:** para la chancla bendita se gasta un agua bendita que ocupaba un espacio; por eso primero se sacan los ingredientes y luego se revisa si cabe el resultado.
+- **No se cierra al abrir:** la misma F que abre el altar no lo cierra en ese mismo cuadro.
+
+**Cómo se probó (Play Mode, `EnemyArena`).** Con 30 de vida, usar el altar la subió a 60. Sin materiales: "faltan ingredientes". Con materiales se fabricaron las 6 recetas conocidas y la sal bajó de 20 a 14 (1 + 2 + 3). La venda con el inventario lleno dio "sin espacio" sin perder la tela. La cruz de plata sin aprenderla quedó bloqueada. La chancla bendita, ya aprendida y con el inventario lleno, sí se fabricó porque gastó el agua bendita. Con el botón del menú se fabricó un agua bendita y salió el aviso. Al cerrar se recuperaron la cámara y el inventario. Consola sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe el altar si alcanzan los materiales? | `AltarCrafting.HasIngredients` recorre la receta y compara con `Inventory.CountOf` (materiales y objetos). |
+| ¿Por qué las recetas son archivos y no código? | Para balancear en el Inspector y agregar recetas sin programar (ScriptableObject). |
+| ¿Por qué el altar cura solo hasta 60? | Así lo pide el GDD: el cuarto seguro ayuda, pero las vendas siguen siendo necesarias. |
 
 ### 5.6 Escopeta y balas de sal
 *Pendiente — issue #24.*
