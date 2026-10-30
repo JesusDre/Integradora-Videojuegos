@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 8252742590538644725}
   - component: {fileID: 9145848390486212298}
   - component: {fileID: 5979250240870480494}
+  - component: {fileID: 2270269953759454414}
+  - component: {fileID: 9222903655437723414}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -257,7 +259,6 @@ MonoBehaviour:
   disableOnDeath:
   - {fileID: 618537009719643545}
   - {fileID: 7599449922072824569}
-  - {fileID: 5209770782421535170}
   - {fileID: 460313616379721340}
   - {fileID: 5320117398522518101}
   - {fileID: 3503602647166584537}
@@ -365,6 +366,39 @@ MonoBehaviour:
   audioSource: {fileID: 7902535171258847897}
   prayClip: {fileID: 0}
   doneClip: {fileID: 0}
+--- !u!114 &2270269953759454414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120309c42d1f649148eb21a67372535f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Save.PlayerPersistence
+  database: {fileID: 11400000, guid: 36de9b050d2231b8a9e4cdf4c8f23ee7, type: 2}
+  health: {fileID: 1857532811624091855}
+  inventory: {fileID: 5157468773410539650}
+  recipeBook: {fileID: 69500857402726779}
+--- !u!114 &9222903655437723414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88019e8362ebf061db6c419e7384445b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Save.PlayerRespawn
+  health: {fileID: 1857532811624091855}
+  deathHandler: {fileID: 4171033038306139916}
+  persistence: {fileID: 2270269953759454414}
+  minimumHealth: 60
+  autoRespawnSeconds: 3
 --- !u!1 &2419112120389781756
 GameObject:
   m_ObjectHideFlags: 0

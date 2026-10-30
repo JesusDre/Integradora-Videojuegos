@@ -28,9 +28,13 @@ namespace Animas.Levels
             transform.localRotation = IsOpen ? openRotation : closedRotation;
         }
 
-        public void Interact(Interactor interactor)
+        public void Interact(Interactor interactor) => SetOpen(!IsOpen);
+
+        // Used by the safe room, which closes its door behind the Padre.
+        public void SetOpen(bool open)
         {
-            IsOpen = !IsOpen;
+            if (open == IsOpen) return;
+            IsOpen = open;
             AudioClip clip = IsOpen ? openClip : closeClip;
             if (audioSource != null && clip != null) audioSource.PlayOneShot(clip);
         }

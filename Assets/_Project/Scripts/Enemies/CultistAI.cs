@@ -73,7 +73,8 @@ namespace Animas.Enemies
         {
             if (health.IsDead || player == null) return;
 
-            bool playerAlive = playerHealth == null || !playerHealth.IsDead;
+            // Inside a safe room the Padre can't be seen or heard: it's the only place without threats (GDD §5).
+            bool playerAlive = (playerHealth == null || !playerHealth.IsDead) && !Levels.SafeRoom.PlayerInside;
             bool sees = playerAlive && CanSeePlayer();
             bool hears = playerAlive && CanHearPlayer();
             if (sees || hears)

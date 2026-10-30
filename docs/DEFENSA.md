@@ -289,7 +289,41 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Qué pasa si sueltas R antes? | Se cancela: el Padre recupera su velocidad y no empieza el enfriamiento. |
 
 ### 5.8 Cuarto seguro, checkpoint y guardado
-*Pendiente — issue #26.*
+*Issue #26.*
+
+**Qué hace.** Cada instancia tiene un cuarto seguro con puerta y altar. Al entrar, la puerta se cierra detrás del Padre y el juego guarda; al salir guarda otra vez, para conservar lo fabricado en el altar (GDD §26). Adentro no hay amenazas: los cultistas no lo ven ni lo oyen y los espíritus no pueden entrar. Si el Padre muere, reaparece en el último cuarto seguro con lo que tenía al guardarse y con al menos 60 de vida (o más, si se guardó con más). Mientras no exista la pantalla de derrota (#48), reaparece solo a los 3 segundos.
+
+**Qué se guarda** (un archivo `partida.json` en `Application.persistentDataPath`): escena, sección, cuarto seguro, vida, los 8 espacios del inventario, los materiales y las recetas conocidas; ya hay lugar para las notas y los objetos clave (#32).
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `SafeRoom` | objeto con una caja (`BoxCollider`) que cubre el interior | Cada cuadro revisa si el Padre está adentro. Al cambiar (entrar o salir) cierra la puerta y guarda. Es un `ISpiritWard` (los espíritus no entran) y expone `PlayerInside` para que los cultistas lo ignoren. |
+| `SaveData` | código | Los datos que se guardan, en una forma que `JsonUtility` puede escribir. |
+| `SaveSystem` | código | Escribe y lee el JSON. Escribe primero a un archivo temporal y luego lo cambia, para no romper la partida si el juego se cierra a la mitad; si el archivo está dañado, avisa y no truena. |
+| `ItemDatabase` | `Data/ItemDatabase.asset` | Lista de todos los objetos y recetas: el archivo guarda nombres ("ITM_Venda") y esta lista los convierte de nuevo en objetos. |
+| `PlayerPersistence` | Padre | `Capture` toma el estado del Padre; `Restore` lo vuelve a poner (`Inventory.SetContents`, `RecipeBook.SetKnown`, `Health.Revive`). |
+| `PlayerRespawn` | Padre | Al morir: lleva al Padre al punto de reaparición del último cuarto seguro, restaura el guardado y le devuelve los controles (`PlayerDeathHandler.Revive`). |
+
+**Por qué así.**
+- **Revisar la posición en vez de usar triggers:** al reaparecer el Padre se teletransporta, y Unity no siempre avisa la salida de un trigger en ese caso. Revisar si está dentro de la caja nunca falla.
+- **JSON en un archivo:** es legible (se puede abrir y revisar) y Unity lo trae incluido (`JsonUtility`).
+- **Nombres en vez de referencias:** un archivo no puede guardar un objeto de Unity; guarda su nombre y la base de datos lo encuentra.
+
+**Cómo se probó (Play Mode, `EnemyArena`; el cuarto de inicio ahora es un cuarto seguro con puerta).**
+1. Al empezar, el Padre está adentro: la puerta se cerró y se guardó.
+2. Recibió objetos de prueba y 10 de daño, y salió: se guardó con vida 90, 4 objetos, 13 materiales y 6 recetas.
+3. Tiró objetos, gastó sal y murió afuera.
+4. A los 3 s reapareció en el cuarto con vida 90 y exactamente el inventario guardado: vendas, agua bendita, balas y 20 de sal. La cámara, el arma y el cursor bloqueado volvieron, y la puerta se cerró.
+5. Un cultista frente a la puerta abierta no detectó al Padre adentro; a 3.5 m, ya afuera, sí lo vio y atacó.
+6. Un espíritu de prueba se quedó afuera (z −6.8) con la puerta abierta.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Dónde se guarda la partida? | En `partida.json`, dentro de la carpeta de datos del juego (`Application.persistentDataPath`), en formato JSON. |
+| ¿Por qué se reaparece con 60 de vida? | Lo pide el GDD: castiga morir sin dejar al jugador sin opciones; si se guardó con más vida, se respeta. |
+| ¿Qué pasa si se borra un objeto del juego y había uno guardado? | `PlayerPersistence` lo salta y deja un aviso en la consola; la partida carga igual. |
 
 ### 5.9 Encuentros, oleadas y dificultad
 *Pendiente — issue #27.*

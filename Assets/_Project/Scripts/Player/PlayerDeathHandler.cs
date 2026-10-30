@@ -28,5 +28,12 @@ namespace Animas.Player
             Cursor.visible = true;
             Debug.Log("[PlayerDeathHandler] El Padre murió.");
         }
+
+        // Respawn: give the controls back (PlayerLook locks the cursor again when enabled).
+        public void Revive()
+        {
+            foreach (var behaviour in disableOnDeath)
+                if (behaviour != null) behaviour.enabled = true;
+        }
     }
 }
