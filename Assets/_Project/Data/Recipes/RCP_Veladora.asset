@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0a3b82df6a00fe69b4006053ceb04e, type: 3}
+  m_Name: RCP_Veladora
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.RecipeDefinition
+  result: {fileID: 11400000, guid: 90c4d8c105340bcbabff021ba3b5c7b5, type: 2}
+  resultAmount: 1
+  ingredients:
+  - item: {fileID: 11400000, guid: b8cd23d4dd61e2be69363c4bfe4fe57d, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 0b48a7cef0ecc406694f3c2314e5de9a, type: 2}
+    amount: 1

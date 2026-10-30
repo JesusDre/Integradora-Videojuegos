@@ -63,8 +63,9 @@ namespace Animas.Items
         }
 
         // Tries to add `amount` of an item and returns how many actually fit. What doesn't fit stays
-        // where it was (on the floor), and the player gets a notice.
-        public int TryAdd(ItemDefinition item, int amount = 1)
+        // where it was (on the floor), and the player gets a notice. notify = false for the altar,
+        // which shows its own message ("Fabricaste…") instead of "Recogiste…".
+        public int TryAdd(ItemDefinition item, int amount = 1, bool notify = true)
         {
             if (item == null || amount <= 0) return 0;
 
@@ -72,12 +73,29 @@ namespace Animas.Items
             if (added > 0)
             {
                 Changed?.Invoke();
-                Notice?.Invoke(added > 1 ? $"Recogiste: {item.displayName} ×{added}" : $"Recogiste: {item.displayName}");
+                if (notify) Notice?.Invoke(added > 1 ? $"Recogiste: {item.displayName} ×{added}" : $"Recogiste: {item.displayName}");
             }
-            if (added < amount)
+            if (added < amount && notify)
                 Notice?.Invoke(item.IsMaterial ? $"No puedes cargar más {item.displayName} (máximo {MaxPerMaterial})" : "Inventario lleno");
             return added;
         }
+
+        // Whether `amount` of an item would fit right now, without adding anything.
+        public bool CanFit(ItemDefinition item, int amount)
+        {
+            if (item == null || amount <= 0) return false;
+            if (item.IsMaterial) return MaterialCount(item) + amount <= MaxPerMaterial;
+            int room = 0;
+            foreach (var s in slots)
+            {
+                if (s.IsEmpty) room += item.maxStack;
+                else if (s.item == item) room += item.maxStack - s.count;
+            }
+            return room >= amount;
+        }
+
+        // Shows a message through the same channel as the inventory's own notices (the altar uses it).
+        public void Notify(string message) => Notice?.Invoke(message);
 
         int AddMaterial(ItemDefinition material, int amount)
         {

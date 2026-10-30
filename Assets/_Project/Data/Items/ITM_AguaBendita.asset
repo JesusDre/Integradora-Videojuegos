@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ITM_AguaBendita
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: agua bendita
-  description: "Da\xF1o en \xE1rea a esp\xEDritus; interrumpe su ataque."
+  description: "Da\xF1o en \xE1rea a esp\xEDritus; interrumpe su ataque 3 segundos.
+    Se lanza hacia donde miras."
   icon: {fileID: 0}
   category: 3
   maxStack: 1

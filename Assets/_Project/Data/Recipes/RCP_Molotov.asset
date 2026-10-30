@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0a3b82df6a00fe69b4006053ceb04e, type: 3}
+  m_Name: RCP_Molotov
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.RecipeDefinition
+  result: {fileID: 11400000, guid: fe156b096c4f4d1dfb04bc53cefe6e42, type: 2}
+  resultAmount: 1
+  ingredients:
+  - item: {fileID: 11400000, guid: 0e7282bb6beb7568093975ba51bc779c, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 1e5ecb7e3d53a6fc68499cc3ae0bab2f, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 30a007bf0cd2340f08b364df51a6ba22, type: 2}
+    amount: 1

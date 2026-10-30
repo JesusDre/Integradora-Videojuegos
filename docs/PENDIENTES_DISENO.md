@@ -11,6 +11,16 @@ La columna "Urgencia" indica en qué sprint bloquea trabajo según la planeació
 |---|---|---|---|
 | P17 | | | |
 
+## Decisiones de Claude para revisar
+El GDD no fija estos detalles. Claude eligió un valor para no detener el trabajo; Jesús puede cambiarlo en el Inspector o pedir otro. No bloquean nada.
+
+| Issue | Decisión | Dónde se cambia |
+|---|---|---|
+| #23 | Cantidades de las recetas: agua bendita = 1 botella + 1 sal; balas de sal = 2 casquillos + 2 sal → 4 balas; línea de sal = 3 sal; veladora = 1 cera + 1 mecha; molotov = 1 botella + 1 mezcal + 1 trapo; venda = 1 tela; cruz = 1 plata + 1 madera; chancla bendita = 1 chancla + 1 agua bendita; copal = 1 resina + 1 brasas | `Data/Recipes/RCP_*.asset` |
+| #23 | Recetas conocidas desde el inicio: las 5 de la instancia 1 y la venda. Cruz de plata, chancla bendita y copal se desbloquean con notas (#32) | `RecipeBook` en `PF_Player` |
+| #23 | Las balas de sal ocupan un espacio del inventario (hasta 24 en uno) | `ITM_BalasSal.asset` |
+| #22 | El inventario (Tab) no pausa el juego | `InventoryUI` |
+
 ## Decididas (29 oct 2026, ya están en el GDD)
 - **P4** El inventario y los materiales pasan completos a la siguiente instancia.
 - **P10** Clic derecho apunta con la escopeta; Q o la rueda cambian de arma; los objetos rápidos 1–4 se usan al instante (lanzables hacia donde mira el Padre).
