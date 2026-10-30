@@ -115,6 +115,7 @@ class PartBuilder:
         self.materials = []      # list of bpy materials, index = material slot
         self.face_bone = {}      # face index -> bone name (filled when finishing)
         self._pending = []       # (faces, bone)
+        self._keep_winding = set()  # faces whose direction is intentional (linings seen from inside)
 
     def _slot(self, material):
         if material not in self.materials:
@@ -142,6 +143,45 @@ class PartBuilder:
         mat = Matrix.Translation((start + end) / 2) @ rot
         bmesh.ops.transform(self.bm, matrix=mat, verts=verts)
         faces = {f for v in verts for f in v.link_faces}
+        return self._tag(faces, material, bone)
+
+    def lathe(self, profile, material, bone, center=(0.0, 0.0), segments=16, folds=0, fold_depth=0.0,
+              cap_bottom=False, cap_top=False, inward=False, scale_y=1.0):
+        """Surface of revolution around a vertical axis, from a profile of (z, radius) points, bottom to top.
+        folds/fold_depth push the radius in and out around the circle so cloth reads as pleated.
+        inward=True flips the faces so the surface is seen from inside (the lining of a hood).
+        scale_y squashes the shape front-to-back (bodies are deeper than wide only in cartoons)."""
+        cx, cy = center
+        rings = []
+        for z, radius in profile:
+            ring = []
+            for i in range(segments):
+                a = 2 * math.pi * i / segments
+                r = radius * (1.0 + fold_depth * math.cos(folds * a)) if folds else radius
+                ring.append(self.bm.verts.new((cx + r * math.cos(a), cy + r * math.sin(a) * scale_y, z)))
+            rings.append(ring)
+        faces = []
+        for lower, upper in zip(rings, rings[1:]):
+            for i in range(segments):
+                quad = (lower[i], lower[(i + 1) % segments], upper[(i + 1) % segments], upper[i])
+                faces.append(self.bm.faces.new(quad[::-1] if inward else quad))
+        if inward:
+            self._keep_winding.update(faces)
+        if cap_bottom:
+            faces.append(self.bm.faces.new(rings[0][::-1] if not inward else rings[0]))
+        if cap_top:
+            faces.append(self.bm.faces.new(rings[-1] if not inward else rings[-1][::-1]))
+        return self._tag(faces, material, bone)
+
+    def prism(self, outline, x_center, thickness, material, bone):
+        """Flat shape drawn in the side plane (y, z) and extruded along X: blades, straps, badges."""
+        half = thickness / 2
+        left = [self.bm.verts.new((x_center - half, y, z)) for y, z in outline]
+        right = [self.bm.verts.new((x_center + half, y, z)) for y, z in outline]
+        faces = [self.bm.faces.new(left[::-1]), self.bm.faces.new(right)]
+        n = len(outline)
+        for i in range(n):
+            faces.append(self.bm.faces.new((left[i], left[(i + 1) % n], right[(i + 1) % n], right[i])))
         return self._tag(faces, material, bone)
 
     def box(self, center, size, material, bone, rotation=None):
@@ -211,7 +251,8 @@ class PartBuilder:
 
     def finish(self, name, armature):
         """Create the mesh object, one vertex group per bone (weight 1), and bind it to the armature."""
-        bmesh.ops.recalc_face_normals(self.bm, faces=self.bm.faces)
+        # Make every shape face outward, except linings that are meant to be seen from inside.
+        bmesh.ops.recalc_face_normals(self.bm, faces=[f for f in self.bm.faces if f not in self._keep_winding])
         vert_bone = {}
         for faces, bone in self._pending:
             for f in faces:

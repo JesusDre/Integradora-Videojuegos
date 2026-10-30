@@ -5,12 +5,10 @@ Design: docs/personajes/cultista.md. Run from the repo root:
 Outputs Assets/_Project/Art/Models/Characters/chr_cultista.fbx and the front/side sheet renders.
 """
 
-import math
 import os
 import sys
 
 sys.path.append(os.path.dirname(__file__))
-from mathutils import Quaternion  # noqa: E402
 
 import lowpoly_humanoid as lp  # noqa: E402
 
@@ -21,6 +19,7 @@ robe = lp.make_material("Cultista_Tunica", "#141418", roughness=0.95)
 hood_inside = lp.make_material("Cultista_InteriorCapucha", "#050505", roughness=1.0)
 rope = lp.make_material("Cultista_Cuerda", "#3B2A1E", roughness=0.9)
 star = lp.make_material("Cultista_Estrella", "#7A1010", roughness=0.6)
+mask = lp.make_material("Cultista_Mascara", "#D8D0BC", roughness=0.55)
 eyes = lp.make_material("Cultista_Ojos", "#FF2A10", roughness=0.4, emission_strength=4.0)
 skin = lp.make_material("Cultista_Piel", "#6E5A4E", roughness=0.8)
 sandal = lp.make_material("Cultista_Sandalias", "#2E2219", roughness=0.9)
@@ -31,36 +30,59 @@ bones = lp.humanoid_bones()
 rig = lp.build_armature("Cultista", bones)
 
 b = lp.PartBuilder()
+DEPTH = 0.85  # bodies are a bit shallower front-to-back than wide
 
-# Robe: a tapered skirt that follows the hips and a torso that follows spine and chest.
-b.tube((0, 0, 0.12), (0, 0, 1.00), 0.36, 0.21, robe, "Hips", segments=12, cap=False)
-b.tube((0, 0, 1.00), (0, 0, 1.20), 0.21, 0.22, robe, "Spine", segments=12, cap=False)
-b.tube((0, 0, 1.20), (0, 0, 1.44), 0.22, 0.12, robe, "Chest", segments=12)
-b.torus((0, 0, 1.00), 0.215, 0.018, rope, "Hips")
-b.star((0, -0.228, 1.30), 0.07, 8, star, "Chest")
+# Robe skirt: pleated cloth from the hem to the waist (follows the hips).
+b.lathe([(0.10, 0.34), (0.35, 0.32), (0.65, 0.27), (0.90, 0.22), (1.00, 0.205)], robe, "Hips",
+        segments=20, folds=8, fold_depth=0.07, scale_y=DEPTH)
+# Torso under the cape.
+b.lathe([(1.00, 0.20), (1.20, 0.21)], robe, "Spine", segments=16, scale_y=0.8)
+b.lathe([(1.20, 0.21), (1.36, 0.215), (1.46, 0.12)], robe, "Chest", segments=16, scale_y=0.8, cap_top=True)
+# Rope belt with two hanging ends tied at the front.
+b.lathe([(0.98, 0.212), (1.00, 0.224), (1.02, 0.212)], rope, "Hips", segments=20, scale_y=DEPTH)
+for x in (-0.03, 0.025):
+    b.tube((x, -0.19, 0.99), (x * 1.6, -0.21, 0.72), 0.011, 0.009, rope, "Hips", segments=5)
+b.star((0, -0.234, 1.33), 0.06, 8, star, "Chest", facing=(0, -1, 0.35))  # on the cape, visible from the front
 
-# Hood: a pointed cone with the front opened, so the face is a dark void with two glowing eyes.
-hood = b.tube((0, 0.01, 1.38), (0, 0.02, 1.68), 0.17, 0.15, robe, "Head", segments=12, cap=False)
-b.delete_faces(hood, lambda c, n: n.y < -0.55 and 1.48 < c.z < 1.70)
-b.tube((0, 0.02, 1.68), (0, 0.05, 1.84), 0.15, 0.0, robe, "Head", segments=12, cap=False)  # tip leans back a little
-b.sphere((0, 0.03, 1.60), 0.105, hood_inside, "Head", segments=10, rings=6)
-for x in (-0.035, 0.035):
-    b.sphere((x, -0.07, 1.615), 0.012, eyes, "Head", segments=6, rings=4)
+# Cape (esclavina): short pleated capelet over the shoulders, under the hood.
+b.lathe([(1.24, 0.30), (1.30, 0.29), (1.40, 0.24), (1.46, 0.15), (1.50, 0.10)], robe, "Chest",
+        segments=20, folds=10, fold_depth=0.05, scale_y=DEPTH)
 
-# Sleeves (wide at the wrist) and hands.
+# Hood: rounded cloth around the head with a deep opening for the face. A dark lining inside
+# hides the back of the hood when looking into the opening.
+hood_profile = [(1.42, 0.17), (1.52, 0.165), (1.62, 0.16), (1.70, 0.14), (1.77, 0.10), (1.81, 0.05), (1.82, 0.0)]
+opening = lambda c, n: c.y < -0.05 and 1.49 < c.z < 1.73  # noqa: E731
+hood = b.lathe(hood_profile, robe, "Head", center=(0, 0.025), segments=16, scale_y=1.1)
+b.delete_faces(hood, opening)
+lining = b.lathe([(z, max(r - 0.012, 0.0)) for z, r in hood_profile], hood_inside, "Head",
+                 center=(0, 0.025), segments=16, scale_y=1.1, inward=True)
+b.delete_faces(lining, opening)
+b.sphere((0, 0.03, 1.60), 0.10, hood_inside, "Head", segments=10, rings=6)
+
+# Ritual mask: pale bone face with the cult's star painted on the forehead and glowing eyes.
+b.sphere((0, -0.06, 1.60), 1.0, mask, "Head", segments=12, rings=8, scale=(0.08, 0.045, 0.105))
+for x in (-0.03, 0.03):
+    b.sphere((x, -0.101, 1.625), 0.017, hood_inside, "Head", segments=8, rings=4, scale=(1.0, 0.35, 0.8))
+    b.sphere((x, -0.106, 1.625), 0.006, eyes, "Head", segments=6, rings=4)
+b.star((0, -0.095, 1.672), 0.022, 8, star, "Head", depth=0.003, facing=(0, -1, 0.6))
+
+# Sleeves (wider at the wrist) and hands with a thumb.
 for side, sign in (("Left", 1), ("Right", -1)):
-    b.tube((sign * 0.16, 0, 1.42), (sign * 0.48, 0, 1.42), 0.08, 0.07, robe, f"{side}UpperArm", segments=8)
-    b.tube((sign * 0.48, 0, 1.42), (sign * 0.78, 0, 1.42), 0.07, 0.095, robe, f"{side}LowerArm", segments=8, cap=False)
+    b.tube((sign * 0.16, 0, 1.42), (sign * 0.48, 0, 1.42), 0.08, 0.072, robe, f"{side}UpperArm", segments=10)
+    b.tube((sign * 0.48, 0, 1.42), (sign * 0.78, 0, 1.42), 0.072, 0.10, robe, f"{side}LowerArm", segments=10, cap=False)
     b.box((sign * 0.83, 0, 1.42), (0.10, 0.04, 0.085), skin, f"{side}Hand")
+    b.box((sign * 0.80, -0.03, 1.435), (0.05, 0.025, 0.025), skin, f"{side}Hand")
     # Legs only show at the ankles; the rest stays under the robe.
     b.tube((sign * 0.10, 0, 0.92), (sign * 0.10, 0, 0.50), 0.075, 0.06, robe, f"{side}UpperLeg", segments=8)
     b.tube((sign * 0.10, 0, 0.50), (sign * 0.10, 0, 0.07), 0.06, 0.045, skin, f"{side}LowerLeg", segments=8)
     b.box((sign * 0.10, -0.05, 0.03), (0.095, 0.25, 0.05), sandal, f"{side}Foot")
 
-# Machete in the right hand: handle in the fist, blade pointing forward and a little down.
-tilt = Quaternion((1, 0, 0), math.radians(-10))
+# Machete in the right hand: wooden handle in the fist, small guard and a blade that widens to a
+# curved tip, drawn in profile and extruded.
 b.tube((-0.83, 0.05, 1.42), (-0.83, -0.08, 1.42), 0.016, 0.016, handle, "RightHand", segments=6)
-b.box((-0.83, -0.29, 1.40), (0.008, 0.42, 0.055), blade, "RightHand", rotation=tilt)
+b.box((-0.83, -0.085, 1.42), (0.02, 0.012, 0.05), handle, "RightHand")
+b.prism([(-0.09, 1.44), (-0.40, 1.448), (-0.50, 1.44), (-0.53, 1.415), (-0.50, 1.385), (-0.09, 1.395)],
+        -0.83, 0.006, blade, "RightHand")
 
 body, triangles = b.finish("Cultista", rig)
 
