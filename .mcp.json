@@ -2,11 +2,15 @@
   "mcpServers": {
     "blender": {
       "command": "uvx",
-      "args": ["mcp-for-blender"],
+      "args": ["mcp-for-blender@2.2.6"],
       "env": {
         "DISABLE_TELEMETRY": "true",
         "BLENDER_MCP_SAFE_MODE": "1"
       }
+    },
+    "unity-editor-mcp": {
+      "command": "unity",
+      "args": ["mcp"]
     }
   }
 }
