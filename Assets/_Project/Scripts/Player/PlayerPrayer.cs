@@ -19,6 +19,8 @@ namespace Animas.Player
         public bool IsPraying => holdStarted >= 0f;
         public float CooldownLeft => Mathf.Max(0f, readyAt - Time.time);
         public bool IsReady => CooldownLeft <= 0f;
+        // At the anchor during the final ritual, R belongs to the ritual (a separate mode, GDD §5).
+        public bool Suppressed { get; set; }
 
         // 0..1 while R is held (the HUD fills a bar); -1 when not praying.
         public event Action<float> ProgressChanged;
@@ -35,6 +37,11 @@ namespace Animas.Player
 
         void Update()
         {
+            if (Suppressed)
+            {
+                Cancel();
+                return;
+            }
             if (prayAction.WasPressedThisFrame())
             {
                 if (IsReady) Begin();

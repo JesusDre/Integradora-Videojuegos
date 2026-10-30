@@ -48,6 +48,16 @@ namespace Animas.Levels
         // The ritual finished (or was abandoned): no more waves. Cultists already out keep fighting.
         public void Stop() => Running = false;
 
+        // The Padre died during the ritual: it will be repeated from the start, so its cultists go away.
+        public void ResetWaves()
+        {
+            Running = false;
+            WavesStarted = 0;
+            foreach (CultistAI cultist in alive.ToArray())
+                if (cultist != null) Destroy(cultist.gameObject);
+            alive.Clear();
+        }
+
         void Update()
         {
             if (!Running) return;
