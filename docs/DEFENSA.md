@@ -767,7 +767,23 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | `SubtitleUI` | prefab `PF_HUD` | `Show(texto)`: lo deja en pantalla según su largo (mínimo 2 s). Lo usarán las notas y las frases del Padre (#33). |
 | `RitualBarUI` | prefab `PF_HUD` | `Begin`, `SetProgress(0–1)` y `End`, para el ritual (#34). |
 
-**Paleta de la interfaz.** Paneles casi negros semitransparentes (#0E0F12), texto color hueso (#E8E1D3), vida rojo sangre (#B3261E) con alerta más clara (#FF4536), resistencia dorado de veladora (#C9A327) y ritual azul pálido (#8CBFF2). Los colores están en el Inspector de `HUDController`, así que se ajustan sin código.
+**Paleta de la interfaz** (*issue #2*). Son 9 colores. La base es el fondo casi negro de los paneles (#0E0F12) y el texto color hueso (#E8E1D3), que se lee bien sin ser blanco puro. El acento es dorado de veladora (#DBAD54) y la vida es rojo sangre (#B3261E), con una alerta más clara (#FF4536). La resistencia es dorada (#C9A327) y el ritual, azul pálido (#8CBFF2). Cada instancia tiene una variante (fondo, tono, niebla y acento) que acompaña al HUD sin cambiarlo. Los colores están en el Inspector de `HUDController` y de los menús, así que se ajustan sin código.
+
+![Paleta](img/bocetos/paleta.png)
+
+**Bocetos** (*issues #6 y #7*). Hay un PNG de 1920×1080 por pantalla, con notas numeradas: HUD, inventario, altar, menú principal, selección de instancia, pausa, opciones, derrota, victoria y créditos. No se dibujaron a mano. En Play Mode se midió la posición, el color y el texto de cada elemento de las pantallas reales (`Tools/Bocetos/layouts/*.json`), y `Tools/Bocetos/dibujar_bocetos.py` los redibuja planos con su leyenda. Por eso el boceto siempre coincide con el juego: si una pantalla cambia, se mide otra vez y se corre el script.
+
+| HUD | Inventario | Altar |
+|---|---|---|
+| ![HUD](img/bocetos/boceto_hud.png) | ![Inventario](img/bocetos/boceto_inventario.png) | ![Altar](img/bocetos/boceto_altar.png) |
+
+| Menú principal | Selección | Pausa |
+|---|---|---|
+| ![Menú](img/bocetos/boceto_menu_principal.png) | ![Selección](img/bocetos/boceto_menu_seleccion.png) | ![Pausa](img/bocetos/boceto_pausa.png) |
+
+| Opciones | Derrota | Victoria | Créditos |
+|---|---|---|---|
+| ![Opciones](img/bocetos/boceto_menu_opciones.png) | ![Derrota](img/bocetos/boceto_derrota.png) | ![Victoria](img/bocetos/boceto_victoria.png) | ![Créditos](img/bocetos/boceto_menu_creditos.png) |
 
 **Por qué así.**
 - **Eventos y no revisar cada cuadro:** la rúbrica y la arquitectura piden que la UI reaccione al juego; el HUD no pregunta 60 veces por segundo cuánta vida hay, se entera cuando cambia.
