@@ -899,7 +899,7 @@ Al escapar del ex-convento llega la **victoria final**:
 *Pendiente — issues #44 y #50.*
 
 ### 5.16 Arte: modelos, animaciones e iluminación
-*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Pendientes: props (#19), brazos del Padre (#28) e iluminación.*
+*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Props: #19. Pendientes: brazos del Padre (#28) e iluminación.*
 
 **Qué hace.** Los personajes se diseñan en una **ficha** (`docs/personajes/`) y se construyen en Blender **con código**: un script arma el modelo low-poly con formas simples, le pone esqueleto, lo anima y lo exporta a Unity. El Cultista es el primero: túnica negra plisada, capucha de tela honda, máscara ritual de hueso con la estrella de ocho puntas en la frente y ojos rojos, la estrella plana en el pecho y un machete. Tiene unos 1 620 triángulos y 5 animaciones: `Idle`, `Walk`, `Run`, `Attack` y `Death`.
 
@@ -945,6 +945,30 @@ En Unity cada uno tiene su prefab (`Prefabs/Items/ObjetosClave/PF_ObjetoClave_*`
 Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparecen sobre cada ancla al colocar las ofrendas. Las 10 muñecas colgadas de Xochimilco también son ahora el modelo de la muñeca.
 
 ![Muñeca a 8 m](img/props/muneca_8m.png)
+
+**Los props de crafteo y combate** (*issue #19*) salen de `Tools/Blender/obj_props.py`. Son 11 modelos de 40 a 260 triángulos, a tamaño real:
+- machete;
+- escopeta de dos cañones;
+- tres botellas que se distinguen por el color del vidrio: verde vacía, azul pálido con una cruz para el agua bendita y ámbar con trapo para la molotov;
+- veladora roja con flama;
+- costal de sal;
+- cruz de plata;
+- chancla;
+- sahumerio de copal con brasas;
+- venda.
+
+![Props](img/props/props.png)
+
+**Dónde se usan.**
+- **En el suelo:** `ItemDefinition` tiene un campo nuevo, `model`. `PickupItem` oculta su caja y muestra ese modelo un poco más grande (×1.4) para que lo pequeño se vea. Así un solo prefab de pickup sirve para todo: alijos, botín de cultistas y objetos tirados.
+- **Efectos:** el frasco que se lanza (agua bendita o molotov) es la botella, y la veladora colocada y el sahumerio del copal usan sus modelos.
+- **Primera persona:** la escopeta es el modelo nuevo. El machete, la cruz y la chancla se verán en la mano cuando existan los brazos del Padre (#28).
+
+![Escopeta, veladoras y copal en el juego](img/props/escopeta_vela_copal.png)
+
+**Detalles que salieron en la prueba.**
+- La linterna estaba en el mismo lugar que la escopeta (abajo a la derecha) y le daba de frente a centímetros: la culata salía blanca. Ahora la linterna va a la izquierda (la mano libre) y la escopeta es de metal mate.
+- El humo del copal era una esfera blanca opaca que tapaba la vista; ahora es semitransparente. El efecto final del humo queda para #44.
 
 **Cómo se probó.** En Blender se renderizaron cuadros de cada animación desde el FBX exportado. En Unity, el avatar es Humanoid válido con los 19 huesos mapeados, el personaje mira hacia +Z, y en Play Mode pasa por `Locomotion`, `Attack` (0.87 s) y `Death` (termina tirado en el suelo) sin errores.
 

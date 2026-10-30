@@ -171,8 +171,10 @@ def render_preview(objects, filename, resolution=(1400, 600)):
     cam = bpy.data.objects.new("PreviewCam", cam_data)
     bpy.context.collection.objects.link(cam)
     scene.camera = cam
-    cam.location = (0, -5, tallest / 2)
-    cam.rotation_euler = (math.radians(90), 0, 0)
+    # A 3/4 view from slightly above, so flat props (machete, chancla) still read.
+    cam.rotation_euler = (math.radians(65), 0, math.radians(20))
+    view = cam.rotation_euler.to_matrix() @ Vector((0, 0, -1))
+    cam.location = Vector((0, 0, tallest / 2)) - view * 6
     path = os.path.join(PREVIEW_DIR, filename)
     scene.render.filepath = path
     bpy.ops.render.render(write_still=True)

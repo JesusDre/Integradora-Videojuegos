@@ -28,6 +28,8 @@ namespace Animas.Items
         [Header("World")]
         [Tooltip("What appears on the floor when the player drops it. Empty: a generic box.")]
         public GameObject worldPrefab;
+        [Tooltip("The 3D model shown when it lies on the floor (issue #19). Empty = the generic box.")]
+        public GameObject model;
 
         public bool IsMaterial => category == ItemCategory.Material;
     }
