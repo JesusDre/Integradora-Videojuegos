@@ -28,6 +28,7 @@ namespace Animas.Player
         Health ownHealth;
         InputAction attackAction;
         float nextAttackTime;
+        readonly RaycastHit[] hits = new RaycastHit[16];  // reused every swing, so no garbage
 
         void Awake()
         {
@@ -53,17 +54,29 @@ namespace Animas.Player
             Swung?.Invoke();
 
             // A thick ray (sphere cast) is more forgiving than a thin one: grazing a cultist still counts.
-            if (Physics.SphereCast(aim.position, weapon.hitRadius, aim.forward, out RaycastHit hit,
-                    weapon.range, hitLayers, QueryTriggerInteraction.Ignore))
+            // The nearest thing it touches is what the machete hits, skipping the Padre's own body (aiming
+            // down at a crawling enemy, the cast starts inside his collider).
+            int count = Physics.SphereCastNonAlloc(aim.position, weapon.hitRadius, aim.forward, hits,
+                weapon.range, hitLayers, QueryTriggerInteraction.Ignore);
+            Collider nearest = null;
+            float nearestDistance = float.MaxValue;
+            for (int i = 0; i < count; i++)
             {
-                Health target = hit.collider.GetComponentInParent<Health>();
-                if (target != null && target != ownHealth && !target.IsDead)
+                if (hits[i].collider.transform.IsChildOf(transform)) continue;
+                if (hits[i].distance < nearestDistance)
                 {
-                    float damage = target.Kind == HealthKind.Spirit ? weapon.damageToSpirits : weapon.damageToHumans;
-                    target.TakeDamage(damage);
-                    Play(weapon.hitClip);
-                    HitLanded?.Invoke(target, damage);
+                    nearest = hits[i].collider;
+                    nearestDistance = hits[i].distance;
                 }
+            }
+
+            Health target = nearest != null ? nearest.GetComponentInParent<Health>() : null;
+            if (target != null && target != ownHealth && !target.IsDead)
+            {
+                float damage = target.Kind == HealthKind.Spirit ? weapon.damageToSpirits : weapon.damageToHumans;
+                target.TakeDamage(damage);
+                Play(weapon.hitClip);
+                HitLanded?.Invoke(target, damage);
             }
             return true;
         }

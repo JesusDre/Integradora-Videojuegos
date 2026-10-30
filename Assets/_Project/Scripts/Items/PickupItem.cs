@@ -4,26 +4,41 @@ using UnityEngine;
 
 namespace Animas.Items
 {
-    // An object on the ground that disappears when picked up with F.
-    // Issue #14 connects it to the inventory; for now it only announces the pickup.
+    // An item lying in the world: F puts it in the inventory. If only part fits (inventory full or 99
+    // materials), the rest stays on the floor.
     public class PickupItem : MonoBehaviour, IInteractable
     {
-        [SerializeField] string displayName = "objeto";
+        [SerializeField] ItemDefinition item;
+        [SerializeField, Min(1)] int amount = 1;
         [SerializeField] AudioClip pickupClip;
 
-        public string DisplayName => displayName;
-        public string Prompt => $"Recoger {displayName}";
+        public ItemDefinition Item => item;
+        public int Amount => amount;
+        public string Prompt => item == null ? "Recoger" : amount > 1 ? $"Recoger {item.displayName} ×{amount}" : $"Recoger {item.displayName}";
 
-        // Static so systems (inventory, tutorial hints) can listen to every pickup without a reference to each one.
+        // Static so systems (tutorial hints, quests) can listen to every pickup without a reference to each one.
         public static event Action<PickupItem> PickedUp;
+
+        // Used when the player drops something: the new pickup carries the dropped item.
+        public void Set(ItemDefinition newItem, int newAmount)
+        {
+            item = newItem;
+            amount = Mathf.Max(1, newAmount);
+        }
 
         public void Interact(Interactor interactor)
         {
-            // PlayClipAtPoint because this object is about to be destroyed and its own AudioSource would cut off.
+            var inventory = interactor.GetComponentInParent<Inventory>();
+            if (inventory == null || item == null) return;
+
+            int taken = inventory.TryAdd(item, amount);
+            if (taken == 0) return;  // the inventory already showed "Inventario lleno"
+
+            amount -= taken;
+            // PlayClipAtPoint because this object may be destroyed right away and its own AudioSource would cut off.
             if (pickupClip != null) AudioSource.PlayClipAtPoint(pickupClip, transform.position);
             PickedUp?.Invoke(this);
-            Debug.Log($"[PickupItem] Recogido: {displayName}");
-            Destroy(gameObject);
+            if (amount == 0) Destroy(gameObject);
         }
     }
 }
