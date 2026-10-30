@@ -21,6 +21,7 @@ namespace Animas.Items
                 foreach (Collider mine in flask.GetComponentsInChildren<Collider>())
                     Physics.IgnoreCollision(own, mine);
             flask.linearVelocity = aim.forward * throwSpeed + Vector3.up * upward;
+            user.NotifyThrew();
             return true;
         }
     }

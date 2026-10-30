@@ -899,7 +899,7 @@ Al escapar del ex-convento llega la **victoria final**:
 *Pendiente — issues #44 y #50.*
 
 ### 5.16 Arte: modelos, animaciones e iluminación
-*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Props: #19. Pendientes: brazos del Padre (#28) e iluminación.*
+*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Props: #19. Brazos del Padre: #28. Pendiente: iluminación, texturas (#101), cielo (#102) y ambiente (#103).*
 
 **Qué hace.** Los personajes se diseñan en una **ficha** (`docs/personajes/`) y se construyen en Blender **con código**: un script arma el modelo low-poly con formas simples, le pone esqueleto, lo anima y lo exporta a Unity. El Cultista es el primero: túnica negra plisada, capucha de tela honda, máscara ritual de hueso con la estrella de ocho puntas en la frente y ojos rojos, la estrella plana en el pecho y un machete. Tiene unos 1 620 triángulos y 5 animaciones: `Idle`, `Walk`, `Run`, `Attack` y `Death`.
 
@@ -970,6 +970,27 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 - La linterna estaba en el mismo lugar que la escopeta (abajo a la derecha) y le daba de frente a centímetros: la culata salía blanca. Ahora la linterna va a la izquierda (la mano libre) y la escopeta es de metal mate.
 - El humo del copal era una esfera blanca opaca que tapaba la vista; ahora es semitransparente. El efecto final del humo queda para #44.
 
+**Los brazos del Padre** (*issue #28*, `Tools/Blender/chr_brazos_padre.py`) son el único modelo que el jugador ve todo el tiempo:
+- mangas de sotana negra con puño blanco, manos y un rosario de madera en la muñeca izquierda (~900 triángulos);
+- se modelaron **desde la cámara**: la cámara está en el origen y los hombros quedan justo detrás y abajo de ella, así que en Unity el modelo cuelga de la cámara sin acomodarlo;
+- esqueleto Generic de 8 huesos, uno de ellos `RightGrip` en la palma, donde se sujeta el arma;
+- 5 clips: `Idle` (respiración), `Attack` (sube el brazo y corta en diagonal), `Pray` (manos juntas), `Throw` (atrás del hombro y al frente) y `PickUp` (se estira al frente).
+
+![Brazos en el juego](personajes/img/brazos_juego.png)
+![Machete, ataque, cruz y chancla en la mano](personajes/img/brazos_armas.png)
+![Las 5 poses vistas desde la cámara (render de Blender)](personajes/img/brazos_hoja.png)
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `AC_BrazosPadre` | `Art/Animations` | `Idle` ↔ `Pray` con el bool `Praying`. Los triggers `Attack`, `Throw` y `PickUp` saltan desde cualquier estado y regresan a `Idle`. |
+| `FirstPersonArms` | cámara del Padre | No decide nada, solo escucha lo que otros sistemas ya avisan: `PlayerCombat.Swung` → `Attack`; `PlayerPrayer.ProgressChanged` y R en el ritual → `Praying`; `ItemUser.Threw` → `Throw`; `ItemUser.Placed` e `Interactor.Interacted` → `PickUp`. Pone en la mano el `viewModel` del arma cuerpo a cuerpo y se oculta con la escopeta, que tiene su propio modelo. |
+| `MeleeWeaponDefinition.viewModel` | `WPN_*` | El modelo en la mano: `PF_Vista_Machete`, `PF_Vista_Cruz` y `PF_Vista_Chancla`. |
+| Eventos nuevos | `Interactor`, `ItemUser`, `ThrowEffect`, `PlaceEffect` | Avisos de "usó F", "lanzó" y "colocó", para que los brazos reaccionen sin que esos scripts conozcan a los brazos. |
+
+**Detalles que salieron en la prueba.**
+- En reposo, las manos apenas asomaban abajo, y el ataque y el recoger sacaban el brazo del cuadro: el hombro está debajo de la cámara, así que el antebrazo tiene que subir para verse. Se subieron los brazos (las manos quedan unos 18° abajo del centro) y se ajustaron las poses viendo cada cuadro desde la cámara.
+- Las armas salían apuntando a un lado. En vez de adivinar ángulos, un script mide el eje largo de cada modelo y lo gira hacia la dirección deseada vista desde la cámara: el machete arriba y al frente, la cruz casi vertical.
+
 **Cómo se probó.** En Blender se renderizaron cuadros de cada animación desde el FBX exportado. En Unity, el avatar es Humanoid válido con los 19 huesos mapeados, el personaje mira hacia +Z, y en Play Mode pasa por `Locomotion`, `Attack` (0.87 s) y `Death` (termina tirado en el suelo) sin errores.
 
 **Preguntas probables.**
@@ -977,6 +998,8 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 |---|---|
 | ¿Por qué no usaron Mixamo como decía el plan? | Mixamo pide cuenta de Adobe y subir el modelo; con código el esqueleto y las animaciones son nuestros, se regeneran y no dependen de un servicio. |
 | ¿Qué es un rig? | El esqueleto: huesos dentro del modelo. Al girar un hueso, la parte del modelo pegada a él se mueve. |
+| ¿Cómo sabe el brazo cuándo atacar? | `FirstPersonArms` escucha el evento `Swung` de `PlayerCombat` y activa el trigger `Attack` del Animator. El combate no sabe que existen los brazos. |
+| ¿Por qué los brazos desaparecen con la escopeta? | La escopeta ya tiene su propio modelo en primera persona; mostrar ambos taparía la pantalla. |
 | ¿Por qué tan pocos polígonos? | El GDD pide low-poly y en una oleada hay varios cultistas a la vez; unos 1 620 triángulos dejan rendimiento de sobra. |
 | ¿Cómo camina la Tzitzimime por el techo si su animación es en el suelo? | La animación es un gateo normal; en el juego el código gira el modelo 180° y lo pega al techo. Así una sola animación sirve y no hay que hacer física de techo. |
 | ¿Por qué el caballo no es Humanoid? | Humanoid es solo para cuerpos humanos (cabeza, dos brazos, dos piernas). Un cuadrúpedo usa un esqueleto Generic con sus propios huesos y sus clips se reproducen tal cual. |

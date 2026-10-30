@@ -16,6 +16,8 @@ namespace Animas.Player
 
         // Fires only when the focused object changes (null = nothing in front), so the prompt UI updates on events, not polling.
         public event Action<IInteractable> FocusChanged;
+        // F was used on something: the first-person arms reach out (#28).
+        public event Action<IInteractable> Interacted;
 
         InputAction interactAction;
         readonly RaycastHit[] hits = new RaycastHit[16];  // reused every frame, so no garbage
@@ -37,7 +39,9 @@ namespace Animas.Player
 
             if (Current != null && interactAction.WasPressedThisFrame())
             {
-                Current.Interact(this);
+                IInteractable used = Current;
+                used.Interact(this);
+                Interacted?.Invoke(used);
                 // The prompt may change after use ("Abrir" → "Cerrar"), so notify again.
                 FocusChanged?.Invoke(Current);
             }

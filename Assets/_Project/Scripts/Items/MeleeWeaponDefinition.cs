@@ -7,6 +7,8 @@ namespace Animas.Items
     public class MeleeWeaponDefinition : ScriptableObject
     {
         public string displayName = "machete";
+        [Tooltip("What the Padre holds in his right hand in first person (#28). Empty = bare hand.")]
+        public GameObject viewModel;
 
         [Header("Damage")]
         [Min(0f)] public float damageToHumans = 20f;

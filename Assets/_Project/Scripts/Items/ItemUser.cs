@@ -1,3 +1,4 @@
+using System;
 using Animas.Player;
 using UnityEngine;
 
@@ -15,6 +16,12 @@ namespace Animas.Items
         public Transform Aim => aim;
         public Inventory Inventory => inventory;
         public ItemDefinition EquippedItem { get; private set; }
+
+        // The first-person arms (#28) listen: throwing a flask, or placing something on the floor.
+        public event Action Threw;
+        public event Action Placed;
+        public void NotifyThrew() => Threw?.Invoke();
+        public void NotifyPlaced() => Placed?.Invoke();
 
         MeleeWeaponDefinition defaultWeapon;
 
