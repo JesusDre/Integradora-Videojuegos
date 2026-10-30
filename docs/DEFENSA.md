@@ -899,7 +899,7 @@ Al escapar del ex-convento llega la **victoria final**:
 *Pendiente — issues #44 y #50.*
 
 ### 5.16 Arte: modelos, animaciones e iluminación
-*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Pendiente: brazos del Padre (#28) e iluminación.*
+*Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Pendientes: props (#19), brazos del Padre (#28) e iluminación.*
 
 **Qué hace.** Los personajes se diseñan en una **ficha** (`docs/personajes/`) y se construyen en Blender **con código**: un script arma el modelo low-poly con formas simples, le pone esqueleto, lo anima y lo exporta a Unity. El Cultista es el primero: túnica negra plisada, capucha de tela honda, máscara ritual de hueso con la estrella de ocho puntas en la frente y ojos rojos, la estrella plana en el pecho y un machete. Tiene unos 1 620 triángulos y 5 animaciones: `Idle`, `Walk`, `Run`, `Attack` y `Death`.
 
@@ -925,6 +925,26 @@ Al escapar del ex-convento llega la **victoria final**:
 **El Charro Negro y su caballo** (`Tools/Blender/ent_charro.py` y `ent_caballo.py`, ficha `docs/personajes/charro.md`) son dos modelos. El caballo no es humano, así que su esqueleto es **Generic** (no Humanoid): 21 huesos propios, con las patas traseras en ángulo como un caballo real, y clips `Idle`, `Gallop`, `Charge` (se encabrita y arremete), `Hit` y `Dissolve`. El caballo se modela con un **loft**: anillos a lo largo del cuerpo, cada uno pegado a su hueso, que forman una sola pieza (cruz, lomo y grupa) en vez de esferas sueltas; igual el cuello y la cabeza. El caballo es un caballo de guerra escalado ×1.15 (cruz a ~1.9 m), musculoso, con patas de cilindros gruesos, cabeza ancha y crin corta; monta a pelo (sin silla). El jinete sí es Humanoid y robusto: chaqueta de charro entallada con solapas y bordado de plata, guantes con dedos, moño rojo oscuro, sombrero de ala ancha asentado sobre una calavera con brasas rojas en los ojos. Las riendas llegan a sus manos: cada rienda tiene un extremo pegado a la cabeza del caballo y el otro al hueso donde va montado, justo donde quedan sus manos en `RideIdle` (se midió en Blender). Se modela de pie y la postura de montar sale de sus clips (`RideIdle`, `RideGallop`, `Offer`, `Dissolve`). En el prefab `PF_CharroNegro`, el jinete es hijo del hueso `Saddle` del caballo, así que va pegado a la silla en cualquier movimiento.
 
 **La Tzitzimime** (`Tools/Blender/ent_tzitzimime.py`, ficha `docs/personajes/tzitzimime.md`) es el jefe final: una figura de 3.2 m inspirada en los seres de las estrellas del mito mexica, encorvada, con cráneo de ojos rojos y mandíbula abierta, un sol negro de obsidiana detrás de la cabeza (tocado ceremonial), cuerpo esquelético oscuro como el cielo con puntos de luz, taparrabo de tiras y huesos, púas en la espalda y garras muy largas. Sus clips son `CeilingCrawl` (gatea; el código la pone en el techo), `CeilingAttack`, `Reveal` (el copal la quema), `FinalIdle`, `FinalAttack` y `Defeat`.
+
+**Los objetos clave** (*issue #29*) se hicieron con el mismo método, pero sin esqueleto. `Tools/Blender/lowpoly_props.py` tiene las piezas para objetos fijos: revolución, cilindro, caja, esfera, prisma y "casco convexo" para piedras. `obj_objetos_clave.py` arma los tres:
+
+| Objeto | Tamaño | Cómo se reconoce de lejos | Triángulos |
+|---|---|---|---|
+| Muñeca ofrenda (`obj_muneca.fbx`) | 0.40 m | Porcelana blanca sucia, pelo negro largo y listón rojo, como las muñecas colgadas de Xochimilco; brilla blanco | ~700 |
+| Moneda del pacto (`obj_moneda.fbx`) | Ø 0.26 m en el juego | Oro viejo con la estrella de ocho puntas del culto en rojo por ambas caras; brillo dorado | ~300 |
+| Fragmento de obsidiana (`obj_obsidiana.fbx`) | 0.38 m en el juego | Esquirla negra brillante con vetas rojas que emiten luz; brillo rojo | ~70 |
+
+![Objetos clave](img/props/objetos_clave.png)
+
+En Unity cada uno tiene su prefab (`Prefabs/Items/ObjetosClave/PF_ObjetoClave_*`) con:
+- `KeyItemPickup`;
+- un collider fijo para que F siempre lo encuentre;
+- una luz pequeña de su color;
+- `PickupSpin`, que gira el modelo y lo hace flotar 5 cm para que llame la atención en la oscuridad.
+
+Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparecen sobre cada ancla al colocar las ofrendas. Las 10 muñecas colgadas de Xochimilco también son ahora el modelo de la muñeca.
+
+![Muñeca a 8 m](img/props/muneca_8m.png)
 
 **Cómo se probó.** En Blender se renderizaron cuadros de cada animación desde el FBX exportado. En Unity, el avatar es Humanoid válido con los 19 huesos mapeados, el personaje mira hacia +Z, y en Play Mode pasa por `Locomotion`, `Attack` (0.87 s) y `Death` (termina tirado en el suelo) sin errores.
 

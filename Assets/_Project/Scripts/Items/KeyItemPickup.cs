@@ -48,6 +48,8 @@ namespace Animas.Items
             bool visible = !bag.HasCollected(id);
             foreach (Renderer r in GetComponentsInChildren<Renderer>()) r.enabled = visible;
             foreach (Collider c in GetComponentsInChildren<Collider>()) c.enabled = visible;
+            // Its little glow goes away with it.
+            foreach (Light l in GetComponentsInChildren<Light>()) l.enabled = visible;
         }
 
         static string Capitalize(string s) => string.IsNullOrEmpty(s) ? s : char.ToUpper(s[0]) + s.Substring(1);
