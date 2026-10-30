@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8da2acfa003c5c03afa40d3e31ac418, type: 3}
+  m_Name: ItemDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDatabase
+  items:
+  - {fileID: 11400000, guid: 2e8ee6d6989b6b65db1de303328da089, type: 2}
+  - {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
+  - {fileID: 11400000, guid: 2531eb052b0a108cb88501a079c61dfc, type: 2}
+  - {fileID: 11400000, guid: 675d76ad06f6a750fafb227d4b9d0f46, type: 2}
+  - {fileID: 11400000, guid: c6da140ca18d334bea59dd3acd47fb19, type: 2}
+  - {fileID: 11400000, guid: f3b17da7a733928e8b6d069b5ab1b9f7, type: 2}
+  - {fileID: 11400000, guid: fe156b096c4f4d1dfb04bc53cefe6e42, type: 2}
+  - {fileID: 11400000, guid: 90c4d8c105340bcbabff021ba3b5c7b5, type: 2}
+  - {fileID: 11400000, guid: 9fb175cee178b43a18bf110e8ddb6791, type: 2}
+  - {fileID: 11400000, guid: 0e7282bb6beb7568093975ba51bc779c, type: 2}
+  - {fileID: 11400000, guid: 1ccfd50f92ef26b439d9f87d959f7510, type: 2}
+  - {fileID: 11400000, guid: f6f2d60f6ed28b35dbb1d42314f257ce, type: 2}
+  - {fileID: 11400000, guid: b8cd23d4dd61e2be69363c4bfe4fe57d, type: 2}
+  - {fileID: 11400000, guid: 6a7ef994be38ee96bb4587cb468fdf83, type: 2}
+  - {fileID: 11400000, guid: f45490a9cf36e5b72ac32255919e24e1, type: 2}
+  - {fileID: 11400000, guid: 0b48a7cef0ecc406694f3c2314e5de9a, type: 2}
+  - {fileID: 11400000, guid: 1e5ecb7e3d53a6fc68499cc3ae0bab2f, type: 2}
+  - {fileID: 11400000, guid: a4d06da9a00d4b90187402d52256f0d8, type: 2}
+  - {fileID: 11400000, guid: 85cb94b29b14566ecaba6cb2696124b9, type: 2}
+  - {fileID: 11400000, guid: ccffebe6d7ff2a4c6a66b6854d581ec1, type: 2}
+  - {fileID: 11400000, guid: 1892e905f31ef5aa0a9f850e0bcaffed, type: 2}
+  - {fileID: 11400000, guid: 30a007bf0cd2340f08b364df51a6ba22, type: 2}
+  recipes:
+  - {fileID: 11400000, guid: 88a4fd63e0183f16eaae08b97d929bc6, type: 2}
+  - {fileID: 11400000, guid: b401599e34a43f6538271dfe3ae38169, type: 2}
+  - {fileID: 11400000, guid: 832a9bfb07e57793ca1582201282f5c9, type: 2}
+  - {fileID: 11400000, guid: 2e0178e2a03f8f007b971afaaddbe93c, type: 2}
+  - {fileID: 11400000, guid: 979f4596276938f98b94a1c69e615184, type: 2}
+  - {fileID: 11400000, guid: 0b933199e8aa669d69eb59f9e48edf9a, type: 2}
+  - {fileID: 11400000, guid: 0f7b5e7868f7ae974b162fd366af2900, type: 2}
+  - {fileID: 11400000, guid: 6d481aab054556777af10d8968488ddc, type: 2}
+  - {fileID: 11400000, guid: f08a4af3dd4d8e87bb8ad55844782e7b, type: 2}

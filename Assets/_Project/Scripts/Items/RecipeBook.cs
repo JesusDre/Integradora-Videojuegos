@@ -21,6 +21,15 @@ namespace Animas.Items
         }
 
         public bool Knows(RecipeDefinition recipe) => known.Contains(recipe);
+        public IReadOnlyCollection<RecipeDefinition> Known => known;
+
+        // Loading a save: exactly these recipes, no "new recipe" messages.
+        public void SetKnown(IEnumerable<RecipeDefinition> recipes)
+        {
+            known.Clear();
+            foreach (RecipeDefinition recipe in recipes)
+                if (recipe != null) known.Add(recipe);
+        }
 
         public void Unlock(RecipeDefinition recipe)
         {

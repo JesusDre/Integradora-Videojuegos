@@ -94,6 +94,25 @@ namespace Animas.Items
             return room >= amount;
         }
 
+        // Replaces everything (loading a save). counts[i] goes with items[i]; materials the same way.
+        public void SetContents(ItemDefinition[] slotItems, int[] slotCounts, ItemDefinition[] materialItems, int[] materialCounts)
+        {
+            for (int i = 0; i < SlotCount; i++)
+            {
+                slots[i].Clear();
+                if (i < slotItems.Length && slotItems[i] != null && slotCounts[i] > 0)
+                {
+                    slots[i].item = slotItems[i];
+                    slots[i].count = Mathf.Clamp(slotCounts[i], 1, slotItems[i].maxStack);
+                }
+            }
+            materials.Clear();
+            for (int i = 0; i < materialItems.Length; i++)
+                if (materialItems[i] != null && materialCounts[i] > 0)
+                    materials[materialItems[i]] = Mathf.Min(materialCounts[i], MaxPerMaterial);
+            Changed?.Invoke();
+        }
+
         // Shows a message through the same channel as the inventory's own notices (the altar uses it).
         public void Notify(string message) => Notice?.Invoke(message);
 

@@ -51,5 +51,13 @@ namespace Animas.Core
             if (Current > before) Changed?.Invoke(Current, maxHealth);
             return Current - before;
         }
+
+        // Back from death (respawn at the safe room). The only way to leave 0, so a dead enemy
+        // can't be healed by accident.
+        public void Revive(float amount)
+        {
+            Current = Mathf.Clamp(amount, 1f, maxHealth);
+            Changed?.Invoke(Current, maxHealth);
+        }
     }
 }
