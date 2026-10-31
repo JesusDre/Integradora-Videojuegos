@@ -15,6 +15,9 @@ namespace Animas.Items
         [Tooltip("Spirits only take a quarter of an unblessed weapon's damage; blessed weapons hit them harder.")]
         [Min(0f)] public float damageToSpirits = 5f;
 
+        [Tooltip("Blessed (cruz, chancla, martillo): its hits count against the Charro (#158).")]
+        public bool blessed;
+
         [Header("Use")]
         [Min(0.05f)] public float cooldown = 0.6f;
         [Min(0.5f)] public float range = 2f;

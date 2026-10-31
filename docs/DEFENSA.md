@@ -764,7 +764,7 @@ Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el po
 **Qué hace.** El Charro trota detrás del Padre a 5 m/s, un poco más lento que correr (5.5). Cuando el Padre está a menos de 14 m, embiste: corre en línea recta a 12 m/s hacia donde estaba el Padre y sigue 8 m más. La embestida no gira, así que hacerse a un lado en el último momento la esquiva. Si lo alcanza, quita 25. Después se detiene 1.5 s para dar la vuelta.
 
 - **La capilla:** no puede entrar (los cultistas sí); espera en la puerta.
-- **Fase 1:** las armas no le hacen nada, porque no tiene barra de vida que vaciar.
+- **Fase 1:** las armas no le hacen nada; un golpe bendito solo lo frena un momento (#158).
 - **Fase final (GDD P2 y P8):** empieza cuando el Padre coloca las 3 monedas del pacto en el pedestal de la capilla. Entonces las 3 canaletas frente a la capilla aceptan agua bendita: con F y 1 agua bendita se llenan, brillan y duran 20 s. Si el Charro embiste y cruza una canaleta llena, queda débil 4 s: se detiene, brilla y aparece "¡El Charro está débil! Golpéalo con la cruz cargada".
 - **Cómo se vence:** un golpe cargado de la cruz de plata mientras está débil cuenta como 1 de 3. Con el tercero se disuelve, el portón se abre ("¡Corre al portón!") y el Padre huye a pie hasta la salida.
 - **Si el Padre muere:** vuelve la fase 1. Las monedas regresan al mundo, los golpes se reinician y las canaletas se vacían.
@@ -773,7 +773,7 @@ Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el po
 
 **Cómo funciona.** También es una máquina de estados:
 
-`Chase` (lo persigue) → `Charge` (embiste) → `Recover` (se detiene) → `Chase`. Si cruza el agua bendita: `Weakened` (débil). Con 3 golpes: `Dissolved`. Si el Padre está muerto, en el cuarto seguro o lleva 4 s en la capilla: `Idle` (vuelve a su sitio; #154).
+`Chase` (lo persigue) → `Charge` (embiste) → `Recover` (se detiene) → `Chase`. Si cruza el agua bendita: `Weakened` (débil). Con la vida en 0: `Dissolved` (#158; antes, 3 golpes de cruz). Si el Padre está muerto, en el cuarto seguro o lleva 4 s en la capilla: `Idle` (vuelve a su sitio; #154).
 
 | Pieza | Dónde | Qué hace |
 |---|---|---|
@@ -814,6 +814,45 @@ El nivel real de la hacienda es #40.
 | ¿Cómo se sabe que el golpe fue con la cruz cargada? | `PlayerCombat` lanza `ChargedHitLanded` solo con golpes cargados, y la cruz es la única arma que carga. El Charro además revisa que esté débil. |
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
+
+##### Barra de vida y daño bendito (#158)
+
+**Qué hace.**
+- **Ya no es solo la cruz.** En la fase final, después de colocar las monedas, aparece arriba la barra **«Charro Negro»** con 360 de vida.
+- **Qué le baja vida:** solo lo **bendito**:
+  - las balas de sal de cualquier arma;
+  - el agua bendita;
+  - la cruz de plata, la chancla y el martillo;
+  - **cualquier arma**, incluso el machete o las balas normales, mientras dura el escudo del rezo (10 s).
+- **Qué no le hace nada:** las balas normales y el machete sin rezo, igual que con la Llorona y la Tzitzimime.
+- **La cruz sigue siendo lo mejor.** Cuando cruza una canaleta llena queda **débil 4 s** y recibe el **triple**. Un cruzazo cargado le quita entonces 120: con 3, se disuelve. Un tiro de escopeta con sal le quita 18, o 54 si está débil.
+- **Antes de colocar las monedas no se le puede vencer.** Un golpe bendito solo lo frena 1.2 s. Así no se salta el reto del pedestal y las canaletas.
+- **Las botellas en la canaleta.** Una botella de agua bendita que pasa por encima de una canaleta abierta cae en ella y la llena. El tiro hace un arco: antes pasaba por encima de la canaleta y caía 4 o 5 m más allá.
+
+**Cómo funciona.**
+- **`Health.TakeDamage(cantidad, bendito)`:** guarda en `LastHitBlessed` si el golpe fue bendito. Así lo marca cada arma:
+  - `PlayerShotgun`: bendito si la bala es de sal o si hay escudo;
+  - `PlayerCombat`: bendito si el arma tiene `blessed` (cruz, chancla, martillo) o si hay escudo;
+  - `HolyWaterSplash`: siempre bendito.
+- **`CharroNegroEntity.OnHurt`:**
+  - Si el golpe no es bendito, o aún no es la fase final, se cura lo que perdió.
+  - Si está débil, aplica el daño extra (×`weakDamageMultiplier`). La bandera `addingWeakBonus` evita que ese daño extra se multiplique otra vez.
+  - Al llegar a 0, se disuelve.
+- **La barra:** es la misma `RitualBarUI` de los otros niveles; la hacienda no tiene ritual. `SetTitle("Charro Negro")` le cambia el título.
+- **Las botellas:** `ThrownFlask.Update` le pregunta a cada canaleta `Catches(posición)`. Si la botella va por encima de la canaleta, a menos de 2 m del borde, se rompe ahí.
+
+**Prueba (Play Mode, `I2_Hacienda`).**
+- **Antes de las monedas:** sal y daño normal → la vida siguió en 360.
+- **En la fase final:** la barra apareció. La sal le bajó la vida de 360 a 342; un golpe normal no le hizo nada.
+- **Débil:** un cruzazo cargado lo bajó de 342 a 222. Con 2 más llegó a 0, se disolvió y la barra se ocultó.
+- **Disparo real:** con la escopeta cargada de sal a 5 m, 360 → 342.
+- **Botellas reales:** lanzadas desde la puerta de la capilla a la canaleta de enfrente, con tres inclinaciones distintas. Las tres la llenaron; antes caían 4 m más allá.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe el Charro si el golpe fue bendito? | Cada arma lo dice al hacer daño (`TakeDamage(daño, bendito)`) y `Health` lo guarda en `LastHitBlessed`. El Charro lo lee al recibir el golpe. |
+| ¿Por qué no se le puede matar antes de las monedas? | Porque el reto del nivel es el pedestal y las canaletas. Si bastaran 20 tiros de sal, nadie haría el resto. |
+| ¿Por qué el rezo vuelve bendita cualquier arma? | Para que el rezo sirva en la pelea y el jugador sin balas de sal tenga una salida, con el costo de los 20 s de enfriamiento. |
 
 ##### Monedas que no se pierden, pila sin límite y canaletas a botellazos (#156)
 

@@ -79,9 +79,23 @@ namespace Animas.Levels
         // A thrown bottle that breaks in or right next to the ditch (HolyWaterSplash).
         public bool TryFillFromSplash(Vector3 point, float reach)
         {
-            if (!Unlocked || IsFull || area.bounds.SqrDistance(point) > reach * reach) return false;
+            if (!Unlocked || IsFull) return false;
+            // Measured on the ground only: the bottle can break on the rim or a bit above the ditch.
+            Bounds near = area.bounds;
+            near.Expand(new Vector3(reach * 2f, 20f, reach * 2f));
+            if (!near.Contains(point)) return false;
             Fill();
             return true;
+        }
+
+        // A holy water bottle flying over an open ditch drops into it (#158): a thrown arc tends to pass
+        // over a 2 m ditch and land beyond it, which felt like a miss even when aiming right at it.
+        public bool Catches(Vector3 point)
+        {
+            if (!Unlocked || IsFull) return false;
+            Bounds b = area.bounds;
+            return point.x >= b.min.x && point.x <= b.max.x && point.z >= b.min.z && point.z <= b.max.z
+                && point.y <= b.max.y + 2f;
         }
 
         public bool Contains(Vector3 point) => area.bounds.Contains(point + Vector3.up * 0.5f);
