@@ -163,6 +163,22 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo se entera la UI de los cambios? | Por el evento `Changed`; el inventario no conoce a la UI. La pantalla de inventario (#22) solo tendrá que suscribirse. |
 | ¿Qué pasa con el agua bendita? | Ya se puede recoger y guardar; su uso (contra entidades) llega con los objetos de fe. Por ahora avisa "todavía no se puede usar". |
 
+#### Iconos de los objetos (#132)
+
+**Qué hace.** Cada objeto se ve con su propio icono en el inventario y en los espacios rápidos 1–4: las vendas con su cruz roja, el agua bendita azul con una cruz, la veladora encendida, las ofrendas con su brillo. Los objetos de fe y los clave brillan para distinguirlos de los comunes.
+
+![Iconos](img/ui/iconos.png)
+![Inventario con iconos](img/ui/inventario_iconos.png)
+
+**Cómo funciona.**
+- **Los dibujos:** `Tools/Iconos/dibujar_iconos.py` dibuja con PIL 33 iconos de 256 × 256 con un solo estilo: contorno oscuro, color base con un lado más claro y halo para lo bendito. Incluye los de las armas y municiones que vienen en #134 y #135.
+- **Por qué dibujados y no capturas de los modelos:** varios objetos comparten modelo (la bolsa de sal es el material, las balas de sal y la línea de sal), así que una captura no los distinguiría.
+- **En Unity:** cada `ItemDefinition` apunta a su icono en el campo `icon`, y `ItemSlotView` ya mostraba el icono cuando existe.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe el inventario qué icono mostrar? | Cada objeto es un archivo `ItemDefinition` con un campo `icon`. El espacio del inventario lee ese campo; si estuviera vacío mostraría el nombre. |
+
 ### 5.4 IA del Cultista
 *Issue #15.*
 

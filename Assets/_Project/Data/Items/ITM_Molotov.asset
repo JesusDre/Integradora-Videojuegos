@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: molotov de mezcal
   description: "Fuego en \xE1rea: 15 de da\xF1o por segundo en 3 m durante 5 s. Se
     lanza hacia donde miras."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c046de94a3fc116cc8113cc502be710c, type: 3}
   category: 4
   maxStack: 1
   healAmount: 0

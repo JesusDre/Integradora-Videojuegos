@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: balas de sal
   description: "Munici\xF3n de la escopeta. Sirve contra cultistas y esp\xEDritus."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 290f16352fcf13a10902835f72e095f2, type: 3}
   category: 2
   maxStack: 24
   healAmount: 0
   useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 21eb7b1f17bc68f4a813ec347bda8c82, type: 3}

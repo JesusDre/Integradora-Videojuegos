@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: sal
   description: "Material para agua bendita, balas y l\xEDneas de sal."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 77f3331b531eb37bbbb9958a9c8c0959, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
   useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 21eb7b1f17bc68f4a813ec347bda8c82, type: 3}

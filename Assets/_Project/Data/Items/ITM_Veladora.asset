@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: veladora
   description: Luz y humo que delatan a las entidades cercanas.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 157bc58fdeab394bc982a0f5bab9e32d, type: 3}
   category: 3
   maxStack: 1
   healAmount: 0

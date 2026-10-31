@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: cera
   description: Material para veladoras.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a7e14b1c15d3e7dfa85763cc8766e25e, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
+  useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
+  model: {fileID: 0}

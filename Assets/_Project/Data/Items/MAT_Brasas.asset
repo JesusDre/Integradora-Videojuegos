@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: brasas
   description: Material para el copal.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 451e0125491846886bf987459c543978, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
+  useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
+  model: {fileID: 0}

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: chancla
   description: Una chancla vieja. Bendecida, se vuelve un arma.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 963f8048c02c09881bc6577f189cef16, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
   useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 156114dd873d93eef8ccdc9b5f3102ce, type: 3}

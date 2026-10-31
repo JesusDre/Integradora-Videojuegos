@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: resina
   description: Material para el copal.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 26adbc5d2a6dbb8d8b1d4f9bb8ae0aa3, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
+  useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
+  model: {fileID: 0}

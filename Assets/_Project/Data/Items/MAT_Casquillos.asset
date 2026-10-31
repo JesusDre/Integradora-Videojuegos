@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: casquillos
   description: Material para balas de sal.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e2e0c5250dd489efa9efb8e6f434b237, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
+  useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
+  model: {fileID: 0}

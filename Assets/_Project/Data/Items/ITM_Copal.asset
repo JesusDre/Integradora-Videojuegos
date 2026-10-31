@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: copal
   description: Su humo revela a la Tzitzimime invisible durante 15 segundos.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3031952bcba9f0811bd202981d2ccf4a, type: 3}
   category: 3
   maxStack: 1
   healAmount: 0

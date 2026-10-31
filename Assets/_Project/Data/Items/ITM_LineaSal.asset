@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: "l\xEDnea de sal"
   description: "Barrera de 20 segundos que los esp\xEDritus no cruzan."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 678dfcbd04319203db2a7de7fc8d56c5, type: 3}
   category: 3
   maxStack: 1
   healAmount: 0
