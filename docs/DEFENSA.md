@@ -1165,6 +1165,9 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 - En reposo, las manos apenas asomaban abajo, y el ataque y el recoger sacaban el brazo del cuadro: el hombro está debajo de la cámara, así que el antebrazo tiene que subir para verse. Se subieron los brazos (las manos quedan unos 18° abajo del centro) y se ajustaron las poses viendo cada cuadro desde la cámara.
 - **Issue #111:** el machete se alargó a 0.85 m (hoja de 0.66 m) y llega a 2.4 m; la escopeta en primera persona se ve un 20 % más grande.
 - **Issue #113:** aún parecía cuchillo porque la hoja apuntaba al frente y se veía de canto. Ahora mide 1.2 m, se ensancha hacia la punta, va casi vertical y muestra su cara plana a la cámara (un script calculó el giro desde la cámara). Golpea cada 0.4 s y llega a 2.8 m. La escopeta se ve 2.4 veces su tamaño y más cerca de la cámara.
+- **Issue #117:** vertical y de frente parecía una espada enorme. Ahora va **inclinado** hacia el centro de la pantalla (arriba, a la izquierda y un poco al frente), con el mango dentro del puño y al 70 % de tamaño. Un script en Play Mode calculó la rotación desde la cámara: primero apunta la hoja en esa dirección, luego la gira sobre su eje para mostrar la cara plana, y coloca el centro del mango en el hueso `RightGrip`.
+
+![Machete inclinado: reposo y golpe](img/ui/machete_agarre.png)
 
 ![Puño, machetazo y escopeta nueva](img/ui/armas_nuevas.png)
 
