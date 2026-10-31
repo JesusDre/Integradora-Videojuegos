@@ -1202,6 +1202,32 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 | ¿Cómo sabe Unity qué animación poner? | El Animator Controller tiene estados y transiciones: `Speed` elige entre quieto, caminar y correr; los triggers `Attack` y `Die` saltan a esas animaciones. |
 | ¿Qué es Humanoid? | Un tipo de esqueleto que Unity entiende como cuerpo humano (cabeza, brazos, piernas). Permite compartir animaciones entre personajes humanos. |
 
+#### La mezcla (#50)
+
+**Qué hace.** Que nada tape lo importante: las voces y los enemigos se oyen claros, el ambiente queda de fondo y todos los pasos suenan igual de fuerte en cualquier suelo. Cuando el Padre habla, la música y el ambiente bajan un poco y regresan al terminar.
+
+**Cómo funciona, en dos capas.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `Tools/Audio/nivelar.py` | herramientas | **Iguala los sonidos del mismo tipo.** Los scripts de síntesis normalizan por el pico, y eso no corresponde con qué tan fuerte se siente un sonido: entre el más bajo y el más alto había 23 dB. Este script mide el volumen percibido (los 400 ms más fuertes, en dBFS) y ajusta la ganancia de cada WAV a la meta de su tipo: pasos −24, voces −16, enemigos −13, ambientes de fondo −22, disparo −10. Sin pasar de 0.97, para no saturar. Se corre después de generar los sonidos. |
+| `AM_Principal` (AudioMixer) | `Audio/Mixers` | **Balancea los tipos entre sí.** Cuatro grupos bajo Master: Música (−3 dB), Ambiente (−4 dB), Efectos (0) y Voces (0). Cada `AudioSource` del juego sale por su grupo (`outputAudioMixerGroup`). |
+| `VoiceDucking` | HUD | Mientras suena la voz del Padre, baja 8 dB los dos volúmenes expuestos del mixer (`VolMusica` y `VolAmbiente`) y los regresa al terminar. |
+| `AudioVolume` | cada fuente | Los controles de Música, Efectos y Voces de las Opciones (#47) siguen escalando cada fuente. |
+
+**Cómo se probó (Play Mode, Xochimilco).**
+- **Ducking:** antes de hablar, música −3 dB y ambiente −4 dB; mientras habla el Padre, −11 y −12; al terminar regresan solos.
+- **Ruteo:** el ambiente de la escena sale por el grupo Ambiente.
+- **Consola:** sin errores.
+
+**Música en cada pantalla:** el menú tiene su tema. En el juego suena el ambiente, y la música de tensión entra cuando hay peligro (#115). El ritual tiene sus tambores, y la derrota y la victoria su propia música.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Qué es un AudioMixer? | Una consola de sonido dentro de Unity: los sonidos se agrupan en canales y cada canal tiene su volumen y sus efectos. Cambiar un canal afecta a todos sus sonidos. |
+| ¿Por qué nivelar los archivos si ya hay mixer? | El mixer ajusta categorías completas. Si dentro de una categoría un paso suena 7 dB más bajo que otro, el mixer no lo arregla; nivelar sí. |
+| ¿Qué es el "ducking"? | Bajar un sonido para que otro se oiga. Aquí la música se agacha cuando el Padre habla, igual que en Left 4 Dead. |
+
 #### Voces y sonidos que faltaban (#123)
 
 **Qué hace.** El Padre ya habla: sus 24 frases suenan con voz cuando salen los subtítulos, y también con los subtítulos apagados. Además:
