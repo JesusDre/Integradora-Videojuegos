@@ -773,7 +773,7 @@ Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el po
 
 **Cómo funciona.** También es una máquina de estados:
 
-`Chase` (lo persigue) → `Charge` (embiste) → `Recover` (se detiene) → `Chase`. Si cruza el agua bendita: `Weakened` (débil). Con 3 golpes: `Dissolved`. Si el Padre está muerto o en el cuarto seguro: `Idle` (vuelve a su sitio).
+`Chase` (lo persigue) → `Charge` (embiste) → `Recover` (se detiene) → `Chase`. Si cruza el agua bendita: `Weakened` (débil). Con 3 golpes: `Dissolved`. Si el Padre está muerto, en el cuarto seguro o lleva 4 s en la capilla: `Idle` (vuelve a su sitio; #154).
 
 | Pieza | Dónde | Qué hace |
 |---|---|---|
@@ -814,6 +814,28 @@ El nivel real de la hacienda es #40.
 | ¿Cómo se sabe que el golpe fue con la cruz cargada? | `PlayerCombat` lanza `ChargedHitLanded` solo con golpes cargados, y la cruz es la única arma que carga. El Charro además revisa que esté débil. |
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
+
+##### Ya no acampa el cuarto seguro ni la capilla (#154)
+
+**Qué pasaba.** En el playtest, el Charro se quedaba parado en la puerta de la capilla esperando al Padre. Cuando el Padre salía del cuarto seguro, el Charro lo veía de inmediato y lo atropellaba. No había forma de escapar.
+
+**Qué hace ahora.**
+- **En la capilla o en un círculo de rezo:** si el Padre está en un lugar al que el Charro no puede entrar, el Charro espera en la orilla **4 s**. Después se rinde y vuelve a su sitio, al este de la hacienda.
+- **Al salir de un refugio:** cuando el Padre sale del cuarto seguro, de la capilla o del círculo, hay **8 s de tregua** antes de que el Charro vuelva a cazar. El Charro sale desde su sitio, a unos 30 m, y trota más lento de lo que corre el Padre, así que da tiempo de moverse.
+
+**Cómo funciona (`CharroNegroEntity`).**
+- **`edgeSince`:** guarda desde cuándo espera en la orilla. Cuando pasan `maxEdgeWaitSeconds`, el Charro llama a `GoHome()`, que pasa a `Idle` y lo manda a su sitio.
+- **`huntAfter`:** en `Idle`, mientras el Padre sigue refugiado (cuarto seguro o `SpiritWards`), se recorre a "ahora + `refugeGraceSeconds`". Por eso la tregua cuenta desde que el Padre sale.
+- **Ajustes:** los dos tiempos están en `CharroTuning` y se pueden cambiar en el playtest sin tocar código.
+
+**Prueba (Play Mode, `I2_Hacienda`).**
+- **Capilla:** con el Charro persiguiendo, el Padre entró a la capilla. El Charro esperó en la puerta unos 4 s (de `Chase` pasó a `Idle`) y se fue a su sitio. Al salir el Padre, siguió en `Idle` 8 s y luego volvió a perseguirlo.
+- **Cuarto seguro:** pasó lo mismo con el cuarto seguro: 8 s quieto tras salir el Padre.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué no se queda esperando para siempre? | Porque el jugador quedaría atrapado. Un enemigo debe dar presión, no dejar sin salida. |
+| ¿Por qué la tregua cuenta desde que sale y no desde que entra? | Mientras sigue adentro, `huntAfter` se vuelve a poner en "ahora + 8 s" cada cuadro. Así siempre tiene 8 s completos al salir, sin importar cuánto tiempo estuvo dentro. |
 
 #### La Tzitzimime (instancia 3, jefe final)
 

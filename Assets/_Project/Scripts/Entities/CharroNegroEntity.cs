@@ -11,7 +11,8 @@ namespace Animas.Entities
 {
     // El Charro Negro (GDD §13 and §21): Chase (trots after the Padre) → (close) → Charge (a fast
     // straight run past him) → Recover → Chase. He can't enter the chapel (a SpiritBarrier): he waits
-    // at its door. When the 3 coins are on the chapel pedestal, the final phase opens: the canaletas
+    // at its door for a moment, then gives up and rides home; when the Padre comes out of a refuge (safe
+    // room, chapel) he gets a few seconds of truce before the hunt starts again (#154). When the 3 coins are on the chapel pedestal, the final phase opens: the canaletas
     // accept holy water, and charging across a full one weakens him for a few seconds. Three charged
     // silver-cross hits while weakened dissolve him, and the gate opens for the escape on foot.
     // Normal weapons don't hurt him: there's no life bar to empty, only the 3 hits.
@@ -69,6 +70,8 @@ namespace Animas.Entities
         Vector3 chargeStart;
         Vector3 lastPosition;
         float stateUntil;
+        float huntAfter;          // the truce: no hunting before this time
+        float edgeSince = -1f;    // when he started waiting at a refuge's edge (-1: not waiting)
         bool chargeHit;
         bool hasSpeedParam;
 
@@ -150,22 +153,40 @@ namespace Animas.Entities
             }
         }
 
-        // The Padre is dead, in the safe room or off his ground: back home until he returns.
+        // The Padre is dead, in the safe room, in the chapel or off his ground: back home until he returns.
+        // While he stays sheltered the truce keeps restarting, so it counts from the moment he comes out.
         void UpdateIdle()
         {
-            if (PlayerHuntable()) Enter(State.Chase, 0f);
+            bool sheltered = !PlayerHuntable() || SpiritWards.TryRepel(player.position, out _);
+            if (sheltered) huntAfter = Time.time + tuning.refugeGraceSeconds;
+            else if (Time.time >= huntAfter) Enter(State.Chase, 0f);
+        }
+
+        void GoHome()
+        {
+            Enter(State.Idle, 0f);
+            agent.SetDestination(home);
         }
 
         void UpdateChase()
         {
             if (!PlayerHuntable())
             {
-                Enter(State.Idle, 0f);
-                agent.SetDestination(home);
+                GoHome();
                 return;
             }
-            // If the Padre is somewhere he can't enter (the chapel, a prayer circle), he waits at its edge.
-            Vector3 target = SpiritWards.TryRepel(player.position, out Vector3 edge) ? edge : player.position;
+            // If the Padre is somewhere he can't enter (the chapel, a prayer circle), he waits at its edge,
+            // but not forever: camping the door would leave no way out, so after a while he leaves.
+            bool repelled = SpiritWards.TryRepel(player.position, out Vector3 edge);
+            if (!repelled) edgeSince = -1f;
+            else if (edgeSince < 0f) edgeSince = Time.time;
+            else if (Time.time - edgeSince >= tuning.maxEdgeWaitSeconds)
+            {
+                edgeSince = -1f;
+                GoHome();
+                return;
+            }
+            Vector3 target = repelled ? edge : player.position;
             agent.SetDestination(target);
             if (target == player.position && FlatDistance(transform.position, player.position) <= tuning.chargeRange)
                 StartCharge();
