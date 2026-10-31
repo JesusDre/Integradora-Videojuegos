@@ -62,13 +62,8 @@ for side, f in (("Right", lambda p: p), ("Left", mirror)):
     b.tube(f(ELBOW), f(cuff_start), 0.05, 0.047, sleeve, f"{side}LowerArm", segments=10)
     b.tube(f(cuff_start), f(cuff_end), 0.05, 0.05, cuff, f"{side}LowerArm", segments=10)
     b.tube(f(cuff_end), f(WRIST), 0.026, 0.024, skin, f"{side}Hand", segments=8)
-    # Hand: palm, four fingers in a loose grip, thumb toward the center of the screen.
-    b.box(f(PALM), (0.075, 0.08, 0.03), skin, f"{side}Hand")
-    tip = lerp(WRIST, HAND_END, 0.95)
-    for i in range(4):
-        b.box(f(add(tip, (-0.028 + i * 0.019, 0, -0.004))), (0.015, 0.035, 0.022), skin, f"{side}Hand")
-    b.box(f(add(PALM, (0.038, 0.012, 0.008))), (0.018, 0.045, 0.02), skin, f"{side}Hand",
-          rotation=Euler((0, 0, math.radians(-25 if side == "Right" else 25))))
+    # Hand: a single closed fist (one block) that grips the weapon; simple and readable at any distance.
+    b.box(f(lerp(WRIST, HAND_END, 0.55)), (0.085, 0.1, 0.08), skin, f"{side}Hand")
 # A wooden rosary wrapped around the left wrist: a detail the player sees all the time.
 bead_center = mirror(lerp(ELBOW, WRIST, 0.93))
 for i in range(8):

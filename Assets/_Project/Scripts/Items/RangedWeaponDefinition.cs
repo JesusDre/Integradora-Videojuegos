@@ -20,6 +20,10 @@ namespace Animas.Items
         [Range(0f, 1f)] public float spiritMultiplier = 0.25f;
         [Tooltip("Radius of the shot: a shotgun spreads, so it forgives a bit of aim.")]
         [Min(0f)] public float hitRadius = 0.3f;
+        [Tooltip("Pellets per shot. The damage above is the total if every pellet hits; each carries its share.")]
+        [Min(1)] public int pellets = 8;
+        [Tooltip("Half-angle of the cone the pellets spread in: they open up with distance.")]
+        [Range(0f, 20f)] public float spreadDegrees = 5f;
 
         [Header("Use")]
         [Min(1)] public int shellCapacity = 2;

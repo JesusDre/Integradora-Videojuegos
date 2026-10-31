@@ -230,7 +230,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 ### 5.6 Escopeta y balas de sal
 *Issue #24.*
 
-**Qué hace.** Q (o la rueda del mouse) cambia del machete a la escopeta. Clic izquierdo dispara y clic derecho apunta (la cámara se acerca un poco). Tiene 2 cartuchos; al vaciarse recarga sola en 2 segundos con las balas de sal del inventario, que se fabrican en el altar. Hace 30 de daño a menos de 8 m y 15 más lejos; a los espíritus solo el 25 %. El disparo hace ruido: todo cultista a 20 m lo oye y va a ver (deja de patrullar y persigue). Abajo a la derecha, el HUD muestra el arma en la mano y la munición: "2 | 10" (cargados | en el inventario).
+**Qué hace.** Q (o la rueda del mouse) cambia del machete a la escopeta. Clic izquierdo dispara y clic derecho apunta (la cámara se acerca un poco). Tiene 2 cartuchos; al vaciarse recarga sola en 2 segundos con las balas de sal del inventario, que se fabrican en el altar. Cada disparo suelta **8 perdigones** que se abren en un cono de 5°: de cerca pegan casi todos y hacen 48 de daño (un cultista, con 40 de vida, muere de un tiro); a menos de 8 m cada perdigón vale 6 y más lejos 2.5, y además muchos ya no le atinan al cuerpo, así que de lejos casi no hace nada. A los espíritus solo el 25 %. El disparo hace ruido: todo cultista a 20 m lo oye y va a ver (deja de patrullar y persigue). Abajo a la derecha, el HUD muestra el arma en la mano y la munición: "2 | 10" (cargados | en el inventario).
 
 ![Escopeta](img/ui/escopeta.png)
 
@@ -238,18 +238,19 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | Pieza | Dónde | Qué hace |
 |---|---|---|
 | `RangedWeaponDefinition` | `Data/Items/Weapons/WPN_Escopeta.asset` | Daño cerca y lejos, distancia, capacidad, recarga, radio del ruido, zoom y sonidos. |
-| `PlayerShotgun` | Padre | Dispara con un rayo grueso (`SphereCastNonAlloc`, ignorando el cuerpo del Padre); el daño depende de la distancia y del tipo de vida. Avisa a los cultistas con `Physics.OverlapSphereNonAlloc` + `CultistAI.HearNoise`. Recarga con un temporizador, sin corrutinas. |
+| `PlayerShotgun` | Padre | Lanza un rayo por perdigón (`SphereCastNonAlloc`, ignorando el cuerpo del Padre), cada uno desviado al azar dentro del cono (`Random.insideUnitCircle`). Suma el daño de los perdigones que tocan a cada blanco y aplica **un solo** `TakeDamage` por blanco, así el golpe se ve y suena una vez. El daño depende de la distancia y del tipo de vida. Avisa a los cultistas con `Physics.OverlapSphereNonAlloc` + `CultistAI.HearNoise`. Recarga con un temporizador, sin corrutinas. |
 | `WeaponSwitcher` | Padre | Solo una de las dos armas está encendida (`enabled`), así el clic hace una sola cosa. Si un menú o la muerte lo apagan, apaga también el arma en la mano. |
 | `HUDController` | `PF_HUD` | Escucha `WeaponSwitcher.Switched` y `PlayerShotgun.AmmoChanged`. |
 
 **Detalles que importan.**
 - **Munición con límites:** los cartuchos nunca pasan de 2 y solo se sacan del inventario los que caben; si no hay balas, no recarga y suena el "clic" vacío.
 - **Un error que se corrigió en las pruebas:** al terminar de recargar, sacar las balas del inventario avisaba "cambió el inventario" cuando la escopeta aún marcaba 0 cartuchos, y eso empezaba una segunda recarga. Ahora los cartuchos se cargan antes de sacar las balas.
+- **Dispersión (issue #111):** el `damageNear`/`damageFar` del asset es el total si todos los perdigones pegan; cada uno lleva su parte (`daño / pellets`). Así se ajusta el balance con dos números (`pellets` y `spreadDegrees`) sin tocar código.
 - **El ruido es una decisión de juego:** disparar resuelve un problema pero atrae a otros; por eso la escopeta no reemplaza al machete.
 
 **Cómo se probó (Play Mode, `EnemyArena`).**
 - **Recarga:** con 6 balas, cargó 2 en 2 s (inventario 6 → 4). Durante la recarga no dispara; sin balas en el inventario no recarga.
-- **Daño:** un blanco a 5 m bajó 30 y otro a 19 m bajó 15; un espíritu recibió 7.5 (el 25 % de 30).
+- **Daño (con dispersión, #111):** en un campo de tiro limpio, un cultista a 3 m y otro a 5 m murieron de un tiro; a 7 m bajó 30, a 10 m bajó 10 y a 14 m bajó 5. A 3 m, 400 de 400 perdigones pegaron.
 - **Ruido:** tras los disparos, los dos cultistas a 15–16 m pasaron de patrullar a perseguir.
 - **Cambio de arma:** Q enciende una arma y apaga la otra; con el inventario abierto ninguna dispara y al cerrarlo vuelve la escopeta.
 - Consola sin errores.
@@ -258,7 +259,8 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | Pregunta | Respuesta |
 |---|---|
 | ¿Cómo atrae el disparo a los cultistas? | `Physics.OverlapSphereNonAlloc` busca colliders a 20 m; a cada `CultistAI` le llama `HearNoise(posición)` y él va a ese punto. |
-| ¿Por qué el daño baja con la distancia? | Así lo marca la tabla de balance (30 a menos de 8 m, 15 más lejos): la escopeta es para distancias cortas. |
+| ¿Por qué el daño baja con la distancia? | Así lo marca la tabla de balance (48 a menos de 8 m, 20 más lejos) y además los perdigones se abren: la escopeta es para distancias cortas. |
+| ¿Cómo funciona la dispersión? | Cada perdigón sale en la dirección de la mira más un desvío al azar dentro de un círculo; el tamaño del círculo sale de la tangente del ángulo (5°). Entre más lejos, más separados quedan los perdigones. |
 | ¿Cómo evitan que dispare al hacer clic en un menú? | El menú apaga `WeaponSwitcher`, y este apaga el arma en la mano. |
 
 ### 5.7 Rezo y ritual
@@ -1097,7 +1099,7 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 - El humo del copal era una esfera blanca opaca que tapaba la vista; ahora es semitransparente. El efecto final del humo queda para #44.
 
 **Los brazos del Padre** (*issue #28*, `Tools/Blender/chr_brazos_padre.py`) son el único modelo que el jugador ve todo el tiempo:
-- mangas de sotana negra con puño blanco, manos y un rosario de madera en la muñeca izquierda (~900 triángulos);
+- mangas de sotana negra con puño blanco y un rosario de madera en la muñeca izquierda; desde el issue #111 las manos son **cubos sin dedos** (un estilo low-poly más simple que se lee mejor de lejos; ~780 triángulos);
 - se modelaron **desde la cámara**: la cámara está en el origen y los hombros quedan justo detrás y abajo de ella, así que en Unity el modelo cuelga de la cámara sin acomodarlo;
 - esqueleto Generic de 8 huesos, uno de ellos `RightGrip` en la palma, donde se sujeta el arma;
 - 5 clips: `Idle` (respiración), `Attack` (sube el brazo y corta en diagonal), `Pray` (manos juntas), `Throw` (atrás del hombro y al frente) y `PickUp` (se estira al frente).
@@ -1115,6 +1117,10 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 
 **Detalles que salieron en la prueba.**
 - En reposo, las manos apenas asomaban abajo, y el ataque y el recoger sacaban el brazo del cuadro: el hombro está debajo de la cámara, así que el antebrazo tiene que subir para verse. Se subieron los brazos (las manos quedan unos 18° abajo del centro) y se ajustaron las poses viendo cada cuadro desde la cámara.
+- **Issue #111:** el machete se alargó a 0.85 m (hoja de 0.66 m) y llega a 2.4 m; la escopeta en primera persona se ve un 20 % más grande.
+
+![Puño, machetazo y escopeta nueva](img/ui/armas_nuevas.png)
+
 - Las armas salían apuntando a un lado. En vez de adivinar ángulos, un script mide el eje largo de cada modelo y lo gira hacia la dirección deseada vista desde la cámara: el machete arriba y al frente, la cruz casi vertical.
 
 **Cómo se probó.** En Blender se renderizaron cuadros de cada animación desde el FBX exportado. En Unity, el avatar es Humanoid válido con los 19 huesos mapeados, el personaje mira hacia +Z, y en Play Mode pasa por `Locomotion`, `Attack` (0.87 s) y `Death` (termina tirado en el suelo) sin errores.
