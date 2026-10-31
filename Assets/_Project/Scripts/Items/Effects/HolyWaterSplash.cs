@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Animas.Core;
 using Animas.Entities;
+using Animas.Levels;
 using UnityEngine;
 
 namespace Animas.Items
@@ -15,6 +16,8 @@ namespace Animas.Items
         [SerializeField] Transform visual;
         [SerializeField] Light flash;
         [SerializeField, Min(0.1f)] float visualSeconds = 0.8f;
+        [Tooltip("A canaleta this close to where it broke gets filled (#156). Smaller than the radius, so one bottle fills one ditch.")]
+        [SerializeField, Min(0f)] float channelReach = 1.5f;
 
         float started;
         float flashIntensity;
@@ -23,6 +26,9 @@ namespace Animas.Items
         {
             started = Time.time;
             if (flash != null) flashIntensity = flash.intensity;
+            // Thrown into a canaleta of the hacienda: it fills it, the same as F with a bottle.
+            foreach (HolyWaterChannel channel in HolyWaterChannel.All)
+                if (channel.TryFillFromSplash(transform.position, channelReach)) break;
             // A HashSet so a spirit with several colliders is hit once.
             var hit = new HashSet<Health>();
             foreach (Collider c in Physics.OverlapSphere(transform.position, radius, ~0, QueryTriggerInteraction.Ignore))

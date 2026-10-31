@@ -36,6 +36,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #48 | Resumen de instancia con tiempo, muertes y notas leídas. El equipaje no lleva objetos clave y empieza con vida 100. Elegir una instancia desde la selección también da el equipaje de la anterior. Al terminar la campaña se borra la partida (la selección sigue abierta) | `VictoryScreen`, `PlayerPersistence.CaptureForNextInstance` |
 | #40 | Hacienda: el Charro solo caza dentro de su terreno (x 55–145, z 66–129); la tercera nota (panteón) explica la pelea; la tienda de raya reutiliza la choza de la instancia 1 hasta tener arte propio | `I2_Hacienda` (Charro_Territorio, NOTE_I2_Capilla) |
 | #46 | Ex-convento: la escalera de caracol del coro es una rampa recta; el túnel de huida se abre con el ritual (reja); niebla roja durante el ritual (densidad 0.05); la celda del prior reutiliza la choza; sin derrumbe (deseable) | `I3_Convento`, `RitualAtmosphere` |
+| #156 | Al vaciarse el ancla tras reaparecer, las ofrendas colocadas vuelven a la bolsa (antes se perdían si el guardado era posterior a colocarlas). Pila sin límite. Una botella lanzada llena la canaleta si se rompe a 1.5 m o menos de ella | `Anchor`, `HolyWaterFont`, `HolyWaterSplash` |
 | #154 | El Charro espera 4 s en la orilla de la capilla o de un círculo de rezo y luego vuelve a su sitio; al salir el Padre de un refugio hay 8 s de tregua antes de que vuelva a cazar | `CharroTuning` (maxEdgeWaitSeconds, refugeGraceSeconds) |
 | #152 | Solo 2 armas, de cualquier tipo; la tercera se cambia por la de la mano, que queda donde estaba la nueva. La munición no ocupa espacios: cada arma tiene la suya, de sal y normal, con límite de las dos juntas (escopeta 99, pistola 160, metralleta 360, ballesta 99). Las balas de sal del altar y del botín son cartuchos de escopeta. Mesa «armería» en cada cuarto seguro con las armas que faltan ahí y 24+24 cartuchos, 32+48 de pistola, 90+120 de metralleta y 20 virotes | `WeaponBag`, `Inventory`, `ITM_*` de munición, `Armeria` en cada nivel |
 | #148 | La Llorona se vuelve invisible cada 15 a 30 s durante 7 s, solo mientras acecha o persigue; quedan sus ojos rojos y suena su llamada. Invisible se le puede seguir dañando con sal, rezo y agua bendita | `PF_Llorona` (invisibleEvery, invisibleSeconds), `M_OjosLlorona` |
@@ -69,7 +70,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 - **P5** Los cultistas de las instancias 2 y 3 sueltan tela y casquillos; el convento tiene alijos de sal y botellas.
 - **P13** Reiniciar (pausa) carga el último cuarto seguro, igual que Reintentar. Opciones: sensibilidad, invertir eje Y, volúmenes (general, música, efectos, voces) y subtítulos.
 - **P15** Todo el trabajo (código, arte, audio, UI, niveles y textos) lo hace Jesús con Claude; los demás integrantes solo presentan la defensa con `docs/DEFENSA.md`.
-- **P7** La pila de la capilla da 1 agua bendita con F, hasta 3 veces; se rellena al reaparecer tras morir.
+- **P7** La pila de la capilla da 1 agua bendita con F, sin límite de usos (#156; antes 3, se rellenaba al reaparecer).
 - **P8** La línea de agua bendita se traza en 2 o 3 canaletas fijas frente a la capilla: F + 1 agua bendita, dura 20 s.
 - **P9** El copal revela durante 15 s a la Tzitzimime, que en su fase 2 es invisible; solo revelada se le daña con luz y rezo.
 
