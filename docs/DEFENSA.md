@@ -701,6 +701,26 @@ Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el po
 | ¿Por qué no se le puede matar? | El GDD dice que las entidades se vencen con crafteo y rezo. Si recibe daño, se cura y huye. |
 | ¿Cómo se ve que está cerca? | `EntityPresence` cambia el peso de un Volume de posprocesado según la distancia, y muestra un subtítulo por si no hay sonido. |
 
+##### Invisible, solo los ojos rojos (#148)
+
+**Qué hace.** Mientras acecha o persigue al Padre, cada 15 a 30 s (al azar) la Llorona se vuelve invisible durante 7 s. De su cuerpo solo quedan dos ojos rojos que brillan en la niebla, a la altura de su cara. Al desaparecer se oye su llanto ("¡Ay, mis hijos!"): la versión lejana si está a más de 15 m y la cercana si está más cerca. Sigue moviéndose y puede agarrar al Padre; al agarrarlo, al hundirse o al disolverse vuelve a verse.
+
+![Solo sus ojos en la niebla](img/ui/llorona_invisible.png)
+
+**Cómo funciona.** Todo está en `LloronaEntity`:
+- `BuildEyes()` crea una vez, al empezar, el objeto `OjosInvisible`. Son dos esferas pequeñas con el material `M_OjosLlorona` (rojo sin sombras, más brillante que 1 para que atraviese la niebla) y una luz roja tenue. Van pegadas al hueso de la cabeza del modelo, así que siguen sus movimientos.
+- `UpdateInvisibility()` corre cada cuadro. Si ya pasó el tiempo y está en `Stalk` o `Chase`, llama a `SetInvisible(true)` y reproduce la llamada. Pasados 7 s, o si cambia a otro estado, la vuelve visible y sortea la próxima vez.
+- `SetInvisible()` apaga solo los *renderers* y luces del cuerpo, no sus colisionadores: la sal, el rezo, el agua bendita y los golpes la siguen alcanzando.
+- Los tiempos (`invisibleEvery`, `invisibleSeconds`) se ajustan en el Inspector de `PF_Llorona`.
+
+**Cómo se probó (Play Mode, `I1_Xochimilco`).** Se puso al Padre a 12 m y se forzó la desaparición: el cuerpo quedó apagado y solo se veían los ojos (captura de arriba); ella lo persiguió y, al agarrarlo, volvió a verse. A 45 m se quedó invisible acechando y reapareció a los 7 s. Consola sin errores.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué no se desactiva el objeto entero? | Porque también se apagarían sus scripts y colisionadores: dejaría de moverse y de recibir sal o agua bendita. Solo se esconde lo que se dibuja. |
+| ¿Por qué los ojos brillan tanto? | Su color tiene valores mayores que 1 (HDR); así la niebla no los apaga y el *bloom* les da halo. |
+| ¿Por qué suena al desaparecer? | Para que el jugador sepa que sigue ahí aunque no la vea: cada acción importante tiene aviso visual o sonoro. |
+
 #### El Charro Negro (instancia 2)
 
 **Qué hace.** El Charro trota detrás del Padre a 5 m/s, un poco más lento que correr (5.5). Cuando el Padre está a menos de 14 m, embiste: corre en línea recta a 12 m/s hacia donde estaba el Padre y sigue 8 m más. La embestida no gira, así que hacerse a un lado en el último momento la esquiva. Si lo alcanza, quita 25. Después se detiene 1.5 s para dar la vuelta.

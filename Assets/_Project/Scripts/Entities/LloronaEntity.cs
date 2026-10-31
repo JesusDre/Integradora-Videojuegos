@@ -39,10 +39,17 @@ namespace Animas.Entities
         [Tooltip("Her face on the scare screen when she catches the Padre before the ritual (#137).")]
         [SerializeField] Sprite scareFace;
         [SerializeField] AudioClip scareClip;
+        [Header("Invisible (#148)")]
+        [Tooltip("While she stalks or chases, every this many seconds (random between both) she vanishes.")]
+        [SerializeField] Vector2 invisibleEvery = new Vector2(15f, 30f);
+        [SerializeField, Min(1f)] float invisibleSeconds = 7f;
+        [Tooltip("The glowing red of the eyes that stay visible.")]
+        [SerializeField] Material eyeMaterial;
         [Tooltip("Seconds the dissolve takes (she sinks and fades).")]
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
 
         public State Current { get; private set; } = State.Hidden;
+        public bool IsInvisible { get; private set; }
         public event Action<State> StateChanged;
 
         SpiritBody body;
@@ -53,6 +60,12 @@ namespace Animas.Entities
         PlayerController playerMovement;
         PlayerRespawn playerRespawn;
         Inventory messages;
+
+        Renderer[] bodyRenderers = new Renderer[0];
+        Light[] bodyLights = new Light[0];
+        GameObject eyes;
+        float nextVanish;
+        float reappearAt;
 
         int pointIndex;
         float stateUntil;
@@ -108,7 +121,12 @@ namespace Animas.Entities
             if (ritual != null) ritual.Completed -= Dissolve;
         }
 
-        void Start() => Enter(State.Hidden, tuning.hiddenSeconds * 0.5f);
+        void Start()
+        {
+            Enter(State.Hidden, tuning.hiddenSeconds * 0.5f);
+            BuildEyes();
+            nextVanish = Time.time + UnityEngine.Random.Range(invisibleEvery.x, invisibleEvery.y);
+        }
 
         void Update()
         {
@@ -122,6 +140,7 @@ namespace Animas.Entities
                 case State.Grab: UpdateGrab(); break;
                 case State.Retreat: UpdateRetreat(); break;
             }
+            UpdateInvisibility();
         }
 
         void UpdateHidden()
@@ -235,6 +254,7 @@ namespace Animas.Entities
         // The ritual is complete: she sinks and fades for good, and leaves her note on the water's edge.
         void Dissolve()
         {
+            SetInvisible(false);   // she is seen while she dissolves
             if (Current == State.Grab && playerMovement != null) playerMovement.SpeedMultiplier = 1f;
             Enter(State.Dissolved, 0f);
             if (audioSource != null && screamClip != null) audioSource.PlayOneShot(screamClip);
@@ -254,6 +274,67 @@ namespace Animas.Entities
                 yield return null;
             }
             SetVisible(false);
+        }
+
+        // Now and then, while she stalks or chases, her body vanishes: only her red eyes float in the dark
+        // and her cry is heard. She can still be hit (only the renderers go off, not the colliders).
+        void UpdateInvisibility()
+        {
+            bool canVanish = Current == State.Stalk || Current == State.Chase;
+            if (!IsInvisible && canVanish && Time.time >= nextVanish)
+            {
+                SetInvisible(true);
+                reappearAt = Time.time + invisibleSeconds;
+                Play(DistanceToPlayer() > nearCallDistance ? farCall : nearCall);
+            }
+            else if (IsInvisible && (!canVanish || Time.time >= reappearAt))
+            {
+                SetInvisible(false);
+                nextVanish = Time.time + UnityEngine.Random.Range(invisibleEvery.x, invisibleEvery.y);
+            }
+        }
+
+        void SetInvisible(bool on)
+        {
+            IsInvisible = on;
+            foreach (Renderer r in bodyRenderers) if (r != null) r.enabled = !on;
+            foreach (Light l in bodyLights) if (l != null) l.enabled = !on;
+            if (eyes != null) eyes.SetActive(on);
+        }
+
+        // Two glowing eyes and a faint red light, on the head bone so they follow her (built once).
+        void BuildEyes()
+        {
+            if (visuals == null || animator == null || !animator.isHuman) return;
+            Transform head = animator.GetBoneTransform(HumanBodyBones.Head);
+            if (head == null) return;
+            bodyRenderers = visuals.GetComponentsInChildren<Renderer>(true);
+            bodyLights = visuals.GetComponentsInChildren<Light>(true);
+
+            eyes = new GameObject("OjosInvisible");
+            eyes.transform.SetParent(head, false);
+            Vector3 face = head.position + transform.forward * 0.09f + transform.up * 0.04f;
+            foreach (float side in new[] { -1f, 1f })
+            {
+                GameObject eye = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                Destroy(eye.GetComponent<Collider>());
+                eye.name = "Ojo";
+                eye.transform.SetParent(eyes.transform, false);
+                eye.transform.position = face + transform.right * (0.045f * side);
+                eye.transform.localScale = Vector3.one * 0.05f / Mathf.Max(head.lossyScale.x, 0.0001f);
+                var r = eye.GetComponent<Renderer>();
+                r.sharedMaterial = eyeMaterial;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+            var glow = new GameObject("Brillo").AddComponent<Light>();
+            glow.transform.SetParent(eyes.transform, false);
+            glow.transform.position = face + transform.forward * 0.05f;
+            glow.type = LightType.Point;
+            glow.color = new Color(1f, 0.1f, 0.05f);
+            glow.range = 4f;
+            glow.intensity = 4f;
+            glow.shadows = LightShadows.None;
+            eyes.SetActive(false);
         }
 
         void Play(AudioClip clip)
