@@ -1059,6 +1059,14 @@ Al escapar del ex-convento llega la **victoria final**:
 - **Consola:** sin excepciones.
 - **Archivos:** un script revisó que ningún WAV salga en silencio y que los loops cierren sin salto.
 
+**El disparo de la escopeta se rehízo.** El primero sonaba raro: estaba muy saturado. Jesús escuchó cinco versiones y eligió la «pesada sostenida» (C1), de unos 4.5 s:
+- **Las tres capas de un disparo real:** un chasquido muy corto, un estallido de cuerpo y un empuje grave de aire.
+- **El trueno:** después del disparo rueda un trueno grave.
+- **El final:** se oye el clic del cañón.
+- **Más fuerte sin cambiar el volumen:** está comprimida para que el cuerpo y el trueno queden casi tan fuertes como el golpe inicial; suena más fuerte aunque su volumen máximo sea el mismo.
+
+La genera `Tools/Audio/sintetizar_escopeta.py`, que crea las cinco candidatas siempre iguales y guarda la elegida.
+
 **Lo que no se puede sintetizar** (queda en los issues #8 y #9 para grabarlo o conseguirlo con licencia):
 - las voces con palabras: el Padre, el "¡Ay, mis hijos!" de la Llorona y los cultistas gritando;
 - el rezo en latín;

@@ -71,7 +71,9 @@ crack = noise(0.02) * env(0.02, 0.0002, 0.006)
 boom = band(noise(1.2), 40, 3000) * env(1.2, 0.001, 0.35)
 sub = thump(90, 35, 1.2, 0.4)
 shot = drive(mix(1.2, (crack, 0, 1.5), (boom, 0, 1.0), (sub, 0, 1.2)), 2.5)
-save("SFX/Armas", "escopeta_disparo", reverb(shot, 1.6, 0.3))
+# The first shotgun blast (#115). It is still computed so the random sounds below stay exactly the same,
+# but no longer saved: the shotgun the game uses now comes from sintetizar_escopeta.py.
+shot = reverb(shot, 1.6, 0.3)
 
 metal = lambda f: band(noise(0.15), f, f * 3) * env(0.15, 0.0005, 0.02) + 0.3 * bell(f, 0.15, decays=(0.2, 0.1, 0.1, 0.1))
 slide = band(noise(0.18), 1500, 5000) * env(0.18, 0.04, 0.08) * 0.5
