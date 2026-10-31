@@ -12,6 +12,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | `obj_muneca.fbx`, `obj_moneda.fbx`, `obj_obsidiana.fbx` (objetos clave) | Modelo 3D | Hecho por el equipo con `Tools/Blender/obj_objetos_clave.py` | Jesús | Propio | No | Jesús |
 | `obj_machete`, `obj_escopeta`, `obj_botella*`, `obj_veladora`, `obj_sal`, `obj_cruz`, `obj_chancla`, `obj_copal`, `obj_venda` (.fbx) | Modelo 3D | Hecho por el equipo con `Tools/Blender/obj_props.py` | Jesús | Propio | No | Jesús |
 | `chr_brazos_padre.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_brazos_padre.py` | Jesús | Propio | No | Jesús |
+| Kit de Xochimilco (`env_*.fbx`: trajinera, choza, ahuejotes, ahuehuete, embarcadero, puente, poste, tule, altar) | Modelo 3D | Hecho por el equipo con `Tools/Blender/env_xochimilco.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
 Notas:
