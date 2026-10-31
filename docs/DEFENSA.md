@@ -715,6 +715,31 @@ El nivel real del convento es #46.
 - En el NavMesh siguen completos los caminos: inicio → embarcadero, chinampa B → choza, puerta de la choza → ancla, y ancla → trajinera de huida.
 - Consola sin errores.
 
+**Ambientación de terror** (*issue #109, pedido de Jesús*). Las tres instancias se hicieron más tétricas:
+- **Niebla:** más densa, con un tono por instancia: gris verdoso en Xochimilco, ocre en la hacienda y casi negra en el convento. Además hay **niebla baja** (`PF_NieblaBaja` + `GroundFog`): grandes manchas de partículas que nacen alrededor del Padre y se quedan en su lugar, así que al caminar se atraviesan como neblina real.
+- **Vegetación** (`Tools/Blender/env_terror.py`): pasto verde en Xochimilco y seco en la hacienda, arbustos y árboles secos de ramas torcidas, que se recortan contra la niebla. Hay unos 1 100 manojos de pasto en Xochimilco, 750 en la hacienda y 260 en el convento (atrio y jardín del claustro).
+- **Camino de tierra** en Xochimilco: une el embarcadero, la chinampa de las muñecas, la choza, el puente, el ancla y la trajinera de huida, y guía al jugador en la niebla.
+- **Muñecas tétricas.** La muñeca ahora tiene:
+  - cuencas negras sin ojos y manchas rojas de lágrimas;
+  - grietas, la cabeza ladeada, el pelo apelmazado y el vestido con lodo.
+
+  Hay tres variantes de decoración: colgada del cuello (sin un brazo), un hilo con cabezas y una rota en el lodo. En Xochimilco hay 111 colgando de ahuejotes y árboles secos (8 de ellas clavadas en la choza) y 55 tiradas. La muñeca ofrenda (objeto clave) usa el mismo modelo, pero sigue siendo clara para que se vea de lejos.
+
+![Xochimilco con niebla, camino, árboles secos y muñecas](img/niveles/terror_xochimilco.png)
+![Xochimilco, hacienda, panteón y convento con niebla](img/niveles/terror_mapas.png)
+
+**Cómo se repartió.** Un script del Editor pone cada objeto en un punto al azar, pero solo si:
+- el suelo es el correcto (la chinampa, la terracería o el jardín);
+- está lejos del camino, de los cuartos seguros y de todo lo que se usa con F;
+- no hay ninguna pared ahí.
+
+Los árboles secos llevan un collider delgado y el NavMesh se volvió a hornear en las tres instancias. Los pisos de la hacienda y el convento se veían casi blancos (eran lisos y reflejaban el sol bajo); se hicieron mates y más oscuros.
+
+**Cómo se probó.**
+- Capturas en Play Mode de las tres instancias.
+- En el NavMesh de Xochimilco siguen completos todos los caminos del recorrido.
+- En el Editor el juego corre a 55–58 FPS con la vegetación. Falta medirlo en el build (#65).
+
 **Nivel de la instancia 2: la hacienda** (*issue #40*). La escena `Scenes/Levels/I2_Hacienda` arma el plano de 180 × 130 m con formas simples. Las coordenadas son las mismas del plano; los planos dibujan "y" y en Unity es "z".
 
 **Sección 1.**
