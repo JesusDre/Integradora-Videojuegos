@@ -1194,6 +1194,31 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 | ¿Cómo sabe Unity qué animación poner? | El Animator Controller tiene estados y transiciones: `Speed` elige entre quieto, caminar y correr; los triggers `Attack` y `Die` saltan a esas animaciones. |
 | ¿Qué es Humanoid? | Un tipo de esqueleto que Unity entiende como cuerpo humano (cabeza, brazos, piernas). Permite compartir animaciones entre personajes humanos. |
 
+#### Texturas de los niveles (#101)
+
+**Qué hace.** Los pisos y paredes de las tres instancias ya no son colores planos. Hay tierra con piedritas en los caminos, pasto en las chinampas, tablones en la madera, adobe con aplanado caído en la hacienda, mampostería de piedra en el convento y las tumbas, lajas en el piso del convento y ondas en el agua. Cada textura trae un **mapa de normales**, así que la linterna marca las juntas y las vetas.
+
+![Texturas: color arriba, relieve abajo](img/texturas.png)
+![Xochimilco, hacienda y convento con texturas](img/niveles_texturas.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `Tools/Texturas/generar_texturas.py` | herramientas | Genera 7 texturas de 512 × 512 con numpy. Usa ruido fractal hecho en frecuencias (se repite sin costura), Voronoi que da la vuelta (piedras, grietas) y patrones de ladrillos y tablones. De cada una sale el color y el mapa de normales, calculado desde una altura. |
+| Color casi blanco | materiales `M_BO_*` | La textura **multiplica** el color del material, así que cada material conserva su color de la paleta y solo gana detalle. |
+| `WorldUVBaker` | `Assets/_Project/Editor` (menú *Ánimas → Texturas*) | Los niveles están hechos con cubos de Unity, cuyos UV van de 0 a 1 en cada cara sin importar su tamaño: la textura se estiraría en un muro de 20 m. La herramienta crea una copia de la malla con UV **en metros**: cada cara usa los dos ejes que cubre (proyección de caja). La repetición del material dice cuántos metros abarca una copia de la textura (2 a 3 m). Las copias se reutilizan por tamaño: 167 mallas para 309 objetos. |
+
+**Cómo se probó.**
+- **Play Mode:** se recorrieron las tres instancias sin errores en la consola.
+- **FPS:** en el Editor, el promedio fue de 52 en Xochimilco y 59 en hacienda y convento. El costo lo ponen los modelos de vegetación, no las texturas. La medición formal en el build es el issue #65.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿De dónde salieron las texturas? | Las generó un script con fórmulas de ruido; la licencia es propia. |
+| ¿Por qué no se estiran en las paredes largas? | Porque `WorldUVBaker` les da UV medidos en metros. Si un muro mide el doble, la textura se repite el doble de veces. |
+| ¿Qué es un mapa de normales? | Una imagen que le dice a la luz hacia dónde apunta cada punto de la superficie. Así una pared plana parece tener juntas y relieve sin agregar polígonos. |
+
 ### 5.17 Cuarto de prueba de enemigos
 *Issue #77. Solo para desarrollo: no forma parte de los niveles.*
 
