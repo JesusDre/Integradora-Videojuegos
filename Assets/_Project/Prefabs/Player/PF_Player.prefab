@@ -251,6 +251,7 @@ MonoBehaviour:
   aim: {fileID: 1062469166424127423}
   look: {fileID: 7599449922072824569}
   audioSource: {fileID: 7902535171258847897}
+  prayer: {fileID: 5979250240870480494}
   hitLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -341,6 +342,7 @@ MonoBehaviour:
   look: {fileID: 7599449922072824569}
   audioSource: {fileID: 7902535171258847897}
   muzzleFlash: {fileID: 5323684161076426991}
+  prayer: {fileID: 5979250240870480494}
   hitLayers:
     serializedVersion: 2
     m_Bits: 4294967295

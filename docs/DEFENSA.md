@@ -267,7 +267,23 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo evitan que dispare al hacer clic en un menú? | El menú apaga `WeaponSwitcher`, y este apaga el arma en la mano. |
 
 ### 5.7 Rezo y ritual
-*Rezo: issue #25. Ritual final: issue #34.*
+*Rezo: issue #25. Ritual final: issue #34. Escudo, rezo más rápido y ritual en círculo: issue #131.*
+
+> **Cambió en #131:**
+> - **El rezo:** se castea en **1.5 s** (antes 3 s). Al completarlo, un **escudo** rodea al Padre durante 10 s: se ve un brillo dorado en las orillas de la pantalla y una luz cálida a su alrededor, y sus armas hacen **+50 % de daño**.
+> - **El ritual:** ya no se mantiene R. Al estar listo se dibuja un **círculo dorado** alrededor del ancla, y estar dentro llena la barra sola en 60 s; salir la pausa. Lo que sigue describe la versión original y sigue valiendo en todo lo demás.
+>
+> **Cómo funciona:**
+> - **Escudo:** `PlayerPrayer` guarda hasta cuándo dura y ofrece `DamageMultiplier` (1.5 con escudo, 1 sin él). `PlayerCombat` y `PlayerShotgun` multiplican su daño por ese valor. `PrayerShieldUI`, en el HUD, dibuja el brillo con la viñeta y enciende la luz.
+> - **Círculo del ritual:** `RitualController` lo dibuja con un `LineRenderer` que se apoya en el suelo con rayos hacia abajo. Revisa cada cuadro si el Padre está dentro (`Near()`) y expone `Filling` para que los brazos junten las manos.
+>
+> ![Escudo del rezo](img/ui/rezo_escudo.png)
+> ![Círculo del ritual](img/ui/ritual_circulo.png)
+>
+> **Prueba (Play Mode):**
+> - **Rezo:** se completó en 1.5 s y el escudo duró 10 s.
+> - **Daño con escudo:** un machetazo quitó 30 en lugar de 20.
+> - **Ritual:** dentro del círculo la barra subió 5 % en 3 s; al salir se detuvo.
 
 **Qué hace el rezo.** Manteniendo R durante 3 segundos, el Padre reza: casi no puede moverse (va al 15 % de su velocidad) y una barra bajo la mira se llena. Si suelta R antes, se cancela sin castigo. Al completarse deja en el suelo un círculo de luz dorada de 4 m de radio que los espíritus no pueden cruzar durante 10 segundos; en el último segundo se desvanece. Después hay que esperar 20 segundos para volver a rezar: el HUD dice "Rezo listo [R]" o "Rezo en 13 s", y si aprietas R antes avisa "Aún no puedes rezar". El círculo no detiene a los cultistas: son humanos (GDD §5).
 

@@ -23,3 +23,9 @@ MonoBehaviour:
   mouseSensitivity: 0.1
   maxPitch: 80
   interactDistance: 2.5
+  prayHoldSeconds: 1.5
+  prayRadius: 4
+  prayDuration: 10
+  prayCooldown: 20
+  prayDamageMultiplier: 1.5
+  praySpeedMultiplier: 0.15

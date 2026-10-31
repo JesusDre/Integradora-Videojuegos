@@ -26911,6 +26911,7 @@ MonoBehaviour:
   escapeDoor: {fileID: 0}
   prayerSeconds: 60
   radius: 4
+  ringMaterial: {fileID: 2100000, guid: a6e992423f9478f9cb03f5230e954e09, type: 2}
   strongHit: 15
   setback: 0.1
 --- !u!1001 &422411762

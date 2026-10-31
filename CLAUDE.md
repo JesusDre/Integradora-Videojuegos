@@ -16,7 +16,7 @@ Antes de trabajar, lee `docs/GDD.md` (diseño), `docs/RUBRICA.md` (cómo se cali
 **Extra (no lo programes):** muñecas hostiles, chaneque, nahual, medidor de fe, final alternativo.
 
 ## Números del diseño (valores iniciales, ajustables en playtest)
-Vida 0–100 sin regeneración · venda cura 30 · altar restaura hasta 60 % · inventario 8 espacios (materiales hasta 99 por tipo, no ocupan espacio) · 4 espacios rápidos · Cultista 40 de vida, 10 de daño, busca 10 s tras perder de vista · rezo: mantener R 3 s, círculo 4 m, repele 10 s, enfriamiento 20 s · ritual: mantener R en el ancla llena la barra sin enfriamiento, soltar la pausa, golpe de 15+ la hace retroceder 10 % · línea de sal dura 20 s · jugador mide 1.8 m · 1 unidad de Unity = 1 metro.
+Vida 0–100 sin regeneración · venda cura 30 · altar restaura hasta 60 % · inventario 8 espacios (materiales hasta 99 por tipo, no ocupan espacio) · 4 espacios rápidos · Cultista 40 de vida, 10 de daño, busca 10 s tras perder de vista · rezo: mantener R 1.5 s, círculo 4 m, repele 10 s, escudo de 10 s con +50 % de daño, enfriamiento 20 s · ritual: estar dentro del círculo del ancla llena la barra en 60 s, salir la pausa, golpe de 15+ la hace retroceder 10 % · línea de sal dura 20 s · jugador mide 1.8 m · 1 unidad de Unity = 1 metro.
 Resistencia, daño por arma, munición, detección del Cultista y tamaño de encuentros: tabla "Valores iniciales de balance" del GDD (sección 12); van en ScriptableObjects.
 Inventario y materiales pasan completos entre instancias. Autoguardado al entrar y al salir del cuarto seguro; al morir se reaparece ahí con 60 de vida (o más si se guardó con más); la huida no tiene checkpoint.
 
