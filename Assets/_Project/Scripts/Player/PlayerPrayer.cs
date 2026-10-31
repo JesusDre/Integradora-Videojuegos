@@ -15,6 +15,8 @@ namespace Animas.Player
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip prayClip;
         [SerializeField] AudioClip doneClip;
+        [Tooltip("The Padre murmuring in Latin while he prays; one at random each time (#123).")]
+        [SerializeField] AudioClip[] wordClips;
 
         public bool IsPraying => holdStarted >= 0f;
         public float CooldownLeft => Mathf.Max(0f, readyAt - Time.time);
@@ -64,6 +66,8 @@ namespace Animas.Player
             holdStarted = Time.time;
             movement.SpeedMultiplier = tuning.praySpeedMultiplier;
             if (audioSource != null && prayClip != null) audioSource.PlayOneShot(prayClip);
+            if (audioSource != null && wordClips != null && wordClips.Length > 0)
+                audioSource.PlayOneShot(wordClips[UnityEngine.Random.Range(0, wordClips.Length)]);
         }
 
         void Complete()

@@ -17,6 +17,7 @@ namespace Animas.Audio
         [SerializeField] AudioClip[] dirt;
         [SerializeField] AudioClip[] wood;
         [SerializeField] AudioClip[] stone;
+        [SerializeField] AudioClip[] water;
 
         public SurfaceKind DefaultSurface { get => defaultSurface; set => defaultSurface = value; }
 
@@ -68,6 +69,7 @@ namespace Animas.Audio
         {
             SurfaceKind.Wood => wood,
             SurfaceKind.Stone => stone,
+            SurfaceKind.Water => water,
             _ => dirt,
         };
     }

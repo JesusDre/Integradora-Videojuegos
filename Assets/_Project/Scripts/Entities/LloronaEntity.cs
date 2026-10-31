@@ -31,6 +31,11 @@ namespace Animas.Entities
         [SerializeField] Animator animator;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip screamClip;
+        [Tooltip("\"¡Ay, mis hijos!\" when she surfaces far from the Padre / close to him, and screamed when she charges (#123).")]
+        [SerializeField] AudioClip farCall;
+        [SerializeField] AudioClip nearCall;
+        [SerializeField] AudioClip chaseCall;
+        [SerializeField, Min(1f)] float nearCallDistance = 15f;
         [Tooltip("Seconds the dissolve takes (she sinks and fades).")]
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
 
@@ -125,6 +130,7 @@ namespace Animas.Entities
             if (point == null) return;
             MoveTo(point.position);
             Enter(State.Stalk, Time.time + tuning.waitAtPoint);
+            Play(DistanceToPlayer() > nearCallDistance ? farCall : nearCall);
         }
 
         void UpdateStalk()
@@ -132,6 +138,7 @@ namespace Animas.Entities
             if (PlayerHuntable() && (DistanceToPlayer() <= tuning.detectRadius || RitualUnderway()))
             {
                 Enter(State.Chase, 0f);
+                Play(chaseCall);
                 return;
             }
             Transform target = canalPoints[pointIndex];
@@ -242,6 +249,11 @@ namespace Animas.Entities
                 yield return null;
             }
             SetVisible(false);
+        }
+
+        void Play(AudioClip clip)
+        {
+            if (audioSource != null && clip != null) audioSource.PlayOneShot(clip);
         }
 
         void Enter(State state, float until)

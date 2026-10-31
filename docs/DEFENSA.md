@@ -1194,6 +1194,56 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 | ¿Cómo sabe Unity qué animación poner? | El Animator Controller tiene estados y transiciones: `Speed` elige entre quieto, caminar y correr; los triggers `Attack` y `Die` saltan a esas animaciones. |
 | ¿Qué es Humanoid? | Un tipo de esqueleto que Unity entiende como cuerpo humano (cabeza, brazos, piernas). Permite compartir animaciones entre personajes humanos. |
 
+#### Voces y sonidos que faltaban (#123)
+
+**Qué hace.** El Padre ya habla: sus 24 frases suenan con voz cuando salen los subtítulos, y también con los subtítulos apagados. Además:
+- **Rezo:** al rezar murmura en latín sobre el coro.
+- **La Llorona:**
+  - al salir del agua llama «¡Ay, mis hijos!»: lejos con eco o cerca susurrado, según dónde esté el Padre;
+  - cuando lo persigue, lo grita.
+- **El cultista:** gruñe en cada machetazo y grita al morir.
+- **El caballo del Charro:**
+  - galopa cuando embiste y va al paso cuando lo sigue;
+  - las espuelas suenan al embestir;
+  - quieto, no suena.
+- **La Tzitzimime:** vibra cuando está cerca.
+- **Xochimilco:** en la chinampa de las muñecas se oyen risas de niña, lentas y desafinadas; a lo lejos suenan campanas de pueblo, y el remo de la trajinera suena mientras avanza.
+- **Hacienda:** la campana de la capilla dobla de vez en cuando, y las monedas tintinean al recogerlas.
+- **Convento:** junto al ancla canta la secta, y una campana muy grave marca el inicio del ritual.
+
+**Cómo se hicieron las voces.** No hay grabaciones: se generan con código y Jesús las aprobó una por una en una página para escucharlas.
+
+| Herramienta | Qué hace |
+|---|---|
+| **espeak-ng** | Programa que convierte texto en voz. Decide los sonidos, su duración y la melodía de cada frase. |
+| **MBROLA**, voz **mx2** | Pone el timbre de una voz mexicana grabada en pedacitos. |
+| `Tools/Audio/sintetizar_faltantes.py` | Lo demás: la voz cansada del Padre, que sostiene la última palabra de cada frase; la "melodía viva", con variaciones de tono y ritmo para que no suene a robot; las copias desafinadas de la Llorona y las muñecas; el eco y la distorsión. |
+
+La risa de las muñecas se escribió sonido por sonido (duración y tono), con la voz más aguda y la garganta más chica para que suene a niña. Los efectos (galope, campanas, remo…) se sintetizan igual que en #115.
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `VoiceLines` | `Data/Textos/VoiceLines.asset` | Lista de frase → audio. `SubtitleUI.Show` busca ahí el texto y reproduce su voz, así `PadreVoice` y los `SubtitleTrigger` no cambiaron. |
+| `AmbientOneShots` | objetos `Audio_123` de cada nivel | Cada cierto tiempo al azar (por ejemplo, de 15 a 30 s) toca un sonido de su lista, sin repetir el mismo dos veces, y solo si el Padre está cerca. |
+| Cambios en entidades | `LloronaEntity`, `CultistAI`, `CharroNegroEntity`, `PlayerPrayer`, `TrajineraRide`, `MusicDirector` | Cada script reproduce su sonido en el momento que ya conocía: al salir del agua, al atacar, al morir, según la velocidad del caballo, al rezar, mientras la trajinera avanza, al empezar el ritual. |
+| Pasos en agua | `FootstepSurface.Water` | Listos para cualquier charco u orilla pisable; hoy no hay agua donde caminar. |
+
+**Cómo se probó (Play Mode).**
+- **Voz del Padre:** «Levántate, Anselmo» sonó con su voz. Todas las frases de `PadreLines` y de los letreros encontraron su audio.
+- **Cultista:** al atacar sonó el gruñido y al morir su grito.
+- **Charro:** galope al embestir, herraduras al seguir y silencio al detenerse.
+- **Llorona:** su llamado al salir del agua.
+- **Trajinera:** el remo suena solo mientras avanza. Había dos trajineras y al principio solo una tenía remo; se corrigió.
+- **Consola:** sin errores del juego.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe el juego qué audio va con cada frase? | `VoiceLines` guarda pares texto-audio. Cuando se muestra un subtítulo, se busca su texto sin las comillas « ». |
+| ¿Qué es MBROLA? | Un sintetizador de voz de la Universidad de Mons que arma la voz con pedacitos de grabaciones reales. espeak le dice qué decir y con qué melodía. |
+| ¿Por qué la voz suena un poco irregular? | A propósito: una voz real nunca sostiene un tono exacto ni un ritmo de metrónomo. Se agregaron pequeñas variaciones al azar. |
+
 #### Texturas de los niveles (#101)
 
 **Qué hace.** Los pisos y paredes de las tres instancias ya no son colores planos. Hay tierra con piedritas en los caminos, pasto en las chinampas, tablones en la madera, adobe con aplanado caído en la hacienda, mampostería de piedra en el convento y las tumbas, lajas en el piso del convento y ondas en el agua. Cada textura trae un **mapa de normales**, así que la linterna marca las juntas y las vetas.

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03af9394ad6cb645b8c08d3207df846, type: 3}
+  m_Name: VoiceLines
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Narrative.VoiceLines
+  entries:
+  - text: "Todav\xEDa no, Se\xF1or. Todav\xEDa no."
+    clip: {fileID: 8300000, guid: 341a41e9091beded1b1ac4c954ca21fd, type: 3}
+  - text: "Necesito una venda\u2026 o un milagro."
+    clip: {fileID: 8300000, guid: d501734ea7f6e4fcb8a12f63498e8cc7, type: 3}
+  - text: "Que este c\xEDrculo sea muralla."
+    clip: {fileID: 8300000, guid: 8aaa120296428ac95b3582a3ca09f910, type: 3}
+  - text: "Otra vez de pie. \xC9l no ha terminado conmigo."
+    clip: {fileID: 8300000, guid: dde06cc204ce091fcb8b9598bc34eb47, type: 3}
+  - text: "Lev\xE1ntate, Anselmo."
+    clip: {fileID: 8300000, guid: 76b121869c8069e1fbfce4a566f786cd, type: 3}
+  - text: "Aqu\xED no entran. Respira."
+    clip: {fileID: 8300000, guid: fae89542daa172a81ad0a36afc5c6393, type: 3}
+  - text: Un altar. Gracias a Dios.
+    clip: {fileID: 8300000, guid: 0b812f1d15282b36388d79513cf700a9, type: 3}
+  - text: Una ofrenda. Me la llevo antes de que alguien la use.
+    clip: {fileID: 8300000, guid: ba3c67bde92712c2990edd786896abe1, type: 3}
+  - text: Otra. Ya casi.
+    clip: {fileID: 8300000, guid: 16a9cb37a03ae245eba5d9c3232f6a1f, type: 3}
+  - text: Las tres. Ahora, al ancla.
+    clip: {fileID: 8300000, guid: 5f11e5667c8d9474ab431d1909370275, type: 3}
+  - text: "Padre nuestro, que est\xE1s en el cielo\u2026"
+    clip: {fileID: 8300000, guid: 8311761c33661e8c1bdef80d348b7648, type: 3}
+  - text: "Se acab\xF3. Ahora hay que salir de aqu\xED."
+    clip: {fileID: 8300000, guid: 627907d7546b36ebd922a211b152638a, type: 3}
+  - text: "Xochimilco\u2026 dicen que de noche nadie navega estos canales."
+    clip: {fileID: 8300000, guid: c9e5601576b1472feb3f802b9960f0ba, type: 3}
+  - text: "Cu\xE1ntas mu\xF1ecas. Y todas me est\xE1n mirando."
+    clip: {fileID: 8300000, guid: adf5e98cd8ac36a9cbb470f6b43bfecb, type: 3}
+  - text: "La choza del cuidador. Aqu\xED puedo descansar un momento."
+    clip: {fileID: 8300000, guid: 38b45b68a7ec6020dad3b075c29afb69, type: 3}
+  - text: "El \xE1rbol viejo. El ancla debe estar cerca."
+    clip: {fileID: 8300000, guid: b210a7ab00d7b3e8fb9d5d08006f84be, type: 3}
+  - text: La hacienda. Atardece y ya huele a azufre.
+    clip: {fileID: 8300000, guid: b11c1518c4f77d4d88e53eaf2af47b65, type: 3}
+  - text: "Alguien guard\xF3 algo m\xE1s que ma\xEDz aqu\xED."
+    clip: {fileID: 8300000, guid: 67501e9591c33a63b973056dce8b67a3, type: 3}
+  - text: "Su casa. Aqu\xED el jinete no entra."
+    clip: {fileID: 8300000, guid: 160cdeb61fa7184459378331608160c9, type: 3}
+  - text: "Descansen en paz\u2026 si los dejan."
+    clip: {fileID: 8300000, guid: f2d2de9911a94f6d189f6860fb71ceaa, type: 3}
+  - text: "El convento. Ignacio vino aqu\xED hace veinte a\xF1os y no sali\xF3."
+    clip: {fileID: 8300000, guid: 893d89a58ceeec821a653b9170be823d, type: 3}
+  - text: "Desde aqu\xED cantaban las monjas. Ahora solo hay polvo."
+    clip: {fileID: 8300000, guid: 9e6e0bf4979f7501c85a4d392e410370, type: 3}
+  - text: "M\xE1s abajo. Siempre m\xE1s abajo."
+    clip: {fileID: 8300000, guid: 34d3f7fc4e98c4064aeb48652572491d, type: 3}
+  - text: "Aqu\xED la esperan. Que Dios me acompa\xF1e."
+    clip: {fileID: 8300000, guid: 60d8737edab3033e1bec43092d5cae0e, type: 3}
