@@ -285,7 +285,7 @@ Valores iniciales para ajustar en playtest; los números de balance van en Scrip
 |---|---|
 | Movimiento | Caminar 3 m/s · correr 5.5 m/s |
 | Resistencia | Máximo 100 · correr gasta 15/s · golpe de machete 15 · golpe de chancla 10 · recupera 20/s tras 1 s sin gastar · al llegar a 0 no corre ni golpea hasta subir a 25 |
-| Machete | 20 de daño · un golpe cada 0.6 s · alcance 2.4 m |
+| Machete | 20 de daño · un golpe cada 0.4 s · alcance 2.8 m |
 | Chancla bendita | 15 de daño a humanos, 30 a espíritus · silenciosa |
 | Escopeta | 8 perdigones en un cono de 5°: 48 de daño si todos pegan a menos de 8 m (20 más lejos), mata a un cultista de un tiro de cerca · 2 cartuchos, recarga de 2 s · máximo 24 balas de sal · el disparo se oye a 20 m |
 | Molotov | 15 de daño por segundo en 3 m de radio durante 5 s |
@@ -346,6 +346,7 @@ Cada entidad se vence con crafteo y rezo, no con daño bruto.
 | Correr            | Shift           | Click stick Izquierdo |
 | Atacar o disparar | Clic izquierdo  | RT                    |
 | Apuntar (escopeta) | Clic derecho   | LT                    |
+| Recargar (escopeta) | C             | B                     |
 | Cambiar de arma   | Q o rueda del mouse | X                |
 | Interactuar       | F               | A                     |
 | Rezar (mantener)  | R               | Y                     |

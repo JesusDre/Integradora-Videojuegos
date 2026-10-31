@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 namespace Animas.Player
 {
     // The shotgun: left click fires, right click aims (light zoom). It holds 2 shells; when both are
-    // spent it reloads by itself (2 s) from the "balas de sal" in the inventory. The shot is loud:
+    // spent it reloads by itself (2 s) from the "balas de sal" in the inventory, and C reloads early. The shot is loud:
     // every cultist within 20 m hears it and comes to look (CultistAI.HearNoise).
     // Enabled only while the shotgun is the weapon in hand (WeaponSwitcher).
     public class PlayerShotgun : MonoBehaviour
@@ -34,7 +34,7 @@ namespace Animas.Player
         public event Action<int, int> AmmoChanged;
         public event Action Fired;
 
-        InputAction fireAction, aimAction;
+        InputAction fireAction, aimAction, reloadAction;
         Health ownHealth;
         float nextFireTime;
         float reloadEndsAt = -1f;
@@ -49,6 +49,7 @@ namespace Animas.Player
         {
             fireAction = InputSystem.actions.FindAction("Player/Attack", true);
             aimAction = InputSystem.actions.FindAction("Player/Aim", true);
+            reloadAction = InputSystem.actions.FindAction("Player/Reload", true);
             ownHealth = GetComponent<Health>();
             normalFieldOfView = viewCamera.fieldOfView;
             if (muzzleFlash != null) muzzleFlash.enabled = false;
@@ -81,6 +82,21 @@ namespace Animas.Player
 
             if (IsReloading && Time.time >= reloadEndsAt) FinishReload();
             if (fireAction.WasPressedThisFrame()) TryFire();
+            if (reloadAction.WasPressedThisFrame()) TryReload();
+        }
+
+        // C: reload with one shell still in, to be ready before the next fight. With no salt rounds left
+        // the empty click tells the player why nothing happens.
+        public bool TryReload()
+        {
+            if (IsReloading || Loaded >= weapon.shellCapacity) return false;
+            if (Reserve == 0)
+            {
+                Play(weapon.emptyClip);
+                return false;
+            }
+            StartReload();
+            return true;
         }
 
         public bool TryFire()

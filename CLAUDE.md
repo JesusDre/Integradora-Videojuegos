@@ -21,7 +21,7 @@ Resistencia, daño por arma, munición, detección del Cultista y tamaño de enc
 Inventario y materiales pasan completos entre instancias. Autoguardado al entrar y al salir del cuarto seguro; al morir se reaparece ahí con 60 de vida (o más si se guardó con más); la huida no tiene checkpoint.
 
 ## Controles
-WASD mover · Mouse cámara · Shift correr (con resistencia) · Clic izq. atacar/disparar · Clic der. apuntar (escopeta) · Q o rueda cambiar de arma · F interactuar · R rezar (mantener) · E linterna · 1–4 objetos rápidos (se usan al instante; agua bendita y molotov se lanzan hacia donde miras) · Tab inventario · Esc pausa.
+WASD mover · Mouse cámara · Shift correr (con resistencia) · Clic izq. atacar/disparar · Clic der. apuntar (escopeta) · C recargar (escopeta) · Q o rueda cambiar de arma · F interactuar · R rezar (mantener) · E linterna · 1–4 objetos rápidos (se usan al instante; agua bendita y molotov se lanzan hacia donde miras) · Tab inventario · Esc pausa.
 
 ## Cómo trabajar en este repo
 - El backlog vive en **GitHub Issues** con hitos "Sprint 1…9". Usa `gh issue list --milestone "Sprint N"` y `gh issue view <n>`; no inventes tareas fuera de los issues.

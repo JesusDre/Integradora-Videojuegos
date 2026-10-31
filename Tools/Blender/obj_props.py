@@ -50,9 +50,10 @@ def done(builder, filename):
     return obj
 
 
-# ---- Machete (0.85 m), lying flat: a long, wide blade along +X; the handle runs from 0 to 0.18.
+# ---- Machete (1.2 m), lying flat: a long blade that widens toward the tip (so it never reads as a
+# knife) along +X; the handle runs from 0 to 0.18.
 b = lp.PropBuilder("Machete")
-b.prism([(0.0, 0.0), (0.6, -0.008), (0.66, 0.025), (0.63, 0.07), (0.0, 0.06)], 0.0, 0.005, steel,
+b.prism([(0.0, 0.0), (0.92, -0.012), (1.02, 0.035), (0.97, 0.1), (0.5, 0.085), (0.0, 0.065)], 0.0, 0.006, steel,
         transform=lp.Matrix.Translation((0.18, -0.03, 0.0)))
 b.box((0.09, 0.0, 0.0), (0.18, 0.035, 0.028), handle)
 b.box((0.182, 0.0, 0.0), (0.014, 0.075, 0.034), dark_steel)
