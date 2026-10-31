@@ -99,6 +99,20 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 | ¿Cómo sabe el juego qué objeto estás mirando? | Con un `Physics.Raycast` desde la cámara de 2.5 m de largo; busca el componente `IInteractable` en lo que toca. |
 | ¿Por qué la puerta se abre poco a poco? | `Quaternion.RotateTowards` con `deltaTime` la gira 180° por segundo; da feedback visual claro, que la rúbrica pide. |
 
+#### No caer al vacío (#146)
+
+**El error.** Al acercarse a la trajinera, el Padre podía dar un paso fuera del embarcadero o entre el embarcadero y el bote, y caía para siempre. Los canales son solo la superficie del agua; debajo no hay nada, porque la trajinera es la forma de cruzar.
+
+**La corrección.** `FallRecovery` recuerda, cuatro veces por segundo, dónde pisó el Padre por última vez (`CharacterController.isGrounded`). Si cae más de 4 m por debajo de ese punto, lo regresa ahí con un chapoteo y el aviso "Caíste al agua. Usa la trajinera para cruzar". Mientras va en la trajinera no vigila nada, porque su control está apagado.
+
+**Prueba (Play Mode):**
+- **Caída:** desde el embarcadero se empujó al Padre al agua junto a la trajinera; cayó y en menos de 2 s volvió al embarcadero.
+- **Recorrido completo:** subir con F, cruzar y bajar funcionó sin caídas.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué no poner piso bajo el agua? | Se podrían cruzar los canales caminando y saltarse la trajinera. Regresar al último punto firme corrige cualquier caída sin cambiar el diseño del nivel. |
+
 #### Agacharse y ojo de sigilo (#136)
 
 **Qué hace.**
