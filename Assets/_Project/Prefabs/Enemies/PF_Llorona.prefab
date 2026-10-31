@@ -337,6 +337,9 @@ MonoBehaviour:
   nearCallDistance: 15
   scareFace: {fileID: -8857716024111902390, guid: 9d3b92299af36f7b9b6f914bc906f85b, type: 3}
   scareClip: {fileID: 8300000, guid: 64dba109e830ec2bf9a92fefdb352f1a, type: 3}
+  invisibleEvery: {x: 15, y: 30}
+  invisibleSeconds: 7
+  eyeMaterial: {fileID: 2100000, guid: 22171f1db5e6aac2994ed37c86851590, type: 2}
   dissolveSeconds: 2.5
 --- !u!114 &5308696059585395002
 MonoBehaviour:
