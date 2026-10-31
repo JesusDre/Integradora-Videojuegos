@@ -22,6 +22,9 @@ namespace Animas.Levels
         [SerializeField] bool locked;
         [SerializeField] string lockedPrompt = "La trajinera no se mueve todavía";
 
+        [Tooltip("Looping oar sound while the boat moves (#123).")]
+        [SerializeField] AudioSource oar;
+
         public bool Riding { get; private set; }
         public bool Arrived { get; private set; }
         public string Prompt => Arrived ? "" : locked ? lockedPrompt : "Subir a la trajinera";
@@ -62,6 +65,11 @@ namespace Animas.Levels
 
         void Update()
         {
+            // The oar sounds only while the boat is moving.
+            if (oar != null && oar.isPlaying != Riding)
+            {
+                if (Riding) oar.Play(); else oar.Stop();
+            }
             if (!Riding) return;
             if (riderHealth != null && riderHealth.IsDead)
             {

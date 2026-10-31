@@ -168,7 +168,7 @@ MonoBehaviour:
   id: KeyItem
   item: {fileID: 11400000, guid: ba20c3fb56a921c008fbd57abfc534a8, type: 2}
   totalInLevel: 3
-  pickupClip: {fileID: 8300000, guid: 40bdc3bbf0cd527a7a5de40f2b13970b, type: 3}
+  pickupClip: {fileID: 8300000, guid: 764e4306bb17611ada07ad41806b041a, type: 3}
 --- !u!1001 &1390244528639264357
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -94,7 +94,11 @@ Los prompts están en inglés porque así los entienden mejor estas herramientas
 
 ---
 
-## 4. Lo que falta (hay que grabarlo o conseguirlo)
+## 4. Lo que faltaba (hecho en #123)
+
+Todo lo de esta sección ya se generó por código y está conectado (ver DEFENSA, "Voces y sonidos que faltaban"). Si alguien del equipo graba la voz del Padre, se reemplazan `Voices/padre_01.wav` a `padre_24.wav` con el mismo nombre.
+
+### Lista original
 
 ### Voces (no se pueden sintetizar bien; grabar o usar voz con licencia)
 | Qué | Descripción | Cuántos | Duración | Issue |

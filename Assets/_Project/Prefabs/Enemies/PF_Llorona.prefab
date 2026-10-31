@@ -331,6 +331,10 @@ MonoBehaviour:
   animator: {fileID: 0}
   audioSource: {fileID: 6064430988653944242}
   screamClip: {fileID: 8300000, guid: 1791c02de59cacd229f0b58452e5fc24, type: 3}
+  farCall: {fileID: 8300000, guid: fc8f92d99124278f088e584e2109a2db, type: 3}
+  nearCall: {fileID: 8300000, guid: 3a604ff19192a3cb5b067678e4ce0eab, type: 3}
+  chaseCall: {fileID: 8300000, guid: fa42e9504e7b18869861954d01216696, type: 3}
+  nearCallDistance: 15
   dissolveSeconds: 2.5
 --- !u!114 &5308696059585395002
 MonoBehaviour:

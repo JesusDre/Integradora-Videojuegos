@@ -378,6 +378,9 @@ MonoBehaviour:
   audioSource: {fileID: 7902535171258847897}
   prayClip: {fileID: 8300000, guid: c5c5d0f2d3988691fbc64a9a292f4058, type: 3}
   doneClip: {fileID: 8300000, guid: 2d1bea0cb99e2dd9a8dab97194d59a5b, type: 3}
+  wordClips:
+  - {fileID: 8300000, guid: f582b79b5675fce0881b72e97b57b155, type: 3}
+  - {fileID: 8300000, guid: b969245392b924148bbc842eb0ca07c6, type: 3}
 --- !u!114 &2270269953759454414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,6 +510,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 172eafeda4b6e7cabb16030b04cecddf, type: 3}
   - {fileID: 8300000, guid: 0e07c34f611774bacb6ef489917abe28, type: 3}
   - {fileID: 8300000, guid: 4dc77459ba0681502bc1582e49cb98d3, type: 3}
+  water:
+  - {fileID: 8300000, guid: b9960966b5759147da81783b32803d71, type: 3}
+  - {fileID: 8300000, guid: 3f76ae2fa7557fc49be6e37cde4f3284, type: 3}
+  - {fileID: 8300000, guid: 5e7d759e0331dff1099f68b2154e55c7, type: 3}
+  - {fileID: 8300000, guid: 1ccfaeb2f1e097cd9b02920c1832d831, type: 3}
 --- !u!114 &7693278367327627496
 MonoBehaviour:
   m_ObjectHideFlags: 0

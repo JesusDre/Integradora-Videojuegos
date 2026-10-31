@@ -23,6 +23,9 @@ namespace Animas.Enemies
         [SerializeField] Transform eyes;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip alertClip;
+        [Tooltip("A grunt with each machete swing, one at random (#123).")]
+        [SerializeField] AudioClip[] attackClips;
+        [SerializeField] AudioClip deathClip;
         [SerializeField] LayerMask sightBlockers = ~0;
 
         public State Current { get; private set; } = State.Patrol;
@@ -182,6 +185,8 @@ namespace Animas.Enemies
             if (hitTime < 0f && Time.time >= nextAttackTime)
             {
                 animator.SetTrigger(AttackParam);
+                if (audioSource != null && attackClips != null && attackClips.Length > 0)
+                    audioSource.PlayOneShot(attackClips[UnityEngine.Random.Range(0, attackClips.Length)]);
                 nextAttackTime = Time.time + tuning.attackCooldown;
                 hitTime = Time.time + tuning.attackHitDelay;
             }
@@ -263,6 +268,7 @@ namespace Animas.Enemies
 
         void OnDied()
         {
+            if (audioSource != null && deathClip != null) audioSource.PlayOneShot(deathClip);
             agent.isStopped = true;
             agent.enabled = false;
             animator.SetFloat(SpeedParam, 0f);

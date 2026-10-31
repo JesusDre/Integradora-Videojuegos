@@ -34,6 +34,13 @@ namespace Animas.Entities
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip neighClip;
         [SerializeField] AudioClip hurtClip;
+        [Header("Hooves (#123)")]
+        [Tooltip("Looping source for the horse's hooves: gallop while he charges, a walk while he follows.")]
+        [SerializeField] AudioSource hooves;
+        [SerializeField] AudioClip gallopClip;
+        [SerializeField] AudioClip walkClip;
+        [Tooltip("The spurs jingle when he spurs the horse into a charge.")]
+        [SerializeField] AudioClip spursClip;
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
 
         public State Current { get; private set; } = State.Idle;
@@ -104,7 +111,11 @@ namespace Animas.Entities
 
         void Update()
         {
-            if (player == null || Current == State.Dissolved) return;
+            if (player == null || Current == State.Dissolved)
+            {
+                if (hooves != null && hooves.isPlaying) hooves.Stop();
+                return;
+            }
 
             switch (Current)
             {
@@ -115,6 +126,24 @@ namespace Animas.Entities
                 case State.Weakened: UpdateWeakened(); break;
             }
             if (hasSpeedParam) animator.SetFloat(SpeedParam, agent.velocity.magnitude);
+            UpdateHooves();
+        }
+
+        // The hooves follow what the horse is really doing: silent when it stands, a walk or a gallop.
+        void UpdateHooves()
+        {
+            if (hooves == null) return;
+            AudioClip wanted = agent.velocity.magnitude < 0.5f ? null : Current == State.Charge ? gallopClip : walkClip;
+            if (wanted == null)
+            {
+                if (hooves.isPlaying) hooves.Stop();
+                return;
+            }
+            if (hooves.clip != wanted || !hooves.isPlaying)
+            {
+                hooves.clip = wanted;
+                hooves.Play();
+            }
         }
 
         // The Padre is dead, in the safe room or off his ground: back home until he returns.
@@ -151,6 +180,7 @@ namespace Animas.Entities
             Enter(State.Charge, Time.time + tuning.maxChargeSeconds);
             agent.SetDestination(chargeTarget);
             if (audioSource != null && neighClip != null) audioSource.PlayOneShot(neighClip);
+            if (audioSource != null && spursClip != null) audioSource.PlayOneShot(spursClip);
         }
 
         void UpdateCharge()

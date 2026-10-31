@@ -17,12 +17,15 @@ namespace Animas.Audio
         [SerializeField] AudioSource stinger;
         [SerializeField] Health playerHealth;
         [SerializeField] RitualController ritualController;
+        [Tooltip("One deep bell when the ritual begins (convent, #123). Optional.")]
+        [SerializeField] AudioClip ritualStartClip;
         [Tooltip("Seconds the tension music keeps playing after the last chase ends.")]
         [SerializeField, Min(0f)] float tensionHold = 4f;
         [SerializeField, Min(0.1f)] float fadeSpeed = 0.5f;
 
         float ambienceVolume, tensionVolume, ritualVolume;
         float tensionUntil;
+        bool ritualBellRang;
         float nextCheck;
         CultistAI[] cultists = new CultistAI[0];
 
@@ -34,6 +37,24 @@ namespace Animas.Audio
             ritualVolume = ritual != null ? ritual.volume : 0f;
             tension.volume = 0f;
             if (ritual != null) ritual.volume = 0f;
+        }
+
+        void Start()
+        {
+            if (ritualController != null) ritualController.StageChanged += OnRitualStage;
+        }
+
+        void OnDestroy()
+        {
+            if (ritualController != null) ritualController.StageChanged -= OnRitualStage;
+        }
+
+        void OnRitualStage(RitualController.Stage stage)
+        {
+            // Only the first time: letting go of R pauses the prayer and holding it again resumes it.
+            if (stage != RitualController.Stage.Praying || ritualBellRang || ritualStartClip == null) return;
+            ritualBellRang = true;
+            stinger.PlayOneShot(ritualStartClip, GameSettings.GetVolume(VolumeCategory.Effects));
         }
 
         void OnEnable()
