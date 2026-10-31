@@ -17,6 +17,8 @@ namespace Animas.Levels
         [Tooltip("One model per slot, shown as offerings are placed.")]
         [SerializeField] GameObject[] placedModels;
 
+        public ItemDefinition Offering => offering;
+        public int Required => required;
         public int Placed { get; private set; }
         public bool Complete => Placed >= required;
         public string Prompt => Complete ? "" : $"Colocar {offering.displayName} ({Placed}/{required})";

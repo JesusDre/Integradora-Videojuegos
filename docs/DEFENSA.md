@@ -1329,6 +1329,34 @@ Al escapar del ex-convento llega la **victoria final**:
 | ¿Cómo se sabe cuál es la siguiente instancia? | `InstanceCatalog` tiene las 3 en orden; se busca la escena actual y se toma la que sigue. |
 | ¿Qué pasa al terminar el juego? | Victoria final, créditos y menú. Se borra la partida, pero la selección de instancias sigue abierta para rejugar. |
 
+#### Contador de ofrendas (#160)
+
+**Qué hace.** Arriba a la izquierda del HUD aparece el icono de la ofrenda de la instancia, con la cuenta **0/3**:
+- **Xochimilco:** muñecas.
+- **Hacienda:** monedas.
+- **Convento:** fragmentos de obsidiana.
+
+Cada vez que el Padre recoge una, la cuenta sube. Con las 3, se pone dorada. Colocarlas en el ancla no baja la cuenta, porque cuenta las que ya **encontró**. Mientras no tiene ninguna, el icono se ve apagado.
+
+![Contador de ofrendas](img/ui/hud_ofrendas.png)
+
+**Cómo funciona.**
+- **`OfferingCounterUI`:** busca el `Anchor` de la escena para saber qué ofrenda es y cuántas pide (`Offering`, `Required`). Así sirve en las 3 instancias sin configurar nada. Si una escena no tiene ancla, como el cuarto de prueba, el contador se oculta.
+- **La cuenta:** `encontradas = en la bolsa + colocadas en el ancla`. Se vuelve a dibujar con los eventos `KeyItemBag.Changed` y `Anchor.OfferingPlaced`, no en cada cuadro.
+
+**Prueba (Play Mode, `I2_Hacienda`).** El contador:
+- empezó en 0/3 con el icono de la moneda;
+- subió a 2/3 al recoger 2 monedas;
+- siguió en 2/3 al colocarlas;
+- llegó a 3/3 en dorado con la tercera.
+
+En el Editor se revisó que Xochimilco (muñeca), la hacienda (moneda) y el convento (obsidiana) tienen su ancla con 3 ofrendas.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué no baja al colocarlas? | Porque muestra cuántas encontró, que es lo que el jugador quiere saber para avanzar. El ancla muestra aparte cuántas lleva colocadas. |
+| ¿Cómo sabe qué icono usar? | Lo toma del `ItemDefinition` de la ofrenda del ancla (`icon`). |
+
 ### 5.15 Audio y feedback
 *Feedback visual: #44. Sonido: #115. Pendiente: #50 y las voces grabadas (#8, #9).*
 
