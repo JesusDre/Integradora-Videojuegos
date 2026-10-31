@@ -10,7 +10,7 @@ Antes de trabajar, lee `docs/GDD.md` (diseño), `docs/RUBRICA.md` (cómo se cali
 - Cambios pequeños y revisables: un issue = una rama = un pull request.
 
 ## Alcance (no lo amplíes)
-**MVP:** 3 instancias de ~10 minutos (Xochimilco/La Llorona, Hacienda/Charro Negro, Ex-convento/Tzitzimime), cada una con 2 secciones y 1 cuarto seguro en medio, ritual final (en la hacienda, en su lugar, el enfrentamiento de 3 golpes con el Charro Negro) y huida.
+**MVP:** 3 instancias de ~10 minutos (Xochimilco/La Llorona, Hacienda/Charro Negro, Ex-convento/Tzitzimime), cada una con 2 secciones y 1 cuarto seguro en medio, ritual final (en la hacienda, en su lugar, el enfrentamiento con el Charro Negro: barra de vida que solo baja con daño bendito, el triple cuando cruza el agua bendita) y huida.
 **Armas:** machete, chancla, cruz, escopeta, pistola, metralleta, ballesta y martillo chillón (#134, #135).
 **Sigilo (#136):** Ctrl agacharse; los cultistas lo ven solo a la mitad de su rango y un ojo en el HUD avisa si está oculto, si lo buscan o si lo ven.
 **No existen:** multijugador, empujar, salto, construcción de base, hambre/sed, vehículos (la trajinera es un recorrido por guion sobre una ruta fija; el jugador no la maneja), árbol de habilidades.

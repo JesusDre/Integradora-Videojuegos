@@ -13,9 +13,11 @@ namespace Animas.Entities
     // straight run past him) → Recover → Chase. He can't enter the chapel (a SpiritBarrier): he waits
     // at its door for a moment, then gives up and rides home; when the Padre comes out of a refuge (safe
     // room, chapel) he gets a few seconds of truce before the hunt starts again (#154). When the 3 coins are on the chapel pedestal, the final phase opens: the canaletas
-    // accept holy water, and charging across a full one weakens him for a few seconds. Three charged
-    // silver-cross hits while weakened dissolve him, and the gate opens for the escape on foot.
-    // Normal weapons don't hurt him: there's no life bar to empty, only the 3 hits.
+    // accept holy water, and charging across a full one weakens him for a few seconds. In the final phase
+    // he has a life bar (#158): only blessed hits count (salt rounds, holy water, the cruz, the chancla,
+    // the martillo, or any weapon under the prayer's shield), a little at any time and triple while he's
+    // weakened. Three charged cross hits while weakened are enough. At 0 he dissolves and the gate opens.
+    // Before the coins are placed nothing hurts him: a blessed hit only startles him for a moment.
     [RequireComponent(typeof(NavMeshAgent), typeof(SpiritBody), typeof(Health))]
     public class CharroNegroEntity : MonoBehaviour
     {
@@ -49,7 +51,6 @@ namespace Animas.Entities
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
 
         public State Current { get; private set; } = State.Idle;
-        public int HitsTaken { get; private set; }
         public bool FinalPhase { get; private set; }
 
         public event Action<State> StateChanged;
@@ -61,9 +62,10 @@ namespace Animas.Entities
         Health health;
         Transform player;
         Health playerHealth;
-        PlayerCombat playerCombat;
         PlayerRespawn playerRespawn;
         Inventory messages;
+        UI.RitualBarUI lifeBar;
+        bool addingWeakBonus;
 
         Vector3 home;
         Vector3 chargeTarget;
@@ -90,7 +92,6 @@ namespace Animas.Entities
             {
                 player = p.transform;
                 playerHealth = p.GetComponent<Health>();
-                playerCombat = p.GetComponent<PlayerCombat>();
                 playerRespawn = p.GetComponent<PlayerRespawn>();
                 messages = p.GetComponent<Inventory>();
             }
@@ -101,7 +102,6 @@ namespace Animas.Entities
         void OnEnable()
         {
             health.Damaged += OnHurt;
-            if (playerCombat != null) playerCombat.ChargedHitLanded += OnChargedHit;
             if (playerRespawn != null) playerRespawn.Respawned += OnPlayerRespawned;
             if (pedestal != null) pedestal.OfferingsComplete += BeginFinalPhase;
         }
@@ -109,12 +109,16 @@ namespace Animas.Entities
         void OnDisable()
         {
             health.Damaged -= OnHurt;
-            if (playerCombat != null) playerCombat.ChargedHitLanded -= OnChargedHit;
             if (playerRespawn != null) playerRespawn.Respawned -= OnPlayerRespawned;
             if (pedestal != null) pedestal.OfferingsComplete -= BeginFinalPhase;
         }
 
-        void Start() => Enter(State.Chase, 0f);
+        void Start()
+        {
+            // The hacienda has no ritual: its ritual bar shows the Charro's life in the final fight.
+            lifeBar = FindAnyObjectByType<UI.RitualBarUI>(FindObjectsInactive.Include);
+            Enter(State.Chase, 0f);
+        }
 
         void Update()
         {
@@ -246,38 +250,53 @@ namespace Animas.Entities
             Enter(State.Chase, 0f);
         }
 
-        // Only a charged hit counts, and only while weakened; the cross is the only weapon that charges.
-        void OnChargedHit(Health target)
+        // Health already took the hit; here the Charro decides whether it really counts.
+        void OnHurt(float amount)
         {
-            if (target != health || Current != State.Weakened) return;
-            HitsTaken++;
-            if (audioSource != null && hurtClip != null) audioSource.PlayOneShot(hurtClip);
-            if (weakGlow != null) weakGlow.enabled = false;
-            if (HitsTaken >= tuning.hitsToDefeat)
+            if (addingWeakBonus) return;   // the extra damage below comes back through here
+            // Unblessed (machete, normal rounds, fire), or before the final phase: it's undone.
+            if (!health.LastHitBlessed || !FinalPhase)
             {
-                Dissolve();
+                health.Heal(amount);
+                if (health.LastHitBlessed && Current == State.Chase) Enter(State.Recover, Time.time + tuning.flinchSeconds);
                 return;
             }
-            if (messages != null) messages.Notify($"Golpe {HitsTaken} de {tuning.hitsToDefeat}");
-            // He shakes it off and charges again: each hit needs a new trip across the water.
-            Enter(State.Recover, Time.time + tuning.recoverSeconds);
+            // Weakened by the holy water: the same hit hurts him several times more.
+            if (Current == State.Weakened)
+            {
+                addingWeakBonus = true;
+                health.TakeDamage(amount * (tuning.weakDamageMultiplier - 1f), true);
+                addingWeakBonus = false;
+            }
+            if (audioSource != null && hurtClip != null) audioSource.PlayOneShot(hurtClip);
+            ShowLife();
+            if (health.IsDead) Dissolve();
         }
 
-        // Ordinary damage (machete, shotgun) doesn't wear him down.
-        void OnHurt(float amount) => health.Heal(amount);
+        void ShowLife()
+        {
+            if (lifeBar != null) lifeBar.SetProgress(health.Current / health.Max);
+        }
 
         void BeginFinalPhase()
         {
             FinalPhase = true;
             HolyWaterChannel.Unlocked = true;
+            if (lifeBar != null)
+            {
+                lifeBar.SetTitle("Charro Negro");
+                lifeBar.Begin();
+                ShowLife();
+            }
             if (messages != null) messages.Notify("Llena las canaletas con agua bendita y hazlo cruzar");
         }
 
         void OnPlayerRespawned()
         {
             if (Current == State.Dissolved) return;
-            // The coins went back to the world (the pedestal empties itself): back to phase 1.
-            HitsTaken = 0;
+            // The coins went back to the bag (the pedestal empties itself): back to phase 1, full life.
+            health.Revive(health.Max);
+            if (lifeBar != null) lifeBar.End();
             FinalPhase = false;
             HolyWaterChannel.Unlocked = false;
             foreach (HolyWaterChannel channel in HolyWaterChannel.All) channel.Drain();
@@ -289,6 +308,7 @@ namespace Animas.Entities
         void Dissolve()
         {
             Enter(State.Dissolved, 0f);
+            if (lifeBar != null) lifeBar.End();
             foreach (Collider c in GetComponentsInChildren<Collider>()) c.enabled = false;
             if (gate != null)
             {

@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781420c5dfa0b52f496a7c7baa34fd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.Health
-  maxHealth: 100
+  maxHealth: 360
   kind: 1
 --- !u!114 &6930178848429220160
 MonoBehaviour:

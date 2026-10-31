@@ -16,6 +16,7 @@ MonoBehaviour:
   viewModel: {fileID: 8076500359350833728, guid: 388343fe12e128a0b80ca2f361444bb7, type: 3}
   damageToHumans: 14
   damageToSpirits: 22
+  blessed: 1
   cooldown: 0.45
   range: 2.2
   hitRadius: 0.35

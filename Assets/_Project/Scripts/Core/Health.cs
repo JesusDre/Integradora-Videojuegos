@@ -18,6 +18,9 @@ namespace Animas.Core
         public float Max => maxHealth;
         public HealthKind Kind => kind;
         public bool IsDead => Current <= 0f;
+        // Whether the last hit was blessed (salt, holy water, a blessed weapon, or any weapon under the
+        // prayer's shield). The entities read it in their Damaged handler: only blessed hits count (#158).
+        public bool LastHitBlessed { get; private set; }
 
         // (current, max): the HUD bar listens to this.
         public event Action<float, float> Changed;
@@ -30,9 +33,10 @@ namespace Animas.Core
             Current = maxHealth;
         }
 
-        public void TakeDamage(float amount)
+        public void TakeDamage(float amount, bool blessed = false)
         {
             if (amount <= 0f || IsDead) return;
+            LastHitBlessed = blessed;
 
             float before = Current;
             Current = Mathf.Clamp(Current - amount, 0f, maxHealth);

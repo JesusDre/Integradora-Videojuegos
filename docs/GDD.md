@@ -331,11 +331,11 @@ Cada entidad se vence con crafteo y rezo, no con daño bruto.
 
 - **Fase 2, el trato:** te ofrece un objeto raro y maldito. Aceptar es opcional y da ventaja con costo (extra).
 
-- **Fase final, derrota:** cuando embiste y cruza la línea de agua bendita, golpearlo con la cruz de plata cargada; con tres golpes se debilita y se disuelve. Después, huida a pie por el camino hasta el portón de la hacienda.
+- **Fase final, derrota:** tiene una barra de vida que solo baja con lo bendito (balas de sal, agua bendita, cruz, chancla, martillo, o cualquier arma bajo el escudo del rezo). Cuando embiste y cruza la línea de agua bendita queda débil 4 s y recibe el triple; tres golpes de cruz de plata cargada estando débil bastan para disolverlo. Después, huida a pie por el camino hasta el portón de la hacienda.
 
 - **Línea de agua bendita:** frente a la capilla hay 2 o 3 canaletas marcadas en las rutas por donde embiste el Charro. Con F y 1 agua bendita se llena una, que brilla y funciona durante 20 segundos.
 
-- **Condición para derrotarlo:** colocar las 3 monedas del pacto en el altar de la capilla (un pedestal, no el altar de crafteo) abre la fase final; luego trazar la línea de agua bendita y acertar tres golpes de cruz de plata cargada cuando él la cruza. Esta instancia no usa la barra del ritual.
+- **Condición para derrotarlo:** colocar las 3 monedas del pacto en el altar de la capilla (un pedestal, no el altar de crafteo) abre la fase final; luego trazar la línea de agua bendita y vaciar su barra de vida con daño bendito (la cruz cargada mientras está débil es lo más fuerte: tres golpes bastan). Esta instancia no usa la barra del ritual; en su lugar se ve la vida del Charro.
 
 ### Jefe final: La Tzitzimime (Ex-convento)
 

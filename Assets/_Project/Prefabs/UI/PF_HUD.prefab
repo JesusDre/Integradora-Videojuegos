@@ -4280,6 +4280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.RitualBarUI
   root: {fileID: 4290564360189526058}
   bar: {fileID: 129032739586398356}
+  title: {fileID: 4046676360283054080}
 --- !u!114 &3992780360121357407
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -115,7 +115,9 @@ namespace Animas.Player
                     ? (charged ? weapon.chargedDamageToSpirits : weapon.damageToSpirits)
                     : (charged ? weapon.chargedDamageToHumans : weapon.damageToHumans);
                 if (prayer != null) damage *= prayer.DamageMultiplier;   // the prayer's shield (#131)
-                target.TakeDamage(damage);
+                // The shield also blesses whatever is in the hand, even the machete (#158).
+                bool blessed = weapon.blessed || (prayer != null && prayer.ShieldActive);
+                target.TakeDamage(damage, blessed);
                 Play(weapon.hitClip);
                 HitLanded?.Invoke(target, damage);
                 if (charged) ChargedHitLanded?.Invoke(target);

@@ -168,7 +168,8 @@ namespace Animas.Player
                 muzzleFlash.enabled = true;
                 flashUntil = Time.time + 0.05f;
             }
-            HitTarget(Mag.salt);
+            // Salt rounds are blessed; under the prayer's shield every round is (#158).
+            HitTarget(Mag.salt, Mag.salt || (prayer != null && prayer.ShieldActive));
             AlertCultists();
             Fired?.Invoke();
             Notify();
@@ -179,7 +180,7 @@ namespace Animas.Player
         // Each pellet flies in its own direction inside the spread cone. Pellets that hit the same body add
         // up and land as ONE hit: a point-blank shot is a single strong blow (it kills a cultist), and the
         // ritual, the hit flash and the Charro see one hit, not eight small ones.
-        void HitTarget(bool salt)
+        void HitTarget(bool salt, bool blessed)
         {
             pelletDamage.Clear();
             float perPellet = 1f / weapon.pellets;
@@ -194,14 +195,14 @@ namespace Animas.Player
                 if (target == null || target == ownHealth || target.IsDead) continue;
                 float damage = (hit.distance <= weapon.nearDistance ? weapon.damageNear : weapon.damageFar) * perPellet;
                 if (salt) damage *= weapon.saltDamageMultiplier;
-                // Spirits: salt hurts them (a part of it, GDD §12); a normal round goes right through.
-                if (target.Kind == HealthKind.Spirit) damage *= salt ? weapon.spiritMultiplier : 0f;
+                // Spirits: a blessed round hurts them (a part of it, GDD §12); a normal one goes right through.
+                if (target.Kind == HealthKind.Spirit) damage *= blessed ? weapon.spiritMultiplier : 0f;
                 if (prayer != null) damage *= prayer.DamageMultiplier;   // the prayer's shield (#131)
                 if (damage <= 0f) continue;
                 pelletDamage.TryGetValue(target, out float sum);
                 pelletDamage[target] = sum + damage;
             }
-            foreach (var pair in pelletDamage) pair.Key.TakeDamage(pair.Value);
+            foreach (var pair in pelletDamage) pair.Key.TakeDamage(pair.Value, blessed);
         }
 
         // Nearest thing a pellet touches, skipping the Padre's own body (same rule as the machete).

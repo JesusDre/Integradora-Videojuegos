@@ -17,7 +17,7 @@ namespace Animas.Items
         [SerializeField] Light flash;
         [SerializeField, Min(0.1f)] float visualSeconds = 0.8f;
         [Tooltip("A canaleta this close to where it broke gets filled (#156). Smaller than the radius, so one bottle fills one ditch.")]
-        [SerializeField, Min(0f)] float channelReach = 1.5f;
+        [SerializeField, Min(0f)] float channelReach = 2f;
 
         float started;
         float flashIntensity;
@@ -35,7 +35,7 @@ namespace Animas.Items
             {
                 Health health = c.GetComponentInParent<Health>();
                 if (health == null || health.Kind != HealthKind.Spirit || !hit.Add(health)) continue;
-                health.TakeDamage(spiritDamage);
+                health.TakeDamage(spiritDamage, true);
                 SpiritBody spirit = health.GetComponent<SpiritBody>();
                 if (spirit != null) spirit.Stun(stunSeconds);
             }

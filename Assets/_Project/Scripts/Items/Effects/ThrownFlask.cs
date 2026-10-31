@@ -1,4 +1,5 @@
 using Animas.Core;
+using Animas.Levels;
 using UnityEngine;
 
 namespace Animas.Items
@@ -14,8 +15,28 @@ namespace Animas.Items
         [SerializeField, Min(0.5f)] float maxLifetime = 5f;
 
         bool broken;
+        bool holyWater;
 
-        void Start() => Invoke(nameof(BreakHere), maxLifetime);
+        void Start()
+        {
+            Invoke(nameof(BreakHere), maxLifetime);
+            holyWater = impactPrefab != null && impactPrefab.GetComponent<HolyWaterSplash>() != null;
+        }
+
+        // Holy water drops into an open canaleta it flies over (HolyWaterChannel.Catches, #158).
+        void Update()
+        {
+            if (!holyWater || broken) return;
+            foreach (HolyWaterChannel channel in HolyWaterChannel.All)
+            {
+                if (!channel.Catches(transform.position)) continue;
+                Vector3 point = transform.position;
+                if (Physics.Raycast(point, Vector3.down, out RaycastHit ground, 5f, ~0, QueryTriggerInteraction.Ignore))
+                    point = ground.point;
+                Break(point);
+                return;
+            }
+        }
 
         void OnCollisionEnter(Collision collision)
         {

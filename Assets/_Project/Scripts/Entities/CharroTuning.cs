@@ -32,6 +32,10 @@ namespace Animas.Entities
         [Header("Final phase")]
         [Tooltip("Seconds he stays weakened after crossing a full canaleta: the window for a charged cross hit.")]
         [Min(0.5f)] public float weakenedSeconds = 4f;
-        [Min(1)] public int hitsToDefeat = 3;
+        [Tooltip("While weakened, blessed damage is multiplied by this (#158). With 360 of life, three charged " +
+                 "cross hits (40 each) while weakened are enough, as before.")]
+        [Min(1f)] public float weakDamageMultiplier = 3f;
+        [Tooltip("Before the final phase blessed hits don't hurt him: he only stops this long, startled.")]
+        [Min(0f)] public float flinchSeconds = 1.2f;
     }
 }
