@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.RangedWeaponDefinition
   displayName: escopeta
   ammoItem: {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
-  damageNear: 30
-  damageFar: 15
+  damageNear: 48
+  damageFar: 20
   nearDistance: 8
   maxRange: 40
   spiritMultiplier: 0.25
-  hitRadius: 0.3
+  hitRadius: 0.08
+  pellets: 8
+  spreadDegrees: 5
   shellCapacity: 2
   reloadSeconds: 2
   fireCooldown: 0.4

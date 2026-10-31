@@ -50,12 +50,12 @@ def done(builder, filename):
     return obj
 
 
-# ---- Machete (0.60 m), lying flat: the blade along +X.
+# ---- Machete (0.85 m), lying flat: a long, wide blade along +X; the handle runs from 0 to 0.18.
 b = lp.PropBuilder("Machete")
-b.prism([(0.0, 0.0), (0.42, -0.005), (0.46, 0.02), (0.44, 0.045), (0.0, 0.04)], 0.0, 0.004, steel,
-        transform=lp.Matrix.Translation((0.14, -0.02, 0.0)))
-b.box((0.07, 0.0, 0.0), (0.14, 0.03, 0.024), handle)
-b.box((0.142, 0.0, 0.0), (0.012, 0.05, 0.03), dark_steel)
+b.prism([(0.0, 0.0), (0.6, -0.008), (0.66, 0.025), (0.63, 0.07), (0.0, 0.06)], 0.0, 0.005, steel,
+        transform=lp.Matrix.Translation((0.18, -0.03, 0.0)))
+b.box((0.09, 0.0, 0.0), (0.18, 0.035, 0.028), handle)
+b.box((0.182, 0.0, 0.0), (0.014, 0.075, 0.034), dark_steel)
 done(b, "obj_machete.fbx")
 
 # ---- Escopeta de dos cañones (1.0 m), along +Y (the barrels point forward, like in first person).

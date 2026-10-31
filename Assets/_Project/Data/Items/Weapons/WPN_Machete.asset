@@ -17,7 +17,7 @@ MonoBehaviour:
   damageToHumans: 20
   damageToSpirits: 5
   cooldown: 0.6
-  range: 2
+  range: 2.4
   hitRadius: 0.35
   staminaCost: 15
   chargeSeconds: 0

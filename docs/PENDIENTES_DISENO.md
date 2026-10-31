@@ -36,6 +36,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #48 | Resumen de instancia con tiempo, muertes y notas leídas. El equipaje no lleva objetos clave y empieza con vida 100. Elegir una instancia desde la selección también da el equipaje de la anterior. Al terminar la campaña se borra la partida (la selección sigue abierta) | `VictoryScreen`, `PlayerPersistence.CaptureForNextInstance` |
 | #40 | Hacienda: el Charro solo caza dentro de su terreno (x 55–145, z 66–129); la tercera nota (panteón) explica la pelea; la tienda de raya reutiliza la choza de la instancia 1 hasta tener arte propio | `I2_Hacienda` (Charro_Territorio, NOTE_I2_Capilla) |
 | #46 | Ex-convento: la escalera de caracol del coro es una rampa recta; el túnel de huida se abre con el ritual (reja); niebla roja durante el ritual (densidad 0.05); la celda del prior reutiliza la choza; sin derrumbe (deseable) | `I3_Convento`, `RitualAtmosphere` |
+| #111 | Escopeta con 8 perdigones y 5° de dispersión, 48/20 de daño (mata a un cultista de un tiro de cerca); machete más largo (alcance 2.4 m); manos de cubo sin dedos. Pedido directo de Jesús | `WPN_Escopeta`, `WPN_Machete`, `chr_brazos_padre.py` |
 | #35 | Se activó el posprocesado en la cámara del Padre para la distorsión del llanto (también se ven la viñeta y el bloom del Global Volume en todas las escenas) | `PF_Player` (cámara) |
 
 ## Decididas (29 oct 2026, ya están en el GDD)

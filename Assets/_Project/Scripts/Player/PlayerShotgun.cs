@@ -43,6 +43,8 @@ namespace Animas.Player
         readonly RaycastHit[] hits = new RaycastHit[16];
         readonly Collider[] heard = new Collider[32];
 
+        readonly Dictionary<Health, float> pelletDamage = new Dictionary<Health, float>();
+
         void Awake()
         {
             fireAction = InputSystem.actions.FindAction("Player/Attack", true);
@@ -108,24 +110,47 @@ namespace Animas.Player
             return true;
         }
 
+        // Each pellet flies in its own direction inside the spread cone. Pellets that hit the same body add
+        // up and land as ONE hit: a point-blank shot is a single strong blow (it kills a cultist), and the
+        // ritual, the hit flash and the Charro see one hit, not eight small ones.
         void HitTarget()
         {
-            // Nearest thing the shot touches, skipping the Padre's own body (same rule as the machete).
-            int count = Physics.SphereCastNonAlloc(aim.position, weapon.hitRadius, aim.forward, hits,
+            pelletDamage.Clear();
+            float perPellet = 1f / weapon.pellets;
+            float spread = Mathf.Tan(weapon.spreadDegrees * Mathf.Deg2Rad);
+            for (int p = 0; p < weapon.pellets; p++)
+            {
+                Vector2 offset = UnityEngine.Random.insideUnitCircle * spread;
+                Vector3 direction = (aim.forward + aim.right * offset.x + aim.up * offset.y).normalized;
+                if (!NearestHit(direction, out RaycastHit hit)) continue;
+
+                Health target = hit.collider.GetComponentInParent<Health>();
+                if (target == null || target == ownHealth || target.IsDead) continue;
+                float damage = (hit.distance <= weapon.nearDistance ? weapon.damageNear : weapon.damageFar) * perPellet;
+                if (target.Kind == HealthKind.Spirit) damage *= weapon.spiritMultiplier;
+                pelletDamage.TryGetValue(target, out float sum);
+                pelletDamage[target] = sum + damage;
+            }
+            foreach (var pair in pelletDamage) pair.Key.TakeDamage(pair.Value);
+        }
+
+        // Nearest thing a pellet touches, skipping the Padre's own body (same rule as the machete).
+        bool NearestHit(Vector3 direction, out RaycastHit nearest)
+        {
+            int count = Physics.SphereCastNonAlloc(aim.position, weapon.hitRadius, direction, hits,
                 weapon.maxRange, hitLayers, QueryTriggerInteraction.Ignore);
-            RaycastHit? nearest = null;
+            nearest = default;
+            bool found = false;
             for (int i = 0; i < count; i++)
             {
                 if (hits[i].collider.transform.IsChildOf(transform)) continue;
-                if (nearest == null || hits[i].distance < nearest.Value.distance) nearest = hits[i];
+                if (!found || hits[i].distance < nearest.distance)
+                {
+                    nearest = hits[i];
+                    found = true;
+                }
             }
-            if (nearest == null) return;
-
-            Health target = nearest.Value.collider.GetComponentInParent<Health>();
-            if (target == null || target == ownHealth || target.IsDead) return;
-            float damage = nearest.Value.distance <= weapon.nearDistance ? weapon.damageNear : weapon.damageFar;
-            if (target.Kind == HealthKind.Spirit) damage *= weapon.spiritMultiplier;
-            target.TakeDamage(damage);
+            return found;
         }
 
         void AlertCultists()
