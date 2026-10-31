@@ -1017,6 +1017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 79729904}
   - component: {fileID: 79729905}
+  - component: {fileID: 79729906}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -1104,6 +1105,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &79729906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79729903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &86094411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2020,6 +2035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 139018731}
   - component: {fileID: 139018732}
+  - component: {fileID: 139018733}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -2107,6 +2123,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &139018733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139018730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &142569833
 GameObject:
   m_ObjectHideFlags: 0
@@ -5375,6 +5405,10 @@ PrefabInstance:
       value: PF_DamageFlash
       objectReference: {fileID: 0}
     - target: {fileID: 7554120861481713744, guid: dbaa681cfb41152dc8b335b8e0e7c14e, type: 3}
+      propertyPath: look
+      value: 
+      objectReference: {fileID: 1953221325}
+    - target: {fileID: 7554120861481713744, guid: dbaa681cfb41152dc8b335b8e0e7c14e, type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 1953221326}
@@ -6822,6 +6856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 605346427}
   - component: {fileID: 605346428}
+  - component: {fileID: 605346429}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -6909,6 +6944,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &605346429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605346426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &620000977
 GameObject:
   m_ObjectHideFlags: 0
@@ -7926,6 +7975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 744095977}
   - component: {fileID: 744095978}
+  - component: {fileID: 744095979}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -8013,6 +8063,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &744095979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744095976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1001 &745062106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8520,6 +8584,7 @@ GameObject:
   m_Component:
   - component: {fileID: 847862558}
   - component: {fileID: 847862559}
+  - component: {fileID: 847862560}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -8607,6 +8672,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &847862560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847862557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &848410238
 GameObject:
   m_ObjectHideFlags: 0
@@ -9733,6 +9812,7 @@ GameObject:
   - component: {fileID: 929384111}
   - component: {fileID: 929384112}
   - component: {fileID: 929384113}
+  - component: {fileID: 929384114}
   m_Layer: 0
   m_Name: Veladoras
   m_TagString: Untagged
@@ -9849,6 +9929,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &929384114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929384110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &931161434
 GameObject:
   m_ObjectHideFlags: 0
@@ -10261,6 +10355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1002052995}
   - component: {fileID: 1002052996}
+  - component: {fileID: 1002052997}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -10348,6 +10443,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1002052997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002052994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1004402604
 GameObject:
   m_ObjectHideFlags: 0
@@ -10358,6 +10467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1004402605}
   - component: {fileID: 1004402606}
+  - component: {fileID: 1004402607}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -10445,6 +10555,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1004402607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004402604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1016220706
 GameObject:
   m_ObjectHideFlags: 0
@@ -11701,6 +11825,7 @@ GameObject:
   - component: {fileID: 1087254008}
   - component: {fileID: 1087254009}
   - component: {fileID: 1087254010}
+  - component: {fileID: 1087254011}
   m_Layer: 0
   m_Name: Luz
   m_TagString: Untagged
@@ -11817,6 +11942,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1087254011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087254007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1091986188
 GameObject:
   m_ObjectHideFlags: 0
@@ -12952,6 +13091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1208984354}
   - component: {fileID: 1208984355}
+  - component: {fileID: 1208984356}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -13039,6 +13179,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1208984356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208984353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1212626691
 GameObject:
   m_ObjectHideFlags: 0
@@ -13945,6 +14099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1235350424}
   - component: {fileID: 1235350425}
+  - component: {fileID: 1235350426}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -14032,6 +14187,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1235350426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235350423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1236120812
 GameObject:
   m_ObjectHideFlags: 0
@@ -15374,6 +15543,7 @@ GameObject:
   - component: {fileID: 1343372417}
   - component: {fileID: 1343372418}
   - component: {fileID: 1343372419}
+  - component: {fileID: 1343372420}
   m_Layer: 0
   m_Name: Luz
   m_TagString: Untagged
@@ -15490,6 +15660,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1343372420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343372416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1001 &1343400410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17615,6 +17799,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1463900970}
   - component: {fileID: 1463900971}
+  - component: {fileID: 1463900972}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -17702,6 +17887,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1463900972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463900969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1487598896
 GameObject:
   m_ObjectHideFlags: 0
@@ -18053,6 +18252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1501896526}
   - component: {fileID: 1501896527}
+  - component: {fileID: 1501896528}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -18140,6 +18340,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1501896528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501896525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1503460312
 GameObject:
   m_ObjectHideFlags: 0
@@ -18779,6 +18993,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1625663637}
   - component: {fileID: 1625663638}
+  - component: {fileID: 1625663639}
   m_Layer: 0
   m_Name: Antorcha
   m_TagString: Untagged
@@ -18866,6 +19081,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1625663639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625663636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1635266496
 GameObject:
   m_ObjectHideFlags: 0
@@ -20082,6 +20311,7 @@ GameObject:
   - component: {fileID: 1754055818}
   - component: {fileID: 1754055819}
   - component: {fileID: 1754055820}
+  - component: {fileID: 1754055821}
   m_Layer: 0
   m_Name: Luz
   m_TagString: Untagged
@@ -20198,6 +20428,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1754055821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754055817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1754324657
 GameObject:
   m_ObjectHideFlags: 0
@@ -21761,6 +22005,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8040294152046853991, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1868841193}
+    - targetCorrespondingSourceObject: {fileID: 8040294152046853991, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1868841194}
   m_SourcePrefab: {fileID: 100100000, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
 --- !u!4 &1868841191 stripped
 Transform:
@@ -21801,6 +22048,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1868841194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868841192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1885212826
 GameObject:
   m_ObjectHideFlags: 0

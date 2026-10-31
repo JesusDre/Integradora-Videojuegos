@@ -1766,6 +1766,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 9fb175cee178b43a18bf110e8ddb6791, type: 2}
   amount: 1
   pickupClip: {fileID: 0}
+  modelScale: 1.4
 --- !u!23 &1093635519
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2215,8 +2216,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8040294152046853991, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1288982172}
   m_SourcePrefab: {fileID: 100100000, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
+--- !u!1 &1288982171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8040294152046853991, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
+  m_PrefabInstance: {fileID: 1288982170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1288982172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288982171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1299422213
 GameObject:
   m_ObjectHideFlags: 0
@@ -2867,6 +2890,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: ccffebe6d7ff2a4c6a66b6854d581ec1, type: 2}
   amount: 5
   pickupClip: {fileID: 0}
+  modelScale: 1.4
 --- !u!23 &1557206894
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2996,6 +3020,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 0e7282bb6beb7568093975ba51bc779c, type: 2}
   amount: 2
   pickupClip: {fileID: 0}
+  modelScale: 1.4
 --- !u!23 &1592563126
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3286,6 +3311,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 2e8ee6d6989b6b65db1de303328da089, type: 2}
   amount: 1
   pickupClip: {fileID: 0}
+  modelScale: 1.4
 --- !u!23 &1820865143
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3378,6 +3404,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF_DamageFlash
       objectReference: {fileID: 0}
+    - target: {fileID: 7554120861481713744, guid: dbaa681cfb41152dc8b335b8e0e7c14e, type: 3}
+      propertyPath: look
+      value: 
+      objectReference: {fileID: 3195183162106819838}
     - target: {fileID: 7554120861481713744, guid: dbaa681cfb41152dc8b335b8e0e7c14e, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -3586,6 +3616,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 9fb175cee178b43a18bf110e8ddb6791, type: 2}
   amount: 1
   pickupClip: {fileID: 0}
+  modelScale: 1.4
 --- !u!23 &1990958247
 MeshRenderer:
   m_ObjectHideFlags: 0

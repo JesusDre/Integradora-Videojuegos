@@ -2425,6 +2425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 243029890}
   - component: {fileID: 243029891}
+  - component: {fileID: 243029892}
   m_Layer: 0
   m_Name: Veladora_Capilla
   m_TagString: Untagged
@@ -2512,6 +2513,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &243029892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243029889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &256115425
 GameObject:
   m_ObjectHideFlags: 0
@@ -5723,6 +5738,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF_DamageFlash
       objectReference: {fileID: 0}
+    - target: {fileID: 7554120861481713744, guid: dbaa681cfb41152dc8b335b8e0e7c14e, type: 3}
+      propertyPath: look
+      value: 
+      objectReference: {fileID: 1953221325}
     - target: {fileID: 7554120861481713744, guid: dbaa681cfb41152dc8b335b8e0e7c14e, type: 3}
       propertyPath: playerHealth
       value: 
@@ -9135,6 +9154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 692896758}
   - component: {fileID: 692896759}
+  - component: {fileID: 692896760}
   m_Layer: 0
   m_Name: Lampara
   m_TagString: Untagged
@@ -9222,6 +9242,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &692896760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692896757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &712508947
 GameObject:
   m_ObjectHideFlags: 0
@@ -11707,6 +11741,7 @@ GameObject:
   - component: {fileID: 929384111}
   - component: {fileID: 929384112}
   - component: {fileID: 929384113}
+  - component: {fileID: 929384114}
   m_Layer: 0
   m_Name: Veladoras
   m_TagString: Untagged
@@ -11823,6 +11858,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &929384114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929384110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &933317716
 GameObject:
   m_ObjectHideFlags: 0
@@ -14321,6 +14370,7 @@ GameObject:
   - component: {fileID: 1087254008}
   - component: {fileID: 1087254009}
   - component: {fileID: 1087254010}
+  - component: {fileID: 1087254011}
   m_Layer: 0
   m_Name: Luz
   m_TagString: Untagged
@@ -14437,6 +14487,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1087254011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087254007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1091133922
 GameObject:
   m_ObjectHideFlags: 0
@@ -16894,6 +16958,7 @@ GameObject:
   - component: {fileID: 1343372417}
   - component: {fileID: 1343372418}
   - component: {fileID: 1343372419}
+  - component: {fileID: 1343372420}
   m_Layer: 0
   m_Name: Luz
   m_TagString: Untagged
@@ -17010,6 +17075,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1343372420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343372416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1345174434
 GameObject:
   m_ObjectHideFlags: 0
@@ -17754,6 +17833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1441351943}
   - component: {fileID: 1441351944}
+  - component: {fileID: 1441351945}
   m_Layer: 0
   m_Name: Veladora_Capilla
   m_TagString: Untagged
@@ -17841,6 +17921,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1441351945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441351942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1449962048
 GameObject:
   m_ObjectHideFlags: 0
@@ -19611,6 +19705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1578636620}
   - component: {fileID: 1578636621}
+  - component: {fileID: 1578636622}
   m_Layer: 0
   m_Name: Veladora_Capilla
   m_TagString: Untagged
@@ -19698,6 +19793,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1578636622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578636619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1581399062 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5835415931922492238, guid: 340de122d96465aed83456fb80bfa834, type: 3}
@@ -21058,6 +21167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1703850575}
   - component: {fileID: 1703850576}
+  - component: {fileID: 1703850577}
   m_Layer: 0
   m_Name: Lampara
   m_TagString: Untagged
@@ -21145,6 +21255,20 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1703850577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703850574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1709319777
 GameObject:
   m_ObjectHideFlags: 0
@@ -21256,6 +21380,7 @@ GameObject:
   - component: {fileID: 1754055818}
   - component: {fileID: 1754055819}
   - component: {fileID: 1754055820}
+  - component: {fileID: 1754055821}
   m_Layer: 0
   m_Name: Luz
   m_TagString: Untagged
@@ -21372,6 +21497,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1754055821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754055817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1754324657
 GameObject:
   m_ObjectHideFlags: 0
@@ -23331,6 +23470,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8040294152046853991, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1868841193}
+    - targetCorrespondingSourceObject: {fileID: 8040294152046853991, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1868841194}
   m_SourcePrefab: {fileID: 100100000, guid: 4413b252a90931d7cb76d659adc0f5f0, type: 3}
 --- !u!4 &1868841191 stripped
 Transform:
@@ -23371,6 +23513,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1868841194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868841192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a99b1a5773a8744dac470622993aa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
+  amount: 0.25
+  speed: 6
 --- !u!1 &1875613579
 GameObject:
   m_ObjectHideFlags: 0

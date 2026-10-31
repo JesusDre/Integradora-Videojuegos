@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 4356258946889775197}
   - component: {fileID: 852158391470868832}
   - component: {fileID: 7766081640620652415}
+  - component: {fileID: 6228092805237977085}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -451,6 +452,22 @@ MonoBehaviour:
   keyItems: {fileID: 852158391470868832}
   lowHealthAt: 30
   lowHealthCooldown: 60
+--- !u!114 &6228092805237977085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1444af0d2362811589a666d4f0ca70a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.HitEffects
+  combat: {fileID: 5209770782421535170}
+  humanBurst: {fileID: 3705794967316040780, guid: 52160ad19ab65ee8ebcf0a6c8c6d7387, type: 3}
+  spiritBurst: {fileID: 539556750920322580, guid: 20d3b8b42969abd2eac17bf3153faa88, type: 3}
+  height: 1.2
 --- !u!1 &2419112120389781756
 GameObject:
   m_ObjectHideFlags: 0
