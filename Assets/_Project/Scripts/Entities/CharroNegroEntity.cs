@@ -41,6 +41,10 @@ namespace Animas.Entities
         [SerializeField] AudioClip walkClip;
         [Tooltip("The spurs jingle when he spurs the horse into a charge.")]
         [SerializeField] AudioClip spursClip;
+        [Header("Scare (#137)")]
+        [Tooltip("His face on the scare screen when his charge hits the Padre before the final phase.")]
+        [SerializeField] Sprite scareFace;
+        [SerializeField] AudioClip scareClip;
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
 
         public State Current { get; private set; } = State.Idle;
@@ -189,6 +193,8 @@ namespace Animas.Entities
             {
                 chargeHit = true;
                 playerHealth.TakeDamage(tuning.chargeDamage);
+                // Before the coins are on the pedestal (the final fight), being run down is a scare.
+                if (pedestal == null || !pedestal.Complete) EntityScare.Trigger(scareFace, scareClip);
             }
             // Charging across a full canaleta weakens him (only in the final phase, when they can be filled).
             // A charge that starts standing in the water doesn't count: each hit needs a new crossing.

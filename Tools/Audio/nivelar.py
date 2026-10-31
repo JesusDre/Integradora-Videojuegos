@@ -39,6 +39,7 @@ TARGETS = [
     ("SFX/Objetos/campana_*.wav", -14),
     ("SFX/Objetos/*.wav", -17),
     ("SFX/Enemigos/tzitzimime_vibracion.wav", -17),
+    ("SFX/Enemigos/susto.wav", -9),              # the scare must be the loudest moment
     ("SFX/Enemigos/muneca_risa_*.wav", -16),
     ("SFX/Enemigos/*.wav", -13),                 # enemies must cut through the music
     ("Ambiente/amb_*.wav", -22),                 # the bed of each level: always there, never in front

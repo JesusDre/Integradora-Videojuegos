@@ -796,6 +796,36 @@ El nivel real del convento es #46.
 | ¿Por qué no se reutilizó el código de la Llorona? | Comparten piezas (`SpiritBody`, `RitualController`, `EntityPresence`), pero cada entidad tiene fases distintas según el GDD. Un script por entidad es más fácil de explicar que uno lleno de condiciones. |
 | ¿Cómo se esquiva el ataque? | El círculo rojo avisa 1.5 s antes; basta con salir de él. |
 
+#### Susto al ser atrapado (#137)
+
+**Qué hace.** Si la Llorona te atrapa, o el Charro te arrolla, **antes** del enfrentamiento final, su cara pálida de ojos rojos se lanza contra la cámara y llena la pantalla:
+- **Duración:** medio segundo, y luego se desvanece.
+- **Sonido:** un golpe disonante muy fuerte.
+- **Cámara:** una sacudida.
+
+**Cuándo no sale:** durante el ritual de la Llorona y en la fase final del Charro (con las monedas en el pedestal), para no estorbar la pelea. Después de un susto hay 8 s sin otro.
+
+![Susto de la Llorona](img/ui/susto.png)
+
+**Cómo funciona.**
+| Pieza | Qué hace |
+|---|---|
+| `EntityScare` | Un evento estático (`Caught`). Las entidades lo disparan y el HUD lo escucha, así ninguna conoce a la otra (igual que `SafeRoom.Saved`). |
+| `LloronaEntity.StartGrab` | Dispara el susto si el ritual aún no está en `Praying`. |
+| `CharroNegroEntity` | Al conectar la embestida, dispara el susto si el pedestal no está completo. |
+| `JumpscareUI` | Muestra la imagen: crece de 115 % a 100 % en 0.08 s (se "lanza"), se queda 0.55 s y se desvanece. Usa tiempo sin escala (`unscaledTime`) y lanza `PlayerLook.AddShake`. |
+| Las caras | Se capturaron en Unity con una cámara frente al hueso de la cabeza, con luz fría, y se trataron con `Tools/Iconos/procesar_sustos.py`: casi sin color salvo los rojos, contraste duro, viñeta, ondulación y grano. |
+| El sonido | `Tools/Audio/sintetizar_sustos.py`: ruido, retumbo grave y voces agudas desafinadas que caen. |
+
+**Prueba (Play Mode).**
+- **Llorona antes del ritual:** el susto apareció y se fue solo en menos de 1.5 s.
+- **Llorona durante el ritual:** no apareció.
+- **Charro:** su embestida lo disparó.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué un evento estático? | La Llorona y el Charro están en escenas distintas del HUD. Con un evento solo avisan "atrapé al Padre" y el HUD decide qué mostrar. |
+
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Arte de la instancia 1: #36.*
 
