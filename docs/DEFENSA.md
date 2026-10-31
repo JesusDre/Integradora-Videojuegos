@@ -1219,6 +1219,35 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 | ¿Por qué no se estiran en las paredes largas? | Porque `WorldUVBaker` les da UV medidos en metros. Si un muro mide el doble, la textura se repite el doble de veces. |
 | ¿Qué es un mapa de normales? | Una imagen que le dice a la luz hacia dónde apunta cada punto de la superficie. Así una pared plana parece tener juntas y relieve sin agregar polígonos. |
 
+#### Cielo de cada instancia (#102)
+
+**Qué hace.** El fondo ya no es negro: cada instancia tiene su cielo de 360°.
+- **Xochimilco:** noche fría con una luna grande y pálida entre nubes delgadas, y estrellas.
+- **Hacienda:** atardecer que se apaga, rojo y naranja hacia el sol, violeta arriba, y la noche que ya llega por el otro lado.
+- **Ex-convento:** noche cerrada con nubes pesadas, estrellas rojizas entre los huecos y una **estrella negra de ocho puntas** con borde rojo, el símbolo de la secta.
+- **Catacumbas:** no se ve el cielo porque tienen techo.
+
+![Cielos: Xochimilco, hacienda y convento](img/cielos.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `Tools/Texturas/generar_cielos.py` | herramientas | Genera tres panorámicas de 4096 × 2048 (latitud-longitud) con numpy: degradados por altura, nubes de ruido fractal que da la vuelta sin costura, estrellas, y la luna o el sol. |
+| La luna o el sol en su lugar | el mismo script | Se dibujan exactamente en la dirección de donde viene la luz direccional de la escena (`Moon`, `Sol_Atardecer`, `Luna`). Así el brillo del cielo y las sombras coinciden. |
+| Horizonte = color de la niebla | el mismo script | La niebla de Unity no toca el cielo. Por eso, debajo del horizonte y unos grados arriba, el cielo es **exactamente** el color de la niebla de esa escena y se mezcla hacia arriba: el borde de la niebla se funde con el cielo y no queda un corte. |
+| `M_Cielo_*` | `Art/Materials` | Materiales con el shader `Skybox/Panoramic` de Unity, puestos en *Lighting → Skybox* de cada escena. La cámara del Padre limpia con *Skybox* en los tres niveles. |
+
+**Cómo se probó.**
+- **Play Mode:** en cada nivel se miró hacia la luna, el sol o la estrella negra. Se ven en su lugar y el horizonte se funde con la niebla.
+- **Consola:** sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Qué es un skybox? | Una imagen que Unity dibuja detrás de todo, como si el mundo estuviera dentro de una esfera pintada. |
+| ¿Por qué ya no se ve el corte negro? | Porque la parte baja del cielo tiene el mismo color que la niebla: donde la niebla termina, empieza un cielo del mismo color. |
+| ¿Cómo sabían dónde poner la luna? | Con la rotación de la luz direccional de la escena: la luna va en la dirección opuesta a hacia donde apunta la luz. |
+
 ### 5.17 Cuarto de prueba de enemigos
 *Issue #77. Solo para desarrollo: no forma parte de los niveles.*
 
