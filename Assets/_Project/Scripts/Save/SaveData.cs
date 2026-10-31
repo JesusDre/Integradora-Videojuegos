@@ -24,5 +24,6 @@ namespace Animas.Save
         public List<string> notes = new List<string>();
         public List<string> keyItems = new List<string>();        // one name per item carried
         public List<string> collectedKeyItems = new List<string>(); // ids of pickups already taken
+        public List<string> weapons = new List<string>();          // carried weapons, by item name (#134)
     }
 }

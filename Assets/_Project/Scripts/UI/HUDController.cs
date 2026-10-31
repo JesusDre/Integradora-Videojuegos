@@ -68,7 +68,7 @@ namespace Animas.UI
             OnStaminaChanged(playerStamina.Current, playerStamina.Max);
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].SetKey((i + 1).ToString());
             OnInventoryChanged();
-            if (weapons != null) OnWeaponSwitched(weapons.Current);
+            if (weapons != null) OnWeaponSwitched();
             if (prayerBar != null) prayerBar.gameObject.SetActive(false);
         }
 
@@ -124,18 +124,20 @@ namespace Animas.UI
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].Show(playerInventory.Slots[i]);
         }
 
-        void OnWeaponSwitched(WeaponSwitcher.Slot slot)
+        void OnWeaponSwitched()
         {
-            bool gun = slot == WeaponSwitcher.Slot.Shotgun;
-            weaponLabel.text = gun ? shotgun.Weapon.displayName : "machete";
+            bool gun = weapons.IsGun;
+            weaponLabel.text = weapons.CurrentName;
             ammoLabel.gameObject.SetActive(gun);
             if (gun) OnAmmoChanged(shotgun.Loaded, shotgun.Reserve);
         }
 
         void OnAmmoChanged(int loaded, int reserve)
         {
-            // Big number: shells in the gun. Small: balas de sal left in the inventory.
-            ammoLabel.text = $"{loaded} <size=70%>| {reserve}</size>";
+            // Big number: rounds in the gun. Small: rounds left in the inventory. Below, which kind is
+            // loaded: salt (hurts spirits) or normal (#134).
+            string kind = loaded == 0 ? "" : shotgun.LoadedSalt ? "\n<size=55%>sal</size>" : "\n<size=55%>normal</size>";
+            ammoLabel.text = $"{loaded} <size=70%>| {reserve}</size>{kind}";
         }
     }
 }

@@ -27,6 +27,12 @@ namespace Animas.Items
         [Tooltip("Sound when it is used (the bandage, the salt, the match of the candle). Optional.")]
         public AudioClip useClip;
 
+        [Header("Weapon (#134)")]
+        [Tooltip("For weapons carried in the WeaponBag: the melee data (machete, martillo...). Empty otherwise.")]
+        public MeleeWeaponDefinition meleeWeapon;
+        [Tooltip("For firearms carried in the WeaponBag: the gun data (escopeta, pistola...). Empty otherwise.")]
+        public RangedWeaponDefinition rangedWeapon;
+
         [Header("World")]
         [Tooltip("What appears on the floor when the player drops it. Empty: a generic box.")]
         public GameObject worldPrefab;
@@ -34,5 +40,6 @@ namespace Animas.Items
         public GameObject model;
 
         public bool IsMaterial => category == ItemCategory.Material;
+        public bool IsWeapon => meleeWeapon != null || rangedWeapon != null;
     }
 }
