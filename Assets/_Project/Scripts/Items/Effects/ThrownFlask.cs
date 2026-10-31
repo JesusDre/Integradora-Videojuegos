@@ -1,3 +1,4 @@
+using Animas.Core;
 using UnityEngine;
 
 namespace Animas.Items
@@ -7,6 +8,8 @@ namespace Animas.Items
     public class ThrownFlask : MonoBehaviour
     {
         [SerializeField] GameObject impactPrefab;
+        [Tooltip("The glass breaking.")]
+        [SerializeField] AudioClip breakClip;
         [Tooltip("If it hits nothing (thrown into the void), it breaks anyway after this time.")]
         [SerializeField, Min(0.5f)] float maxLifetime = 5f;
 
@@ -31,6 +34,8 @@ namespace Animas.Items
             if (broken) return;
             broken = true;
             if (impactPrefab != null) Instantiate(impactPrefab, at, Quaternion.identity);
+            // PlayClipAtPoint: this object is destroyed right away and would cut its own AudioSource.
+            if (breakClip != null) AudioSource.PlayClipAtPoint(breakClip, at, GameSettings.GetVolume(VolumeCategory.Effects));
             Destroy(gameObject);
         }
     }

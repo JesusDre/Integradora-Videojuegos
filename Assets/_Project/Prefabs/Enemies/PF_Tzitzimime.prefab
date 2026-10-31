@@ -549,8 +549,8 @@ MonoBehaviour:
   strikeMarker: {fileID: 2143053694180321216}
   finalGlow: {fileID: 492889514040762315}
   audioSource: {fileID: 6915769578165141584}
-  screechClip: {fileID: 0}
-  strikeClip: {fileID: 0}
+  screechClip: {fileID: 8300000, guid: c900ab0fce7a14b898800fb146346f32, type: 3}
+  strikeClip: {fileID: 8300000, guid: 66918630020a0958b9249be1b4fc5cf8, type: 3}
 --- !u!1001 &2620245876941150066
 PrefabInstance:
   m_ObjectHideFlags: 0

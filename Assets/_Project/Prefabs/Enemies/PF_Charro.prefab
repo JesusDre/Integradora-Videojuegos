@@ -248,12 +248,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Entities.CharroNegroEntity
   tuning: {fileID: 11400000, guid: 83f657123070d2aada4507f91dfa375d, type: 2}
   pedestal: {fileID: 0}
+  territory: {fileID: 0}
   gate: {fileID: 0}
   animator: {fileID: 0}
   weakGlow: {fileID: 912065366868818683}
   audioSource: {fileID: 6440656256596171739}
-  neighClip: {fileID: 0}
-  hurtClip: {fileID: 0}
+  neighClip: {fileID: 8300000, guid: 8afb3707a0d3a503b902ed20108a5dbd, type: 3}
+  hurtClip: {fileID: 8300000, guid: 3203d84d94da30d57b51b1aeb1282cdc, type: 3}
   dissolveSeconds: 2.5
 --- !u!1 &5087587710784705339
 GameObject:

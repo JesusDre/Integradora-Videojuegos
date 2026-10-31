@@ -28,6 +28,6 @@ MonoBehaviour:
   noiseRadius: 20
   aimFieldOfView: 55
   kickDegrees: 4
-  fireClip: {fileID: 0}
-  reloadClip: {fileID: 0}
-  emptyClip: {fileID: 0}
+  fireClip: {fileID: 8300000, guid: 06d472ef5b18023a0990124a0dba754d, type: 3}
+  reloadClip: {fileID: 8300000, guid: 770bfd010f6b557b382429b1a4362f27, type: 3}
+  emptyClip: {fileID: 8300000, guid: b69334f954efbb58ba036bc048aefbde, type: 3}

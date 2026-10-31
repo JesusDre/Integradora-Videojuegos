@@ -14,6 +14,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | `chr_brazos_padre.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_brazos_padre.py` | Jesús | Propio | No | Jesús |
 | Kit de Xochimilco (`env_*.fbx`: trajinera, choza, ahuejotes, ahuehuete, embarcadero, puente, poste, tule, altar) | Modelo 3D | Hecho por el equipo con `Tools/Blender/env_xochimilco.py` | Jesús | Propio | No | Jesús |
 | Ambiente de terror (`env_muneca_colgada`, `env_cabezas`, `env_muneca_rota`, `env_pasto*`, `env_arbusto`, `env_arbol_seco`; nuevo `obj_muneca`) | Modelo 3D | Hecho por el equipo con `Tools/Blender/env_terror.py` | Jesús | Propio | No | Jesús |
+| Sonidos y música (`Audio/SFX`, `Audio/Ambiente`, `Audio/Music`, 53 WAV) | Audio | Sintetizados por el equipo con `Tools/Audio/sintetizar_sonidos.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
 Notas:

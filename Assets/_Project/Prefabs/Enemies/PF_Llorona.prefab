@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 6064430988653944242}
   - component: {fileID: 4007421173987468361}
   - component: {fileID: 5308696059585395002}
+  - component: {fileID: 6048016468736901555}
   m_Layer: 0
   m_Name: PF_Llorona
   m_TagString: Untagged
@@ -224,7 +225,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 188d644dbcc679a4881deb668b4f2f27, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -234,8 +235,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 25
+  MinDistance: 3
+  MaxDistance: 35
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -329,7 +330,7 @@ MonoBehaviour:
   visuals: {fileID: 6528977330335708668}
   animator: {fileID: 0}
   audioSource: {fileID: 6064430988653944242}
-  screamClip: {fileID: 0}
+  screamClip: {fileID: 8300000, guid: 1791c02de59cacd229f0b58452e5fc24, type: 3}
   dissolveSeconds: 2.5
 --- !u!114 &5308696059585395002
 MonoBehaviour:
@@ -351,6 +352,19 @@ MonoBehaviour:
   radius: 18
   smoothing: 3
   subtitleCooldown: 20
+--- !u!114 &6048016468736901555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831002983137279170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1bee77301068e320be4c9bc2ab680f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Audio.AudioVolume
+  category: 1
 --- !u!1 &6528977330335708668
 GameObject:
   m_ObjectHideFlags: 0

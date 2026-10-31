@@ -994,7 +994,7 @@ Al escapar del ex-convento llega la **victoria final**:
 | ¿Qué pasa al terminar el juego? | Victoria final, créditos y menú. Se borra la partida, pero la selección de instancias sigue abierta para rejugar. |
 
 ### 5.15 Audio y feedback
-*Pendiente — issues #44 y #50.*
+*Feedback visual: #44. Sonido: #115. Pendiente: #50 y las voces grabadas (#8, #9).*
 
 #### Feedback visual y partículas (#44)
 
@@ -1027,6 +1027,50 @@ Al escapar del ex-convento llega la **victoria final**:
 - Al recibir 25 de daño, la viñeta llegó a 0.78 de opacidad y la cámara tembló (inclinación de 11.5°, que se recupera).
 - Un golpe de machete a un cultista soltó la ráfaga roja.
 - En una sesión limpia no hubo errores nuevos en la consola.
+
+#### Sonido sintetizado y música dinámica (#115)
+
+**Qué hace.** Todo el juego suena, y casi todo el sonido está hecho **con código**, sin grabaciones. Son 53 archivos:
+- **Armas:** el disparo y la recarga de la escopeta, el clic vacío, el machetazo y el golpe al conectar, la chancla y la cruz.
+- **El Padre:** pasos en tierra, madera y piedra (4 de cada uno, para que no se repitan), un quejido al recibir daño, el latido con 30 de vida o menos y el jadeo al quedarse sin resistencia.
+- **Objetos y altar:** la campanita del altar, el rezo (un coro bajo que crece mientras se mantiene R) y su final, el agua bendita, el cerillo de la veladora, el vidrio que se rompe, el fuego de la molotov, la sal, la venda y las puertas que rechinan.
+- **Enemigos:** el cultista avisa con un **silbato de la muerte** azteca, un sonido real de la época mexica que suena a grito humano. La Llorona llora y grita, el caballo del Charro relincha y la Tzitzimime chilla con voces que desafinan entre sí.
+- **Ambiente:** cada instancia tiene su fondo en loop. En Xochimilco hay grillos, ranas, agua y viento; en la hacienda, viento seco y cuervos; en el convento, un zumbido de piedra y gotas con eco, y además cada antorcha chisporrotea.
+- **Música:** menú, tensión, ritual, aviso de horda, victoria y derrota (el corazón se detiene).
+
+**Como en Left 4 Dead, la música avisa.** Normalmente solo se oye el ambiente. Cuando un cultista **persigue o ataca** al Padre, entra la música de tensión (cuerdas graves a 120 pulsos por minuto que chocan medio tono) y se va 4 s después de que lo pierden. Cuando empieza un encuentro suena el aviso de horda, unos metales que crecen y un tambor. Durante el ritual suenan tambores huehuetl, un teponaztli y un coro. Al morir, todo se apaga y suena la música de derrota.
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `Tools/Audio/sintetizar_sonidos.py` | herramientas | Genera los 53 WAV con numpy. Usa la síntesis clásica: ruido filtrado (viento, pasos, disparo), senos con envolvente (golpes, latido), parciales inarmónicos (campanas, metal) y una reverberación hecha por convolución con ruido que se apaga (cuartos, eco del convento). Los loops cruzan su final con su inicio para no tener corte. Con la misma semilla salen los mismos archivos. |
+| `MusicDirector` | objeto `Audio_Director` de cada nivel | Cuatro capas: ambiente, tensión, ritual y horda. Cada medio segundo revisa si algún `CultistAI` está en `Chase` o `Attack`, escucha `Encounter.Started` y la etapa del `RitualController`, y sube o baja cada capa con `Mathf.MoveTowards` (fundido, nunca un corte). |
+| `PlayerFootsteps` + `FootstepSurface` | Padre / pisos | Un paso cada 1.6 m caminando (2.3 m corriendo), medido por distancia, así que al estar quieto no suena. Un rayo hacia abajo busca `FootstepSurface` en el piso; si no hay, usa el suelo por defecto de la escena (piedra en el convento). Nunca repite el mismo clip seguido y varía un poco el tono. |
+| `PlayerAudio` | Padre | Quejido con `Health.Damaged`, latido y jadeo en loop con fundido, y el sonido de cada objeto usado (`ItemDefinition.useClip`, avisado por el nuevo evento `Inventory.Used`). |
+| `ThrownFlask.breakClip` | frascos | El vidrio al romperse, con `PlayClipAtPoint` porque el frasco se destruye. |
+| `AudioVolume` | cada fuente | Las fuentes siguen el volumen de Efectos o Música de las Opciones. |
+
+**Cómo se probó (Play Mode, Xochimilco y convento).**
+- **Ambiente:** suena desde el inicio.
+- **Pasos:** al caminar con W sonaron con tonos distintos (0.97, 1.01, 1.06…).
+- **Persecución:** con un cultista persiguiendo, la tensión subió a su volumen y sonó la horda.
+- **Poca vida:** al bajar a 25 de vida empezó el latido.
+- **Convento:** el suelo por defecto es piedra y las 12 antorchas suenan.
+- **Consola:** sin excepciones.
+- **Archivos:** un script revisó que ningún WAV salga en silencio y que los loops cierren sin salto.
+
+**Lo que no se puede sintetizar** (queda en los issues #8 y #9 para grabarlo o conseguirlo con licencia):
+- las voces con palabras: el Padre, el "¡Ay, mis hijos!" de la Llorona y los cultistas gritando;
+- el rezo en latín;
+- las risas de las muñecas.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿De dónde salieron los sonidos? | Los generó un script de Python con fórmulas de síntesis; no se descargó nada, por eso la licencia es propia. Se pueden cambiar y volver a generar. |
+| ¿Cómo sabe la música cuándo ponerse tensa? | `MusicDirector` revisa el estado de los cultistas (`CultistAI.Current`). Si alguno persigue o ataca, sube la capa de tensión; si no, baja. |
+| ¿Por qué los pasos van por distancia y no por tiempo? | Así coinciden con la velocidad (corriendo suenan más seguido) y no suenan al estar quieto o rezando. |
+| ¿Por qué un silbato de la muerte para el cultista? | Es un instrumento mexica real usado en rituales, encaja con la secta y da miedo. Además se puede sintetizar con ruido filtrado, cosa que un grito humano no. |
 
 ### 5.16 Arte: modelos, animaciones e iluminación
 *Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Props: #19. Brazos del Padre: #28. Pendiente: iluminación, texturas (#101), cielo (#102) y ambiente (#103).*

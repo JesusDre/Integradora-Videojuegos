@@ -19,5 +19,6 @@ MonoBehaviour:
   maxStack: 1
   healAmount: 0
   useEffect: {fileID: 11400000, guid: 819a113786ad07660982ab1317d3710e, type: 2}
+  useClip: {fileID: 8300000, guid: 6dff1add5349960909fb7efc4bf6abd8, type: 3}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: eb3660935f5d4891ebfcefecfe2dda22, type: 3}

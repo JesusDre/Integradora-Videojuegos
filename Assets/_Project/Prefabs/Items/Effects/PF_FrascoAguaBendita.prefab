@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ThrownFlask
   impactPrefab: {fileID: 4791423873046580199, guid: be3ca1a67db55a1a4bf0a4c483606899, type: 3}
+  breakClip: {fileID: 8300000, guid: 23b54fbc003d3c453bb60007cca6ef2c, type: 3}
   maxLifetime: 5
 --- !u!1001 &8745985591204030831
 PrefabInstance:

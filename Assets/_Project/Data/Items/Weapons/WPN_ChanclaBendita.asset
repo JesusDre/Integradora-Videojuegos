@@ -23,5 +23,5 @@ MonoBehaviour:
   chargeSeconds: 0
   chargedDamageToHumans: 0
   chargedDamageToSpirits: 0
-  swingClip: {fileID: 0}
-  hitClip: {fileID: 0}
+  swingClip: {fileID: 8300000, guid: 512607d7b05c1985db4ded281e9c5338, type: 3}
+  hitClip: {fileID: 8300000, guid: 1b33368265c4091cda42b738104086d9, type: 3}

@@ -46,6 +46,8 @@ namespace Animas.Items
         public event Action Changed;
         // A short message for the player: "Inventario lleno", "Recogiste: venda"...
         public event Action<string> Notice;
+        // An item was used from a slot (PlayerAudio plays its useClip).
+        public event Action<ItemDefinition> Used;
 
         void Awake()
         {
@@ -194,9 +196,11 @@ namespace Animas.Items
                     Notice?.Invoke("Ya tienes la vida completa");
                     return false;
                 }
+                ItemDefinition healed = s.item;
                 s.count--;
                 if (s.count == 0) s.Clear();
                 Changed?.Invoke();
+                Used?.Invoke(healed);
                 return true;
             }
 
@@ -204,6 +208,7 @@ namespace Animas.Items
             if (s.item.useEffect != null && user != null)
             {
                 if (!s.item.useEffect.Use(user, s.item)) return false;
+                Used?.Invoke(s.item);
                 if (s.item.useEffect.ConsumesItem)
                 {
                     s.count--;

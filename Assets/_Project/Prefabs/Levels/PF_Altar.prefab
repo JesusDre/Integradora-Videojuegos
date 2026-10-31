@@ -808,7 +808,7 @@ MonoBehaviour:
   blessIntensity: 6
   blessSeconds: 0.6
   audioSource: {fileID: 2475136364043505024}
-  blessClip: {fileID: 0}
+  blessClip: {fileID: 8300000, guid: 8709534c7a6c7f58e8d3166269b30e3a, type: 3}
 --- !u!1 &7755322231511062116
 GameObject:
   m_ObjectHideFlags: 0
