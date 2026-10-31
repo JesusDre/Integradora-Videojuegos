@@ -46,3 +46,4 @@ Thumbs.db
 # Python bytecode (Tools/Blender)
 __pycache__/
 *.pyc
+Tools/Audio/escopeta_candidatas/
