@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
   title: Diario de un hermano
   text: "Las mu\xF1ecas miran aunque no tengan ojos. El cuidador las colgaba para
-    alejarla; nosotros las colgamos para llamarla.\n\nLa sal la detiene. Si alguien
-    la riega en su camino, la mujer de blanco no pasa."
+    alejarla; nosotros las colgamos para llamarla.\n\nAnoche el hermano Rufino reg\xF3
+    sal sin querer al cargar los costales. Ella lleg\xF3 hasta la l\xEDnea blanca
+    y no pas\xF3. Se qued\xF3 ah\xED, llorando, hasta que amaneci\xF3. No se lo digan
+    al Gran Hermano."
   unlocksRecipe: {fileID: 0}

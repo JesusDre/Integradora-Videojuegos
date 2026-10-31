@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
   title: Recado de la cocinera
   text: "Mi abuela dec\xEDa que no hay espanto que aguante un chanclazo bendito.
-    \xC9chale agua bendita a la chancla y ver\xE1s c\xF3mo corren."
+    \xC9chale agua bendita a la chancla y ver\xE1s c\xF3mo corren.\n\nY ya no le
+    abran la puerta al se\xF1or del caballo negro, por m\xE1s que ofrezca. Nadie
+    ha cobrado nunca lo que \xE9l paga."
   unlocksRecipe: {fileID: 11400000, guid: 832a9bfb07e57793ca1582201282f5c9, type: 2}

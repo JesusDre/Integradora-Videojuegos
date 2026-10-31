@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
   title: "C\xF3dice del prior"
   text: 'La que baja de las estrellas no se ve. Resina y brasas: el humo del copal
-    la muestra, y solo mostrada puede herirla la luz.'
+    la muestra, y solo mostrada puede herirla la luz.
+
+
+    Los antiguos la esperaban
+    en los eclipses, cuando el sol parece morir. Estos locos quieren que baje para
+    siempre.'
   unlocksRecipe: {fileID: 11400000, guid: 2e0178e2a03f8f007b971afaaddbe93c, type: 2}
