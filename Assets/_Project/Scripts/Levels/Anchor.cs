@@ -8,7 +8,8 @@ namespace Animas.Levels
 {
     // The entity's anchor (GDD §5 and §13): the 3 key items are placed here to start the final
     // ritual. F places every one the Padre carries; when all are in, OfferingsComplete fires and
-    // the ritual (#34) begins. If the Padre dies, the anchor empties (the ritual is repeated, GDD §6).
+    // the ritual (#34) begins. If the Padre dies, the anchor empties (the ritual is repeated, GDD §6)
+    // and the offerings go back to his bag, so they are never lost (#156).
     public class Anchor : MonoBehaviour, IInteractable
     {
         [SerializeField] ItemDefinition offering;
@@ -59,10 +60,19 @@ namespace Animas.Levels
             if (Complete) OfferingsComplete?.Invoke();
         }
 
+        // Runs after the save is restored. Every offering picked up in the world (its pickup counts as
+        // collected) is either in the bag or was on this anchor; the ones on the anchor go back to the bag.
+        // Without this, offerings placed before the last save would vanish: collected, but nowhere.
         void ResetOfferings()
         {
             Placed = 0;
             ShowModels();
+            var bag = respawn.GetComponent<KeyItemBag>();
+            if (bag == null) return;
+            int collected = 0;
+            foreach (KeyItemPickup pickup in FindObjectsByType<KeyItemPickup>(FindObjectsSortMode.None))
+                if (pickup.Item == offering && bag.HasCollected(pickup.Id)) collected++;
+            bag.Return(offering, collected - bag.Count(offering));
         }
 
         void ShowModels()

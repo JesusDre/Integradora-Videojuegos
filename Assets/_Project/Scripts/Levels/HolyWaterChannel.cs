@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Animas.Levels
 {
     // A canaleta in front of the chapel (GDD §13, P8): F + 1 holy water fills it, it glows and works for
-    // 20 s. When the Charro Negro charges across a full one, he's weakened. It only accepts water once
+    // 20 s; a bottle thrown into it fills it too (#156). When the Charro Negro charges across a full one, he's weakened. It only accepts water once
     // the final phase opens (the coins are on the pedestal); before that it's just a dry ditch.
     public class HolyWaterChannel : MonoBehaviour, IInteractable
     {
@@ -74,6 +74,14 @@ namespace Animas.Levels
         {
             fullUntil = -1f;
             Show(false);
+        }
+
+        // A thrown bottle that breaks in or right next to the ditch (HolyWaterSplash).
+        public bool TryFillFromSplash(Vector3 point, float reach)
+        {
+            if (!Unlocked || IsFull || area.bounds.SqrDistance(point) > reach * reach) return false;
+            Fill();
+            return true;
         }
 
         public bool Contains(Vector3 point) => area.bounds.Contains(point + Vector3.up * 0.5f);

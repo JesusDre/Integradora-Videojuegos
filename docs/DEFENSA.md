@@ -815,6 +815,34 @@ El nivel real de la hacienda es #40.
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
 
+##### Monedas que no se pierden, pila sin límite y canaletas a botellazos (#156)
+
+**Qué pasaba.** En el playtest pasaron dos cosas:
+- **Las monedas desaparecían.** Jesús colocó las monedas, entró al cuarto seguro (se guardó la partida) y luego reinició. Las monedas desaparecieron: ni estaban en su bolsa ni en el mapa.
+- **La pila se agotaba.** Daba solo 3 aguas benditas. Con una canaleta fallada, la pelea ya no se podía terminar.
+
+**Qué hace ahora.**
+- **Las ofrendas vuelven.** Al reiniciar o morir, el pedestal se vacía y las ofrendas que tenía vuelven a la bolsa del Padre. Solo hay que volver a colocarlas con F. Sirve igual para las muñecas, las monedas y los fragmentos.
+- **La pila no se acaba.** Da agua bendita las veces que haga falta; el único límite es el espacio del inventario.
+- **Las canaletas también se llenan a botellazos.** Además de F junto a la canaleta, sirve lanzar una botella de agua bendita (teclas 1–4): si se rompe dentro de la canaleta o a 1.5 m o menos, la llena. Una botella llena una sola canaleta, y solo después de colocar las monedas.
+
+**Cómo funciona.**
+- **Por qué se perdían:** el guardado recuerda qué monedas del mapa ya se recogieron (`KeyItemBag.Collected`) y cuántas lleva el Padre. Si se guardó después de colocarlas, la partida decía "recogidas: 3, en la bolsa: 0". Al reiniciar, el pedestal se vaciaba y las 3 monedas quedaban en ningún lado.
+- **`Anchor.ResetOfferings()`:** corre después de cargar la partida. Cuenta las monedas del mapa ya recogidas y le devuelve a la bolsa las que no están en ella (`KeyItemBag.Return`). Si la partida ya las tenía en la bolsa, la cuenta da 0 y no se duplican.
+- **`HolyWaterFont`:** ya no lleva cuenta de usos.
+- **`HolyWaterSplash`:** al romperse, le pregunta a cada canaleta `TryFillFromSplash(punto, 1.5 m)`. Usa `Bounds.SqrDistance` para medir la distancia a la caja de la canaleta.
+
+**Prueba (Play Mode, `I2_Hacienda`).**
+- **El caso del error:** se recogieron y colocaron las 3 monedas, se entró al cuarto seguro (guardado: 3 recogidas, 0 en la bolsa) y se reinició. Volvieron 3 monedas a la bolsa, el pedestal quedó en 0 y las canaletas se bloquearon otra vez.
+- **Guardando con las monedas en la bolsa:** al colocarlas y reiniciar quedaron 3, no 6.
+- **La pila:** dio 6 aguas seguidas.
+- **Las botellas:** una botella rota en la canaleta del centro la llenó; otra a 5 m de las canaletas no llenó ninguna.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué devolverlas a la bolsa y no al mapa? | Ya las había encontrado: obligarlo a buscarlas otra vez después de morir sería castigo doble. Volver a colocarlas es rápido. |
+| ¿No se vuelve muy fácil con agua ilimitada? | El reto es que el Charro cruce la canaleta mientras está llena (dura 20 s) y pegarle con la cruz cargada en 4 s. El agua solo evita quedarse atorado sin salida. |
+
 ##### Ya no acampa el cuarto seguro ni la capilla (#154)
 
 **Qué pasaba.** En el playtest, el Charro se quedaba parado en la puerta de la capilla esperando al Padre. Cuando el Padre salía del cuarto seguro, el Charro lo veía de inmediato y lo atropellaba. No había forma de escapar.
@@ -1036,7 +1064,7 @@ Los árboles secos llevan un collider delgado y el NavMesh se volvió a hornear 
 
 | Pieza nueva | Qué hace |
 |---|---|
-| `HolyWaterFont` | La pila de la capilla (GDD §18): F da 1 agua bendita, hasta 3 veces; se rellena cuando el Padre reaparece. Si no hay espacio en el inventario, no gasta usos. |
+| `HolyWaterFont` | La pila de la capilla (GDD §18): F da 1 agua bendita, sin límite de usos desde #156. Si no hay espacio en el inventario, avisa y no da nada. |
 | `CharroNegroEntity.territory` (cambio) | Una caja opcional con el terreno donde cabalga el Charro (como en el plano). Si el Padre sale de ella, el Charro lo deja y regresa a su lugar. Así no persigue al Padre por las trojes desde el primer minuto. |
 | `NOTE_I2_Capilla` | Nota del panteón: pedestal, canaletas y tres golpes de cruz. |
 

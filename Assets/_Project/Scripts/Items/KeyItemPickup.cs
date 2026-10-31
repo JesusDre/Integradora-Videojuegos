@@ -17,6 +17,8 @@ namespace Animas.Items
         [SerializeField] AudioClip pickupClip;
 
         public string Prompt => $"Tomar {item.displayName}";
+        public string Id => id;
+        public ItemDefinition Item => item;
 
         KeyItemBag bag;
 

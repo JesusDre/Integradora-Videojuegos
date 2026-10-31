@@ -42,6 +42,14 @@ namespace Animas.Items
             return true;
         }
 
+        // Offerings an anchor gives back (it emptied after a respawn): already collected, so no pickup id.
+        public void Return(ItemDefinition item, int amount)
+        {
+            if (item == null || amount <= 0) return;
+            keyItems[item] = Count(item) + amount;
+            Changed?.Invoke();
+        }
+
         // Returns true the first time a note is read.
         public bool MarkRead(NoteDefinition note) => notesRead.Add(note);
 
