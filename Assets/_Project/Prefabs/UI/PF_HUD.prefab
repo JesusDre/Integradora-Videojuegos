@@ -3792,6 +3792,7 @@ GameObject:
   - component: {fileID: 4464120536413824434}
   - component: {fileID: 7682722233887721028}
   - component: {fileID: 6070888208227813367}
+  - component: {fileID: 3182937491723128547}
   m_Layer: 0
   m_Name: PF_HUD
   m_TagString: Untagged
@@ -4053,6 +4054,22 @@ MonoBehaviour:
   body: {fileID: 2615424590628786571}
   playerHealth: {fileID: 0}
   disableWhileOpen: []
+--- !u!114 &3182937491723128547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970313482811175443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcc377b5f65aabb6bab20248ec97a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Audio.VoiceDucking
+  mixer: {fileID: 24100000, guid: 7c5a8cfb74243d137b5f4a5470418678, type: 2}
+  voice: {fileID: 1875500505867059695}
+  duckDb: 8
+  speed: 30
 --- !u!1 &2000013781010891908
 GameObject:
   m_ObjectHideFlags: 0
@@ -5158,7 +5175,7 @@ AudioSource:
   m_GameObject: {fileID: 3010261677652503497}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7318184196461044680, guid: 7c5a8cfb74243d137b5f4a5470418678, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0

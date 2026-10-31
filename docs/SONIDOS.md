@@ -4,6 +4,8 @@ Lista para comparar o reemplazar con sonidos generados (por ejemplo, Gemini Lyri
 Juego de terror estilo Left 4 Dead: el silencio y el ambiente pesan más que la música, y la música solo
 sube cuando hay peligro.
 
+**Después de generar o reemplazar sonidos**, corre `python3 Tools/Audio/nivelar.py`: iguala el volumen de cada archivo con los de su tipo (#50).
+
 **Para reemplazar un archivo** se guarda con el **mismo nombre y en la misma carpeta**
 (`Assets/_Project/Audio/...`). Unity lo toma solo y no hay que reconectar nada.
 - **Formato:** WAV, mono para los efectos y estéreo para la música; 44.1 o 48 kHz.
