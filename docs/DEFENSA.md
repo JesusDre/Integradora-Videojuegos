@@ -1248,6 +1248,40 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 | ¿Por qué ya no se ve el corte negro? | Porque la parte baja del cielo tiene el mismo color que la niebla: donde la niebla termina, empieza un cielo del mismo color. |
 | ¿Cómo sabían dónde poner la luna? | Con la rotación de la luz direccional de la escena: la luna va en la dirección opuesta a hacia donde apunta la luz. |
 
+#### Animaciones ambientales (#103)
+
+**Qué hace.** Los niveles ya no están congelados:
+| Instancia | Qué se mueve |
+|---|---|
+| Xochimilco | Las muñecas y las cabezas colgadas se mecen en sus cuerdas, el pasto y el tule se doblan con ráfagas de viento, los árboles se balancean apenas y el agua de los canales corre. |
+| Hacienda | El pasto seco, el agave y los árboles se mueven con el viento, y hay polvo ocre que el viento arrastra. |
+| Ex-convento | Polvo flotando en el aire (brilla con la linterna), flamas en las 12 antorchas y el pasto del jardín que se mueve. |
+| Las tres | La niebla baja ya no está quieta: avanza despacio con el viento. Las luces de fuego titilan desde el #44. |
+
+![Xochimilco, hacienda y convento con ambiente animado](img/ambiente_animado.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `AmbientSway` | objeto `Ambiente_Animado` de cada nivel | **Un solo** componente mueve un grupo entero, por ejemplo 1 171 matas de pasto en Xochimilco, en un solo `Update`, en vez de un script por objeto. Al iniciar busca los objetos cuyo nombre de malla o material empieza con lo indicado ("Pasto", "MunecaColgada", "M_BO_Agave") y guarda su rotación original. Cada cuadro gira solo los que están a menos de 45 m del Padre (la niebla oculta el resto): un empuje en la dirección del viento más un temblor más chico y rápido de lado, para que no parezca un péndulo perfecto. Con `wave` = 1 la fase depende de la posición, así el viento pasa como ola por el campo; las muñecas usan fases al azar. |
+| `TextureScroll` | agua de Xochimilco | Desliza poco a poco la textura de ondas (#101), así el agua parece correr. Usa una copia del material para no modificar el archivo mientras se juega. |
+| Partículas de polvo | `Polvo_Viento`, `Polvo_Flotante` | Sistemas de partículas en espacio de mundo que siguen al Padre con el mismo componente de la niebla (`GroundFog`): siempre hay polvo cerca y se queda en su lugar al caminar. |
+| Flamas de antorcha | antorchas del convento | Copia de la flama de la veladora (#44). |
+| Niebla que avanza | `PF_NieblaBaja` | Se activó la velocidad de las partículas hacia la dirección del viento. |
+
+**Cómo se probó (Play Mode).**
+- **Objetos que se mueven:** en Xochimilco, 1 171 de pasto, 111 muñecas y 169 árboles; en la hacienda, 750 de pasto, 45 agaves y 79 árboles; en el convento, 260 de pasto y 20 árboles.
+- **Prueba de movimiento:** en un segundo el agua avanzó (desplazamiento de 0.027 a 0.056) y la muñeca más cercana cambió de ángulo.
+- **FPS:** con el ambiente animado encendido y apagado dio 60 en las tres instancias. Es el tope de la sincronía vertical, así que el costo no se nota a ese nivel, pero no sabemos cuánto margen queda. La medición en el build es el issue #65.
+- **Consola:** sin errores.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué un solo script para todo el pasto? | Unity llama a `Update` de cada componente por separado; con más de mil matas son más de mil llamadas por cuadro. Un administrador hace un solo recorrido por una lista. |
+| ¿Por qué solo se mueve lo cercano? | Lo lejano está tapado por la niebla; moverlo sería trabajo que nadie ve. |
+| ¿Por qué el pasto se mueve como ola? | La fase de cada mata depende de su posición en la dirección del viento: las vecinas se mueven casi juntas y la ráfaga se ve pasar. |
+
 ### 5.17 Cuarto de prueba de enemigos
 *Issue #77. Solo para desarrollo: no forma parte de los niveles.*
 
