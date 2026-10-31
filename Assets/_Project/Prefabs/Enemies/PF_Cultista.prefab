@@ -302,7 +302,7 @@ MonoBehaviour:
   animator: {fileID: 4424074590192092239}
   eyes: {fileID: 4561552036817003174}
   audioSource: {fileID: 7799844365733996387}
-  alertClip: {fileID: 0}
+  alertClip: {fileID: 8300000, guid: c22c6b63d9b15e7d28728c42ab61b225, type: 3}
   sightBlockers:
     serializedVersion: 2
     m_Bits: 4294967295

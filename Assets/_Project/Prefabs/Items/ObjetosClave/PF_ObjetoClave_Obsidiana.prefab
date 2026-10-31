@@ -71,7 +71,7 @@ MonoBehaviour:
   id: KeyItem
   item: {fileID: 11400000, guid: cf9752b8a2f12c8b9950f5125d11e26b, type: 2}
   totalInLevel: 3
-  pickupClip: {fileID: 0}
+  pickupClip: {fileID: 8300000, guid: 40bdc3bbf0cd527a7a5de40f2b13970b, type: 3}
 --- !u!1 &6476421954137036211
 GameObject:
   m_ObjectHideFlags: 0

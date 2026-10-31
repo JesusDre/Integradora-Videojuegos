@@ -127,4 +127,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.PickupItem
   item: {fileID: 0}
   amount: 1
-  pickupClip: {fileID: 0}
+  pickupClip: {fileID: 8300000, guid: 058e488eed40f62a6b19fa01807707b5, type: 3}
+  modelScale: 1.4

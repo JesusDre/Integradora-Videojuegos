@@ -24,6 +24,8 @@ namespace Animas.Items
         [Min(0f)] public float healAmount;
         [Tooltip("What using it does (throw, place, equip). Empty: only healing items do something.")]
         public ItemEffect useEffect;
+        [Tooltip("Sound when it is used (the bandage, the salt, the match of the candle). Optional.")]
+        public AudioClip useClip;
 
         [Header("World")]
         [Tooltip("What appears on the floor when the player drops it. Empty: a generic box.")]
