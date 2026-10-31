@@ -1636,3 +1636,7 @@ La tabla "Cobertura en el plan" de `docs/RUBRICA.md` dice, rubro por rubro, qué
 | ¿Cómo evitan que el proyecto se rompa entre versiones? | Git con ramas y pull requests, `main` protegida, una sola versión de Unity fija en el README y `Force Text` para que los cambios se puedan comparar. |
 
 *Se agregan preguntas con cada sistema.*
+
+**Armería de prueba (#147).** Frente al Padre hay una mesa con las seis armas: machete, escopeta, pistola, metralleta, ballesta y martillo. Delante, en el suelo, munición de sobra: 24 balas de sal, 60 normales y 12 virotes. Así se prueba cualquier arma contra los cultistas y espíritus del cuarto sin recorrer los niveles.
+
+![Armería de prueba](img/ui/armeria_prueba.png)
