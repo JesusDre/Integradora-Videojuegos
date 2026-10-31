@@ -616,7 +616,7 @@ El nivel real del convento es #46.
 | ¿Cómo se esquiva el ataque? | El círculo rojo avisa 1.5 s antes; basta con salir de él. |
 
 ### 5.13 Niveles: las tres instancias
-*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Pendiente: arte final de la 1 (#36).*
+*Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Arte de la instancia 1: #36.*
 
 **Qué hay.** Un plano por instancia, visto desde arriba, con el recorrido numerado en orden, los 3 objetos clave, el inicio y la salida, el altar del cuarto seguro, los grupos de cultistas (con cuántos son), las notas y los alijos secretos, el ancla de la entidad, por dónde ronda la entidad, las luces y las zonas oscuras, y la escala (10 m y la altura del Padre, 1.8 m). Todos siguen la misma estructura del GDD: **sección 1 → cuarto seguro → sección 2 → final de la entidad → huida**.
 
@@ -661,6 +661,27 @@ El nivel real del convento es #46.
 **Un detalle del NavMesh:** se hornea desde los colliders (no desde las mallas visibles); si no, el agua contaba como piso. Las zonas invisibles (encuentros, cuarto seguro, salida) se excluyen del horneado porque tapaban el puente.
 
 **Cómo se probó (Play Mode, recorrido automático a velocidad ×3).** El Padre caminó del inicio al muelle (38 m; se activó el encuentro G1) y subió a la trajinera. Llegó a la chinampa de las muñecas, caminó a la choza y al entrar se guardó en `I1_Choza` con las puertas cerradas. Salió por la puerta este, cruzó el puente a la isla hasta el muelle norte y subió a la trajinera de huida. Llegó a la salida. Sin la trajinera, el NavMesh no une el embarcadero con la chinampa (correcto: ahí se cruza en trajinera). Consola sin errores.
+
+**Arte de la instancia 1** (*issue #36*). El blockout de Xochimilco se vistió con un kit propio, `Tools/Blender/env_xochimilco.py`: 10 piezas low-poly (de 56 a 730 triángulos) en `Art/Models/Environment/Xochimilco`.
+- **Trajineras:** el casco, el toldo y el arco pintado de colores. El modelo es hijo de la trajinera, así que viaja con ella por la ruta.
+- **La choza del cuidador** (el cuarto seguro): adobe y techo de zacate, con las puertas en el mismo lugar que las del nivel.
+- **Ahuejotes:** 71 en las orillas de las chinampas, con tule a la orilla del agua, como en los canales reales.
+- **El ahuehuete** de la isla, con heno colgando.
+- **Embarcaderos y puente:** 4 embarcaderos donde se sube o se baja de la trajinera, y el puente de madera hacia la isla.
+- **Postes:** los 10 postes de madera donde cuelgan las muñecas.
+- **El ancla de la Llorona:** un altar de piedra con cempasúchil. Sus 3 veladoras fijas son ahora el modelo de veladora.
+
+**Cómo se cambió sin romper nada.** Las cajas grises se ocultaron (su `MeshRenderer` se apagó), pero sus colliders siguen ahí. Por eso el Padre choca y camina exactamente igual que antes y el modelo solo se pone encima. El ahuehuete sí cambió su caja de 5 × 8 m por un collider de tronco, y cada ahuejote tiene uno delgado. El NavMesh se volvió a hornear con los árboles como obstáculos.
+
+**Luz y niebla.** De noche el agua salía casi blanca: el material era muy liso y reflejaba la luna. Ahora es oscura, sin reflejos, y la niebla es gris azulado oscuro, para que el horizonte no brille. Las texturas, el cielo y el agua en movimiento quedan para #101, #102 y #103.
+
+![Xochimilco: embarcadero, muñecas, choza e isla](img/niveles/i1_arte.png)
+
+**Cómo se probó (Play Mode).**
+- Se tomaron capturas desde el embarcadero, la chinampa de las muñecas, la choza y la isla.
+- La trajinera del cruce viajó con su modelo y dejó al Padre en la otra orilla (57.5, 46).
+- En el NavMesh siguen completos los caminos: inicio → embarcadero, chinampa B → choza, puerta de la choza → ancla, y ancla → trajinera de huida.
+- Consola sin errores.
 
 **Nivel de la instancia 2: la hacienda** (*issue #40*). La escena `Scenes/Levels/I2_Hacienda` arma el plano de 180 × 130 m con formas simples. Las coordenadas son las mismas del plano; los planos dibujan "y" y en Unity es "z".
 
