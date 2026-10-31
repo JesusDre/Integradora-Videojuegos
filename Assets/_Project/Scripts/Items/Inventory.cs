@@ -21,7 +21,8 @@ namespace Animas.Items
     }
 
     // The Padre's inventory (GDD §18–19): 8 spaces for objects, and materials apart, up to 99 per type,
-    // without taking space. The first 4 spaces are the quick slots used with keys 1–4.
+    // without taking space. The first 4 spaces are the quick slots used with keys 1–4. Ammo is apart too
+    // (#152): each gun's rounds up to that gun's limit, shown next to the weapon instead of in a space.
     // It only holds data and rules; the HUD and the inventory screen (#22) listen to its events.
     public class Inventory : MonoBehaviour
     {
@@ -37,10 +38,12 @@ namespace Animas.Items
 
         readonly InventorySlot[] slots = new InventorySlot[SlotCount];
         readonly Dictionary<ItemDefinition, int> materials = new Dictionary<ItemDefinition, int>();
+        readonly Dictionary<ItemDefinition, int> ammo = new Dictionary<ItemDefinition, int>();
 
         public IReadOnlyList<InventorySlot> Slots => slots;
         // Read-only so only TryAdd/Remove change materials (they keep the 0–99 limit).
         public IReadOnlyDictionary<ItemDefinition, int> Materials => materials;
+        public IReadOnlyDictionary<ItemDefinition, int> Ammo => ammo;
 
         // Something in the inventory changed (the HUD redraws).
         public event Action Changed;
@@ -62,6 +65,7 @@ namespace Animas.Items
         public int CountOf(ItemDefinition item)
         {
             if (item.IsMaterial) return MaterialCount(item);
+            if (item.IsAmmo) return ammo.TryGetValue(item, out int rounds) ? rounds : 0;
             int total = 0;
             foreach (var s in slots) if (s.item == item) total += s.count;
             return total;
@@ -74,14 +78,15 @@ namespace Animas.Items
         {
             if (item == null || amount <= 0) return 0;
 
-            int added = item.IsMaterial ? AddMaterial(item, amount) : AddToSlots(item, amount);
+            int added = item.IsMaterial ? AddMaterial(item, amount) : item.IsAmmo ? AddAmmo(item, amount) : AddToSlots(item, amount);
             if (added > 0)
             {
                 Changed?.Invoke();
                 if (notify) Notice?.Invoke(added > 1 ? $"Recogiste: {item.displayName} ×{added}" : $"Recogiste: {item.displayName}");
             }
             if (added < amount && notify)
-                Notice?.Invoke(item.IsMaterial ? $"No puedes cargar más {item.displayName} (máximo {MaxPerMaterial})" : "Inventario lleno");
+                Notice?.Invoke(item.IsMaterial ? $"No puedes cargar más {item.displayName} (máximo {MaxPerMaterial})"
+                    : item.IsAmmo ? $"No puedes cargar más {item.displayName} (máximo {item.ammoLimit})" : "Inventario lleno");
             return added;
         }
 
@@ -90,6 +95,7 @@ namespace Animas.Items
         {
             if (item == null || amount <= 0) return false;
             if (item.IsMaterial) return MaterialCount(item) + amount <= MaxPerMaterial;
+            if (item.IsAmmo) return AmmoRoom(item) >= amount;
             int room = 0;
             foreach (var s in slots)
             {
@@ -102,19 +108,26 @@ namespace Animas.Items
         // Replaces everything (loading a save). counts[i] goes with items[i]; materials the same way.
         public void SetContents(ItemDefinition[] slotItems, int[] slotCounts, ItemDefinition[] materialItems, int[] materialCounts)
         {
+            materials.Clear();
+            ammo.Clear();
             for (int i = 0; i < SlotCount; i++)
             {
                 slots[i].Clear();
-                if (i < slotItems.Length && slotItems[i] != null && slotCounts[i] > 0)
+                // Saves from before #152 kept ammo in a space: it moves to the ammo apart.
+                if (i < slotItems.Length && slotItems[i] != null && slotItems[i].IsAmmo) AddAmmo(slotItems[i], slotCounts[i]);
+                else if (i < slotItems.Length && slotItems[i] != null && slotCounts[i] > 0)
                 {
                     slots[i].item = slotItems[i];
                     slots[i].count = Mathf.Clamp(slotCounts[i], 1, slotItems[i].maxStack);
                 }
             }
-            materials.Clear();
+            // The save writes ammo in the materials list (both are just a count per type).
             for (int i = 0; i < materialItems.Length; i++)
                 if (materialItems[i] != null && materialCounts[i] > 0)
-                    materials[materialItems[i]] = Mathf.Min(materialCounts[i], MaxPerMaterial);
+                {
+                    if (materialItems[i].IsAmmo) AddAmmo(materialItems[i], materialCounts[i]);
+                    else materials[materialItems[i]] = Mathf.Min(materialCounts[i], MaxPerMaterial);
+                }
             Changed?.Invoke();
         }
 
@@ -127,6 +140,21 @@ namespace Animas.Items
             int fits = Mathf.Min(amount, MaxPerMaterial - have);
             if (fits > 0) materials[material] = have + fits;
             return Mathf.Max(fits, 0);
+        }
+
+        // Room left for a gun's rounds: its limit minus the salt and normal ones already carried.
+        int AmmoRoom(ItemDefinition round)
+        {
+            int carried = CountOf(round);
+            if (round.ammoSharesLimitWith != null) carried += CountOf(round.ammoSharesLimitWith);
+            return Mathf.Max(round.ammoLimit - carried, 0);
+        }
+
+        int AddAmmo(ItemDefinition round, int amount)
+        {
+            int fits = Mathf.Min(amount, AmmoRoom(round));
+            if (fits > 0) ammo[round] = CountOf(round) + fits;
+            return fits;
         }
 
         int AddToSlots(ItemDefinition item, int amount)
@@ -162,6 +190,11 @@ namespace Animas.Items
             {
                 materials[item] -= amount;
                 if (materials[item] == 0) materials.Remove(item);
+            }
+            else if (item.IsAmmo)
+            {
+                ammo[item] -= amount;
+                if (ammo[item] == 0) ammo.Remove(item);
             }
             else
             {
@@ -222,6 +255,18 @@ namespace Animas.Items
             return false;
         }
 
+        // Puts an item on the floor at a point (dropping a space, or the weapon given away for another, #152).
+        public void SpawnPickup(ItemDefinition item, int count, Vector3 at)
+        {
+            GameObject prefab = item.worldPrefab != null ? item.worldPrefab : fallbackPickupPrefab;
+            if (prefab == null) return;
+            if (Physics.Raycast(at + Vector3.up, Vector3.down, out RaycastHit ground, 3f)) at = ground.point;
+            var dropped = Instantiate(prefab, at, Quaternion.identity);
+            // The pickup is a small box centered on its position: lift it half its height so it rests on the surface.
+            dropped.transform.position += Vector3.up * dropped.transform.lossyScale.y * 0.5f;
+            if (dropped.TryGetComponent(out PickupItem pickup)) pickup.Set(item, count);
+        }
+
         // Drops a whole space on the floor in front of the Padre, as a pickup he can take again.
         public bool Drop(int index, Transform dropPoint)
         {
@@ -229,14 +274,7 @@ namespace Animas.Items
             var s = slots[index];
             if (s.IsEmpty) return false;
 
-            GameObject prefab = s.item.worldPrefab != null ? s.item.worldPrefab : fallbackPickupPrefab;
-            if (prefab != null)
-            {
-                Vector3 pos = dropPoint.position + dropPoint.forward * 0.8f;
-                if (Physics.Raycast(pos + Vector3.up, Vector3.down, out RaycastHit ground, 3f)) pos = ground.point;
-                var dropped = Instantiate(prefab, pos, Quaternion.identity);
-                if (dropped.TryGetComponent(out PickupItem pickup)) pickup.Set(s.item, s.count);
-            }
+            SpawnPickup(s.item, s.count, dropPoint.position + dropPoint.forward * 0.8f);
             Notice?.Invoke($"Tiraste: {s.item.displayName}");
             s.Clear();
             Changed?.Invoke();

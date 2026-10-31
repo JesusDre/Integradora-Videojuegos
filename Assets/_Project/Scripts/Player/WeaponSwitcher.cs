@@ -20,6 +20,8 @@ namespace Animas.Player
 
         // The carried weapon in hand (null with empty hands or while the chancla/cruz is out).
         public ItemDefinition Current { get; private set; }
+        // The chancla or the cruz is in the hand, over the carried weapon.
+        public bool IsOverriding => overriding;
         public bool IsGun => !overriding && Current != null && Current.rangedWeapon != null;
         public string CurrentName => overriding ? melee.Weapon.displayName : Current != null ? Current.displayName : "sin arma";
         public event Action Switched;

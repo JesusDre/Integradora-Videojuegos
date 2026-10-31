@@ -384,7 +384,7 @@ Los objetos rápidos (1 a 4) se usan al instante: el agua bendita y el molotov s
 
 - Barra de vida y de resistencia, abajo a la izquierda, con estilo minimalista.
 
-- Cuatro espacios de objeto rápido y contador de munición.
+- Dos espacios de arma (el Padre carga solo 2 armas; tomar una tercera deja la de la mano en su lugar) y cuatro espacios de objeto rápido. Cada arma de fuego muestra su munición; la munición no ocupa espacios del inventario y tiene un límite por arma (escopeta 99, pistola 160, metralleta 360, ballesta 99, sumando la de sal y la normal).
 
 - Inventario de 8 espacios, accesible con Tab.
 
@@ -465,7 +465,7 @@ El inventario se abre con Tab durante el gameplay, no desde la pausa. La pausa, 
 
 - **Obtención:** crafteada en el altar desde la instancia 1.
 
-Todos los objetos se fabrican en el altar de los cuartos seguros. Los materiales se recogen en el mapa y se obtienen al saquear cultistas. Los objetos, materiales, municiones y ofrendas se recogen al pasar sobre ellos; las armas, con F. Cada cuarto seguro tiene una mesa de suministros (vendas, balas de sal y sal). El agua bendita también se fabrica en el altar (botella y sal); en la hacienda, además, hay una pila en la capilla: con F da 1 agua bendita al inventario, hasta 3 veces, y vuelve a tener 3 cuando el Padre reaparece tras morir.
+Todos los objetos se fabrican en el altar de los cuartos seguros. Los materiales se recogen en el mapa y se obtienen al saquear cultistas. Los objetos, materiales, municiones y ofrendas se recogen al pasar sobre ellos; las armas, con F. Cada cuarto seguro tiene una mesa de suministros (vendas, cartuchos de sal y sal) y una armería con las armas que faltan ahí y mucha munición de cada arma. El agua bendita también se fabrica en el altar (botella y sal); en la hacienda, además, hay una pila en la capilla: con F da 1 agua bendita al inventario, hasta 3 veces, y vuelve a tener 3 cuando el Padre reaparece tras morir.
 
 ## 19. Economía del juego
 

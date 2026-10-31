@@ -27,6 +27,16 @@ namespace Animas.UI
             countLabel.text = !empty && slot.count > 1 ? $"×{slot.count}" : "";
         }
 
+        // A weapon space (#152): the weapon's icon and, for a gun, the rounds it has left to load.
+        public void ShowWeapon(ItemDefinition weapon, string ammoText)
+        {
+            bool hasIcon = weapon != null && weapon.icon != null;
+            icon.enabled = hasIcon;
+            if (hasIcon) icon.sprite = weapon.icon;
+            nameLabel.text = weapon == null || hasIcon ? "" : weapon.displayName;
+            countLabel.text = ammoText;
+        }
+
         public void SetKey(string key)
         {
             if (keyLabel != null) keyLabel.text = key;

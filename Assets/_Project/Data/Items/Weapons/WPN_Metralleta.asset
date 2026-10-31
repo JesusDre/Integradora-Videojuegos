@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WPN_Metralleta
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.RangedWeaponDefinition
   displayName: metralleta
-  ammoItem: {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
-  normalAmmoItem: {fileID: 11400000, guid: fc1777f1784592a6e8c69ced8004954a, type: 2}
+  ammoItem: {fileID: 11400000, guid: faf60aab3dfb8ff8ba2f9fa6068ca804, type: 2}
+  normalAmmoItem: {fileID: 11400000, guid: b14022b44450754a995ad157bdbd35f1, type: 2}
   saltDamageMultiplier: 1.5
   viewModel: {fileID: 1260200288327906794, guid: d2a3d828f8853f39fb61128d1bdeaf7e, type: 3}
   damageNear: 10

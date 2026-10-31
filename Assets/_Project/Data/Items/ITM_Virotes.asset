@@ -22,5 +22,7 @@ MonoBehaviour:
   useClip: {fileID: 0}
   meleeWeapon: {fileID: 0}
   rangedWeapon: {fileID: 0}
+  ammoLimit: 99
+  ammoSharesLimitWith: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 9fd2fa859641017e0a98fa26df6cfa8e, type: 3}

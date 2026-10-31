@@ -178,6 +178,38 @@ for i, x in enumerate((80, 128, 176)):
     rect(d, (x - 18, 108, x + 18, 214), GOLD, GOLD_L, r=6)
 save("Balas", img)
 
+# Each gun has its own ammo since #152: cartuchos for the escopeta (salt and normal), balas for the
+# pistola (the ones above), and a magazine for the metralleta. The salt version of each has a white
+# band of salt and a soft glow, like the other blessed things.
+img = canvas(); d = ImageDraw.Draw(img)
+for i, x in enumerate((72, 128, 184)):
+    rect(d, (x - 24, 70, x + 24, 200), GREEN, GREEN_L, r=10)
+    d.rectangle((x - 26, 176, x + 26, 214), fill=GOLD + (255,), outline=INK, width=8)
+save("Cartuchos", img)
+
+img = canvas(); d = ImageDraw.Draw(img)
+for i, x in enumerate((80, 128, 176)):
+    poly(d, [(x - 16, 110), (x - 16, 64), (x, 40), (x + 16, 64), (x + 16, 110)], SALT, SALT_L)
+    rect(d, (x - 18, 108, x + 18, 214), GOLD, GOLD_L, r=6)
+save("BalasPistolaSal", img, (230, 235, 255))
+
+
+def magazine(d, band=None):
+    poly(d, [(92, 70), (164, 70), (180, 230), (108, 230)], GUN, GUN_L)
+    for x in (110, 146):
+        poly(d, [(x - 14, 72), (x - 14, 40), (x, 22), (x + 14, 40), (x + 14, 72)], GOLD, GOLD_L)
+    if band:
+        d.polygon([(98, 130), (168, 130), (172, 152), (102, 152)], fill=band + (255,), outline=INK, width=6)
+
+
+img = canvas(); d = ImageDraw.Draw(img)
+magazine(d)
+save("BalasMetralleta", img)
+
+img = canvas(); d = ImageDraw.Draw(img)
+magazine(d, SALT_L)
+save("BalasMetralletaSal", img, (230, 235, 255))
+
 img = canvas(); d = ImageDraw.Draw(img)
 for i, (x0, y0) in enumerate(((40, 196), (64, 214), (88, 232))):
     d.line([(x0, y0), (x0 + 150, y0 - 150)], fill=INK, width=20)

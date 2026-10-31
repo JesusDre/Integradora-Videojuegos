@@ -37,6 +37,12 @@ namespace Animas.Save
                 data.materialItems.Add(pair.Key.name);
                 data.materialCounts.Add(pair.Value);
             }
+            // Ammo goes in the same list (a count per type); Inventory.SetContents sorts it back out (#152).
+            foreach (var pair in inventory.Ammo)
+            {
+                data.materialItems.Add(pair.Key.name);
+                data.materialCounts.Add(pair.Value);
+            }
             foreach (RecipeDefinition recipe in recipeBook.Known) data.recipes.Add(recipe.name);
             if (weaponBag != null)
                 foreach (ItemDefinition w in weaponBag.Weapons) data.weapons.Add(w.name);

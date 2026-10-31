@@ -33,6 +33,12 @@ namespace Animas.Items
         [Tooltip("For firearms carried in the WeaponBag: the gun data (escopeta, pistola...). Empty otherwise.")]
         public RangedWeaponDefinition rangedWeapon;
 
+        [Header("Ammo (#152)")]
+        [Tooltip("Ammo doesn't take inventory spaces: the Padre carries up to this many (salt + normal of the same gun together).")]
+        [Min(1)] public int ammoLimit = 99;
+        [Tooltip("The other kind of round of the same gun (salt ↔ normal): both count toward ammoLimit. Empty if the gun has only one kind.")]
+        public ItemDefinition ammoSharesLimitWith;
+
         [Header("World")]
         [Tooltip("What appears on the floor when the player drops it. Empty: a generic box.")]
         public GameObject worldPrefab;
@@ -40,6 +46,7 @@ namespace Animas.Items
         public GameObject model;
 
         public bool IsMaterial => category == ItemCategory.Material;
+        public bool IsAmmo => category == ItemCategory.Ammo;
         public bool IsWeapon => meleeWeapon != null || rangedWeapon != null;
     }
 }

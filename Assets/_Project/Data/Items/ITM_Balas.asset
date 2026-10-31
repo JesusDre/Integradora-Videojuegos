@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad405a685a9ec715a7d9664750ddf38, type: 3}
   m_Name: ITM_Balas
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
-  displayName: balas
-  description: "Balas normales: solo lastiman a las personas, no a los esp\xEDritus."
+  displayName: balas de pistola
+  description: 'Balas comunes de pistola: solo hieren a personas.'
   icon: {fileID: 21300000, guid: 7e25641a31781254d91da69bb135320c, type: 3}
   category: 2
   maxStack: 30
@@ -22,5 +22,7 @@ MonoBehaviour:
   useClip: {fileID: 0}
   meleeWeapon: {fileID: 0}
   rangedWeapon: {fileID: 0}
+  ammoLimit: 160
+  ammoSharesLimitWith: {fileID: 11400000, guid: 6fda03f2c10aaed1294d9befeb2daf5b, type: 2}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 42254aa2ae7373891be724288a7bf5d1, type: 3}

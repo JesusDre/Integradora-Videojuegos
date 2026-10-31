@@ -6,8 +6,9 @@ using UnityEngine;
 
 namespace Animas.UI
 {
-    // The always-visible HUD (GDD §16): life and stamina bottom left, the 4 quick slots bottom center,
-    // the weapon in hand and, with the shotgun, its ammo (loaded | in the inventory) bottom right.
+    // The always-visible HUD (GDD §16): life and stamina bottom left, the 2 weapon spaces and the 4 quick
+    // slots bottom center, the weapon in hand and, with a gun, its ammo (loaded | carried) bottom right.
+    // Each gun's space also shows the rounds carried for it (#152).
     // Everything updates from events (Health.Changed, PlayerStamina.Changed, Inventory.Changed), never
     // by checking every frame.
     public class HUDController : MonoBehaviour
@@ -24,6 +25,9 @@ namespace Animas.UI
         [SerializeField] PlayerShotgun shotgun;
         [SerializeField] TMP_Text weaponLabel;
         [SerializeField] TMP_Text ammoLabel;
+        [SerializeField] WeaponBag weaponBag;
+        [Tooltip("The 2 weapon spaces, left of the quick slots (#152).")]
+        [SerializeField] ItemSlotView[] weaponSlots = new ItemSlotView[WeaponBag.MaxWeapons];
 
         [Header("Prayer")]
         [SerializeField] PlayerPrayer prayer;
@@ -55,7 +59,10 @@ namespace Animas.UI
             playerHealth.Changed += OnHealthChanged;
             playerStamina.Changed += OnStaminaChanged;
             playerInventory.Changed += OnInventoryChanged;
+            // The bag lives on the Padre next to the switcher, so the scenes don't need to wire it too.
+            if (weaponBag == null && weapons != null) weaponBag = weapons.GetComponentInParent<WeaponBag>();
             if (weapons != null) weapons.Switched += OnWeaponSwitched;
+            if (weaponBag != null) weaponBag.Changed += ShowWeaponSlots;
             if (shotgun != null) shotgun.AmmoChanged += OnAmmoChanged;
             if (prayer != null) prayer.ProgressChanged += OnPrayerProgress;
             if (combat != null) combat.ChargeProgress += OnChargeProgress;
@@ -67,6 +74,7 @@ namespace Animas.UI
             OnHealthChanged(playerHealth.Current, playerHealth.Max);
             OnStaminaChanged(playerStamina.Current, playerStamina.Max);
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].SetKey((i + 1).ToString());
+            foreach (ItemSlotView slot in weaponSlots) if (slot != null) slot.SetKey("Q");
             OnInventoryChanged();
             if (weapons != null) OnWeaponSwitched();
             if (prayerBar != null) prayerBar.gameObject.SetActive(false);
@@ -78,6 +86,7 @@ namespace Animas.UI
             if (playerStamina != null) playerStamina.Changed -= OnStaminaChanged;
             if (playerInventory != null) playerInventory.Changed -= OnInventoryChanged;
             if (weapons != null) weapons.Switched -= OnWeaponSwitched;
+            if (weaponBag != null) weaponBag.Changed -= ShowWeaponSlots;
             if (shotgun != null) shotgun.AmmoChanged -= OnAmmoChanged;
             if (prayer != null) prayer.ProgressChanged -= OnPrayerProgress;
             if (combat != null) combat.ChargeProgress -= OnChargeProgress;
@@ -122,12 +131,32 @@ namespace Animas.UI
         void OnInventoryChanged()
         {
             for (int i = 0; i < quickSlots.Length; i++) quickSlots[i].Show(playerInventory.Slots[i]);
+            ShowWeaponSlots();   // picked-up ammo changes the count on the gun's space
         }
+
+        // The carried weapons, the one in hand highlighted; a gun shows the rounds carried for it.
+        void ShowWeaponSlots()
+        {
+            if (weaponBag == null) return;
+            for (int i = 0; i < weaponSlots.Length; i++)
+            {
+                if (weaponSlots[i] == null) continue;
+                ItemDefinition w = i < weaponBag.Count ? weaponBag.Weapons[i] : null;
+                string rounds = "";
+                if (w != null && w.rangedWeapon != null)
+                    rounds = (Count(w.rangedWeapon.ammoItem) + Count(w.rangedWeapon.normalAmmoItem)).ToString();
+                weaponSlots[i].ShowWeapon(w, rounds);
+                weaponSlots[i].SetSelected(w != null && weapons != null && w == weapons.Current && !weapons.IsOverriding);
+            }
+        }
+
+        int Count(ItemDefinition item) => item == null ? 0 : playerInventory.CountOf(item);
 
         void OnWeaponSwitched()
         {
             bool gun = weapons.IsGun;
             weaponLabel.text = weapons.CurrentName;
+            ShowWeaponSlots();
             ammoLabel.gameObject.SetActive(gun);
             if (gun) OnAmmoChanged(shotgun.Loaded, shotgun.Reserve);
         }

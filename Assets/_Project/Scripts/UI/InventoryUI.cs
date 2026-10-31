@@ -120,6 +120,13 @@ namespace Animas.UI
                 if (pair.Value > 0) text.Append($"{pair.Key.displayName} {pair.Value}   ");
             materialsLabel.text = "Materiales: " + (text.Length == 0 ? "ninguno" : text.ToString());
 
+            if (inventory.Ammo.Count > 0)
+            {
+                text.Clear();
+                foreach (var pair in inventory.Ammo) text.Append($"{pair.Key.displayName} {pair.Value}   ");
+                materialsLabel.text += "\nMunición: " + text;
+            }
+
             if (keyItems != null && keyItems.KeyItems.Count > 0)
             {
                 text.Clear();
