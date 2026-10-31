@@ -101,7 +101,7 @@ Cada rubro, de mayor a menor peso según la transcripción, con dónde lo cubre 
 | Menús y flujo | 8 | §17: principal, pausa, derrota, victoria y créditos · S5 | ✅ Adelantado al S5 para tenerlo en el playtest externo. |
 | UI / HUD | 7 | §16 · S1–S3 (HUD), S5 (menús) | ✅ Reacciona por eventos (ARQUITECTURA). Coherencia con el arte: usar la paleta del issue #2. |
 | Build y estabilidad | 7 | §30, S9 "build probado en otra PC" | ⚠️ No dejar el build para el S9: sacar un build de Windows en cada demo del viernes (PLAN_IA) y probarlo en otra PC al menos en S5 y S8. |
-| Movimiento y físicas 3D | 6 | `CharacterController` (ARQUITECTURA) · S1 | ✅ Sin salto ni agacharse por alcance; revisar colliders de puertas, canales y trajinera (§29). |
+| Movimiento y físicas 3D | 6 | `CharacterController` (ARQUITECTURA) · S1 | ✅ Sin salto por alcance; agacharse desde #136; revisar colliders de puertas, canales y trajinera (§29). |
 | Modelos y animaciones | 6 | PIPELINE_ASSETS (brazos del Padre, Mixamo) · S1, S3, S5, S6 | ⚠️ Los **brazos del Padre** y sus animaciones (machete, escopeta, lanzar, rezo) no tienen sprint en §27. Agregarlos al S3–S4. El caballo del Charro es el modelo más riesgoso. |
 | Defensa individual | 5 | PLAN_IA (principio), PROMPTS #9 | ⚠️ El criterio pide que **cada integrante** conozca el código, y todo lo hace Jesús. `docs/DEFENSA.md` se escribe junto con cada sistema, se completa en el S8 (#52) y Jesús lo presenta al equipo en el S7 (#66); cada quien practica con el prompt #9. |
 | Enemigos / IA | 5 | Cultista con máquina de estados (§21), 3 entidades por fases (§13) · S1–S7 | ✅ |

@@ -10,6 +10,13 @@ namespace Animas.Player
         [Header("Movement (m/s)")]
         [Min(0f)] public float walkSpeed = 3f;
         [Min(0f)] public float runSpeed = 5.5f;
+        [Header("Crouch (#136)")]
+        [Tooltip("Walking speed while crouched, as a fraction of the normal one.")]
+        [Range(0.1f, 1f)] public float crouchSpeedMultiplier = 0.5f;
+        [Tooltip("Height of the Padre's body (CharacterController) while crouched; standing it is 1.8 m.")]
+        [Min(0.8f)] public float crouchHeight = 1.15f;
+        [Tooltip("Cultists see a crouched Padre only within this fraction of their sight range.")]
+        [Range(0.1f, 1f)] public float crouchSightMultiplier = 0.5f;
         public float gravity = -9.81f;
 
         [Header("Stamina")]

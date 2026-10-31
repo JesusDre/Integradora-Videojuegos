@@ -121,6 +121,16 @@ Cada instancia es una campaña lineal de dos secciones separadas por un cuarto s
 
 - **Interacción:** se combina con el crafteo (balas de sal, molotov) y con el rezo para contener entidades.
 
+### Sigilo
+
+- **Descripción:** el Padre puede agacharse para pasar sin ser visto.
+
+- **Activación:** mantener Ctrl.
+
+- **Efecto:** camina a la mitad de velocidad, no puede correr (así nadie lo oye) y los cultistas solo lo ven a la mitad de su distancia. Un ojo en el HUD dice si está oculto (cerrado), si lo buscan (amarillo) o si lo ven (rojo).
+
+- **Restricciones:** más lento; no evita la vista de quien ya lo persigue de cerca.
+
 ### Rezo
 
 - **Descripción:** el Padre canaliza una oración que repele espíritus.
@@ -344,6 +354,7 @@ Cada entidad se vence con crafteo y rezo, no con daño bruto.
 | Moverse           | WASD            | Stick Izquierdo       |
 | Cámara            | Mouse           | Stick derecho         |
 | Correr            | Shift           | Click stick Izquierdo |
+| Agacharse (mantener) | Ctrl izquierdo | B                  |
 | Atacar o disparar | Clic izquierdo  | RT                    |
 | Apuntar (escopeta) | Clic derecho   | LT                    |
 | Recargar (escopeta) | C             | B                     |

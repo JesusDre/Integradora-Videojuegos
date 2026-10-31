@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.PlayerController
   tuning: {fileID: 11400000, guid: 93225ad7cadf60899a8f3a8b9c5e2fdf, type: 2}
+  cameraPivot: {fileID: 1062469166424127423}
 --- !u!114 &7599449922072824569
 MonoBehaviour:
   m_ObjectHideFlags: 0
