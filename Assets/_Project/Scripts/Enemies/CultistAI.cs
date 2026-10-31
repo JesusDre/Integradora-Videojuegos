@@ -227,9 +227,12 @@ namespace Animas.Enemies
         bool CanSeePlayer()
         {
             Vector3 eye = eyes != null ? eyes.position : transform.position + Vector3.up * 1.6f;
-            Vector3 target = player.position + Vector3.up * 1.4f;
+            // A crouched Padre is lower and only seen from closer (#136).
+            bool crouched = playerMovement != null && playerMovement.IsCrouching;
+            Vector3 target = player.position + Vector3.up * (crouched ? 0.9f : 1.4f);
             Vector3 toPlayer = target - eye;
-            if (toPlayer.magnitude > tuning.sightRange) return false;
+            float range = tuning.sightRange * (playerMovement != null ? playerMovement.SightMultiplier : 1f);
+            if (toPlayer.magnitude > range) return false;
 
             Vector3 flat = new Vector3(toPlayer.x, 0f, toPlayer.z);
             if (Vector3.Angle(transform.forward, flat) > tuning.sightAngle * 0.5f) return false;

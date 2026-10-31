@@ -3794,6 +3794,7 @@ GameObject:
   - component: {fileID: 6070888208227813367}
   - component: {fileID: 3182937491723128547}
   - component: {fileID: 7183880329329279166}
+  - component: {fileID: 1444339617412067637}
   m_Layer: 0
   m_Name: PF_HUD
   m_TagString: Untagged
@@ -3824,6 +3825,7 @@ RectTransform:
   - {fileID: 8122683826933704644}
   - {fileID: 5451906102280376395}
   - {fileID: 8724758402281292525}
+  - {fileID: 2080975393023938984}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4088,6 +4090,22 @@ MonoBehaviour:
   maxAlpha: 0.35
   aura: {fileID: 0}
   auraIntensity: 2.5
+--- !u!114 &1444339617412067637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970313482811175443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54e4647118180f93a6e4a88f45311e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.StealthEyeUI
+  eye: {fileID: 5076329585381982123}
+  hidden: {fileID: -4137246914173844949, guid: 50ab924a3671effcdaca3c8d6e17fcf5, type: 3}
+  searching: {fileID: -5257926863945223598, guid: 7c8640d26e53312f9b0492d5eddb56aa, type: 3}
+  seen: {fileID: 4776758588432172555, guid: 8811fd6bf3d45a982a830cc4d9034a86, type: 3}
 --- !u!1 &2000013781010891908
 GameObject:
   m_ObjectHideFlags: 0
@@ -4248,6 +4266,81 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2079388551375296502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080975393023938984}
+  - component: {fileID: 7520942172135717204}
+  - component: {fileID: 5076329585381982123}
+  m_Layer: 0
+  m_Name: OjoSigilo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2080975393023938984
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079388551375296502}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8854533508751061123}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -24}
+  m_SizeDelta: {x: 84, y: 84}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!222 &7520942172135717204
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079388551375296502}
+  m_CullTransparentMesh: 1
+--- !u!114 &5076329585381982123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079388551375296502}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -4137246914173844949, guid: 50ab924a3671effcdaca3c8d6e17fcf5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2308464789014107525
 GameObject:
   m_ObjectHideFlags: 0

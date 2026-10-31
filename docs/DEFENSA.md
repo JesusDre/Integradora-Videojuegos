@@ -99,6 +99,34 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 | ¿Cómo sabe el juego qué objeto estás mirando? | Con un `Physics.Raycast` desde la cámara de 2.5 m de largo; busca el componente `IInteractable` en lo que toca. |
 | ¿Por qué la puerta se abre poco a poco? | `Quaternion.RotateTowards` con `deltaTime` la gira 180° por segundo; da feedback visual claro, que la rúbrica pide. |
 
+#### Agacharse y ojo de sigilo (#136)
+
+**Qué hace.**
+- **Agacharse:** manteniendo **Ctrl** el Padre baja (la cámara y su cuerpo), camina a la mitad de velocidad y no puede correr. Como solo se le oye correr, agachado es silencioso.
+- **Ser visto:** los cultistas solo lo ven a la mitad de su distancia (7.5 m en vez de 15).
+- **El ojo del HUD:**
+  - **cerrado:** nadie sabe dónde está;
+  - **amarillo:** un cultista lo está buscando;
+  - **rojo y latiendo:** lo están viendo.
+
+![Agachado y oculto · de pie y visto](img/ui/sigilo_ojo.png)
+
+**Cómo funciona.**
+| Pieza | Qué hace |
+|---|---|
+| `PlayerController` | Lee la acción `Crouch` (Ctrl). Cambia poco a poco la altura del `CharacterController` (1.8 → 1.15 m) y baja la cámara lo mismo. Al soltar Ctrl, revisa con un `SphereCast` hacia arriba si hay espacio para pararse; si hay techo, se queda agachado. Expone `IsCrouching` y `SightMultiplier`. |
+| `CultistAI.CanSeePlayer` | Multiplica su rango de vista por `SightMultiplier` y apunta más bajo (al pecho del Padre agachado). |
+| `StealthEyeUI` | Cinco veces por segundo revisa el estado de los cultistas: alguno en `Chase` o `Attack` → visto; alguno en `Search` → buscando; si no, oculto. Se muestra mientras el Padre está agachado o mientras alguien lo persigue. |
+
+**Prueba (Play Mode).**
+- **Agachado:** un cultista que mira de frente al Padre a 11 m lo ignoró (siguió patrullando) y el ojo quedó cerrado.
+- **De pie:** a la misma distancia lo vio de inmediato y el ojo se puso rojo.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué el ojo no aparece siempre? | Para no estorbar: solo importa cuando te escondes o cuando alguien te persigue. |
+| ¿Qué pasa si sueltas Ctrl debajo de algo bajo? | `RoomToStand` lanza una esfera hacia arriba del tamaño del cuerpo; si choca con algo, el Padre sigue agachado hasta que haya espacio. |
+
 ### 5.2 Salud, daño y combate cuerpo a cuerpo
 *Issue #13.*
 
