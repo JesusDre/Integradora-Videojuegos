@@ -34,6 +34,7 @@ GameObject:
   - component: {fileID: 4823046740025884276}
   - component: {fileID: 867635222433681694}
   - component: {fileID: 5062292404350182649}
+  - component: {fileID: 8835843904852683111}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -585,6 +586,21 @@ MonoBehaviour:
   machete: {fileID: 11400000, guid: c6eb16b02034bf4afb8c6eb1328833d7, type: 2}
   escopeta: {fileID: 11400000, guid: 89efd91e247370fc9bb34be6556ef907, type: 2}
   escopetaRounds: 6
+--- !u!114 &8835843904852683111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd4b49167a5d5b2fb33598d25d95ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.FallRecovery
+  fallLimit: 4
+  audioSource: {fileID: 7341835820614076708}
+  splashClip: {fileID: 8300000, guid: b9960966b5759147da81783b32803d71, type: 3}
 --- !u!1 &934125769534506046
 GameObject:
   m_ObjectHideFlags: 0
