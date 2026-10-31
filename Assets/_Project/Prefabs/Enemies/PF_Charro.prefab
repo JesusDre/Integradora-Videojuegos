@@ -260,6 +260,8 @@ MonoBehaviour:
   gallopClip: {fileID: 8300000, guid: dc13087e4f24739a5b40f0d2680a8028, type: 3}
   walkClip: {fileID: 8300000, guid: 357e0e469d923d77ab5a8a229fd3365e, type: 3}
   spursClip: {fileID: 8300000, guid: 9e35174cf5e6b85188fa4c1ab11d029a, type: 3}
+  scareFace: {fileID: 1850165194126564561, guid: 79a26e6c15ce892ed9bd435a17f9c656, type: 3}
+  scareClip: {fileID: 8300000, guid: 64dba109e830ec2bf9a92fefdb352f1a, type: 3}
   dissolveSeconds: 2.5
 --- !u!1 &5087587710784705339
 GameObject:

@@ -335,6 +335,8 @@ MonoBehaviour:
   nearCall: {fileID: 8300000, guid: 3a604ff19192a3cb5b067678e4ce0eab, type: 3}
   chaseCall: {fileID: 8300000, guid: fa42e9504e7b18869861954d01216696, type: 3}
   nearCallDistance: 15
+  scareFace: {fileID: -8857716024111902390, guid: 9d3b92299af36f7b9b6f914bc906f85b, type: 3}
+  scareClip: {fileID: 8300000, guid: 64dba109e830ec2bf9a92fefdb352f1a, type: 3}
   dissolveSeconds: 2.5
 --- !u!114 &5308696059585395002
 MonoBehaviour:

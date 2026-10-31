@@ -36,6 +36,9 @@ namespace Animas.Entities
         [SerializeField] AudioClip nearCall;
         [SerializeField] AudioClip chaseCall;
         [SerializeField, Min(1f)] float nearCallDistance = 15f;
+        [Tooltip("Her face on the scare screen when she catches the Padre before the ritual (#137).")]
+        [SerializeField] Sprite scareFace;
+        [SerializeField] AudioClip scareClip;
         [Tooltip("Seconds the dissolve takes (she sinks and fades).")]
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
 
@@ -169,6 +172,8 @@ namespace Animas.Entities
             Enter(State.Grab, Time.time + tuning.grabSeconds);
             if (audioSource != null && screamClip != null) audioSource.PlayOneShot(screamClip);
             if (messages != null) messages.Notify("¡La Llorona te atrapó!");
+            // Before the final fight at the anchor, being caught is a scare; during it, it would only distract.
+            if (ritual == null || ritual.Current < RitualController.Stage.Praying) EntityScare.Trigger(scareFace, scareClip);
             // One hit of 15: the ritual takes it as a strong hit and pushes the bar back (GDD P3).
             playerHealth.TakeDamage(tuning.grabDamage);
         }
