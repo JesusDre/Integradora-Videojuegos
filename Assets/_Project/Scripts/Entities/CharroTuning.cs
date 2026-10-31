@@ -23,6 +23,12 @@ namespace Animas.Entities
         [Min(0f)] public float chargeDamage = 25f;
         [Min(0.3f)] public float hitRange = 1.8f;
 
+        [Header("Refuges (#154)")]
+        [Tooltip("Seconds he waits at the edge of the chapel or a prayer circle before giving up and riding home.")]
+        [Min(0f)] public float maxEdgeWaitSeconds = 4f;
+        [Tooltip("After the Padre leaves the safe room or the chapel, seconds before he hunts again.")]
+        [Min(0f)] public float refugeGraceSeconds = 8f;
+
         [Header("Final phase")]
         [Tooltip("Seconds he stays weakened after crossing a full canaleta: the window for a charged cross hit.")]
         [Min(0.5f)] public float weakenedSeconds = 4f;
