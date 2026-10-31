@@ -967,6 +967,38 @@ Al escapar del ex-convento llega la **victoria final**:
 ### 5.15 Audio y feedback
 *Pendiente — issues #44 y #50.*
 
+#### Feedback visual y partículas (#44)
+
+**Qué hace.**
+- **Daño:** al recibir un golpe, los bordes de la pantalla se ponen rojos (una viñeta, ya no un recuadro completo) y la cámara tiembla. Las dos cosas son proporcionales al daño, así que un drenado pequeño casi no se nota y una embestida sí. Con 30 de vida o menos, los bordes laten en rojo como un corazón.
+- **Golpes del Padre:** cada golpe que conecta suelta una ráfaga: rojo oscuro en personas, azul pálido en espíritus.
+- **Objetos de fe:**
+  - el agua bendita salpica gotas azules;
+  - la veladora tiene flama y chispas;
+  - la línea de sal destella;
+  - la molotov arde con llamas y humo;
+  - el copal echa humo de verdad, en lugar de la esfera blanca.
+- **Luces de fuego:** todas titilan (veladoras, antorchas, lámparas y velas de las tres instancias y de los objetos).
+
+![Efectos: fuego, humo y veladora · agua bendita · daño · golpe](img/ui/efectos_feedback.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `PlayerLook.AddShake` | Padre | Un temblor con ruido de Perlin (suave, no saltos al azar) que se apaga con `Time.deltaTime`. Solo mueve la cámara, no hacia dónde mira el cuerpo. |
+| `DamageFlashUI` (cambio) | `PF_DamageFlash` | Usa la viñeta `UI_Vineta.png` y llama a `AddShake` en cada golpe. El latido de vida baja usa un seno sobre el tiempo. |
+| `HitEffects` | Padre | Escucha `PlayerCombat.HitLanded` y crea `VFX_GolpeHumano` o `VFX_GolpeEspiritu` según el tipo de `Health`. |
+| `LightFlicker` | luces de fuego | Cambia la intensidad con ruido de Perlin; cada luz empieza en un punto distinto para que no titilen todas juntas. |
+| Partículas | `Prefabs/VFX` y los prefabs de efectos | Sistemas de partículas de Unity con dos materiales: aditivo (fuego, chispas, gotas) y con transparencia (humo, sangre). Todos usan la textura `vfx_punto.png`, un punto suave. |
+
+**Un error viejo que salió en la prueba.** El componente `DamageFlashUI` estaba apagado dentro del prefab desde #13, así que el destello rojo nunca había funcionado en ninguna escena. Se encendió y ahora se ve.
+
+**Cómo se probó (Play Mode, `EnemyArena`).**
+- Se crearon el fuego, la veladora, la línea de sal y el copal frente al Padre, y una salpicadura de agua bendita.
+- Al recibir 25 de daño, la viñeta llegó a 0.78 de opacidad y la cámara tembló (inclinación de 11.5°, que se recupera).
+- Un golpe de machete a un cultista soltó la ráfaga roja.
+- En una sesión limpia no hubo errores nuevos en la consola.
+
 ### 5.16 Arte: modelos, animaciones e iluminación
 *Cultista: issues #3 y #4. La Llorona: issues #17 y #18. El Charro Negro y su caballo: issues #17 y #37. La Tzitzimime: issues #17 y #41. Objetos clave: #29. Props: #19. Brazos del Padre: #28. Pendiente: iluminación, texturas (#101), cielo (#102) y ambiente (#103).*
 

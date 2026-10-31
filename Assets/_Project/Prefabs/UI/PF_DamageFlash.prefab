@@ -92,15 +92,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3270144452413117438}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff1d2d78f00784491a96994bb80ea406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.UI.DamageFlashUI
   playerHealth: {fileID: 0}
   overlay: {fileID: 6947078102948545703}
-  maxAlpha: 0.5
+  maxAlpha: 0.85
   fadePerSecond: 1.2
+  look: {fileID: 0}
+  lowHealthAt: 30
+  lowHealthAlpha: 0.3
 --- !u!1 &6984547165859986355
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,14 +162,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0, b: 0, a: 0}
+  m_Color: {r: 0.75, g: 0.03, b: 0.02, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 4866879360857847499, guid: 2413dd84dd7a468d3a42826adf38831d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
