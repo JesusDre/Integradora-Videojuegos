@@ -23,14 +23,10 @@ namespace Animas.Items
         public void NotifyThrew() => Threw?.Invoke();
         public void NotifyPlaced() => Placed?.Invoke();
 
-        MeleeWeaponDefinition defaultWeapon;
-
-        void Awake() => defaultWeapon = combat.Weapon;
-
         void OnEnable() => inventory.Changed += CheckEquipped;
         void OnDisable() => inventory.Changed -= CheckEquipped;
 
-        // Using the chancla or the cruz equips it; using it again goes back to the machete.
+        // Using the chancla or the cruz equips it; using it again goes back to the weapon he carries.
         public void ToggleMelee(ItemDefinition item, MeleeWeaponDefinition weapon)
         {
             if (EquippedItem == item)
@@ -40,15 +36,14 @@ namespace Animas.Items
                 return;
             }
             EquippedItem = item;
-            combat.SetWeapon(weapon);
-            weapons.Equip(WeaponSwitcher.Slot.Melee);
+            weapons.EquipOverride(weapon);
             inventory.Notify($"En la mano: {item.displayName}");
         }
 
         void Unequip()
         {
             EquippedItem = null;
-            combat.SetWeapon(defaultWeapon);
+            weapons.ClearOverride();   // back to the weapon he carries (#134)
         }
 
         // If the equipped item was dropped (or spent), the machete comes back.

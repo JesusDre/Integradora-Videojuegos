@@ -21,7 +21,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #23 | Las balas de sal ocupan un espacio del inventario (hasta 24 en uno) | `ITM_BalasSal.asset` |
 | #22 | El inventario (Tab) no pausa el juego | `InventoryUI` |
 | #24 | La escopeta recarga sola (2 s) cuando se vacía o cuando recoges balas teniéndola vacía. Desde #113 también con C (elegida por Jesús; R ya es rezar) | `PlayerShotgun` |
-| #24 | El Padre tiene la escopeta desde el inicio; Q o la rueda alternan machete y escopeta | `WeaponSwitcher` |
+| #24 → #134 | ~~El Padre tiene la escopeta desde el inicio~~. Desde #134 las armas se encuentran: se empieza con machete o escopeta al azar y Q recorre las armas que se cargan | `WeaponBag`, `WeaponSwitcher`, `StartingLoadout` |
 | #24 | La escopeta con balas de sal hace el 25 % a los espíritus (tabla de balance), aunque la receta diga que sirve contra ellos | `WPN_Escopeta.asset` (spiritMultiplier) |
 | #25 | Mientras mantiene R, el Padre va al 15 % de su velocidad; el círculo se queda donde rezó (no lo sigue) y el enfriamiento de 20 s empieza al completar el rezo | `PlayerTuning` |
 | #26 | Dentro del cuarto seguro los cultistas no ven ni oyen al Padre (el GDD dice que es la única zona sin amenazas) | `CultistAI` / `SafeRoom` |
@@ -36,6 +36,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #48 | Resumen de instancia con tiempo, muertes y notas leídas. El equipaje no lleva objetos clave y empieza con vida 100. Elegir una instancia desde la selección también da el equipaje de la anterior. Al terminar la campaña se borra la partida (la selección sigue abierta) | `VictoryScreen`, `PlayerPersistence.CaptureForNextInstance` |
 | #40 | Hacienda: el Charro solo caza dentro de su terreno (x 55–145, z 66–129); la tercera nota (panteón) explica la pelea; la tienda de raya reutiliza la choza de la instancia 1 hasta tener arte propio | `I2_Hacienda` (Charro_Territorio, NOTE_I2_Capilla) |
 | #46 | Ex-convento: la escalera de caracol del coro es una rampa recta; el túnel de huida se abre con el ritual (reja); niebla roja durante el ritual (densidad 0.05); la celda del prior reutiliza la choza; sin derrumbe (deseable) | `I3_Convento`, `RitualAtmosphere` |
+| #134 | Arma inicial al azar (50 %): machete, o escopeta con 6 balas de sal. Balas de sal = ×1.5 de daño y hieren espíritus (al 25 %, como antes); balas normales = solo personas. Al recargar se prefieren las de sal y los tipos no se mezclan en el arma | `StartingLoadout`, `RangedWeaponDefinition` |
 | #138, #133 | Se recogen solos (a 1.3 m) los objetos, materiales, municiones y ofrendas; las armas con F. Mesa de suministros con 2 vendas, 6 balas de sal y 3 de sal en cada cuarto seguro | `PickupItem`, `MesaSuministros` |
 | #131 | Rezo de 1.5 s; escudo de 10 s (lo mismo que el círculo) con +50 % de daño de todas las armas; el ritual se llena solo dentro de un círculo de 4 m alrededor del ancla en 60 s; dentro se puede usar el rezo normal | `PlayerTuning`, `PlayerPrayer`, `RitualController` |
 | #50 | Niveles de la mezcla: Música −3 dB, Ambiente −4 dB, Efectos y Voces 0; la música y el ambiente bajan 8 dB mientras habla el Padre. Metas por tipo en `nivelar.py` (pasos −24, voces −16, enemigos −13, disparo −10) | `AM_Principal`, `VoiceDucking`, `nivelar.py` |

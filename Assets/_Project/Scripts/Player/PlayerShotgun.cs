@@ -8,10 +8,12 @@ using UnityEngine.InputSystem;
 
 namespace Animas.Player
 {
-    // The shotgun: left click fires, right click aims (light zoom). It holds 2 shells; when both are
-    // spent it reloads by itself (2 s) from the "balas de sal" in the inventory, and C reloads early. The shot is loud:
-    // every cultist within 20 m hears it and comes to look (CultistAI.HearNoise).
-    // Enabled only while the shotgun is the weapon in hand (WeaponSwitcher).
+    // Every firearm the Padre carries (it started as the escopeta's script, hence the name; since #134 it
+    // fires whichever gun WeaponSwitcher puts in the hands). Left click fires (held down for automatic
+    // guns), right click aims (light zoom), C reloads. Each gun remembers how many rounds it has loaded
+    // and of which kind: salt rounds hit harder and hurt spirits, normal rounds only hurt people. A reload
+    // uses salt rounds whenever the inventory has some. The shot is loud: cultists within noiseRadius
+    // hear it and come to look (the ballesta is silent).
     public class PlayerShotgun : MonoBehaviour
     {
         [SerializeField] RangedWeaponDefinition weapon;
@@ -23,13 +25,23 @@ namespace Animas.Player
         [SerializeField] AudioSource audioSource;
         [Tooltip("Short flash at the barrel when firing.")]
         [SerializeField] Light muzzleFlash;
+        [Tooltip("Where the held gun model goes (the guns' first-person view).")]
+        [SerializeField] Transform viewRoot;
         [Tooltip("The prayer's shield makes every pellet stronger (#131).")]
         [SerializeField] PlayerPrayer prayer;
         [SerializeField] LayerMask hitLayers = ~0;
 
+        // What one gun has inside: rounds and their kind. Kept per gun, so switching doesn't lose them.
+        class Magazine
+        {
+            public int loaded;
+            public bool salt;
+        }
+
         public RangedWeaponDefinition Weapon => weapon;
-        public int Loaded { get; private set; }
-        public int Reserve => inventory.CountOf(weapon.ammoItem);
+        public int Loaded => Mag.loaded;
+        public bool LoadedSalt => Mag.salt;
+        public int Reserve => Count(weapon.ammoItem) + Count(weapon.normalAmmoItem);
         public bool IsReloading => reloadEndsAt > 0f;
 
         // (loaded, reserve): the HUD shows "2 | 10".
@@ -42,10 +54,20 @@ namespace Animas.Player
         float reloadEndsAt = -1f;
         float normalFieldOfView;
         float flashUntil;
+        GameObject heldModel;
+        readonly Dictionary<RangedWeaponDefinition, Magazine> magazines = new Dictionary<RangedWeaponDefinition, Magazine>();
         readonly RaycastHit[] hits = new RaycastHit[16];
         readonly Collider[] heard = new Collider[32];
-
         readonly Dictionary<Health, float> pelletDamage = new Dictionary<Health, float>();
+
+        Magazine Mag
+        {
+            get
+            {
+                if (!magazines.TryGetValue(weapon, out Magazine m)) magazines[weapon] = m = new Magazine();
+                return m;
+            }
+        }
 
         void Awake()
         {
@@ -57,10 +79,34 @@ namespace Animas.Player
             if (muzzleFlash != null) muzzleFlash.enabled = false;
         }
 
+        // WeaponSwitcher puts a gun in the hands: show its model; a different gun cancels the reload.
+        public void SetWeapon(RangedWeaponDefinition newWeapon)
+        {
+            if (newWeapon == null) return;
+            if (newWeapon != weapon) reloadEndsAt = -1f;
+            weapon = newWeapon;
+            ShowModel();
+            if (isActiveAndEnabled)
+            {
+                if (Loaded == 0) StartReload();
+                Notify();
+            }
+        }
+
+        void ShowModel()
+        {
+            if (viewRoot == null || weapon.viewModel == null) return;
+            if (heldModel != null && heldModel.name == weapon.viewModel.name) return;
+            if (heldModel != null) Destroy(heldModel);
+            heldModel = Instantiate(weapon.viewModel, viewRoot);
+            heldModel.name = weapon.viewModel.name;
+        }
+
         void OnEnable()
         {
             inventory.Changed += OnInventoryChanged;
-            // Picking the shotgun up with empty shells starts a reload if there is ammo.
+            ShowModel();
+            // Taking out an empty gun starts a reload if there is ammo.
             if (Loaded == 0) StartReload();
             Notify();
         }
@@ -68,7 +114,7 @@ namespace Animas.Player
         void OnDisable()
         {
             inventory.Changed -= OnInventoryChanged;
-            // Switching weapons cancels the reload and the zoom; nothing is lost (shells are taken at the end).
+            // Switching weapons cancels the reload and the zoom; nothing is lost (rounds are taken at the end).
             reloadEndsAt = -1f;
             if (viewCamera != null) viewCamera.fieldOfView = normalFieldOfView;
             if (muzzleFlash != null) muzzleFlash.enabled = false;
@@ -83,15 +129,16 @@ namespace Animas.Player
             if (muzzleFlash != null && muzzleFlash.enabled && Time.time >= flashUntil) muzzleFlash.enabled = false;
 
             if (IsReloading && Time.time >= reloadEndsAt) FinishReload();
-            if (fireAction.WasPressedThisFrame()) TryFire();
+            bool trigger = weapon.automatic ? fireAction.IsPressed() : fireAction.WasPressedThisFrame();
+            if (trigger) TryFire();
             if (reloadAction.WasPressedThisFrame()) TryReload();
         }
 
-        // C: reload with one shell still in, to be ready before the next fight. With no salt rounds left
-        // the empty click tells the player why nothing happens.
+        // C: reload before the gun is empty, to be ready for the next fight. With nothing to load, the
+        // empty click tells the player why nothing happens.
         public bool TryReload()
         {
-            if (IsReloading || Loaded >= weapon.shellCapacity) return false;
+            if (IsReloading || !CanLoadMore()) return false;
             if (Reserve == 0)
             {
                 Play(weapon.emptyClip);
@@ -106,12 +153,13 @@ namespace Animas.Player
             if (Time.time < nextFireTime || IsReloading) return false;
             if (Loaded == 0)
             {
-                Play(weapon.emptyClip);
+                // The empty click once per press, not every frame of a held automatic trigger.
+                if (fireAction.WasPressedThisFrame()) Play(weapon.emptyClip);
                 StartReload();
                 return false;
             }
 
-            Loaded--;
+            Mag.loaded--;
             nextFireTime = Time.time + weapon.fireCooldown;
             Play(weapon.fireClip);
             if (look != null) look.AddKick(weapon.kickDegrees);
@@ -120,7 +168,7 @@ namespace Animas.Player
                 muzzleFlash.enabled = true;
                 flashUntil = Time.time + 0.05f;
             }
-            HitTarget();
+            HitTarget(Mag.salt);
             AlertCultists();
             Fired?.Invoke();
             Notify();
@@ -131,7 +179,7 @@ namespace Animas.Player
         // Each pellet flies in its own direction inside the spread cone. Pellets that hit the same body add
         // up and land as ONE hit: a point-blank shot is a single strong blow (it kills a cultist), and the
         // ritual, the hit flash and the Charro see one hit, not eight small ones.
-        void HitTarget()
+        void HitTarget(bool salt)
         {
             pelletDamage.Clear();
             float perPellet = 1f / weapon.pellets;
@@ -145,8 +193,11 @@ namespace Animas.Player
                 Health target = hit.collider.GetComponentInParent<Health>();
                 if (target == null || target == ownHealth || target.IsDead) continue;
                 float damage = (hit.distance <= weapon.nearDistance ? weapon.damageNear : weapon.damageFar) * perPellet;
+                if (salt) damage *= weapon.saltDamageMultiplier;
+                // Spirits: salt hurts them (a part of it, GDD §12); a normal round goes right through.
+                if (target.Kind == HealthKind.Spirit) damage *= salt ? weapon.spiritMultiplier : 0f;
                 if (prayer != null) damage *= prayer.DamageMultiplier;   // the prayer's shield (#131)
-                if (target.Kind == HealthKind.Spirit) damage *= weapon.spiritMultiplier;
+                if (damage <= 0f) continue;
                 pelletDamage.TryGetValue(target, out float sum);
                 pelletDamage[target] = sum + damage;
             }
@@ -174,6 +225,7 @@ namespace Animas.Player
 
         void AlertCultists()
         {
+            if (weapon.noiseRadius <= 0f) return;   // the ballesta makes no noise
             // A HashSet so a cultist with several colliders only hears the shot once.
             var alerted = new HashSet<CultistAI>();
             int count = Physics.OverlapSphereNonAlloc(transform.position, weapon.noiseRadius, heard, ~0, QueryTriggerInteraction.Ignore);
@@ -184,9 +236,19 @@ namespace Animas.Player
             }
         }
 
+        // There is something worth loading: room in the gun and rounds of the kind that would go in.
+        bool CanLoadMore()
+        {
+            bool full = Loaded >= weapon.shellCapacity;
+            // With salt rounds available: fill up, or swap the normal rounds inside for salt.
+            if (Count(weapon.ammoItem) > 0) return !full || (!Mag.salt && Loaded > 0);
+            // Only normal rounds: they can't be added on top of salt rounds (kinds never mix).
+            return !full && Count(weapon.normalAmmoItem) > 0 && (!Mag.salt || Loaded == 0);
+        }
+
         void StartReload()
         {
-            if (IsReloading || Loaded >= weapon.shellCapacity || Reserve == 0) return;
+            if (IsReloading || !CanLoadMore()) return;
             reloadEndsAt = Time.time + weapon.reloadSeconds;
             Play(weapon.reloadClip);
         }
@@ -194,12 +256,21 @@ namespace Animas.Player
         void FinishReload()
         {
             reloadEndsAt = -1f;
-            int wanted = weapon.shellCapacity - Loaded;
-            int take = Mathf.Min(wanted, Reserve);
-            // Shells go in first: Remove fires Inventory.Changed, and with Loaded still at 0 that would
-            // start another reload. take never exceeds the inventory, so Remove can't fail.
-            Loaded += take;
-            if (take > 0) inventory.Remove(weapon.ammoItem, take);
+            Magazine m = Mag;
+            bool useSalt = Count(weapon.ammoItem) > 0;
+            // Kinds never mix: switching to salt gives the normal rounds back to the inventory first.
+            if (useSalt && !m.salt && m.loaded > 0)
+            {
+                inventory.TryAdd(weapon.normalAmmoItem, m.loaded);
+                m.loaded = 0;
+            }
+            ItemDefinition ammo = useSalt ? weapon.ammoItem : weapon.normalAmmoItem;
+            int take = Mathf.Min(weapon.shellCapacity - m.loaded, Count(ammo));
+            // Rounds go in first: Remove fires Inventory.Changed, and with an empty gun that would start
+            // another reload. take never exceeds the inventory, so Remove can't fail.
+            m.loaded += take;
+            m.salt = useSalt;
+            if (take > 0) inventory.Remove(ammo, take);
             Notify();
         }
 
@@ -209,6 +280,8 @@ namespace Animas.Player
             if (Loaded == 0) StartReload();
             Notify();
         }
+
+        int Count(ItemDefinition item) => item == null ? 0 : inventory.CountOf(item);
 
         void Notify() => AmmoChanged?.Invoke(Loaded, Reserve);
 

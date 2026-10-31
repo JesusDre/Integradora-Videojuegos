@@ -307,6 +307,37 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo funciona la dispersión? | Cada perdigón sale en la dirección de la mira más un desvío al azar dentro de un círculo; el tamaño del círculo sale de la tangente del ángulo (5°). Entre más lejos, más separados quedan los perdigones. |
 | ¿Cómo evitan que dispare al hacer clic en un menú? | El menú apaga `WeaponSwitcher`, y este apaga el arma en la mano. |
 
+#### Armas como objetos y dos tipos de balas (#134)
+
+**Qué hace.**
+- **Al empezar:** el Padre ya no tiene siempre el machete y la escopeta. En una partida nueva le toca **una al azar**: el machete, o la escopeta con 6 balas de sal. La otra está en la mesa del cuarto seguro de Xochimilco y se toma con F.
+- **Cambiar de arma:** Q recorre las armas que carga; la chancla y la cruz se siguen sacando desde el inventario.
+- **Las balas:** las armas de fuego usan **balas de sal**, que hacen 1.5 veces más daño y son las únicas que lastiman a la Llorona, al Charro y a la Tzitzimime, o **balas normales**, que solo lastiman a las personas. Al recargar se usan primero las de sal, y el HUD dice cuál está cargada.
+
+**Cómo funciona.**
+| Pieza | Qué hace |
+|---|---|
+| `ItemDefinition.meleeWeapon` / `rangedWeapon` | Un objeto que apunta a los datos de un arma *es* un arma (`ITM_Machete`, `ITM_Escopeta`). |
+| `WeaponBag` | La lista de armas que carga el Padre. No ocupa espacios del inventario y se guarda con la partida (`SaveData.weapons`), igual que los objetos clave. |
+| `WeaponSwitcher` | Q pasa a la siguiente arma de la bolsa. Enciende `PlayerCombat` (cuerpo a cuerpo) o `PlayerShotgun` (armas de fuego) y apaga el otro. `EquipOverride` pone la chancla o la cruz encima, y `ClearOverride` regresa al arma anterior. |
+| `PlayerShotgun` | Ahora dispara cualquier arma de fuego. Cada arma guarda su "cargador" (cuántas balas tiene y de qué tipo) en un diccionario, así que cambiar de arma no las pierde. Los tipos nunca se mezclan: si hay balas de sal y el arma tiene normales, al recargar devuelve las normales al inventario. |
+| `StartingLoadout` | Si el Padre empieza sin armas (partida nueva), elige una con `Random.value < 0.5`. |
+| `StarterWeaponPickup` | En la mesa: se convierte en el arma inicial que *no* te tocó. |
+| `PickupItem` | Si lo que se recoge es un arma, va a la bolsa y a la mano, no a un espacio del inventario. |
+
+**Prueba (Play Mode).**
+- **Azar:** en 9 partidas salió el machete 7 veces y la escopeta 2; la mesa siempre mostró la otra arma, y con F se tomó.
+- **Bala de sal:** al espíritu le quitó 15.7 y a un cultista lo mató (72 de daño).
+- **Bala normal:** al espíritu le quitó 0 y a un cultista lo mató (48).
+- **Recarga:** sin balas de sal, cargó normales.
+- **Entre instancias:** las armas pasaron a la siguiente.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué la bolsa de armas está separada del inventario? | Para que llevar armas no te quite espacio para vendas y objetos de fe; es la misma idea que los objetos clave. |
+| ¿Cómo sabe el arma cuántas balas tiene si cambias a otra? | `PlayerShotgun` guarda un `Magazine` por cada arma en un `Dictionary`; al volver, recupera el suyo. |
+| ¿Por qué las balas normales no lastiman a los espíritus? | Así lo pide el diseño: solo lo bendito (sal, agua bendita, rezo) los afecta. En el código, si el objetivo es `Spirit` y la bala no es de sal, el daño se multiplica por 0. |
+
 ### 5.7 Rezo y ritual
 *Rezo: issue #25. Ritual final: issue #34. Escudo, rezo más rápido y ritual en círculo: issue #131.*
 

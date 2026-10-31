@@ -355,7 +355,7 @@ Cada entidad se vence con crafteo y rezo, no con daño bruto.
 | Inventario        | Tab             | Menú                  |
 | Pausa             | Esc             | Start                 |
 
-Los objetos rápidos (1 a 4) se usan al instante: el agua bendita y el molotov se lanzan hacia donde mira el Padre, la línea de sal se traza frente a él, y las vendas y la veladora se usan en el momento. Q alterna entre el arma cuerpo a cuerpo equipada y la escopeta.
+Los objetos rápidos (1 a 4) se usan al instante: el agua bendita y el molotov se lanzan hacia donde mira el Padre, la línea de sal se traza frente a él, y las vendas y la veladora se usan en el momento. Las armas (machete, escopeta y las que se encuentren) se cargan aparte del inventario; Q pasa a la siguiente. Una partida nueva empieza con una sola arma al azar: el machete, o la escopeta con 6 balas de sal; la otra está en la mesa del primer cuarto seguro. Las armas de fuego aceptan **balas de sal** (más daño, y las únicas que lastiman a los espíritus) y **balas normales** (solo lastiman a las personas); al recargar se usan primero las de sal.
 
 ## 15. Cámara
 

@@ -54,7 +54,7 @@ namespace Animas.Player
 
         void Start()
         {
-            OnSwitched(weapons.Current);
+            OnSwitched();
             ritual = FindAnyObjectByType<Animas.Levels.RitualController>();
         }
 
@@ -78,7 +78,7 @@ namespace Animas.Player
         // PlayerPrayer sends -1 when the prayer stops (released, cancelled or complete).
         void OnPrayerProgress(float progress) => prayingNormally = progress >= 0f;
 
-        void OnSwitched(WeaponSwitcher.Slot slot) => visuals.SetActive(slot == WeaponSwitcher.Slot.Melee);
+        void OnSwitched() => visuals.SetActive(!weapons.IsGun);
 
         void ShowWeapon(MeleeWeaponDefinition weapon)
         {

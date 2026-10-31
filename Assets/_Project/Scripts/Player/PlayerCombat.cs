@@ -46,6 +46,7 @@ namespace Animas.Player
 
         void Update()
         {
+            if (weapon == null) return;
             if (weapon.chargeSeconds <= 0f)
             {
                 if (attackAction.WasPressedThisFrame()) TryAttack();
@@ -71,7 +72,7 @@ namespace Animas.Player
             chargeStarted = -1f;
         }
 
-        // The chancla and the cruz replace the machete while equipped (ItemUser).
+        // WeaponSwitcher sets the melee weapon in hand: a carried one (machete, martillo) or the chancla/cruz.
         public void SetWeapon(MeleeWeaponDefinition newWeapon)
         {
             if (newWeapon == null) return;

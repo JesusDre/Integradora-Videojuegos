@@ -90,8 +90,9 @@ namespace Animas.Items
         {
             if (inventory == null || item == null) return false;
 
-            int taken = inventory.TryAdd(item, amount);
-            if (taken == 0) return false;  // the inventory already showed "Inventario lleno"
+            // A weapon goes to the WeaponBag and into the hands, not into an inventory space (#134).
+            int taken = item.IsWeapon ? TakeWeapon(inventory) : inventory.TryAdd(item, amount);
+            if (taken == 0) return false;  // the inventory already showed why
 
             amount -= taken;
             // PlayClipAtPoint because this object may be destroyed right away and its own AudioSource would cut off.
@@ -99,6 +100,20 @@ namespace Animas.Items
             PickedUp?.Invoke(this);
             if (amount == 0) Destroy(gameObject);
             return true;
+        }
+
+        int TakeWeapon(Inventory inventory)
+        {
+            var bag = inventory.GetComponent<WeaponBag>();
+            if (bag == null) return 0;
+            if (bag.Has(item))
+            {
+                inventory.Notify($"Ya tienes {item.displayName}");
+                return 0;
+            }
+            bag.Add(item);
+            inventory.Notify($"Recogiste: {item.displayName} (Q para cambiar de arma)");
+            return amount;
         }
     }
 }

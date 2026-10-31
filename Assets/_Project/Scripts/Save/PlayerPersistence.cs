@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Animas.Core;
 using Animas.Items;
+using Animas.Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +15,7 @@ namespace Animas.Save
         [SerializeField] Health health;
         [SerializeField] Inventory inventory;
         [SerializeField] RecipeBook recipeBook;
+        [SerializeField] WeaponBag weaponBag;
         [SerializeField] KeyItemBag keyItems;
 
         public SaveData Capture(string checkpoint, int section)
@@ -36,6 +38,8 @@ namespace Animas.Save
                 data.materialCounts.Add(pair.Value);
             }
             foreach (RecipeDefinition recipe in recipeBook.Known) data.recipes.Add(recipe.name);
+            if (weaponBag != null)
+                foreach (ItemDefinition w in weaponBag.Weapons) data.weapons.Add(w.name);
             if (keyItems != null)
             {
                 foreach (var pair in keyItems.KeyItems)
@@ -96,6 +100,17 @@ namespace Animas.Save
                 var pairs = new List<(ItemDefinition, int)>();
                 foreach (var pair in carried) pairs.Add((pair.Key, pair.Value));
                 keyItems.SetContents(pairs, data.collectedKeyItems, notes);
+            }
+
+            if (weaponBag != null)
+            {
+                var carried = new List<ItemDefinition>();
+                foreach (string name in data.weapons)
+                {
+                    ItemDefinition w = Find(name);
+                    if (w != null) carried.Add(w);
+                }
+                weaponBag.SetContents(carried);
             }
 
             health.Revive(Mathf.Max(minimumHealth, data.health));

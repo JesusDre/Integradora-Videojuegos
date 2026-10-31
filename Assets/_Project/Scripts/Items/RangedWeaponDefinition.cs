@@ -2,13 +2,21 @@ using UnityEngine;
 
 namespace Animas.Items
 {
-    // Data for the shotgun. Values from GDD §12: 30 damage under 8 m (15 farther), 2 shells,
-    // 2 s reload, heard by cultists 20 m away. Ammo is the "balas de sal" item from the inventory.
+    // Data for a firearm (escopeta, and since #135 pistola, metralleta and ballesta). Two kinds of ammo
+    // (#134): salt rounds hit harder and are the only ones that hurt spirits (the Llorona, the Charro, the
+    // Tzitzimime); normal rounds only hurt people. A reload uses salt rounds whenever there are any.
     [CreateAssetMenu(fileName = "WPN_", menuName = "Ánimas/Ranged Weapon")]
     public class RangedWeaponDefinition : ScriptableObject
     {
         public string displayName = "escopeta";
+        [Tooltip("Salt rounds (blessed): more damage and they hurt spirits. Empty if the weapon has none.")]
         public ItemDefinition ammoItem;
+        [Tooltip("Normal rounds: only hurt people. Empty if the weapon has none.")]
+        public ItemDefinition normalAmmoItem;
+        [Tooltip("Salt rounds multiply the damage by this.")]
+        [Min(1f)] public float saltDamageMultiplier = 1.5f;
+        [Tooltip("The model held in first person (instantiated under the gun's view).")]
+        public GameObject viewModel;
 
         [Header("Damage")]
         [Min(0f)] public float damageNear = 30f;
@@ -29,6 +37,8 @@ namespace Animas.Items
         [Min(1)] public int shellCapacity = 2;
         [Min(0.1f)] public float reloadSeconds = 2f;
         [Min(0.05f)] public float fireCooldown = 0.4f;
+        [Tooltip("Keeps firing while the click is held (metralleta).")]
+        public bool automatic;
         [Tooltip("Cultists inside this radius hear the shot and come to look.")]
         [Min(0f)] public float noiseRadius = 20f;
 
