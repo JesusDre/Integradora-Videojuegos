@@ -23,6 +23,8 @@ namespace Animas.Player
         [SerializeField] AudioSource audioSource;
         [Tooltip("Short flash at the barrel when firing.")]
         [SerializeField] Light muzzleFlash;
+        [Tooltip("The prayer's shield makes every pellet stronger (#131).")]
+        [SerializeField] PlayerPrayer prayer;
         [SerializeField] LayerMask hitLayers = ~0;
 
         public RangedWeaponDefinition Weapon => weapon;
@@ -143,6 +145,7 @@ namespace Animas.Player
                 Health target = hit.collider.GetComponentInParent<Health>();
                 if (target == null || target == ownHealth || target.IsDead) continue;
                 float damage = (hit.distance <= weapon.nearDistance ? weapon.damageNear : weapon.damageFar) * perPellet;
+                if (prayer != null) damage *= prayer.DamageMultiplier;   // the prayer's shield (#131)
                 if (target.Kind == HealthKind.Spirit) damage *= weapon.spiritMultiplier;
                 pelletDamage.TryGetValue(target, out float sum);
                 pelletDamage[target] = sum + damage;

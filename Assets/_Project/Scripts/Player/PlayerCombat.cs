@@ -16,6 +16,8 @@ namespace Animas.Player
         [SerializeField] Transform aim;
         [SerializeField] PlayerLook look;
         [SerializeField] AudioSource audioSource;
+        [Tooltip("The prayer's shield makes every blow stronger (#131).")]
+        [SerializeField] PlayerPrayer prayer;
         [SerializeField] LayerMask hitLayers = ~0;
         [SerializeField, Range(0f, 5f)] float swingKickDegrees = 1.5f;
 
@@ -111,6 +113,7 @@ namespace Animas.Player
                 float damage = target.Kind == HealthKind.Spirit
                     ? (charged ? weapon.chargedDamageToSpirits : weapon.damageToSpirits)
                     : (charged ? weapon.chargedDamageToHumans : weapon.damageToHumans);
+                if (prayer != null) damage *= prayer.DamageMultiplier;   // the prayer's shield (#131)
                 target.TakeDamage(damage);
                 Play(weapon.hitClip);
                 HitLanded?.Invoke(target, damage);

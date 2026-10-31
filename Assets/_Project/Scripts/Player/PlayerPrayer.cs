@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 
 namespace Animas.Player
 {
-    // Hold R for 3 s to pray (GDD §5): the Padre leaves a 4 m circle that keeps spirits out for 10 s.
+    // Hold R to pray (GDD §5; 1.5 s since #131): the Padre leaves a 4 m circle that keeps spirits out for
+    // 10 s, and for those same 10 s a blessed shield surrounds him and his weapons hit 50 % harder.
     // While holding R he can barely move; letting go early cancels it with no cooldown.
-    // After a prayer, 20 s must pass before the next one. The final ritual (#34) is a separate mode.
+    // After a prayer, 20 s must pass before the next one.
     public class PlayerPrayer : MonoBehaviour
     {
         [SerializeField] PlayerTuning tuning;
@@ -21,8 +22,13 @@ namespace Animas.Player
         public bool IsPraying => holdStarted >= 0f;
         public float CooldownLeft => Mathf.Max(0f, readyAt - Time.time);
         public bool IsReady => CooldownLeft <= 0f;
-        // At the anchor during the final ritual, R belongs to the ritual (a separate mode, GDD §5).
+        // Blocks R entirely when set (kept for scripted moments; the ritual no longer needs it since #131).
         public bool Suppressed { get; set; }
+        // The shield of the last prayer: active for prayDuration seconds after it completes.
+        public bool ShieldActive => Time.time < shieldUntil;
+        public float ShieldLeft => Mathf.Max(0f, shieldUntil - Time.time);
+        // Weapons multiply their damage by this (1 when there is no shield).
+        public float DamageMultiplier => ShieldActive ? tuning.prayDamageMultiplier : 1f;
 
         // 0..1 while R is held (the HUD fills a bar); -1 when not praying.
         public event Action<float> ProgressChanged;
@@ -32,6 +38,7 @@ namespace Animas.Player
         InputAction prayAction;
         float holdStarted = -1f;
         float readyAt;
+        float shieldUntil;
 
         void Awake() => prayAction = InputSystem.actions.FindAction("Player/Pray", true);
 
@@ -76,6 +83,7 @@ namespace Animas.Player
             readyAt = Time.time + tuning.prayCooldown;
             PrayerCircle circle = Instantiate(circlePrefab);
             circle.Begin(transform.position, tuning.prayRadius, tuning.prayDuration);
+            shieldUntil = Time.time + tuning.prayDuration;
             if (audioSource != null && doneClip != null) audioSource.PlayOneShot(doneClip);
             Completed?.Invoke();
         }

@@ -1,6 +1,5 @@
 using Animas.Items;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Animas.Player
 {
@@ -28,12 +27,10 @@ namespace Animas.Player
         static readonly int PickUpTrigger = Animator.StringToHash("PickUp");
         static readonly int PrayingBool = Animator.StringToHash("Praying");
 
-        InputAction prayAction;
+        Animas.Levels.RitualController ritual;
         MeleeWeaponDefinition shownWeapon;
         GameObject heldModel;
         bool prayingNormally;
-
-        void Awake() => prayAction = InputSystem.actions.FindAction("Player/Pray", true);
 
         void OnEnable()
         {
@@ -55,7 +52,11 @@ namespace Animas.Player
             interactor.Interacted -= OnInteracted;
         }
 
-        void Start() => OnSwitched(weapons.Current);
+        void Start()
+        {
+            OnSwitched(weapons.Current);
+            ritual = FindAnyObjectByType<Animas.Levels.RitualController>();
+        }
 
         void Update()
         {
@@ -64,8 +65,8 @@ namespace Animas.Player
             if (combat.Weapon != shownWeapon) ShowWeapon(combat.Weapon);
 
             // Hands together while praying: the normal prayer (it reports its progress) or the ritual,
-            // where the prayer is suppressed and holding R fills the bar instead.
-            bool ritualPraying = prayer.Suppressed && prayAction.IsPressed();
+            // which fills while the Padre stands inside its circle (#131).
+            bool ritualPraying = ritual != null && ritual.Filling;
             animator.SetBool(PrayingBool, prayingNormally || ritualPraying);
         }
 

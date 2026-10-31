@@ -33,6 +33,8 @@ namespace Animas.Player
         [Min(0.5f)] public float prayRadius = 4f;
         [Min(0.5f)] public float prayDuration = 10f;
         [Min(0f)] public float prayCooldown = 20f;
+        [Tooltip("Weapon damage multiplier while the prayer's shield lasts (#131).")]
+        [Min(1f)] public float prayDamageMultiplier = 1.5f;
         [Tooltip("Speed while holding R: the GDD says the Padre is almost still and vulnerable.")]
         [Range(0f, 1f)] public float praySpeedMultiplier = 0.15f;
     }

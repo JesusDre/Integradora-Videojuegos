@@ -125,9 +125,9 @@ Cada instancia es una campaña lineal de dos secciones separadas por un cuarto s
 
 - **Descripción:** el Padre canaliza una oración que repele espíritus.
 
-- **Activación:** mantener R durante 3 segundos.
+- **Activación:** mantener R durante 1.5 segundos.
 
-- **Efecto:** círculo de 4 m de radio que repele espíritus durante 10 segundos.
+- **Efecto:** círculo de 4 m de radio que repele espíritus durante 10 segundos. Durante esos mismos 10 segundos un escudo bendito rodea al Padre y sus armas hacen +50 % de daño.
 
 - **Restricciones:** el Padre queda casi inmóvil y vulnerable a humanos; enfriamiento de 20 segundos.
 
@@ -149,7 +149,7 @@ Cada instancia es una campaña lineal de dos secciones separadas por un cuarto s
 
 - **Descripción:** el Padre reza en el ancla de la entidad mientras llegan oleadas.
 
-- **Activación:** mantener R en el ancla tras colocar los 3 objetos clave. Es un modo aparte del rezo normal: no tiene enfriamiento y, al soltar R, la barra se pausa.
+- **Activación:** tras colocar los 3 objetos clave, se dibuja un círculo dorado alrededor del ancla. Estar dentro del círculo llena la barra sola, sin teclas; salir la pausa. El rezo normal (R) se puede usar dentro.
 
 - **Efecto:** una barra de progreso avanza; al llenarse, la entidad se debilita y se abre la huida.
 
