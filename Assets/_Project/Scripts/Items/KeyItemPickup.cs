@@ -29,12 +29,22 @@ namespace Animas.Items
             Refresh();
         }
 
+        // The offerings are collected by walking over them too (#138), the same as items and materials.
+        void Update()
+        {
+            if (bag == null || bag.HasCollected(id)) return;
+            Vector3 d = bag.transform.position - transform.position;
+            if (Mathf.Abs(d.y) < 1.8f && new Vector2(d.x, d.z).sqrMagnitude < 1.4f * 1.4f) Collect();
+        }
+
         void OnDestroy()
         {
             if (bag != null) bag.Changed -= Refresh;
         }
 
-        public void Interact(Interactor interactor)
+        public void Interact(Interactor interactor) => Collect();
+
+        void Collect()
         {
             if (bag == null || bag.HasCollected(id)) return;
             bag.Add(item, id);
