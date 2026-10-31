@@ -230,7 +230,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 ### 5.6 Escopeta y balas de sal
 *Issue #24.*
 
-**Qué hace.** Q (o la rueda del mouse) cambia del machete a la escopeta. Clic izquierdo dispara y clic derecho apunta (la cámara se acerca un poco). Tiene 2 cartuchos; al vaciarse recarga sola en 2 segundos con las balas de sal del inventario, que se fabrican en el altar. Cada disparo suelta **8 perdigones** que se abren en un cono de 5°: de cerca pegan casi todos y hacen 48 de daño (un cultista, con 40 de vida, muere de un tiro); a menos de 8 m cada perdigón vale 6 y más lejos 2.5, y además muchos ya no le atinan al cuerpo, así que de lejos casi no hace nada. A los espíritus solo el 25 %. El disparo hace ruido: todo cultista a 20 m lo oye y va a ver (deja de patrullar y persigue). Abajo a la derecha, el HUD muestra el arma en la mano y la munición: "2 | 10" (cargados | en el inventario).
+**Qué hace.** Q (o la rueda del mouse) cambia del machete a la escopeta. Clic izquierdo dispara y clic derecho apunta (la cámara se acerca un poco). Tiene 2 cartuchos; al vaciarse recarga sola en 2 segundos con las balas de sal del inventario, que se fabrican en el altar; con **C** se recarga antes, aunque quede un cartucho (issue #113). Si no hay balas, C suena el "clic" vacío. Cada disparo suelta **8 perdigones** que se abren en un cono de 5°: de cerca pegan casi todos y hacen 48 de daño (un cultista, con 40 de vida, muere de un tiro); a menos de 8 m cada perdigón vale 6 y más lejos 2.5, y además muchos ya no le atinan al cuerpo, así que de lejos casi no hace nada. A los espíritus solo el 25 %. El disparo hace ruido: todo cultista a 20 m lo oye y va a ver (deja de patrullar y persigue). Abajo a la derecha, el HUD muestra el arma en la mano y la munición: "2 | 10" (cargados | en el inventario).
 
 ![Escopeta](img/ui/escopeta.png)
 
@@ -239,6 +239,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 |---|---|---|
 | `RangedWeaponDefinition` | `Data/Items/Weapons/WPN_Escopeta.asset` | Daño cerca y lejos, distancia, capacidad, recarga, radio del ruido, zoom y sonidos. |
 | `PlayerShotgun` | Padre | Lanza un rayo por perdigón (`SphereCastNonAlloc`, ignorando el cuerpo del Padre), cada uno desviado al azar dentro del cono (`Random.insideUnitCircle`). Suma el daño de los perdigones que tocan a cada blanco y aplica **un solo** `TakeDamage` por blanco, así el golpe se ve y suena una vez. El daño depende de la distancia y del tipo de vida. Avisa a los cultistas con `Physics.OverlapSphereNonAlloc` + `CultistAI.HearNoise`. Recarga con un temporizador, sin corrutinas. |
+| Acción `Reload` (C) | `Data/Input/AnimasControls.inputactions` | `PlayerShotgun.TryReload` revisa que falten cartuchos y que haya balas, y usa el mismo temporizador de la recarga automática. |
 | `WeaponSwitcher` | Padre | Solo una de las dos armas está encendida (`enabled`), así el clic hace una sola cosa. Si un menú o la muerte lo apagan, apaga también el arma en la mano. |
 | `HUDController` | `PF_HUD` | Escucha `WeaponSwitcher.Switched` y `PlayerShotgun.AmmoChanged`. |
 
@@ -252,6 +253,7 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 - **Recarga:** con 6 balas, cargó 2 en 2 s (inventario 6 → 4). Durante la recarga no dispara; sin balas en el inventario no recarga.
 - **Daño (con dispersión, #111):** en un campo de tiro limpio, un cultista a 3 m y otro a 5 m murieron de un tiro; a 7 m bajó 30, a 10 m bajó 10 y a 14 m bajó 5. A 3 m, 400 de 400 perdigones pegaron.
 - **Ruido:** tras los disparos, los dos cultistas a 15–16 m pasaron de patrullar a perseguir.
+- **Recarga con C (#113):** con 2 cartuchos, C no hace nada; tras disparar uno, C recargó en 2 s (1 → 2 cartuchos, inventario 4 → 3).
 - **Cambio de arma:** Q enciende una arma y apaga la otra; con el inventario abierto ninguna dispara y al cerrarlo vuelve la escopeta.
 - Consola sin errores.
 
@@ -1118,6 +1120,7 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 **Detalles que salieron en la prueba.**
 - En reposo, las manos apenas asomaban abajo, y el ataque y el recoger sacaban el brazo del cuadro: el hombro está debajo de la cámara, así que el antebrazo tiene que subir para verse. Se subieron los brazos (las manos quedan unos 18° abajo del centro) y se ajustaron las poses viendo cada cuadro desde la cámara.
 - **Issue #111:** el machete se alargó a 0.85 m (hoja de 0.66 m) y llega a 2.4 m; la escopeta en primera persona se ve un 20 % más grande.
+- **Issue #113:** aún parecía cuchillo porque la hoja apuntaba al frente y se veía de canto. Ahora mide 1.2 m, se ensancha hacia la punta, va casi vertical y muestra su cara plana a la cámara (un script calculó el giro desde la cámara). Golpea cada 0.4 s y llega a 2.8 m. La escopeta se ve 2.4 veces su tamaño y más cerca de la cámara.
 
 ![Puño, machetazo y escopeta nueva](img/ui/armas_nuevas.png)
 

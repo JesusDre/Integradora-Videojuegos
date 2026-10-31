@@ -16,8 +16,8 @@ MonoBehaviour:
   viewModel: {fileID: 7690528880634021173, guid: c467206919e083f64b1884198d21a505, type: 3}
   damageToHumans: 20
   damageToSpirits: 5
-  cooldown: 0.6
-  range: 2.4
+  cooldown: 0.4
+  range: 2.8
   hitRadius: 0.35
   staminaCost: 15
   chargeSeconds: 0

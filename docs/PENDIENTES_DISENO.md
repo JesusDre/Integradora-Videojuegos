@@ -20,7 +20,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #23 | Recetas conocidas desde el inicio: las 5 de la instancia 1 y la venda. Cruz de plata, chancla bendita y copal se desbloquean con notas (#32) | `RecipeBook` en `PF_Player` |
 | #23 | Las balas de sal ocupan un espacio del inventario (hasta 24 en uno) | `ITM_BalasSal.asset` |
 | #22 | El inventario (Tab) no pausa el juego | `InventoryUI` |
-| #24 | No hay tecla de recarga en los controles del GDD: la escopeta recarga sola (2 s) cuando se vacía o cuando recoges balas teniéndola vacía | `PlayerShotgun` |
+| #24 | La escopeta recarga sola (2 s) cuando se vacía o cuando recoges balas teniéndola vacía. Desde #113 también con C (elegida por Jesús; R ya es rezar) | `PlayerShotgun` |
 | #24 | El Padre tiene la escopeta desde el inicio; Q o la rueda alternan machete y escopeta | `WeaponSwitcher` |
 | #24 | La escopeta con balas de sal hace el 25 % a los espíritus (tabla de balance), aunque la receta diga que sirve contra ellos | `WPN_Escopeta.asset` (spiritMultiplier) |
 | #25 | Mientras mantiene R, el Padre va al 15 % de su velocidad; el círculo se queda donde rezó (no lo sigue) y el enfriamiento de 20 s empieza al completar el rezo | `PlayerTuning` |
@@ -36,6 +36,7 @@ El GDD no fija estos detalles. Claude eligió un valor para no detener el trabaj
 | #48 | Resumen de instancia con tiempo, muertes y notas leídas. El equipaje no lleva objetos clave y empieza con vida 100. Elegir una instancia desde la selección también da el equipaje de la anterior. Al terminar la campaña se borra la partida (la selección sigue abierta) | `VictoryScreen`, `PlayerPersistence.CaptureForNextInstance` |
 | #40 | Hacienda: el Charro solo caza dentro de su terreno (x 55–145, z 66–129); la tercera nota (panteón) explica la pelea; la tienda de raya reutiliza la choza de la instancia 1 hasta tener arte propio | `I2_Hacienda` (Charro_Territorio, NOTE_I2_Capilla) |
 | #46 | Ex-convento: la escalera de caracol del coro es una rampa recta; el túnel de huida se abre con el ritual (reja); niebla roja durante el ritual (densidad 0.05); la celda del prior reutiliza la choza; sin derrumbe (deseable) | `I3_Convento`, `RitualAtmosphere` |
+| #113 | Machete de 1.2 m, un golpe cada 0.4 s y alcance 2.8 m; escopeta en primera persona a 2.4× (pedido de Jesús) | `WPN_Machete`, `PF_Vista_Machete`, `PF_Player` |
 | #111 | Escopeta con 8 perdigones y 5° de dispersión, 48/20 de daño (mata a un cultista de un tiro de cerca); machete más largo (alcance 2.4 m); manos de cubo sin dedos. Pedido directo de Jesús | `WPN_Escopeta`, `WPN_Machete`, `chr_brazos_padre.py` |
 | #35 | Se activó el posprocesado en la cámara del Padre para la distorsión del llanto (también se ven la viñeta y el bloom del Global Volume en todas las escenas) | `PF_Player` (cámara) |
 

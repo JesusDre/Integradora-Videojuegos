@@ -78,6 +78,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "2d4b8d2e-425c-424e-83ba-1ce89d16bb0e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SwitchWeapon",
                     "type": "Button",
                     "id": "cffd99cd-ab97-4701-a6bf-7fc4313f38b7",
@@ -280,6 +289,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Pray",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d4bbc85-2855-44a0-868d-ebd238d472d9",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
