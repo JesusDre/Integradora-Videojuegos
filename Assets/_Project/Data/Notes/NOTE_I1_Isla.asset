@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
   title: "P\xE1gina arrancada"
   text: "No te acerques al agua cuando la oigas llorar. Las veladoras del ancla la
-    obligan a quedarse quieta mientras se reza.\n\nEl sacerdote que vino hace veinte
-    a\xF1os casi lo logra."
+    obligan a quedarse quieta mientras se reza: enci\xE9ndelas todas antes de empezar.\n\nEl
+    sacerdote que vino hace veinte a\xF1os casi lo logra. Se llamaba Ignacio. Dicen
+    que todav\xEDa reza en alg\xFAn lado."
   unlocksRecipe: {fileID: 0}

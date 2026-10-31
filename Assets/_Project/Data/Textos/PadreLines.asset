@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfaeed3a2cbb13a98a3a9b6969f6c397, type: 3}
+  m_Name: PadreLines
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Narrative.PadreLines
+  lowHealth:
+  - "\xABTodav\xEDa no, Se\xF1or. Todav\xEDa no.\xBB"
+  - "\xABNecesito una venda\u2026 o un milagro.\xBB"
+  firstPrayer:
+  - "\xABQue este c\xEDrculo sea muralla.\xBB"
+  respawn:
+  - "\xABOtra vez de pie. \xC9l no ha terminado conmigo.\xBB"
+  - "\xABLev\xE1ntate, Anselmo.\xBB"
+  safeRoom:
+  - "\xABAqu\xED no entran. Respira.\xBB"
+  - "\xABUn altar. Gracias a Dios.\xBB"
+  keyItems:
+  - "\xABUna ofrenda. Me la llevo antes de que alguien la use.\xBB"
+  - "\xABOtra. Ya casi.\xBB"
+  - "\xABLas tres. Ahora, al ancla.\xBB"
+  ritualStart:
+  - "\xABPadre nuestro, que est\xE1s en el cielo\u2026\xBB"
+  ritualDone:
+  - "\xABSe acab\xF3. Ahora hay que salir de aqu\xED.\xBB"

@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 9222903655437723414}
   - component: {fileID: 4356258946889775197}
   - component: {fileID: 852158391470868832}
+  - component: {fileID: 7766081640620652415}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Player
@@ -431,6 +432,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36a4ba4bff5a3ebb867cce3deb42bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.KeyItemBag
+--- !u!114 &7766081640620652415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530602160749346898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87bd1ed2daa991a35a8d4e1609b4e3bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Narrative.PadreVoice
+  lines: {fileID: 11400000, guid: 10fa8612d6361fff1b263da6804084aa, type: 2}
+  health: {fileID: 1857532811624091855}
+  prayer: {fileID: 5979250240870480494}
+  respawn: {fileID: 9222903655437723414}
+  keyItems: {fileID: 852158391470868832}
+  lowHealthAt: 30
+  lowHealthCooldown: 60
 --- !u!1 &2419112120389781756
 GameObject:
   m_ObjectHideFlags: 0

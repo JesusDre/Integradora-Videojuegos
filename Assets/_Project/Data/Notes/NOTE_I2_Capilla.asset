@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
   title: Hoja arrancada de un misal
   text: "El jinete no pisa la casa de Dios. Pon las tres monedas en el pedestal de
-    la capilla y llena con agua bendita las canaletas del frente. Cuando las cruce,
-    golp\xE9alo con la cruz de plata; tres veces, o volver\xE1."
+    la capilla y llena con agua bendita las canaletas del frente.\n\nCuando las cruce,
+    golp\xE9alo con la cruz de plata. Tres veces, o volver\xE1. \u2014 I."
   unlocksRecipe: {fileID: 0}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f77ba4a985e5a66886efd0a3370a34, type: 3}
+  m_Name: NOTE_I3_Sermon
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
+  title: "Serm\xF3n de la Estrella Negra"
+  text: "Hermanos: la mujer que llora ya abri\xF3 el agua; el jinete ya firm\xF3
+    con plata. Falta la piedra.\n\nBajo este convento, la obsidiana espera. Cuando
+    las tres piedras negras est\xE9n en su lugar y el \xFAltimo cura rece su \xFAltima
+    oraci\xF3n, ella descender\xE1 del techo del mundo y no volver\xE1 a amanecer.\n\nNo
+    teman al sacerdote. Ignacio tambi\xE9n rez\xF3."
+  unlocksRecipe: {fileID: 0}

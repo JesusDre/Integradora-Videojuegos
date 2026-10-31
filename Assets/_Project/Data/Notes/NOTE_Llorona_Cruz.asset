@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: NOTE_Llorona_Cruz
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.NoteDefinition
   title: "Lo que dej\xF3 la Llorona"
-  text: 'Plata y madera: una cruz como la que usaban los abuelos contra el jinete
-    negro. Cargada con fe, lo hiere cuando cruza el agua bendita.'
+  text: "Plata y madera: una cruz como la que usaban los abuelos contra el jinete
+    negro. Cargada con fe, lo hiere cuando cruza el agua bendita.\n\n\u2014 escrito
+    con la letra del Padre Ignacio, en el reverso de una estampa empapada."
   unlocksRecipe: {fileID: 11400000, guid: 979f4596276938f98b94a1c69e615184, type: 2}

@@ -459,6 +459,38 @@ Usar otra vez la chancla o la cruz regresa el machete; si se tira, también. Las
 | ¿Cómo evitan que el nivel quede sin la tercera muñeca si mueres? | Cada muñeca tiene un id; al cargar, las que no están en la bolsa guardada vuelven a aparecer. |
 | ¿Cómo se desbloquea una receta? | `NotePickup` llama a `RecipeBook.Unlock` la primera vez que se lee la nota; el altar muestra la receta desde ese momento. |
 
+#### Textos del culto y del Padre (#33)
+
+**Qué hay.** Todos los textos del juego están en `docs/TEXTOS.md`, para leerlos y revisarlos en un solo lugar.
+- **8 notas del culto.** Cuentan la historia de los Hijos de la Estrella Negra y del Padre Ignacio, el sacerdote que casi los detuvo hace veinte años, y dan pistas de cómo vencer a cada entidad. Tres de ellas enseñan recetas. La octava, el *Sermón de la Estrella Negra* en las criptas del convento, revela el plan del culto.
+- **Frases del Padre.** Van en subtítulos con «comillas» y son de dos tipos:
+  - las que responden a lo que pasa: vida baja, primer rezo, reaparecer, primera vez en cada cuarto seguro, cada objeto clave, y el inicio y el final del ritual;
+  - las que dice al llegar a un lugar: 4 por instancia, como el inicio, la chinampa de las muñecas, la capilla o las catacumbas.
+
+![Subtítulo del Padre](img/ui/subtitulo_padre.png)
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `NoteDefinition` | `Data/Notes/NOTE_*` | El título y el texto de cada nota. |
+| `PadreLines` | `Data/Textos/PadreLines.asset` | Las frases de cada momento. Cuando hay varias, se elige una al azar. |
+| `PadreVoice` | `PF_Player` | Escucha eventos que ya existen (`Health.Changed`, `PlayerPrayer.Completed`, `PlayerRespawn.Respawned`, `SafeRoom.Saved`, `KeyItemBag.Changed` y `RitualController.StageChanged`) y muestra la frase en `SubtitleUI`. La vida baja habla como mucho una vez por minuto. Cada cuarto seguro habla solo la primera vez. Al cargar una partida no anuncia los objetos clave restaurados. |
+| `SubtitleTrigger` | `Frases_Padre` en cada nivel | Una caja: la primera vez que el Padre entra, dice su frase. Revisa la posición cada cuadro, como los encuentros, así que no falla ni con teletransportes. |
+
+Los textos se pasaron de `docs/TEXTOS.md` a Unity con un script, no a mano, para que no haya diferencias entre el documento y el juego. Si se apagan los subtítulos en Opciones, no se muestra ninguna frase.
+
+**Cómo se probó (Play Mode).**
+- En I1 se vieron, en orden:
+  - la frase del inicio;
+  - «Una ofrenda…» al tomar la primera muñeca;
+  - «Todavía no, Señor…» al bajar a 25 de vida;
+  - «Aquí no entran. Respira.» al entrar a la choza;
+  - la frase de la isla.
+- En el convento se vio la frase del inicio.
+- Consola sin errores.
+
+**Un error que salió en la prueba.** La referencia de `PadreVoice` a `PadreLines` quedaba vacía: el asset se había creado en el mismo script antes de cambiar de escena, y Unity lo descargó. Se reasignó, y la prueba se repitió hasta que salieron todas las frases.
+
 ### 5.12 Entidades: La Llorona, el Charro Negro y la Tzitzimime
 *La Llorona: issue #35. El Charro Negro: #39. La Tzitzimime: #45.*
 
@@ -785,7 +817,7 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | `StatBar` | cada barra | Calcula vida actual ÷ vida máxima y ajusta el relleno de la imagen (`fillAmount`). Si el máximo es 0, no divide. |
 | `ItemSlotView` | cada espacio | Muestra el icono del objeto (o su nombre mientras no haya iconos), la cantidad y la tecla. |
 | `InventoryUI` | prefab `PF_HUD` | Abre y cierra con la acción `Inventory` (Tab); al abrir apaga `PlayerLook`, `PlayerCombat` e `Interactor`, y al cerrar los vuelve a encender. Si el Padre muere con el inventario abierto, lo cierra sin volver a encender los controles. |
-| `SubtitleUI` | prefab `PF_HUD` | `Show(texto)`: lo deja en pantalla según su largo (mínimo 2 s). Lo usarán las notas y las frases del Padre (#33). |
+| `SubtitleUI` | prefab `PF_HUD` | `Show(texto)`: lo deja en pantalla según su largo (mínimo 2 s). Lo usan las frases del Padre (`PadreVoice`, `SubtitleTrigger`, #33) y el llanto de la Llorona. |
 | `RitualBarUI` | prefab `PF_HUD` | `Begin`, `SetProgress(0–1)` y `End`, para el ritual (#34). |
 
 **Paleta de la interfaz** (*issue #2*). Son 9 colores. La base es el fondo casi negro de los paneles (#0E0F12) y el texto color hueso (#E8E1D3), que se lee bien sin ser blanco puro. El acento es dorado de veladora (#DBAD54) y la vida es rojo sangre (#B3261E), con una alerta más clara (#FF4536). La resistencia es dorada (#C9A327) y el ritual, azul pálido (#8CBFF2). Cada instancia tiene una variante (fondo, tono, niebla y acento) que acompaña al HUD sin cambiarlo. Los colores están en el Inspector de `HUDController` y de los menús, así que se ajustan sin código.
