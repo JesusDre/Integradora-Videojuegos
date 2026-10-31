@@ -23,6 +23,10 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "Ass
 # First match wins: (pattern relative to Audio/, target dBFS). Louder = closer to 0.
 TARGETS = [
     ("SFX/Armas/escopeta_disparo.wav", -10),     # the loudest thing in the game, on purpose
+    ("SFX/Armas/pistola_disparo.wav", -12),
+    ("SFX/Armas/metralleta_disparo.wav", -14),   # many per second: quieter each
+    ("SFX/Armas/ballesta_disparo.wav", -16),     # silent weapon
+    ("SFX/Armas/martillo_chillido.wav", -14),
     ("SFX/Armas/*golpe*.wav", -15),
     ("SFX/Armas/*.wav", -19),                    # swing, reload, empty click
     ("SFX/Jugador/pasos_*.wav", -24),            # every surface at the same level
@@ -71,6 +75,10 @@ for path in sorted(glob.glob(os.path.join(ROOT, "**", "*.wav"), recursive=True))
         params = w.getparams()
         x = np.frombuffer(w.readframes(w.getnframes()), "<i2") / 32768.0
     before = loudness(x, params.framerate)
+    # Already at its level (or as close as its peak allows): leave the file untouched, so running this
+    # again doesn't rewrite every sound with tiny rounding differences.
+    if abs(target - before) < 0.3 or (before < target and np.max(np.abs(x)) > 0.95):
+        continue
     gain = 10 ** ((target - before) / 20)
     peak = np.max(np.abs(x)) * gain
     limited = peak > 0.97

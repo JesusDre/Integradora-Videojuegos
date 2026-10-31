@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ec2356445d0966b9f3409a959e0a9f, type: 3}
+  m_Name: WPN_Pistola
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.RangedWeaponDefinition
+  displayName: pistola
+  ammoItem: {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
+  normalAmmoItem: {fileID: 11400000, guid: fc1777f1784592a6e8c69ced8004954a, type: 2}
+  saltDamageMultiplier: 1.5
+  viewModel: {fileID: 783416975973404436, guid: 998efeb803ae64f9cab39157026dab72, type: 3}
+  damageNear: 24
+  damageFar: 16
+  nearDistance: 15
+  maxRange: 60
+  spiritMultiplier: 0.25
+  hitRadius: 0.05
+  pellets: 1
+  spreadDegrees: 0.8
+  shellCapacity: 8
+  reloadSeconds: 1.4
+  fireCooldown: 0.22
+  automatic: 0
+  noiseRadius: 15
+  aimFieldOfView: 50
+  kickDegrees: 2
+  fireClip: {fileID: 8300000, guid: 8ff4e97452abe1eaba4825a312e96c96, type: 3}
+  reloadClip: {fileID: 8300000, guid: 7826204dd4195d76494bb9fce26b925c, type: 3}
+  emptyClip: {fileID: 8300000, guid: b69334f954efbb58ba036bc048aefbde, type: 3}

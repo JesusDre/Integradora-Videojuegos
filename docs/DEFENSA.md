@@ -338,6 +338,34 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cómo sabe el arma cuántas balas tiene si cambias a otra? | `PlayerShotgun` guarda un `Magazine` por cada arma en un `Dictionary`; al volver, recupera el suyo. |
 | ¿Por qué las balas normales no lastiman a los espíritus? | Así lo pide el diseño: solo lo bendito (sal, agua bendita, rezo) los afecta. En el código, si el objetivo es `Spirit` y la bala no es de sal, el daño se multiplica por 0. |
 
+#### Armas nuevas: pistola, metralleta, ballesta y martillo chillón (#135)
+
+**Qué hace.**
+| Arma | Dónde está | Cómo se siente |
+|---|---|---|
+| Pistola | Mesa del cuarto seguro de la hacienda | 8 tiros, precisa, se recarga rápido |
+| Metralleta | Mesa del convento | Dispara sola mientras mantienes el clic; gasta mucho y se oye lejos |
+| Ballesta | Mesa de la hacienda | Un virote a la vez, mucho daño y **en silencio**: no atrae cultistas |
+| Martillo chillón | Mesa de Xochimilco | Martillo de juguete bendecido: brilla, chilla al pegar y lastima más a los espíritus |
+
+![Pistola, metralleta, ballesta y martillo en la mano](img/ui/armas_135.png)
+
+**Cómo funciona.** No hubo que programar armas nuevas: todo sale de **datos**.
+- **Las armas de fuego:** cada una es un `RangedWeaponDefinition` (`WPN_Pistola`, `WPN_Metralleta`, `WPN_Ballesta`) que usa el mismo `PlayerShotgun` de #134. La metralleta tiene `automatic` activado y la ballesta `noiseRadius` en 0.
+- **El martillo:** es un `MeleeWeaponDefinition` con su sonido de chillido.
+- **Modelos y sonidos:** se hacen con código, en `Tools/Blender/obj_armas_nuevas.py` y `Tools/Audio/sintetizar_armas.py`.
+- **El aura del martillo:** es una luz dorada que titila (`LightFlicker`) con chispas, dentro de su modelo en primera persona.
+
+**Prueba (Play Mode, `EnemyArena`).**
+- **Metralleta:** mantener el clic 1 s vació el cargador y el ruido atrajo a los cultistas.
+- **Ballesta:** los cultistas que patrullaban siguieron patrullando tras el disparo.
+- **Martillo:** al espíritu de prueba le quitó 22.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cuánto código costó agregar cuatro armas? | Casi nada: son archivos de datos (ScriptableObjects) que usan los mismos scripts. Eso es lo bueno de separar datos y lógica. |
+| ¿Cómo dispara sola la metralleta? | Con `automatic` activado, `PlayerShotgun` revisa si el clic sigue **presionado** (`IsPressed`) en vez de si **se acaba de presionar**, y respeta el tiempo entre balas (`fireCooldown`). |
+
 ### 5.7 Rezo y ritual
 *Rezo: issue #25. Ritual final: issue #34. Escudo, rezo más rápido y ritual en círculo: issue #131.*
 

@@ -23,4 +23,4 @@ MonoBehaviour:
   meleeWeapon: {fileID: 0}
   rangedWeapon: {fileID: 0}
   worldPrefab: {fileID: 0}
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 42254aa2ae7373891be724288a7bf5d1, type: 3}
