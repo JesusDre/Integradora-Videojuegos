@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WPN_Pistola
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.RangedWeaponDefinition
   displayName: pistola
-  ammoItem: {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
+  ammoItem: {fileID: 11400000, guid: 6fda03f2c10aaed1294d9befeb2daf5b, type: 2}
   normalAmmoItem: {fileID: 11400000, guid: fc1777f1784592a6e8c69ced8004954a, type: 2}
   saltDamageMultiplier: 1.5
   viewModel: {fileID: 783416975973404436, guid: 998efeb803ae64f9cab39157026dab72, type: 3}

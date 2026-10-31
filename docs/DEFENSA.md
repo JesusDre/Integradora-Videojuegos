@@ -408,6 +408,44 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Cuánto código costó agregar cuatro armas? | Casi nada: son archivos de datos (ScriptableObjects) que usan los mismos scripts. Eso es lo bueno de separar datos y lógica. |
 | ¿Cómo dispara sola la metralleta? | Con `automatic` activado, `PlayerShotgun` revisa si el clic sigue **presionado** (`IsPressed`) en vez de si **se acaba de presionar**, y respeta el tiempo entre balas (`fireCooldown`). |
 
+#### Dos espacios de arma y munición propia de cada arma (#152)
+
+**Qué hace.**
+- **Solo 2 armas.** El Padre carga 2 armas, de cualquier tipo: por ejemplo machete y escopeta, o pistola y metralleta. Si toma una tercera con F, deja en su lugar la que tenía en la mano. Así puede volver por ella si se arrepiente.
+- **El HUD.** Muestra los 2 espacios de arma (marcados con Q) a la izquierda de los 4 objetos rápidos (1–4). El arma en la mano se resalta, y cada arma de fuego muestra cuántas balas lleva para ella.
+- **La munición.** Ya no ocupa espacios del inventario. Cada arma tiene la suya, de sal y normal, con un límite que suma las dos:
+
+| Arma | Munición de sal | Munición normal | Límite (sal + normal) |
+|---|---|---|---|
+| Escopeta | cartuchos de sal | cartuchos | 99 |
+| Pistola | balas de pistola de sal | balas de pistola | 160 |
+| Metralleta | balas de metralleta de sal | balas de metralleta | 360 |
+| Ballesta | — | virotes | 99 |
+
+- **El cuarto seguro.** Junto a la mesa de suministros hay una segunda mesa, la **armería**, con las armas que faltan en ese cuarto. Frente a ella, en el piso, hay mucha munición de cada tipo: 24 + 24 cartuchos, 32 + 48 de pistola, 90 + 120 de metralleta y 20 virotes.
+
+![Los 2 espacios de arma y los 4 objetos rápidos](img/ui/hud_armas_152.png)
+
+**Cómo funciona.**
+- **`WeaponBag`:** tiene `MaxWeapons = 2`. Con la bolsa llena, `Add` ya no agrega, y `Swap(givenAway, taken)` pone la nueva arma en el lugar de la vieja. Avisa con el evento `Changed`, que el HUD escucha.
+- **`PickupItem.TakeWeapon`:** si la bolsa está llena, cambia el arma de la mano por la del suelo. Con `Inventory.SpawnPickup` deja la vieja donde estaba la nueva.
+- **`Inventory`:** guarda la munición en un diccionario aparte (`Ammo`), igual que los materiales, y no en los 8 espacios. `AmmoRoom()` calcula cuánto cabe: `ammoLimit` menos lo que ya se lleva de esa munición y de su pareja (`ammoSharesLimitWith`, la sal ↔ la normal del mismo arma). Si no cabe todo, lo que sobra se queda en el piso con el aviso "No puedes cargar más… (máximo N)".
+- **`ItemDefinition`:** tiene dos campos nuevos para la munición, `ammoLimit` y `ammoSharesLimitWith`. Cada `WPN_*` apunta a su propia munición de sal y normal.
+- **`HUDController`:** dibuja `weaponSlots` con `ItemSlotView.ShowWeapon`. El número de cada espacio es la munición de sal más la normal de esa arma.
+- **Partidas viejas:** el guardado escribe la munición en la misma lista que los materiales. Si una partida vieja traía munición en un espacio o más de 2 armas, al cargarla la munición pasa a su lugar aparte y se quedan las 2 primeras armas.
+
+**Prueba (Play Mode).**
+- **`EnemyArena`:** al pasar por la fila de munición se recogió toda y no se ocupó ningún espacio del inventario. Al intentar agregar de más quedaron exactamente 99 en la escopeta (75 de sal + 24 normales), 360 en la metralleta, 160 en la pistola y 99 virotes.
+- **Con machete y pistola:** al tomar la metralleta, la pistola quedó en la mesa en su lugar.
+- **`I1_Xochimilco`:** la armería aparece junto a la mesa de suministros, y el arma soltada queda a la altura de las demás.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué la munición no ocupa espacio? | Porque es de cada arma y se ve en el HUD junto a ella. Si ocupara espacios, con 4 tipos de bala se llenaría el inventario. |
+| ¿Cómo se respeta el límite de sal + normal juntas? | Cada munición apunta a su pareja (`ammoSharesLimitWith`). `AmmoRoom()` suma las dos antes de dejar entrar más. |
+| ¿Qué pasa con las balas cargadas del arma que suelto? | `PlayerShotgun` recuerda el cargador de cada arma. Si la vuelves a tomar, sigue con las mismas balas. |
+| ¿Por qué cambia el arma de la mano y no la otra? | Es la que el jugador está usando, así que es la elección más clara. Además, queda en la mesa para volver por ella. |
+
 ### 5.7 Rezo y ritual
 *Rezo: issue #25. Ritual final: issue #34. Escudo, rezo más rápido y ritual en círculo: issue #131.*
 

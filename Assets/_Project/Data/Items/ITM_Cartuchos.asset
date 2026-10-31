@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad405a685a9ec715a7d9664750ddf38, type: 3}
+  m_Name: ITM_Cartuchos
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
+  displayName: cartuchos
+  description: 'Cartuchos de escopeta comunes: solo hieren a personas.'
+  icon: {fileID: 21300000, guid: 2cb7352631e7cfb00aa440fe7906e404, type: 3}
+  category: 2
+  maxStack: 24
+  healAmount: 0
+  useEffect: {fileID: 0}
+  useClip: {fileID: 0}
+  meleeWeapon: {fileID: 0}
+  rangedWeapon: {fileID: 0}
+  ammoLimit: 99
+  ammoSharesLimitWith: {fileID: 11400000, guid: 81b82ca06f20737979e7284467e6b8b5, type: 2}
+  worldPrefab: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 21eb7b1f17bc68f4a813ec347bda8c82, type: 3}

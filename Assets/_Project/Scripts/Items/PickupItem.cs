@@ -111,8 +111,20 @@ namespace Animas.Items
                 inventory.Notify($"Ya tienes {item.displayName}");
                 return 0;
             }
-            bag.Add(item);
-            inventory.Notify($"Recogiste: {item.displayName} (Q para cambiar de arma)");
+            if (!bag.IsFull)
+            {
+                bag.Add(item);
+                inventory.Notify($"Recogiste: {item.displayName} (Q para cambiar de arma)");
+                return amount;
+            }
+            // Both spaces taken (#152): the weapon in hand stays here, where the new one was.
+            var switcher = inventory.GetComponent<WeaponSwitcher>();
+            ItemDefinition givenAway = switcher != null && switcher.Current != null ? switcher.Current : bag.Weapons[0];
+            // This pickup is about to go: its collider must not hold up the weapon left in its place.
+            foreach (Collider c in GetComponentsInChildren<Collider>()) c.enabled = false;
+            bag.Swap(givenAway, item);
+            inventory.SpawnPickup(givenAway, 1, transform.position);
+            inventory.Notify($"Cambiaste {givenAway.displayName} por {item.displayName}");
             return amount;
         }
     }
