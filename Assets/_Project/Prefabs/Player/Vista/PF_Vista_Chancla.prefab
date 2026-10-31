@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3166111445131786648}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PF_Vista_Chancla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,6 +83,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 156114dd873d93eef8ccdc9b5f3102ce, type: 3}
       propertyPath: m_Name
       value: obj_chancla
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 156114dd873d93eef8ccdc9b5f3102ce, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

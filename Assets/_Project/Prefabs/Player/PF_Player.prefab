@@ -689,7 +689,7 @@ GameObject:
   - component: {fileID: 2644622700466677268}
   - component: {fileID: 2318723638845441292}
   - component: {fileID: 8148757004714105826}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrel_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -922,7 +922,7 @@ GameObject:
   - component: {fileID: 6771740269338224499}
   - component: {fileID: 4288791910804571382}
   - component: {fileID: 1876865064088812953}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrel_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1273,6 +1273,148 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Audio.AudioVolume
   category: 1
+--- !u!1 &4366662985314239573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9070327292798744881}
+  - component: {fileID: 5450333947810086612}
+  - component: {fileID: 5607969621539340050}
+  - component: {fileID: 4842901335996021239}
+  m_Layer: 0
+  m_Name: CamaraBrazos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9070327292798744881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366662985314239573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1062469166424127423}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &5450333947810086612
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366662985314239573}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.01
+  far clip plane: 10
+  field of view: 70
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 256
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!114 &5607969621539340050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366662985314239573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
+--- !u!114 &4842901335996021239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366662985314239573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9e402806e4dad67be8e764f09a3ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.MatchFieldOfView
+  source: {fileID: 1546313546101761127}
 --- !u!1 &4795021805172881285
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,7 +1425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7969618743896940146}
   - component: {fileID: 5323684161076426991}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MuzzleFlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1379,7 +1521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5020901396259324198}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shotgun_View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1669,6 +1811,7 @@ Transform:
   - {fileID: 8573912361842887208}
   - {fileID: 5020901396259324198}
   - {fileID: 8790410948501230335}
+  - {fileID: 9070327292798744881}
   m_Father: {fileID: 888061491979182647}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1546313546101761127
@@ -1710,7 +1853,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1763,7 +1906,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 5450333947810086612}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -1822,7 +1966,7 @@ GameObject:
   - component: {fileID: 5052108427086138957}
   - component: {fileID: 1241345162032803686}
   - component: {fileID: 3543363807539078802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1912,7 +2056,7 @@ GameObject:
   - component: {fileID: 4129276739157354388}
   - component: {fileID: 688077414333053144}
   - component: {fileID: 816997934777513202}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2059,6 +2203,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Modelo
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 60281e9af7a167ef898ec4c723c75560, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2117,6 +2265,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8044155616708116298, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -7194617982821593449, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -6856219511039073872, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -6803328424594441250, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -5094586873468223184, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -4799515056357829435, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: -1756583936353399033, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -2128,6 +2300,26 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
       propertyPath: m_Name
       value: Brazos
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527646016082047950, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469392943429339123, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613838578568316180, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561222799007593601, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

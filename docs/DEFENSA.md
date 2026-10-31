@@ -94,6 +94,7 @@ Se prueba en `Scenes/Test/Sandbox`: un cuarto oscuro con una puerta y una botell
 |---|---|
 | ¿Por qué el jugador no corre más rápido en diagonal? | La dirección se limita a largo 1 (`Vector3.ClampMagnitude`); sin eso, W + D sumaría las dos direcciones y sería un 41 % más rápido. |
 | ¿Cómo evitan que la cámara se voltee? | El ángulo vertical se limita con `Mathf.Clamp` entre −80° y 80°. |
+| ¿Por qué los brazos no se meten en las paredes? | Se dibujan con una segunda cámara "overlay" (URP *camera stacking*) que solo ve la capa `PrimeraPersona` y pinta encima del mundo. La cámara principal no dibuja esa capa. `MatchFieldOfView` le copia el campo de visión, también cuando la escopeta hace zoom (#51). |
 | ¿Qué pasa si la resistencia llega a 0? | El jugador queda agotado: camina, pero no corre hasta recuperar 25 puntos. Así no "tartamudea" corriendo con un poquito de resistencia. |
 | ¿Cómo sabe el juego qué objeto estás mirando? | Con un `Physics.Raycast` desde la cámara de 2.5 m de largo; busca el componente `IInteractable` en lo que toca. |
 | ¿Por qué la puerta se abre poco a poco? | `Quaternion.RotateTowards` con `deltaTime` la gira 180° por segundo; da feedback visual claro, que la rúbrica pide. |
