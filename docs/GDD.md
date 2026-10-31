@@ -454,7 +454,7 @@ El inventario se abre con Tab durante el gameplay, no desde la pausa. La pausa, 
 
 - **Obtención:** crafteada en el altar desde la instancia 1.
 
-Todos los objetos se fabrican en el altar de los cuartos seguros. Los materiales se recogen en el mapa y se obtienen al saquear cultistas. El agua bendita también se fabrica en el altar (botella y sal); en la hacienda, además, hay una pila en la capilla: con F da 1 agua bendita al inventario, hasta 3 veces, y vuelve a tener 3 cuando el Padre reaparece tras morir.
+Todos los objetos se fabrican en el altar de los cuartos seguros. Los materiales se recogen en el mapa y se obtienen al saquear cultistas. Los objetos, materiales, municiones y ofrendas se recogen al pasar sobre ellos; las armas, con F. Cada cuarto seguro tiene una mesa de suministros (vendas, balas de sal y sal). El agua bendita también se fabrica en el altar (botella y sal); en la hacienda, además, hay una pila en la capilla: con F da 1 agua bendita al inventario, hasta 3 veces, y vuelve a tener 3 cuando el Padre reaparece tras morir.
 
 ## 19. Economía del juego
 

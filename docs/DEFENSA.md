@@ -179,6 +179,31 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 |---|---|
 | ¿Cómo sabe el inventario qué icono mostrar? | Cada objeto es un archivo `ItemDefinition` con un campo `icon`. El espacio del inventario lee ese campo; si estuviera vacío mostraría el nombre. |
 
+#### Recoger al pasar y mesa de suministros (#138, #133)
+
+**Qué hace.**
+- **Al pasar encima:** los objetos, materiales, municiones y ofrendas se recogen solos, sin presionar F.
+- **Las armas:** siguen con F, porque cambian lo que el Padre carga en las manos y no deben tomarse por accidente.
+- **La mesa de suministros:** cada cuarto seguro tiene una junto a la pared sur, con 2 vendas, 6 balas de sal y 3 de sal.
+
+![Mesa de suministros](img/ui/mesa_suministros.png)
+
+**Cómo funciona.**
+- **`PickupItem`:** revisa cada cuadro si el Padre está a 1.3 m o menos y llama al mismo `Collect` que usa F.
+  - **Armas:** las salta (`AutoCollect` es falso para las categorías de arma).
+  - **Inventario lleno:** espera 3 s antes de reintentar, para no repetir "Inventario lleno" en cada cuadro.
+  - **Lo que tira el jugador:** queda marcado y no se recoge hasta que el Padre se aleja; si no, volvería a la mano al instante.
+- **`KeyItemPickup`:** las ofrendas usan la misma idea.
+
+**Prueba (Play Mode, Xochimilco):**
+- **Desde lejos:** a 2.6 m de la mesa no se recoge nada.
+- **Junto a la mesa:** se recogieron los 4 suministros.
+- **Al tirar algo:** una venda tirada se quedó en el suelo y volvió al inventario al alejarse y regresar.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué no se usan triggers de física para recoger? | El proyecto revisa la posición del jugador en cada cuadro, igual que los cuartos seguros y las salidas. Es fácil de seguir y no depende de capas de colisión. |
+
 ### 5.4 IA del Cultista
 *Issue #15.*
 
