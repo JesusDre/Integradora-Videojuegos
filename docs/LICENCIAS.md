@@ -18,6 +18,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | Texturas de niveles (`Art/Textures/Niveles/T_*`) | Textura | Generadas por el equipo con `Tools/Texturas/generar_texturas.py` | Jesús | Propio | No | Jesús |
 | Cielos (`Art/Textures/Cielos/T_Cielo_*`) | Textura | Generados por el equipo con `Tools/Texturas/generar_cielos.py` | Jesús | Propio | No | Jesús |
 | Voces y sonidos de #123 (`Audio/Voices/padre_*`, Llorona, cultista, risas, cantos, efectos) | Audio | Generados por el equipo con `Tools/Audio/sintetizar_faltantes.py`, usando espeak-ng (GPL-3.0, solo como herramienta) y MBROLA con la voz mx2 | Jesús | Propio. La voz mx2 de MBROLA se usa gratis y sin fines de lucro: no puede venderse ni ir en un producto que se venda sin permiso del Oregon Graduate Institute | No | Jesús |
+| Iconos de objetos (`UI/Iconos/ICO_*`) | Sprite | Dibujados por el equipo con `Tools/Iconos/dibujar_iconos.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
 Notas:

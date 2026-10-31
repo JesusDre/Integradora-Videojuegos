@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: trapo
   description: Material para el molotov.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 33368eb9621aa89159e5089e799b5702, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
+  useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
+  model: {fileID: 0}

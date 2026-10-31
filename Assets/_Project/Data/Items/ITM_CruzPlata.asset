@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: cruz de plata
   description: Ataque cargado. Necesaria contra el Charro Negro.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 64c174ed847a9fab38a5e323f9cf6907, type: 3}
   category: 3
   maxStack: 1
   healAmount: 0
   useEffect: {fileID: 11400000, guid: 2a860fab9dd568241ac663e2b94cab9f, type: 2}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 79e5cb8280d08a71cb5b51f2b1023636, type: 3}

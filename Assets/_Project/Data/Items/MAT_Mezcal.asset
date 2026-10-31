@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: mezcal
   description: Material para el molotov.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1005e712ad10d776abe5bb04d01d0ca9, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
   useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: f8a4f8d141533ea21992bee03b8edfab, type: 3}

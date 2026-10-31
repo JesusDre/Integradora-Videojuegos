@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Items.ItemDefinition
   displayName: botella
   description: Material para agua bendita y molotov.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 01356824644fc0db1a7c9f218d82e722, type: 3}
   category: 5
   maxStack: 99
   healAmount: 0
   useEffect: {fileID: 0}
+  useClip: {fileID: 0}
   worldPrefab: {fileID: 0}
   model: {fileID: 919132149155446097, guid: 0a0730f80b95894dd80e59c9637227fa, type: 3}

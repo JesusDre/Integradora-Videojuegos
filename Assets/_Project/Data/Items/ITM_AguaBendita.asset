@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: agua bendita
   description: "Da\xF1o en \xE1rea a esp\xEDritus; interrumpe su ataque 3 segundos.
     Se lanza hacia donde miras."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a4002ce0e92b7195381f9333e05d89fb, type: 3}
   category: 3
   maxStack: 1
   healAmount: 0
