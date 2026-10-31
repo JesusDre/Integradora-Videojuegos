@@ -742,7 +742,7 @@ Los árboles secos llevan un collider delgado y el NavMesh se volvió a hornear 
 **Cómo se probó.**
 - Capturas en Play Mode de las tres instancias.
 - En el NavMesh de Xochimilco siguen completos todos los caminos del recorrido.
-- En el Editor el juego corre a 55–58 FPS con la vegetación. Falta medirlo en el build (#65).
+- En el Editor el juego corre a 55–58 FPS con la vegetación; en la build, de 332 a 431 FPS (ver 5.18).
 
 **Nivel de la instancia 2: la hacienda** (*issue #40*). La escena `Scenes/Levels/I2_Hacienda` arma el plano de 180 × 130 m con formas simples. Las coordenadas son las mismas del plano; los planos dibujan "y" y en Unity es "z".
 
@@ -1339,6 +1339,39 @@ La risa de las muñecas se escribió sonido por sonido (duración y tono), con l
 | ¿Por qué un solo script para todo el pasto? | Unity llama a `Update` de cada componente por separado; con más de mil matas son más de mil llamadas por cuadro. Un administrador hace un solo recorrido por una lista. |
 | ¿Por qué solo se mueve lo cercano? | Lo lejano está tapado por la niebla; moverlo sería trabajo que nadie ve. |
 | ¿Por qué el pasto se mueve como ola? | La fase de cada mata depende de su posición en la dirección del viento: las vecinas se mueven casi juntas y la ráfaga se ve pasar. |
+
+### 5.18 Rendimiento
+*Issue #65.*
+
+**Qué hace.** El juego trae un modo de prueba que mide los FPS en la build real, porque en el Editor el número miente: el Editor carga sus propias ventanas y además topa en 60. La build se abre con `-benchmark` y entonces el juego:
+1. abre las tres instancias, una tras otra;
+2. pone al Padre en la zona más pesada de cada una: el ancla con sus veladoras o el terreno del Charro;
+3. empieza todos los encuentros y trae 6 cultistas a su alrededor;
+4. lo mantiene con vida para que la prueba no se corte;
+5. mide 10 segundos sin sincronía vertical;
+6. guarda el resultado en `benchmark.txt` y se cierra.
+
+En el juego normal nada de esto existe.
+
+**Resultado (RX 6600 + Ryzen 3 3200G, 1366 × 768):**
+- **Promedio:** de 332 a 431 FPS.
+- **1 % más lento:** de 141 a 201 FPS.
+- **Tirones:** ninguno de más de 50 ms.
+
+Muy por encima de los 60 FPS que pide la rúbrica. El detalle está en `docs/BITACORA_RENDIMIENTO.md`.
+
+**Cómo funciona.**
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `BuildBenchmark` | `Scripts/Core` | Con `[RuntimeInitializeOnLoadMethod]` revisa al arrancar si existe el argumento `-benchmark`; solo entonces crea su objeto. Usa `Encounter.Begin()` para crear a los cultistas igual que en una partida, mide con `Time.unscaledDeltaTime` y calcula el promedio y el "1 % más lento" (el FPS de los peores cuadros, que es lo que se siente como tirón). |
+| `Application.runInBackground` | solo en la prueba | Unity pausa el juego cuando su ventana pierde el foco. La prueba lo desactiva para no congelarse si otra ventana queda encima. |
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué medir en la build y no en el Profiler del Editor? | El Editor gasta recursos en sí mismo y limita a 60 FPS; la build es lo que juega el usuario. El Profiler sirve para buscar qué es lento, pero aquí nada lo era. |
+| ¿Qué es el "1 % más lento"? | Se ordenan los cuadros de más lento a más rápido y se toma el 1 % peor. Un promedio alto con un 1 % bajo significa tirones. |
+| ¿Las luces de veladoras y antorchas no pesan? | Hay de 12 a 25 por nivel, pero URP solo calcula 4 por objeto y únicamente 2 proyectan sombra. |
 
 ### 5.17 Cuarto de prueba de enemigos
 *Issue #77. Solo para desarrollo: no forma parte de los niveles.*
