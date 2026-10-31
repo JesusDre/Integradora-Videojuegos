@@ -1366,9 +1366,12 @@ Muy por encima de los 60 FPS que pide la rúbrica. El detalle está en `docs/BIT
 | `BuildBenchmark` | `Scripts/Core` | Con `[RuntimeInitializeOnLoadMethod]` revisa al arrancar si existe el argumento `-benchmark`; solo entonces crea su objeto. Usa `Encounter.Begin()` para crear a los cultistas igual que en una partida, mide con `Time.unscaledDeltaTime` y calcula el promedio y el "1 % más lento" (el FPS de los peores cuadros, que es lo que se siente como tirón). |
 | `Application.runInBackground` | solo en la prueba | Unity pausa el juego cuando su ventana pierde el foco. La prueba lo desactiva para no congelarse si otra ventana queda encima. |
 
+**La build de la demo (#64).** En el menú *Ánimas → Build → Windows (demo)*, `BuildTools` (en `Assets/_Project/Editor`) compila todas las escenas de *Build Settings* en `Builds/Windows/AnimasMexicanas_<fecha>/`. Después borra la carpeta de depuración que Unity agrega (`_DoNotShip`) y lo comprime en un `.zip` para llevarlo a otra computadora. La primera build de Windows se probó con Proton: corrió a 258–301 FPS de promedio y sin errores. Los pasos están en `docs/BUILD.md`.
+
 **Preguntas probables.**
 | Pregunta | Respuesta |
 |---|---|
+| ¿Cómo se genera el ejecutable? | Con el menú *Ánimas → Build → Windows (demo)*, que llama a `BuildPipeline.BuildPlayer` con las escenas de *Build Settings*. Se guarda con la fecha, para tener una build por cada demo. |
 | ¿Por qué medir en la build y no en el Profiler del Editor? | El Editor gasta recursos en sí mismo y limita a 60 FPS; la build es lo que juega el usuario. El Profiler sirve para buscar qué es lento, pero aquí nada lo era. |
 | ¿Qué es el "1 % más lento"? | Se ordenan los cuadros de más lento a más rápido y se toma el 1 % peor. Un promedio alto con un 1 % bajo significa tirones. |
 | ¿Las luces de veladoras y antorchas no pesan? | Hay de 12 a 25 por nivel, pero URP solo calcula 4 por objeto y únicamente 2 proyectan sombra. |

@@ -35,6 +35,20 @@ Cómo se mide: en la build (no en el Editor) con el modo de prueba `-benchmark` 
 
 **Lo que se aprendió en la medición:** en las primeras corridas el juego parecía congelarse al cargar Xochimilco. La pila del hilo principal mostró que estaba en pausa: Unity detiene el juego cuando su ventana pierde el foco, y es lo correcto en un juego normal. El modo de prueba ahora sigue corriendo en segundo plano. El "1 % a 9 FPS" de la hacienda en la primera medición era esa misma pausa, no lentitud.
 
+## 31 de octubre de 2026 · build de Windows
+
+La build de Windows (`AnimasMexicanas.exe`, Direct3D 11) se probó en la misma PC con Proton, la capa de Steam que corre juegos de Windows en Linux:
+
+| Instancia | Cultistas activos | FPS promedio | 1 % más lento |
+|---|---|---|---|
+| Xochimilco | 9 | 258 | 158 |
+| Hacienda | 14 | 283 | 172 |
+| Ex-convento | 13 | 301 | 111 |
+
+- **Resultado:** sin excepciones en el registro del juego.
+- **Por qué es un poco menor que en Linux:** Proton traduce Direct3D a Vulkan, y eso cuesta algo. En Windows real debería rendir igual o mejor.
+- **Al cerrar:** Wine reporta una función de accesibilidad que no implementa. No es del juego.
+
 **Pendiente:**
-- **Windows:** repetir en la build de Windows (#64), que es la que se entrega.
+- **Windows real:** repetir en una PC con Windows; la prueba de Proton no la sustituye del todo.
 - **Otra PC:** repetir en otra computadora, si el equipo tiene una más modesta.
