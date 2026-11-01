@@ -815,6 +815,32 @@ El nivel real de la hacienda es #40.
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
 
+##### El Charro invisible y provocado (#166)
+
+**Qué hace.**
+- **Se vuelve invisible a ratos.** Mientras trota detrás del Padre o embiste, cada 15 a 30 s el Charro y su caballo desaparecen 6 s.
+  - Solo quedan **los ojos rojos del jinete y los del caballo**, brillando en la niebla.
+  - Al desaparecer relincha, y los cascos se siguen oyendo: el jugador sabe por dónde viene aunque no lo vea.
+  - Débil (tras la canaleta) siempre se ve, porque hay que apuntarle con la cruz.
+- **Persigue a quien le dispara.** Si el Padre le pega o le dispara, aunque sea con bala normal que no le hace daño y desde lejos (hasta 80 m), lo persigue 15 s **aunque esté fuera de su terreno y sin la tregua** del cuarto seguro.
+
+**Cómo funciona (`CharroNegroEntity`).**
+- **Los ojos:** `BuildEyes()` pone dos esferas con el material `M_OjosLlorona` en el hueso de la cabeza del jinete (`riderHead`) y otras dos en el del caballo (`horseHead`), así siguen la animación. También pone una luz roja tenue.
+- **La invisibilidad:** `UpdateInvisibility()` funciona igual que en la Llorona (#148). `SetInvisible()` apaga solo los *renderers*: el Charro sigue chocando, embistiendo y recibiendo golpes.
+- **El disparo:** al escuchar `PlayerShotgun.Fired`, el Charro lanza un rayo desde la cámara. Si el rayo lo toca, llama a `Provoke()`; cualquier golpe recibido también lo provoca.
+- **Provocado:** mientras dure, `PlayerHuntable()` ignora el terreno, y en `Idle` sale de inmediato sin esperar la tregua.
+- **Ajustes:** los tiempos están en `CharroTuning` (`invisibleEvery`, `invisibleSeconds`, `provokedSeconds`).
+
+**Prueba (Play Mode, `I2_Hacienda`).**
+- **Invisible:** persiguiendo al Padre, se volvió invisible (las partes del cuerpo quedaron apagadas) y se veían los dos pares de ojos rojos. Al dejar de perseguir volvió a verse.
+- **Provocado:** con el Padre fuera de su terreno a 45 m, el Charro estaba quieto en `Idle`. Un disparo de pistola con bala normal lo hizo perseguir al instante: en 6 s pasó de 45 a 16 m.
+- **Con una barda en medio:** el disparo pegó en la barda y el Charro no se enteró, como debe ser.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué se enoja con una bala que no le hace daño? | Porque el jugador espera que un disparo tenga consecuencia. Si pudiera dispararle gratis desde lejos, el Charro se sentiría como un objeto. |
+| ¿Cómo sabe que le disparaste a él? | Lanza un rayo en la misma dirección del disparo (`Physics.Raycast` desde la cámara) y revisa si lo primero que toca es él. |
+
 ##### Ajustes del playtest: cuerpos, hordas lejanas, susto, metralleta y arma inicial (#164)
 
 **Qué cambió y por qué.**
