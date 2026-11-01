@@ -1272,6 +1272,29 @@ Los árboles secos llevan un collider delgado y el NavMesh se volvió a hornear 
 | ¿Dónde se guarda el progreso? | Al entrar y al salir del cuarto seguro de cada instancia; la huida no tiene checkpoint (GDD §5). |
 | ¿Son definitivos? | Son la base para el blockout; si un playtest muestra que algo es muy largo o difícil, se mueven los números en el script y se redibuja. |
 
+#### Decoración de la hacienda (#170)
+
+**Qué se agregó.** La hacienda se veía vacía, así que ahora tiene 34 piezas de decoración, todas modeladas por código en `Tools/Blender/env_hacienda.py`:
+- **En el campo del Charro:** una **caballeriza** de 3 corrales con techo de teja, paja en el piso y comederos, con su corral de **cercas**. Junto a ella hay un **bebedero**, **pacas de heno** sueltas y apiladas, **trinches** recargados, una **carreta** y **barriles**. Tiene sentido ahí: es donde duerme el caballo del Charro.
+- **Junto a la tienda de raya y el camino:** un **pozo** con techito y cubeta, barriles y heno con un trinche.
+- **Junto a la casa grande y las trojes:** otro bebedero, un montón de **leña**, otra carreta y más heno.
+- **Junto al campo de agave:** cercas rotas.
+- **En el campo donde embiste el Charro:** dos pacas que sirven de cobertura.
+
+![Vista previa de los modelos](img/props/hacienda.png)
+![La caballeriza y su corral en el juego](img/props/hacienda_juego.png)
+
+**Cómo se hizo.**
+- **Los modelos:** se generan con el mismo estilo que los demás (`lowpoly_props.py`): low-poly, colores planos y tamaño real.
+- **La colocación:** un script del Editor pone cada pieza sobre el suelo. Como el FBX trae la altura en el eje Z, se giran −90° en X, igual que los árboles. Cada pieza es estática.
+- **Las colisiones:** las piezas compactas (heno, barriles, pozo, carreta) llevan `BoxCollider`. La caballeriza y las cercas llevan `MeshCollider`, porque son formas abiertas: se puede entrar a los corrales. Los trinches no estorban, así que no tienen.
+- **El NavMesh:** se volvió a hornear desde los colliders. Ahora cultistas y Charro rodean las piezas, y el camino de la tienda a la capilla sigue completo.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué la caballeriza tiene colisión de malla y no de caja? | Una caja la cerraría entera y no se podría entrar a los corrales. La malla respeta los huecos. |
+| ¿Afecta el rendimiento? | Son 34 objetos low-poly y estáticos (Unity los agrupa para dibujarlos), sin luces propias. |
+
 ### 5.14 UI: HUD, menús, pausa, derrota, victoria y créditos
 *HUD e inventario: issue #22. Menús, pausa, derrota y créditos: #47. Victoria y flujo entre instancias: #48.*
 

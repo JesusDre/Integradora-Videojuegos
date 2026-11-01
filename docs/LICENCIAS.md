@@ -10,6 +10,7 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | `ent_charro.fbx`, `ent_caballo.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_charro.py` y `ent_caballo.py` | Jesús | Propio | No | Jesús |
 | `ent_tzitzimime.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_tzitzimime.py` | Jesús | Propio | No | Jesús |
 | `obj_muneca.fbx`, `obj_moneda.fbx`, `obj_obsidiana.fbx` (objetos clave) | Modelo 3D | Hecho por el equipo con `Tools/Blender/obj_objetos_clave.py` | Jesús | Propio | No | Jesús |
+| `env_caballeriza`, `env_paca_heno`, `env_pacas_apiladas`, `env_trinche`, `env_bebedero`, `env_carreta`, `env_barril`, `env_pozo`, `env_lena`, `env_cerca` (decoración de la hacienda, #170) | Modelo 3D | Hecho por el equipo con `Tools/Blender/env_hacienda.py` | Jesús | Propio | No | Jesús |
 | `obj_machete`, `obj_escopeta`, `obj_botella*`, `obj_veladora`, `obj_sal`, `obj_cruz`, `obj_chancla`, `obj_copal`, `obj_venda` (.fbx) | Modelo 3D | Hecho por el equipo con `Tools/Blender/obj_props.py` | Jesús | Propio | No | Jesús |
 | `chr_brazos_padre.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_brazos_padre.py` | Jesús | Propio | No | Jesús |
 | Kit de Xochimilco (`env_*.fbx`: trajinera, choza, ahuejotes, ahuehuete, embarcadero, puente, poste, tule, altar) | Modelo 3D | Hecho por el equipo con `Tools/Blender/env_xochimilco.py` | Jesús | Propio | No | Jesús |
