@@ -21,7 +21,10 @@ rng = np.random.default_rng(137)
 
 # Crop box (fraction of the render) around each face.
 CROPS = {"Llorona": (0.14, 0.18, 0.86, 0.90), "Charro": (0.16, 0.14, 0.84, 0.82),
-         "Muneca": (0.08, 0.06, 0.92, 0.90)}   # the possessed doll (#172)
+         "Muneca": (0.08, 0.06, 0.92, 0.90),   # the possessed doll (#172)
+         "Chaneque": (0.1, 0.0, 0.9, 0.8)}      # the chaneque (#173)
+# The color that survives the treatment: red for everyone, the chaneque's eyes are yellow.
+KEEP = {"Chaneque": "yellow"}
 
 
 def treat(name):
@@ -34,8 +37,13 @@ def treat(name):
     # Keep the reds, drain everything else toward a cold gray.
     gray = a.mean(axis=2, keepdims=True)
     # Only what is truly red (eyes, mouth, the Charro's bow), not skin that the red light tinted.
-    redness = np.clip((a[..., 0:1] - np.maximum(a[..., 1:2], a[..., 2:3]) * 1.15 - 0.12) * 3.0, 0, 1)
-    a = gray * np.array([0.82, 0.86, 0.9]) * (1 - redness) + a * np.array([1.15, 0.45, 0.4]) * redness
+    if KEEP.get(name) == "yellow":
+        redness = np.clip((np.minimum(a[..., 0:1], a[..., 1:2]) - a[..., 2:3] * 1.6 - 0.25) * 3.0, 0, 1)
+        tint = np.array([1.2, 1.0, 0.25])
+    else:
+        redness = np.clip((a[..., 0:1] - np.maximum(a[..., 1:2], a[..., 2:3]) * 1.15 - 0.12) * 3.0, 0, 1)
+        tint = np.array([1.15, 0.45, 0.4])
+    a = gray * np.array([0.82, 0.86, 0.9]) * (1 - redness) + a * tint * redness
     # Crushed blacks and harsh contrast.
     a = np.clip((a - 0.12) * 1.7, 0, 1) ** 1.25
 
@@ -51,9 +59,14 @@ def treat(name):
 
     out = Image.fromarray((a * 255).astype(np.uint8))
     # Blown-out eyes: the brightest red spots get a red bloom.
-    bright = Image.fromarray((np.clip((a[..., 0] - a[..., 1] * 1.4) * 3, 0, 1) * 255).astype(np.uint8))
-    bloom = bright.filter(ImageFilter.GaussianBlur(18))
-    glow = Image.merge("RGB", (bloom, Image.new("L", bloom.size, 0), Image.new("L", bloom.size, 0)))
+    if KEEP.get(name) == "yellow":
+        bright = Image.fromarray((np.clip((np.minimum(a[..., 0], a[..., 1]) - a[..., 2] * 1.6) * 3, 0, 1) * 255).astype(np.uint8))
+        bloom = bright.filter(ImageFilter.GaussianBlur(18))
+        glow = Image.merge("RGB", (bloom, bloom.point(lambda v: int(v * 0.8)), Image.new("L", bloom.size, 0)))
+    else:
+        bright = Image.fromarray((np.clip((a[..., 0] - a[..., 1] * 1.4) * 3, 0, 1) * 255).astype(np.uint8))
+        bloom = bright.filter(ImageFilter.GaussianBlur(18))
+        glow = Image.merge("RGB", (bloom, Image.new("L", bloom.size, 0), Image.new("L", bloom.size, 0)))
     out = Image.blend(out, Image.fromarray(np.clip(np.asarray(out).astype(int) + np.asarray(glow).astype(int), 0, 255).astype(np.uint8)), 0.8)
     os.makedirs(OUT, exist_ok=True)
     out.save(os.path.join(OUT, f"SUSTO_{name}.png"))
