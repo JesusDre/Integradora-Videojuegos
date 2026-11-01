@@ -1094,6 +1094,36 @@ El nivel real del convento es #46.
 |---|---|
 | ¿Por qué un evento estático? | La Llorona y el Charro están en escenas distintas del HUD. Con un evento solo avisan "atrapé al Padre" y el HUD decide qué mostrar. |
 
+#### Muñecas poseídas (Xochimilco, #172)
+
+**Qué hacen.** En la Isla de las Muñecas y en dos islas más hay muñecas del tamaño de una niña pequeña, con los brazos estirados, la cara rota y ojos rojos.
+- **Mientras el Padre las mira, no se mueven.** En cuanto les da la espalda, corren hacia él (más rápido que caminando) riéndose.
+- **Si lo alcanzan:** aparece su cara en la pantalla de susto y le quitan 15 de vida. Después reaparecen quietas en su lugar, como si nada, y descansan 10 s.
+- **Se pueden romper:** cualquier arma las rompe (30 de vida: dos machetazos), con un sonido de porcelana.
+- **No tienen animación, a propósito:** nunca se las ve moverse, solo dejan de estar donde estaban.
+
+![El susto de la muñeca](img/ui/susto_muneca.png)
+
+**Cómo funciona.**
+- **`HauntedDoll`:** cada cuadro pregunta si el Padre la ve, con `CameraSight.CanSee`. Su cabeza debe estar dentro de la pantalla y sin nada en medio; un `Physics.Linecast` desde la cámara lo comprueba.
+  - **Si la ve:** detiene su `NavMeshAgent` al instante (`isStopped` y velocidad en 0).
+  - **Si no la ve:** va hacia el Padre y gira de golpe para mirarlo. Así siempre está de frente cuando él voltea.
+- **Al atraparlo:** usa el mismo susto que la Llorona y el Charro (`EntityScare.Trigger`). Luego `agent.Warp` la regresa a su sitio.
+- **Sus números:** están en `DollTuning`: distancia para despertar, velocidad, distancia para atrapar, daño, descanso y risa.
+- **El modelo y los sonidos:** el modelo sale de `Tools/Blender/ent_muneca.py`. La risa es la de MBROLA aprobada en #123. La porcelana rota sale de `Tools/Audio/sintetizar_enemigos.py`.
+
+**Prueba (Play Mode, `I1_Xochimilco`).**
+- **Mirándola a 4 m:** se quedó quieta (`Seen` en verdadero, `Moving` en falso).
+- **De espaldas:** avanzó, atrapó al Padre (vida de 100 a 85) y volvió a su sitio.
+- **El susto:** se vio la pantalla con su cara (captura).
+- **Al romperla:** con dos golpes de 20 desapareció.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe la muñeca que la estás viendo? | Convierte la posición de su cabeza a coordenadas de pantalla. Si está dentro, traza una línea desde la cámara: si lo primero que toca es ella misma o nada, la estás viendo. |
+| ¿Por qué no tiene animación de caminar? | Da más miedo así: el jugador nunca la ve moverse, solo nota que está más cerca. |
+| ¿Por qué regresa a su sitio después de atraparte? | Para que no te persiga sin fin y vuelvas a encontrarla quieta, como al principio. |
+
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Arte de la instancia 1: #36.*
 

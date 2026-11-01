@@ -12,10 +12,11 @@ Antes de trabajar, lee `docs/GDD.md` (diseño), `docs/RUBRICA.md` (cómo se cali
 ## Alcance (no lo amplíes)
 **MVP:** 3 instancias de ~10 minutos (Xochimilco/La Llorona, Hacienda/Charro Negro, Ex-convento/Tzitzimime), cada una con 2 secciones y 1 cuarto seguro en medio, ritual final (en la hacienda, en su lugar, el enfrentamiento con el Charro Negro: barra de vida que solo baja con daño bendito, el triple cuando cruza el agua bendita) y huida.
 **Armas:** machete, chancla, cruz, escopeta, pistola, metralleta, ballesta y martillo chillón (#134, #135).
+**Enemigos menores (#172–#174, pasados del alcance Extra por Jesús el 31 oct 2026):** muñecas poseídas en Xochimilco (solo se mueven si no las miras), chaneques en la hacienda y Xochimilco (risa que delata su cercanía; roban un objeto), arañas del techo en el ex-convento (levantan al Padre).
 **Sigilo (#136):** Ctrl agacharse; los cultistas lo ven solo a la mitad de su rango y un ojo en el HUD avisa si está oculto, si lo buscan o si lo ven.
 **No existen:** multijugador, empujar, salto, construcción de base, hambre/sed, vehículos (la trajinera es un recorrido por guion sobre una ruta fija; el jugador no la maneja), árbol de habilidades.
 **Deseable (no lo programes salvo que se pida):** Director de ritmo, gamepad, Vendajes+, 3 slots de guardado, modos Fácil/Difícil, derrumbe del convento.
-**Extra (no lo programes):** muñecas hostiles, chaneque, nahual, medidor de fe, final alternativo.
+**Extra (no lo programes):** nahual, medidor de fe, final alternativo.
 
 ## Números del diseño (valores iniciales, ajustables en playtest)
 Vida 0–100 sin regeneración · venda cura 30 · altar restaura hasta 60 % · inventario 8 espacios (materiales hasta 99 por tipo, no ocupan espacio) · 4 espacios rápidos · 2 espacios de arma (cualquier tipo) · munición aparte del inventario con límite por arma (escopeta 99, pistola 160, metralleta 360, ballesta 99; sal + normal) · Cultista 40 de vida, 10 de daño, busca 10 s tras perder de vista · rezo: mantener R 1.5 s, círculo 4 m, repele 10 s, escudo de 10 s con +50 % de daño, enfriamiento 20 s · ritual: estar dentro del círculo del ancla llena la barra en 60 s, salir la pausa, golpe de 15+ la hace retroceder 10 % · línea de sal dura 20 s · jugador mide 1.8 m · 1 unidad de Unity = 1 metro.

@@ -307,6 +307,7 @@ Valores iniciales para ajustar en playtest; los números de balance van en Scrip
 | Nombre          | Tipo                              | Vida      | Ataques                        | Comportamiento                                       | Debilidad                                 | Recompensa                             |
 |-----------------|-----------------------------------|-----------|--------------------------------|------------------------------------------------------|-------------------------------------------|----------------------------------------|
 | Cultista        | Básico                            | 40        | Machete, 10 de daño            | Patrulla, detecta por vista y sonido, ataca en grupo | Cualquier arma; el molotov golpea en área | Sal, trapo, a veces munición; en las instancias 2 y 3 también tela y casquillos |
+| Muñeca poseída  | Menor (instancia 1)               | 30        | Atrapa: susto y 15 de daño     | Se mueve solo cuando no la miras (a 4 m/s), se ríe; tras atrapar vuelve a su sitio 10 s | Cualquier arma (se rompe); mirarla la congela | — |
 | La Llorona      | Entidad (jefe, instancia 1)       | Por fases | Agarre que drena vida          | Recorre los canales y su llanto delata su cercanía   | Líneas de sal, veladoras y rezo           | Nota con la receta de la cruz de plata |
 | El Charro Negro | Entidad (jefe, instancia 2)       | Por fases | Embestida a caballo            | Persigue y te ofrece un trato                        | Cruz de plata cargada sobre agua bendita  | Objeto maldito (si aceptas el trato)   |
 | La Tzitzimime   | Entidad (jefe final, instancia 3) | Por fases | Ataques de área desde el techo | Aparece en el ritual y el convento colapsa           | Luz y rezo prolongado                     | Fin de la campaña                      |
@@ -615,19 +616,21 @@ MVP con subtítulos y pocas líneas del Padre; versión deseable con unas 15 a 2
 
 - Final con derrumbe del convento.
 
+### Enemigos menores (pasaron de Extra al MVP el 31 oct 2026)
+
+- Muñecas poseídas (Xochimilco, #172): solo se mueven cuando el Padre no las mira.
+- Chaneques (hacienda y Xochimilco, #173): su risa delata su cercanía; si atrapan al Padre lo asustan y le roban un objeto.
+- Arañas del techo (ex-convento, #174): bajan, atrapan al Padre y lo quieren subir al techo.
+
 ### Extra 
 
-1.  Muñecas, que solo se mueven cuando no las miras.
+1.  Medidor de fe como complemento.
 
-2.  Medidor de fe como complemento.
+2.  Nahual.
 
-3.  Chaneque.
+3.  Árbol de habilidades.
 
-4.  Nahual.
-
-5.  Árbol de habilidades.
-
-6.  Final alternativo con el trato del Charro Negro.
+4.  Final alternativo con el trato del Charro Negro.
 
 ## 26. Sistema de guardado
 
