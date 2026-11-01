@@ -2,7 +2,8 @@
 
 The renders come from Unity (a temporary camera in front of the head bone, lit red from below; see
 DEFENSA "Susto al ser atrapado"). Run from the repo root:
-    python3 Tools/Iconos/procesar_sustos.py <folder with Llorona.png and Charro.png>
+    python3 Tools/Iconos/procesar_sustos.py <folder with the renders> [names...]
+With names (e.g. Muneca), only those are processed, so the others stay exactly as they are.
 Writes Assets/_Project/UI/Sustos/SUSTO_<name>.png. The treatment: a tight crop on the face, almost no
 color except the reds, crushed blacks, a heavy vignette, a slight warp so it doesn't look clean, film
 grain, and the eyes blown out with a red glow.
@@ -19,7 +20,8 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "..", "Assets", "_Project", 
 rng = np.random.default_rng(137)
 
 # Crop box (fraction of the render) around each face.
-CROPS = {"Llorona": (0.14, 0.18, 0.86, 0.90), "Charro": (0.16, 0.14, 0.84, 0.82)}
+CROPS = {"Llorona": (0.14, 0.18, 0.86, 0.90), "Charro": (0.16, 0.14, 0.84, 0.82),
+         "Muneca": (0.08, 0.06, 0.92, 0.90)}   # the possessed doll (#172)
 
 
 def treat(name):
@@ -58,5 +60,5 @@ def treat(name):
     print("SUSTO_" + name)
 
 
-for n in CROPS:
+for n in (sys.argv[2:] or CROPS):
     treat(n)

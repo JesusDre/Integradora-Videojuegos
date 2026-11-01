@@ -22,6 +22,8 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | Iconos de objetos (`UI/Iconos/ICO_*`) | Sprite | Dibujados por el equipo con `Tools/Iconos/dibujar_iconos.py` | Jesús | Propio | No | Jesús |
 | Armas nuevas (`obj_pistola`, `obj_metralleta`, `obj_ballesta`, `obj_martillo`, `obj_caja_balas`, `obj_virotes`) | Modelo 3D | Hecho por el equipo con `Tools/Blender/obj_armas_nuevas.py` | Jesús | Propio | No | Jesús |
 | Sonidos de las armas nuevas (`SFX/Armas/pistola_*`, `metralleta_*`, `ballesta_*`, `martillo_*`, `cargador_recarga`) | Audio | Sintetizados con `Tools/Audio/sintetizar_armas.py` | Jesús | Propio | No | Jesús |
+| `ent_muneca_poseida.fbx` (enemigo, #172) | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_muneca.py` | Jesús | Propio | No | Jesús |
+| Sonidos de los enemigos menores (`SFX/Enemigos/muneca_rompe.wav`, …) | Audio | Generados por el equipo con `Tools/Audio/sintetizar_enemigos.py` | Jesús | Propio | No | Jesús |
 | Pantallas de susto (`UI/Sustos/SUSTO_*`) y su sonido (`susto.wav`) | Imagen y audio | Capturas de nuestros modelos tratadas con `Tools/Iconos/procesar_sustos.py`; sonido con `Tools/Audio/sintetizar_sustos.py` | Jesús | Propio | No | Jesús |
 | | | | | | | |
 
