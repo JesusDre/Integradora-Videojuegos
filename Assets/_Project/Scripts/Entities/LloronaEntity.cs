@@ -192,7 +192,8 @@ namespace Animas.Entities
             if (audioSource != null && screamClip != null) audioSource.PlayOneShot(screamClip);
             if (messages != null) messages.Notify("¡La Llorona te atrapó!");
             // Before the final fight at the anchor, being caught is a scare; during it, it would only distract.
-            if (ritual == null || ritual.Current < RitualController.Stage.Praying) EntityScare.Trigger(scareFace, scareClip);
+            // Every grab is a scare, during the ritual too (#164); JumpscareUI's cooldown keeps it from repeating.
+            EntityScare.Trigger(scareFace, scareClip);
             // One hit of 15: the ritual takes it as a strong hit and pushes the bar back (GDD P3).
             playerHealth.TakeDamage(tuning.grabDamage);
         }

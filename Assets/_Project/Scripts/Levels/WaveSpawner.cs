@@ -9,7 +9,9 @@ namespace Animas.Levels
     // The ritual (#34) calls Begin and Stop. A wave comes when the previous one is defeated, or
     // after maxSecondsBetweenWaves even if it isn't, so the pressure never drops for long.
     // The cultists arrive already hunting the Padre. Since #162 they come as a horde: all from one
-    // direction (the first spawn point), running, and they never lose track of him.
+    // direction, running, and they never lose track of him. Since #164 that direction is the first spawn
+    // point the Padre can't see: the points sit 45–60 m away, so the horde is heard and seen coming
+    // instead of popping up next to him.
     public class WaveSpawner : MonoBehaviour
     {
         [SerializeField] InstanceDifficulty difficulty;
@@ -18,7 +20,7 @@ namespace Animas.Levels
         [SerializeField] Transform[] spawnPoints;
         [SerializeField, Min(0f)] float firstWaveDelay = 2f;
         [Header("Horde (#162)")]
-        [Tooltip("All the cultists come from the first spawn point, in a pack, instead of spreading over every point.")]
+        [Tooltip("All the cultists of a wave come from one spawn point, in a pack: the first one in the list the Padre can't see.")]
         [SerializeField] bool singleDirection = true;
         [Tooltip("Their chase speed is multiplied by this: they run (the Padre runs at 5.5).")]
         [SerializeField, Min(1f)] float runMultiplier = 1.35f;
@@ -92,6 +94,7 @@ namespace Animas.Levels
         void SpawnWave()
         {
             WavesStarted++;
+            Transform hordePoint = HiddenPoint();
             nextWaveAt = Time.time + SecondsBetween;
             for (int i = 0; i < WaveSize; i++)
             {
@@ -100,7 +103,7 @@ namespace Animas.Levels
                 if (singleDirection)
                 {
                     // A pack at one point: rows of 3, 1.2 m apart, lined up behind it.
-                    point = spawnPoints[0];
+                    point = hordePoint;
                     offset = point.right * ((i % 3 - 1) * 1.2f) - point.forward * (i / 3 * 1.2f);
                 }
                 else
@@ -116,6 +119,36 @@ namespace Animas.Levels
                 cultist.MakeHorde(runMultiplier);
             }
             WaveStarted?.Invoke(WavesStarted);
+        }
+
+        // The first spawn point out of the Padre's sight: off the screen, or behind a wall. If he can see
+        // all of them, the farthest one, so at least it's far away.
+        Transform HiddenPoint()
+        {
+            Camera cam = Camera.main;
+            Transform farthest = spawnPoints[0];
+            float farthestDistance = -1f;
+            foreach (Transform point in spawnPoints)
+            {
+                if (cam == null || !CanBeSeen(cam, point.position)) return point;
+                float d = player != null ? Vector3.Distance(player.position, point.position) : 0f;
+                if (d > farthestDistance)
+                {
+                    farthest = point;
+                    farthestDistance = d;
+                }
+            }
+            return farthest;
+        }
+
+        static bool CanBeSeen(Camera cam, Vector3 point)
+        {
+            Vector3 head = point + Vector3.up * 1.5f;
+            Vector3 v = cam.WorldToViewportPoint(head);
+            bool onScreen = v.z > 0f && v.x > -0.1f && v.x < 1.1f && v.y > -0.1f && v.y < 1.1f;
+            if (!onScreen) return false;
+            // On screen, but a wall or the terrain may hide it.
+            return !Physics.Linecast(cam.transform.position, head, ~0, QueryTriggerInteraction.Ignore);
         }
     }
 }

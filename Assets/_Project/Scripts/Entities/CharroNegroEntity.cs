@@ -220,8 +220,8 @@ namespace Animas.Entities
             {
                 chargeHit = true;
                 playerHealth.TakeDamage(tuning.chargeDamage);
-                // Before the coins are on the pedestal (the final fight), being run down is a scare.
-                if (pedestal == null || !pedestal.Complete) EntityScare.Trigger(scareFace, scareClip);
+                // Being run down is a scare, in the final fight too (#164); JumpscareUI's cooldown keeps it rare.
+                EntityScare.Trigger(scareFace, scareClip);
             }
             // Charging across a full canaleta weakens him (only in the final phase, when they can be filled).
             // A charge that starts standing in the water doesn't count: each hit needs a new crossing.

@@ -26,7 +26,7 @@ MonoBehaviour:
   pellets: 1
   spreadDegrees: 3
   shellCapacity: 25
-  reloadSeconds: 2.2
+  reloadSeconds: 1.2
   fireCooldown: 0.09
   automatic: 1
   noiseRadius: 25

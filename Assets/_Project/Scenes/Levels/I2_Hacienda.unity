@@ -10167,6 +10167,7 @@ GameObject:
   - component: {fileID: 243029890}
   - component: {fileID: 243029891}
   - component: {fileID: 243029892}
+  - component: {fileID: 243029893}
   m_Layer: 0
   m_Name: Veladora_Capilla
   m_TagString: Untagged
@@ -10268,6 +10269,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
   amount: 0.25
   speed: 6
+--- !u!114 &243029893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243029889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &243675001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21498,6 +21528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 383508606}
   - component: {fileID: 383508607}
+  - component: {fileID: 383508608}
   m_Layer: 0
   m_Name: Brillo
   m_TagString: Untagged
@@ -21585,6 +21616,35 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &383508608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383508605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &385115341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22759,8 +22819,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425562952}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.8712404, z: -0, w: -0.4908567}
-  m_LocalPosition: {x: 98, y: 0.08333337, z: 108}
+  m_LocalRotation: {x: -0, y: 0.8660254, z: -0, w: -0.49999997}
+  m_LocalPosition: {x: 124.961525, y: 0.08333337, z: 126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31465,7 +31525,7 @@ Transform:
   m_GameObject: {fileID: 613230696}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 45, y: 0.08333337, z: 93}
+  m_LocalPosition: {x: 13.000004, y: 0.08333337, z: 93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34540,6 +34600,9 @@ MonoBehaviour:
     pickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
   spawnPoints:
   - {fileID: 613230697}
+  - {fileID: 2050664728}
+  - {fileID: 1158525945}
+  - {fileID: 983329104}
   firstWaveDelay: 2
   singleDirection: 1
   runMultiplier: 1.35
@@ -34560,6 +34623,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 613230697}
+  - {fileID: 2050664728}
+  - {fileID: 1158525945}
+  - {fileID: 983329104}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &690426153
@@ -35098,6 +35164,7 @@ GameObject:
   - component: {fileID: 692896758}
   - component: {fileID: 692896759}
   - component: {fileID: 692896760}
+  - component: {fileID: 692896761}
   m_Layer: 0
   m_Name: Lampara
   m_TagString: Untagged
@@ -35199,6 +35266,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
   amount: 0.25
   speed: 6
+--- !u!114 &692896761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692896757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &696025054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36810,6 +36906,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1120663653893857628, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
       insertIndex: -1
       addedObject: {fileID: 738385876}
+    - targetCorrespondingSourceObject: {fileID: 5087587710784705339, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 738385879}
   m_SourcePrefab: {fileID: 100100000, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
 --- !u!4 &738385874 stripped
 Transform:
@@ -36852,6 +36951,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f6725db337220099759d2442ef9cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Entities.CharroNegroEntity
+--- !u!1 &738385878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5087587710784705339, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
+  m_PrefabInstance: {fileID: 738385873}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &738385879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738385878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &738663939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37677,6 +37810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 758952511}
   - component: {fileID: 758952512}
+  - component: {fileID: 758952513}
   m_Layer: 0
   m_Name: Brillo
   m_TagString: Untagged
@@ -37764,6 +37898,35 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &758952513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758952510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &763254486
 GameObject:
   m_ObjectHideFlags: 0
@@ -48684,6 +48847,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa621658c3b8c0a996bc86da65b444, type: 3}
   m_PrefabInstance: {fileID: 982671038}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &983329103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 983329104}
+  m_Layer: 0
+  m_Name: Waves_Charro_Horda4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &983329104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983329103}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.49999997, z: -0, w: 0.86602545}
+  m_LocalPosition: {x: 124.961525, y: 0.08333349, z: 62.999992}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 688098409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &983342893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56936,6 +57130,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157866834}
   m_Mesh: {fileID: 4300000, guid: be08a39cbefdb22cb809d2421b5dd9a3, type: 2}
+--- !u!1 &1158525944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1158525945}
+  m_Layer: 0
+  m_Name: Waves_Charro_Horda3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1158525945
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158525944}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9798334, z: -0, w: -0.19981621}
+  m_LocalPosition: {x: 88.39091, y: 0.08333337, z: 129.16667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 688098409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1159570073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61000,6 +61225,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249015692}
   m_Mesh: {fileID: 4300000, guid: 975886bf050a2a2cfa3661c31e079f91, type: 2}
+--- !u!1 &1249325952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1249325953}
+  m_Layer: 0
+  m_Name: Waves_Huida_Horda2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1249325953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249325952}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.42261824, z: -0, w: 0.9063078}
+  m_LocalPosition: {x: 107.472, y: 0.08333349, z: 67.074554}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1677731561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1250939160
 GameObject:
   m_ObjectHideFlags: 0
@@ -67622,13 +67878,50 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6412404937921206069, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1416789053}
   m_SourcePrefab: {fileID: 100100000, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
 --- !u!4 &1416789051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6367309725302162889, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
   m_PrefabInstance: {fileID: 1416789050}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1416789052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6412404937921206069, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
+  m_PrefabInstance: {fileID: 1416789050}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1416789053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416789052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1419031676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69094,6 +69387,7 @@ GameObject:
   - component: {fileID: 1441351943}
   - component: {fileID: 1441351944}
   - component: {fileID: 1441351945}
+  - component: {fileID: 1441351946}
   m_Layer: 0
   m_Name: Veladora_Capilla
   m_TagString: Untagged
@@ -69195,6 +69489,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
   amount: 0.25
   speed: 6
+--- !u!114 &1441351946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441351942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1442017153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76230,13 +76553,50 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6412404937921206069, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1551284511}
   m_SourcePrefab: {fileID: 100100000, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
 --- !u!4 &1551284509 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6367309725302162889, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
   m_PrefabInstance: {fileID: 1551284508}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1551284510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6412404937921206069, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
+  m_PrefabInstance: {fileID: 1551284508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1551284511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551284510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1551461495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77575,6 +77935,7 @@ GameObject:
   - component: {fileID: 1578636620}
   - component: {fileID: 1578636621}
   - component: {fileID: 1578636622}
+  - component: {fileID: 1578636623}
   m_Layer: 0
   m_Name: Veladora_Capilla
   m_TagString: Untagged
@@ -77676,6 +78037,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
   amount: 0.25
   speed: 6
+--- !u!114 &1578636623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578636619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1580201653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80852,6 +81242,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654112162}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1657654866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1657654867}
+  m_Layer: 0
+  m_Name: Waves_Huida_Horda3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1657654867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657654866}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.95591444, z: -0, w: 0.2936455}
+  m_LocalPosition: {x: 50.499992, y: 0.08333337, z: 129.16667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1677731561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1658486981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82071,6 +82492,8 @@ MonoBehaviour:
     pickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
   spawnPoints:
   - {fileID: 425562953}
+  - {fileID: 1249325953}
+  - {fileID: 1657654867}
   firstWaveDelay: 1
   singleDirection: 1
   runMultiplier: 1.35
@@ -82091,6 +82514,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 425562953}
+  - {fileID: 1249325953}
+  - {fileID: 1657654867}
   m_Father: {fileID: 1561597572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1677767172
@@ -83376,6 +83801,7 @@ GameObject:
   - component: {fileID: 1703850575}
   - component: {fileID: 1703850576}
   - component: {fileID: 1703850577}
+  - component: {fileID: 1703850578}
   m_Layer: 0
   m_Name: Lampara
   m_TagString: Untagged
@@ -83477,6 +83903,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Core.LightFlicker
   amount: 0.25
   speed: 6
+--- !u!114 &1703850578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703850574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &1709319777
 GameObject:
   m_ObjectHideFlags: 0
@@ -92865,13 +93320,50 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6412404937921206069, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1938519210}
   m_SourcePrefab: {fileID: 100100000, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
 --- !u!4 &1938519208 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6367309725302162889, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
   m_PrefabInstance: {fileID: 1938519207}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1938519209 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6412404937921206069, guid: 1d5b1b779829c57fbb902e5039300440, type: 3}
+  m_PrefabInstance: {fileID: 1938519207}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1938519210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938519209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1938929864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96536,6 +97028,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2021505597}
   - component: {fileID: 2021505598}
+  - component: {fileID: 2021505599}
   m_Layer: 0
   m_Name: Brillo
   m_TagString: Untagged
@@ -96623,6 +97116,35 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &2021505599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021505596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &2024658645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98041,6 +98563,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa621658c3b8c0a996bc86da65b444, type: 3}
   m_PrefabInstance: {fileID: 2047894361}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2050664727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2050664728}
+  m_Layer: 0
+  m_Name: Waves_Charro_Horda2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2050664728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050664727}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.17364824, z: -0, w: 0.9848078}
+  m_LocalPosition: {x: 52.47879, y: 0.08333337, z: 36.61845}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 688098409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2050902662
 PrefabInstance:
   m_ObjectHideFlags: 0

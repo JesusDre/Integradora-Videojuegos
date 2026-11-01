@@ -4,17 +4,15 @@ using UnityEngine;
 
 namespace Animas.Player
 {
-    // A new run starts with ONE weapon, chosen at random (#134): the machete, or the escopeta with a few
-    // salt rounds. The other one waits on the supply table of the first safe room (StarterWeaponPickup).
+    // A new run starts with the machete (#164; until then it was the machete or the escopeta at random, but
+    // with so little ammo before the first safe room the escopeta was useless). The escopeta waits on the
+    // supply table of the first safe room (StarterWeaponPickup).
     // A Padre who already carries weapons (luggage from the previous instance, a save) gets nothing.
     public class StartingLoadout : MonoBehaviour
     {
         [SerializeField] WeaponBag bag;
-        [SerializeField] Inventory inventory;
         [SerializeField] ItemDefinition machete;
         [SerializeField] ItemDefinition escopeta;
-        [Tooltip("Salt rounds that come with the escopeta when it is the starting weapon.")]
-        [SerializeField, Min(0)] int escopetaRounds = 6;
 
         public static ItemDefinition MissingStarter { get; private set; }
 
@@ -27,10 +25,8 @@ namespace Animas.Player
                 MissingStarter = bag.Has(machete) ? (bag.Has(escopeta) ? null : escopeta) : machete;
                 yield break;
             }
-            bool gun = Random.value < 0.5f;
-            bag.Add(gun ? escopeta : machete);
-            if (gun) inventory.TryAdd(escopeta.rangedWeapon.ammoItem, escopetaRounds, false);
-            MissingStarter = gun ? machete : escopeta;
+            bag.Add(machete);
+            MissingStarter = escopeta;
         }
     }
 }
