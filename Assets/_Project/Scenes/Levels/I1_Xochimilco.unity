@@ -78924,10 +78924,15 @@ MonoBehaviour:
     prefab: {fileID: 1519047223217339043, guid: 30a4b779ef003533e8356787a4715570, type: 3}
     pickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
   spawnPoints:
+  - {fileID: 1458999686}
   - {fileID: 456707329}
   - {fileID: 145198569}
-  - {fileID: 1458999686}
   firstWaveDelay: 2
+  singleDirection: 1
+  runMultiplier: 1.35
+  waveCountOverride: 0
+  waveSizeOverride: 0
+  secondsBetweenOverride: 0
 --- !u!114 &1152699489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101103,7 +101108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458999685}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.13273315, z: -0, w: 0.9911518}
   m_LocalPosition: {x: 140, y: 0, z: 84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

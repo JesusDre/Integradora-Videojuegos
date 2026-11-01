@@ -80,7 +80,7 @@ namespace Animas.Enemies
             // Inside a safe room the Padre can't be seen or heard: it's the only place without threats (GDD §5).
             bool playerAlive = (playerHealth == null || !playerHealth.IsDead) && !Levels.SafeRoom.PlayerInside;
             bool sees = playerAlive && CanSeePlayer();
-            bool hears = playerAlive && CanHearPlayer();
+            bool hears = playerAlive && (relentless || CanHearPlayer());
             if (sees || hears)
             {
                 lastKnownPosition = player.position;
@@ -107,12 +107,25 @@ namespace Animas.Enemies
             patrolIndex = 0;
         }
 
+        // A ritual or escape horde (#162): it always knows where the Padre is (as if it heard him) and
+        // runs faster than a normal chase, so the pressure never drops while the ritual fills.
+        public void MakeHorde(float chaseSpeedMultiplier)
+        {
+            relentless = true;
+            chaseMultiplier = Mathf.Max(1f, chaseSpeedMultiplier);
+            if (agent != null && (Current == State.Chase || Current == State.Attack)) agent.speed = ChaseSpeed;
+        }
+
+        bool relentless;
+        float chaseMultiplier = 1f;
+        float ChaseSpeed => tuning.chaseSpeed * chaseMultiplier;
+
         // Harder instances use another tuning (more damage, faster): set by the encounter that spawns it.
         public void SetTuning(CultistTuning newTuning)
         {
             if (newTuning == null) return;
             tuning = newTuning;
-            if (agent != null) agent.speed = Current == State.Chase || Current == State.Attack ? tuning.chaseSpeed : tuning.patrolSpeed;
+            if (agent != null) agent.speed = Current == State.Chase || Current == State.Attack ? ChaseSpeed : tuning.patrolSpeed;
         }
 
         // Called by loud things (the shotgun, #24): the cultist goes to look.
@@ -135,7 +148,7 @@ namespace Animas.Enemies
                     GoToPatrolPoint();
                     break;
                 case State.Chase:
-                    agent.speed = tuning.chaseSpeed;
+                    agent.speed = ChaseSpeed;
                     if (audioSource != null && alertClip != null) audioSource.PlayOneShot(alertClip);
                     break;
                 case State.Attack:

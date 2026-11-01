@@ -16,8 +16,8 @@ MonoBehaviour:
   cultistTuning: {fileID: 11400000, guid: 8c0309ae63b0f5661878b93e1d353758, type: 2}
   encounterMin: 4
   encounterMax: 5
-  waveCount: 4
-  waveSize: 4
+  waveCount: 5
+  waveSize: 7
   maxSecondsBetweenWaves: 25
   cultistDrops:
   - item: {fileID: 11400000, guid: ccffebe6d7ff2a4c6a66b6854d581ec1, type: 2}

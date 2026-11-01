@@ -101137,7 +101137,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734019802}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.58958644, z: -0, w: 0.8077053}
   m_LocalPosition: {x: 92, y: -9, z: 96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -101183,6 +101183,11 @@ MonoBehaviour:
   - {fileID: 2120318803}
   - {fileID: 1885212827}
   firstWaveDelay: 2
+  singleDirection: 1
+  runMultiplier: 1.35
+  waveCountOverride: 0
+  waveSizeOverride: 0
+  secondsBetweenOverride: 0
 --- !u!4 &1736510573
 Transform:
   m_ObjectHideFlags: 0
