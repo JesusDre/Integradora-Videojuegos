@@ -22735,6 +22735,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415637679}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &425562952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 425562953}
+  m_Layer: 0
+  m_Name: Horda_Noreste
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &425562953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425562952}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.8712404, z: -0, w: -0.4908567}
+  m_LocalPosition: {x: 98, y: 0.08333337, z: 108}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1677731561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &428574604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31409,6 +31440,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa621658c3b8c0a996bc86da65b444, type: 3}
   m_PrefabInstance: {fileID: 612524343}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &613230696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613230697}
+  m_Layer: 0
+  m_Name: Horda_Oeste
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &613230697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613230696}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 45, y: 0.08333337, z: 93}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 688098409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &613343726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34443,6 +34505,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa621658c3b8c0a996bc86da65b444, type: 3}
   m_PrefabInstance: {fileID: 686553909}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &688098407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 688098409}
+  - component: {fileID: 688098408}
+  m_Layer: 0
+  m_Name: Waves_Charro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &688098408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688098407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2b47ed289ea687abda6eabdb4171d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.WaveSpawner
+  difficulty: {fileID: 11400000, guid: 73f31c4f7e5b6b87ba4879f5b907315d, type: 2}
+  spawner:
+    prefab: {fileID: 1519047223217339043, guid: 30a4b779ef003533e8356787a4715570, type: 3}
+    pickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
+  spawnPoints:
+  - {fileID: 613230697}
+  firstWaveDelay: 2
+  singleDirection: 1
+  runMultiplier: 1.35
+  waveCountOverride: 0
+  waveSizeOverride: 0
+  secondsBetweenOverride: 0
+--- !u!4 &688098409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688098407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 613230697}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &690426153
 GameObject:
   m_ObjectHideFlags: 0
@@ -36633,6 +36752,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 186695321}
     - target: {fileID: 4062120136597244158, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
+      propertyPath: waves
+      value: 
+      objectReference: {fileID: 688098408}
+    - target: {fileID: 4062120136597244158, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
       propertyPath: pedestal
       value: 
       objectReference: {fileID: 1449962050}
@@ -36718,6 +36841,17 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &738385877 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4062120136597244158, guid: cd50b199d6bb9330c875b1ebd4235826, type: 3}
+  m_PrefabInstance: {fileID: 738385873}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738385875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f6725db337220099759d2442ef9cff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Entities.CharroNegroEntity
 --- !u!1001 &738663939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56015,6 +56149,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa621658c3b8c0a996bc86da65b444, type: 3}
   m_PrefabInstance: {fileID: 1120133570}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1125348410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1125348412}
+  - component: {fileID: 1125348411}
+  m_Layer: 0
+  m_Name: FlechaGuia
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1125348411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125348410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285a7651870598676b156e738ab9691e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.GuideArrow
+  target: {fileID: 1803083239}
+  material: {fileID: 2100000, guid: 0f1ef450e7df1c88b9cabf44e5d78dc8, type: 2}
+  ahead: 3.5
+  repathSeconds: 0.25
+--- !u!4 &1125348412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125348410}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1561597572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1126176871
 GameObject:
   m_ObjectHideFlags: 0
@@ -76441,6 +76623,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d34e3a2ea50ff889ba3b92a9cccf7908, type: 3}
   m_PrefabInstance: {fileID: 1560466118}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1561597570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1561597572}
+  - component: {fileID: 1561597571}
+  m_Layer: 0
+  m_Name: Huida
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1561597571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561597570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410c3ec6c2a1c538eb1d3af580a26f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.EscapeRun
+  charro: {fileID: 738385877}
+  horde: {fileID: 1677731560}
+  arrow: {fileID: 1125348411}
+--- !u!4 &1561597572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561597570}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1677731561}
+  - {fileID: 1125348412}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1562174082
 GameObject:
   m_ObjectHideFlags: 0
@@ -81805,6 +82036,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa621658c3b8c0a996bc86da65b444, type: 3}
   m_PrefabInstance: {fileID: 1676654356}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1677731559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1677731561}
+  - component: {fileID: 1677731560}
+  m_Layer: 0
+  m_Name: Waves_Huida
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1677731560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677731559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2b47ed289ea687abda6eabdb4171d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.WaveSpawner
+  difficulty: {fileID: 11400000, guid: 73f31c4f7e5b6b87ba4879f5b907315d, type: 2}
+  spawner:
+    prefab: {fileID: 1519047223217339043, guid: 30a4b779ef003533e8356787a4715570, type: 3}
+    pickupPrefab: {fileID: 6939084534033593929, guid: bb4d52cb6668f028982bd40ed6aeeb25, type: 3}
+  spawnPoints:
+  - {fileID: 425562953}
+  firstWaveDelay: 1
+  singleDirection: 1
+  runMultiplier: 1.35
+  waveCountOverride: 3
+  waveSizeOverride: 8
+  secondsBetweenOverride: 12
+--- !u!4 &1677731561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677731559}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 425562953}
+  m_Father: {fileID: 1561597572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1677767172
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86429,8 +86717,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Levels.HolyWaterFont
   holyWater: {fileID: 11400000, guid: 2e8ee6d6989b6b65db1de303328da089, type: 2}
-  uses: 3
-  water: {fileID: 2027013831}
   fillClip: {fileID: 8300000, guid: a36b5d8449d6fea3986918fa21694b12, type: 3}
 --- !u!23 &1795557644
 MeshRenderer:
@@ -102456,3 +102742,5 @@ SceneRoots:
   - {fileID: 1028782023}
   - {fileID: 1424680165}
   - {fileID: 895450149}
+  - {fileID: 688098409}
+  - {fileID: 1561597572}

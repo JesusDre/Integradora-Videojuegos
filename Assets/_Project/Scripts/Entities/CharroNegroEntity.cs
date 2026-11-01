@@ -31,6 +31,8 @@ namespace Animas.Entities
         [SerializeField] BoxCollider territory;
         [Tooltip("The hacienda gate: opens when he's defeated.")]
         [SerializeField] Door gate;
+        [Tooltip("Cultist hordes during the final fight (#162). Optional.")]
+        [SerializeField] WaveSpawner waves;
         [SerializeField] Animator animator;
         [Tooltip("Light that flares while he's weakened, so the player knows when to strike.")]
         [SerializeField] Light weakGlow;
@@ -282,6 +284,7 @@ namespace Animas.Entities
         {
             FinalPhase = true;
             HolyWaterChannel.Unlocked = true;
+            if (waves != null) waves.Begin();
             if (lifeBar != null)
             {
                 lifeBar.SetTitle("Charro Negro");
@@ -293,6 +296,8 @@ namespace Animas.Entities
 
         void OnPlayerRespawned()
         {
+            // Every death clears the fight's horde; after his defeat the escape brings its own (EscapeRun).
+            if (waves != null) waves.ResetWaves();
             if (Current == State.Dissolved) return;
             // The coins went back to the bag (the pedestal empties itself): back to phase 1, full life.
             health.Revive(health.Max);
@@ -309,6 +314,7 @@ namespace Animas.Entities
         {
             Enter(State.Dissolved, 0f);
             if (lifeBar != null) lifeBar.End();
+            if (waves != null) waves.Stop();
             foreach (Collider c in GetComponentsInChildren<Collider>()) c.enabled = false;
             if (gate != null)
             {

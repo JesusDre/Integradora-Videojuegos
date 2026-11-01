@@ -815,6 +815,43 @@ El nivel real de la hacienda es #40.
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
 
+##### Hordas en las peleas finales y huida con flecha (#162)
+
+**Qué hace.**
+- **En las tres peleas finales llegan hordas de cultistas:** el ritual de la Llorona, el de la Tzitzimime y la fase final del Charro.
+  - **De una sola dirección:** todos salen juntos del mismo punto, en filas de 3, como una horda.
+  - **Corriendo:** van a 1.35 veces su velocidad normal de persecución (unos 4.7 m/s en Xochimilco, 5.0 en la hacienda y 5.3 en el convento), apenas menos que el Padre corriendo (5.5).
+  - **Sin perderlo:** siempre saben dónde está el Padre. Al cuarto seguro no entran.
+  - **Cuántos:** Llorona, 4 oleadas de 6. Charro, 4 de 5, desde el oeste, por el frente de la capilla. Tzitzimime, 5 de 7.
+- **La huida de la hacienda:** al disolverse el Charro, sale de detrás de la capilla una horda de 3 oleadas de 8, una cada 12 s.
+  - **La flecha:** una **flecha dorada luminosa** flota en el suelo unos metros delante del Padre y apunta el camino hacia la salida. Sigue el camino real: gira en las esquinas y rodea las paredes.
+  - **Si muere en la huida:** reaparece en el cuarto seguro, la horda vieja desaparece y sale una nueva.
+
+![Flecha de la huida](img/ui/flecha_huida.png)
+
+**Cómo funciona.**
+- **`WaveSpawner`:** con `singleDirection`, toda la oleada sale del primer punto de la lista, acomodada en filas detrás de él. A cada cultista le llama `MakeHorde(runMultiplier)`.
+  - Para la huida, `waveCountOverride`, `waveSizeOverride` y `secondsBetweenOverride` reemplazan los números de la dificultad.
+- **`CultistAI.MakeHorde`:** lo vuelve "implacable" (siempre cuenta como que oye al Padre, así que nunca pasa a buscar ni a regresar) y multiplica su velocidad de persecución.
+- **`CharroNegroEntity`:** al empezar la fase final llama a `waves.Begin()`; al disolverse, a `Stop()`. Cada vez que el Padre muere, la horda se borra con `ResetWaves()`.
+- **`EscapeRun`:** escucha `Defeated` del Charro. Entonces arranca la horda de la huida y muestra la `GuideArrow`. Si el Padre reaparece, reinicia la horda.
+- **`GuideArrow`:** cada 0.25 s pide al NavMesh el camino del Padre a la salida (`NavMesh.CalculatePath`). Recorre 3.5 m de ese camino y pone ahí la flecha, apuntando a la siguiente esquina.
+  - La flecha es una malla plana creada por código, con el material `M_FlechaGuia` (dorado más brillante que 1, para que el *bloom* le dé halo) y una luz cálida.
+- **Los números de cada horda:** están en `DIF_Instancia1/2/3` y en el objeto `Huida` de la hacienda.
+
+**Prueba (Play Mode).**
+- **Hacienda, fase final:** salieron 5 cultistas juntos del oeste, todos persiguiendo a 5.0.
+- **Hacienda, al vencer al Charro:** aparecieron la flecha y una horda de 8 desde el noreste. Con el Padre quieto, la horda lo mató en unos segundos: hay presión de verdad.
+- **Hacienda, al reaparecer:** se borraron los 16 cultistas que había y salió una horda nueva de 8.
+- **La flecha:** apuntó en la dirección del camino a la salida (captura).
+- **Xochimilco y convento:** al iniciar las oleadas, 6 cultistas (a 4.7) y 7 (a 5.3) salieron de un solo punto, todos persiguiendo.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué de una sola dirección? | Así el jugador puede leer la amenaza y prepararse: ve de dónde vienen, se pone de frente o usa una línea de sal. Si salieran de todos lados, sería caótico y no se podría planear. |
+| ¿Por qué la flecha sigue el NavMesh y no apunta directo a la salida? | Una línea recta atravesaría muros. El NavMesh da el camino que de verdad se puede caminar. |
+| ¿No es demasiado difícil? | Los cultistas van un poco más lento que el Padre corriendo, así que con resistencia se escapa. Los números están en assets y se ajustan en el playtest. |
+
 ##### Barra de vida y daño bendito (#158)
 
 **Qué hace.**
