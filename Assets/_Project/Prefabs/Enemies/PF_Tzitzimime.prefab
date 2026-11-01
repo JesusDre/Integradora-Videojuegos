@@ -695,6 +695,8 @@ MonoBehaviour:
   audioSource: {fileID: 6915769578165141584}
   screechClip: {fileID: 8300000, guid: c900ab0fce7a14b898800fb146346f32, type: 3}
   strikeClip: {fileID: 8300000, guid: 66918630020a0958b9249be1b4fc5cf8, type: 3}
+  head: {fileID: 62531761294845047}
+  eyeMaterial: {fileID: 2100000, guid: 22171f1db5e6aac2994ed37c86851590, type: 2}
 --- !u!1001 &2620245876941150066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -752,6 +754,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da24b0c48ee5f15009be5ce41fb2e791, type: 3}
+--- !u!4 &62531761294845047 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6592473875891948795, guid: da24b0c48ee5f15009be5ce41fb2e791, type: 3}
+  m_PrefabInstance: {fileID: 2620245876941150066}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2582324843542163609 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: da24b0c48ee5f15009be5ce41fb2e791, type: 3}
