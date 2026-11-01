@@ -1094,6 +1094,35 @@ El nivel real del convento es #46.
 |---|---|
 | ¿Por qué un evento estático? | La Llorona y el Charro están en escenas distintas del HUD. Con un evento solo avisan "atrapé al Padre" y el HUD decide qué mostrar. |
 
+#### Chaneques (hacienda y Xochimilco, #173)
+
+**Qué hacen.** Son duendecillos traviesos de la leyenda mexicana, de 75 cm, con sombrero de palma, orejas puntiagudas, sonrisa llena de dientes y ojos amarillos. Hay 5 en la hacienda y 3 en Xochimilco.
+- **No atacan de frente:** rondan al Padre a 7–13 m, dando vueltas a su alrededor y **riéndose**.
+- **La risa delata su distancia:** mientras más cerca están, más seguido se ríen, y el sonido 3D dice de qué lado vienen.
+- **El ataque:** de pronto **corren** hacia él. Si lo atrapan, aparece su cara en la pantalla de susto, le quitan 5 de vida y **le roban un objeto** de los espacios del inventario (una venda, un agua bendita…). Después huyen riéndose y desaparecen.
+- **Si lo matas antes de que escape**, suelta lo que robó. La munición, los materiales y los objetos clave están a salvo, porque no viven en los espacios.
+
+![El susto del chaneque](img/ui/susto_chaneque.png)
+
+**Cómo funciona (`ChanequeAI`).** Es una máquina de estados:
+- **`Idle`:** espera hasta que el Padre se acerca a 25 m o menos.
+- **`Stalk`:** da vueltas al Padre. Busca un punto a 35° a un lado de él, dentro de su rango de distancia. Si choca con agua o una pared, cambia de sentido.
+- **`Dash`:** corre directo al Padre; si en 4 s no lo alcanza, vuelve a rondar.
+- **`Flee`:** tras robar, corre en dirección contraria y a los 7 s se borra.
+- **El robo:** `TakeRandomItem()` escoge al azar un espacio ocupado del inventario y quita 1 con `Inventory.Remove`. Al morir, `Inventory.SpawnPickup` deja ese objeto en el suelo.
+- **El salto:** no tiene esqueleto. Un rebote del modelo (`Hop`, con un seno según su velocidad) hace que se vea saltando.
+- **Sus números:** están en `ChanequeTuning`.
+- **El modelo y los sonidos:** el modelo sale de `Tools/Blender/ent_chaneque.py`. Las 3 risas, el robo y el chillido de muerte salen de `Tools/Audio/sintetizar_enemigos.py`: espeak dice "je je je" y luego se sube de tono, se desafina en tres voces y se ensucia.
+
+**Prueba (Play Mode, `I1_Xochimilco`).**
+- **El robo:** con 2 vendas, el chaneque rondó al Padre (de 10 a 7 m), corrió, lo atrapó (vida −5) y le robó una venda (quedó 1). Huyó y a los 7 s ya no estaba.
+- **Al matarlo:** otro chaneque que robó una venda y luego murió la dejó en el suelo.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué roba en vez de solo pegar? | Es lo que hace el chaneque en la leyenda: es travieso. Obliga al jugador a decidir si lo persigue para recuperar lo robado. |
+| ¿Cómo se oye "más cerca"? | El `AudioSource` es 3D (más fuerte si está cerca, y de qué lado), y además la pausa entre risas se acorta con la distancia (`Mathf.Lerp`). |
+
 #### Muñecas poseídas (Xochimilco, #172)
 
 **Qué hacen.** En la Isla de las Muñecas y en dos islas más hay muñecas del tamaño de una niña pequeña, con los brazos estirados, la cara rota y ojos rojos.
