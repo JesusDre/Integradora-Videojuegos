@@ -251,6 +251,7 @@ MonoBehaviour:
   pedestal: {fileID: 0}
   territory: {fileID: 0}
   gate: {fileID: 0}
+  waves: {fileID: 0}
   animator: {fileID: 0}
   weakGlow: {fileID: 912065366868818683}
   audioSource: {fileID: 6440656256596171739}
@@ -263,6 +264,9 @@ MonoBehaviour:
   scareFace: {fileID: 1850165194126564561, guid: 79a26e6c15ce892ed9bd435a17f9c656, type: 3}
   scareClip: {fileID: 8300000, guid: 64dba109e830ec2bf9a92fefdb352f1a, type: 3}
   dissolveSeconds: 2.5
+  riderHead: {fileID: 7545218393795838729}
+  horseHead: {fileID: 5210484399469663236}
+  eyeMaterial: {fileID: 2100000, guid: 22171f1db5e6aac2994ed37c86851590, type: 2}
 --- !u!1 &5087587710784705339
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,6 +564,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 916a600be44a69b2c96b4b0b787d2cd0, type: 3}
+--- !u!4 &5210484399469663236 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6985974228938564273, guid: 916a600be44a69b2c96b4b0b787d2cd0, type: 3}
+  m_PrefabInstance: {fileID: 2935345818421442229}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7545218393795838729 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4614625421516993980, guid: 916a600be44a69b2c96b4b0b787d2cd0, type: 3}
+  m_PrefabInstance: {fileID: 2935345818421442229}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8256667582983698725 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6496972512848105360, guid: 916a600be44a69b2c96b4b0b787d2cd0, type: 3}

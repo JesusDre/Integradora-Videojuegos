@@ -51,8 +51,14 @@ namespace Animas.Entities
         [SerializeField] Sprite scareFace;
         [SerializeField] AudioClip scareClip;
         [SerializeField, Min(0.1f)] float dissolveSeconds = 2.5f;
+        [Header("Invisible (#166)")]
+        [Tooltip("Head bones: the rider's and the horse's. Their eyes stay lit while the rest vanishes.")]
+        [SerializeField] Transform riderHead;
+        [SerializeField] Transform horseHead;
+        [SerializeField] Material eyeMaterial;
 
         public State Current { get; private set; } = State.Idle;
+        public bool IsInvisible { get; private set; }
         public bool FinalPhase { get; private set; }
 
         public event Action<State> StateChanged;
@@ -68,6 +74,13 @@ namespace Animas.Entities
         Inventory messages;
         UI.RitualBarUI lifeBar;
         bool addingWeakBonus;
+        PlayerShotgun playerGun;
+        Renderer[] bodyRenderers = new Renderer[0];
+        GameObject eyes;   // the glow lights
+        readonly System.Collections.Generic.List<GameObject> eyeBalls = new System.Collections.Generic.List<GameObject>();
+        float nextVanish;
+        float reappearAt;
+        float provokedUntil;
 
         Vector3 home;
         Vector3 chargeTarget;
@@ -96,6 +109,7 @@ namespace Animas.Entities
                 playerHealth = p.GetComponent<Health>();
                 playerRespawn = p.GetComponent<PlayerRespawn>();
                 messages = p.GetComponent<Inventory>();
+                playerGun = p.GetComponent<PlayerShotgun>();
             }
             home = transform.position;
             if (weakGlow != null) weakGlow.enabled = false;
@@ -106,6 +120,7 @@ namespace Animas.Entities
             health.Damaged += OnHurt;
             if (playerRespawn != null) playerRespawn.Respawned += OnPlayerRespawned;
             if (pedestal != null) pedestal.OfferingsComplete += BeginFinalPhase;
+            if (playerGun != null) playerGun.Fired += OnPlayerFired;
         }
 
         void OnDisable()
@@ -113,12 +128,15 @@ namespace Animas.Entities
             health.Damaged -= OnHurt;
             if (playerRespawn != null) playerRespawn.Respawned -= OnPlayerRespawned;
             if (pedestal != null) pedestal.OfferingsComplete -= BeginFinalPhase;
+            if (playerGun != null) playerGun.Fired -= OnPlayerFired;
         }
 
         void Start()
         {
             // The hacienda has no ritual: its ritual bar shows the Charro's life in the final fight.
             lifeBar = FindAnyObjectByType<UI.RitualBarUI>(FindObjectsInactive.Include);
+            BuildEyes();
+            nextVanish = Time.time + UnityEngine.Random.Range(tuning.invisibleEvery.x, tuning.invisibleEvery.y);
             Enter(State.Chase, 0f);
         }
 
@@ -140,6 +158,7 @@ namespace Animas.Entities
             }
             if (hasSpeedParam) animator.SetFloat(SpeedParam, agent.velocity.magnitude);
             UpdateHooves();
+            UpdateInvisibility();
         }
 
         // The hooves follow what the horse is really doing: silent when it stands, a walk or a gallop.
@@ -161,11 +180,29 @@ namespace Animas.Entities
 
         // The Padre is dead, in the safe room, in the chapel or off his ground: back home until he returns.
         // While he stays sheltered the truce keeps restarting, so it counts from the moment he comes out.
+        // Provoked (shot at), there's no truce: he comes at once.
         void UpdateIdle()
         {
             bool sheltered = !PlayerHuntable() || SpiritWards.TryRepel(player.position, out _);
             if (sheltered) huntAfter = Time.time + tuning.refugeGraceSeconds;
-            else if (Time.time >= huntAfter) Enter(State.Chase, 0f);
+            else if (Time.time >= huntAfter || Provoked) Enter(State.Chase, 0f);
+        }
+
+        bool Provoked => Time.time < provokedUntil;
+
+        // Shooting at him gives the Padre away, even a normal round that does him no harm (#166).
+        void OnPlayerFired()
+        {
+            Camera cam = Camera.main;
+            if (cam == null || Current == State.Dissolved) return;
+            if (!Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, 80f, ~0, QueryTriggerInteraction.Ignore)) return;
+            if (hit.collider.GetComponentInParent<CharroNegroEntity>() == this) Provoke();
+        }
+
+        void Provoke()
+        {
+            provokedUntil = Time.time + tuning.provokedSeconds;
+            huntAfter = 0f;
         }
 
         void GoHome()
@@ -256,6 +293,7 @@ namespace Animas.Entities
         void OnHurt(float amount)
         {
             if (addingWeakBonus) return;   // the extra damage below comes back through here
+            Provoke();                     // whoever hits him gets hunted, wherever he is
             // Unblessed (machete, normal rounds, fire), or before the final phase: it's undone.
             if (!health.LastHitBlessed || !FinalPhase)
             {
@@ -312,6 +350,7 @@ namespace Animas.Entities
 
         void Dissolve()
         {
+            SetInvisible(false);   // he is seen while he dissolves
             Enter(State.Dissolved, 0f);
             if (lifeBar != null) lifeBar.End();
             if (waves != null) waves.Stop();
@@ -357,8 +396,76 @@ namespace Animas.Entities
             StateChanged?.Invoke(state);
         }
 
+        // Off his ground the Padre is safe, unless he provoked him.
         bool PlayerHuntable() => !playerHealth.IsDead && !SafeRoom.PlayerInside
-            && (territory == null || territory.bounds.Contains(player.position + Vector3.up));
+            && (territory == null || Provoked || territory.bounds.Contains(player.position + Vector3.up));
+
+        // Now and then, while he trots or charges, rider and horse vanish (#166): only their eyes glow in the
+        // dark and the hooves keep sounding. Weakened he is always seen (the player must aim the cross).
+        // Only the renderers go off: he still collides, charges and takes hits.
+        void UpdateInvisibility()
+        {
+            bool canVanish = Current == State.Chase || Current == State.Charge;
+            if (!IsInvisible && canVanish && Time.time >= nextVanish)
+            {
+                SetInvisible(true);
+                reappearAt = Time.time + tuning.invisibleSeconds;
+                if (audioSource != null && neighClip != null) audioSource.PlayOneShot(neighClip);
+            }
+            else if (IsInvisible && (!canVanish || Time.time >= reappearAt))
+            {
+                SetInvisible(false);
+                nextVanish = Time.time + UnityEngine.Random.Range(tuning.invisibleEvery.x, tuning.invisibleEvery.y);
+            }
+        }
+
+        void SetInvisible(bool on)
+        {
+            IsInvisible = on;
+            foreach (Renderer r in bodyRenderers) if (r != null) r.enabled = !on;
+            if (eyes != null) eyes.SetActive(on);
+            // The eyeballs live on the head bones (so they follow the animation), not under "OjosInvisible".
+            foreach (GameObject eye in eyeBalls) eye.SetActive(on);
+        }
+
+        // A pair of glowing eyes on each head bone (built once, they follow the animation) and a faint red light.
+        void BuildEyes()
+        {
+            bodyRenderers = GetComponentsInChildren<Renderer>(true);
+            eyes = new GameObject("OjosInvisible");
+            eyes.transform.SetParent(transform, false);
+            // The rider looks forward; the horse's head bone runs along its head, toward the nose.
+            if (riderHead != null)
+                AddEyes(riderHead, riderHead.position + transform.forward * 0.1f + transform.up * 0.05f, 0.05f, 0.06f);
+            if (horseHead != null)
+                AddEyes(horseHead, horseHead.position + horseHead.up * 0.22f + transform.up * 0.06f, 0.14f, 0.08f);
+            SetInvisible(false);
+        }
+
+        void AddEyes(Transform bone, Vector3 center, float halfSpacing, float size)
+        {
+            foreach (float side in new[] { -1f, 1f })
+            {
+                GameObject eye = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                Destroy(eye.GetComponent<Collider>());
+                eye.name = "Ojo";
+                eye.transform.SetParent(bone, false);
+                eye.transform.position = center + transform.right * (halfSpacing * side);
+                eye.transform.localScale = Vector3.one * size / Mathf.Max(bone.lossyScale.x, 0.0001f);
+                var r = eye.GetComponent<Renderer>();
+                r.sharedMaterial = eyeMaterial;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                eyeBalls.Add(eye);
+            }
+            var glow = new GameObject("Brillo").AddComponent<Light>();
+            glow.transform.SetParent(eyes.transform, false);
+            glow.transform.position = center + transform.forward * 0.1f;
+            glow.type = LightType.Point;
+            glow.color = new Color(1f, 0.1f, 0.05f);
+            glow.range = 4f;
+            glow.intensity = 4f;
+            glow.shadows = LightShadows.None;
+        }
 
         static float FlatDistance(Vector3 a, Vector3 b)
         {

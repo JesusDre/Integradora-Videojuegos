@@ -29,6 +29,15 @@ namespace Animas.Entities
         [Tooltip("After the Padre leaves the safe room or the chapel, seconds before he hunts again.")]
         [Min(0f)] public float refugeGraceSeconds = 8f;
 
+        [Header("Invisible (#166)")]
+        [Tooltip("While he trots or charges, every this many seconds (random between both) he vanishes: only the eyes stay.")]
+        public Vector2 invisibleEvery = new Vector2(15f, 30f);
+        [Min(1f)] public float invisibleSeconds = 6f;
+
+        [Header("Provoked (#166)")]
+        [Tooltip("Hit or shot at: for this long he hunts the Padre anywhere, off his ground and without truce.")]
+        [Min(0f)] public float provokedSeconds = 15f;
+
         [Header("Final phase")]
         [Tooltip("Seconds he stays weakened after crossing a full canaleta: the window for a charged cross hit.")]
         [Min(0.5f)] public float weakenedSeconds = 4f;
