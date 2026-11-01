@@ -31,5 +31,8 @@ namespace Animas.Entities
         [Header("Final form (phase 3)")]
         [Tooltip("She walks after the Padre during the escape. Slower than walking (3): it's pressure, not a wall.")]
         [Min(0f)] public float finalSpeed = 2.2f;
+        [Tooltip("In her final form, every this many seconds (random between both) she vanishes: only her eyes stay (#168).")]
+        public Vector2 invisibleEvery = new Vector2(15f, 30f);
+        [Min(1f)] public float invisibleSeconds = 6f;
     }
 }

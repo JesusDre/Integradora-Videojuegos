@@ -16,6 +16,8 @@ namespace Animas.Entities
     // Phase 3 (FinalForm): the bar is full; she comes down in her final form and walks after the Padre,
     //   still striking, while he escapes to the exit. Reaching the exit ends the campaign.
     // She can't be killed with weapons; the ritual is the only way.
+    // Her eyes (#168): while she's invisible on the ceiling only two red eyes glow up there, and in her
+    // final form she vanishes now and then, eyes and all but the body, like the Llorona and the Charro.
     [RequireComponent(typeof(SpiritBody), typeof(Health))]
     public class TzitzimimeEntity : MonoBehaviour
     {
@@ -31,6 +33,10 @@ namespace Animas.Entities
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip screechClip;
         [SerializeField] AudioClip strikeClip;
+        [Header("Eyes (#168)")]
+        [Tooltip("Head bone of the model: the eyes follow it.")]
+        [SerializeField] Transform head;
+        [SerializeField] Material eyeMaterial;
 
         public State Current { get; private set; } = State.Dormant;
         public event Action<State> StateChanged;
@@ -49,6 +55,11 @@ namespace Animas.Entities
         float nextAttack;
         float strikeAt = -1f;
         bool warnedHidden;
+        Renderer[] bodyRenderers = new Renderer[0];
+        Transform eyes;
+        bool vanished;
+        float nextVanish;
+        float reappearAt;
 
         void Awake()
         {
@@ -84,7 +95,53 @@ namespace Animas.Entities
             if (playerRespawn != null) playerRespawn.Respawned -= ResetToDormant;
         }
 
-        void Start() => Enter(State.Dormant);
+        void Start()
+        {
+            BuildEyes();
+            Enter(State.Dormant);
+        }
+
+        // The eyes live outside the model (hidden on the ceiling with SetActive), so they copy the head
+        // bone's position every frame after the animation moves it.
+        void LateUpdate()
+        {
+            if (eyes == null || head == null) return;
+            eyes.SetPositionAndRotation(head.position + head.forward * 0.12f + head.up * 0.05f, head.rotation);
+        }
+
+        void BuildEyes()
+        {
+            if (visuals != null) bodyRenderers = visuals.GetComponentsInChildren<Renderer>(true);
+            if (head == null) return;
+            eyes = new GameObject("OjosInvisible").transform;
+            eyes.SetParent(transform, false);
+            foreach (float side in new[] { -1f, 1f })
+            {
+                GameObject eye = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                Destroy(eye.GetComponent<Collider>());
+                eye.name = "Ojo";
+                eye.transform.SetParent(eyes, false);
+                eye.transform.localPosition = new Vector3(0.06f * side, 0f, 0f);
+                eye.transform.localScale = Vector3.one * 0.07f;
+                var r = eye.GetComponent<Renderer>();
+                r.sharedMaterial = eyeMaterial;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+            var glow = new GameObject("Brillo").AddComponent<Light>();
+            glow.transform.SetParent(eyes, false);
+            glow.transform.localPosition = Vector3.forward * 0.1f;
+            glow.type = LightType.Point;
+            glow.color = new Color(1f, 0.1f, 0.05f);
+            glow.range = 4f;
+            glow.intensity = 4f;
+            glow.shadows = LightShadows.None;
+            eyes.gameObject.SetActive(false);
+        }
+
+        void ShowEyes(bool on)
+        {
+            if (eyes != null) eyes.gameObject.SetActive(on);
+        }
 
         void Update()
         {
@@ -124,6 +181,7 @@ namespace Animas.Entities
             bool revealed = body.IsRevealed;
             bool lit = revealed && flashlight != null && flashlight.Illuminates(bodyCollider);
             if (visuals != null) visuals.SetActive(revealed);
+            ShowEyes(!revealed);   // hidden on the ceiling: only her eyes give her away
             ritual.FillMultiplier = lit ? tuning.litFill : revealed ? tuning.revealedFill : 0f;
 
             // Tell the player once why the bar stopped, while he's actually praying.
@@ -144,6 +202,7 @@ namespace Animas.Entities
             transform.SetPositionAndRotation(new Vector3(transform.position.x, floorY, transform.position.z), Quaternion.identity);
             if (finalGlow != null) finalGlow.enabled = true;
             nextAttack = Time.time + tuning.finalAttackInterval;
+            nextVanish = Time.time + UnityEngine.Random.Range(tuning.invisibleEvery.x, tuning.invisibleEvery.y);
             if (audioSource != null && screechClip != null) audioSource.PlayOneShot(screechClip);
             if (messages != null) messages.Notify("La Tzitzimime toma su forma final. ¡Huye a la salida!");
         }
@@ -159,6 +218,31 @@ namespace Animas.Entities
                 transform.rotation = Quaternion.LookRotation(new Vector3(to.x, 0f, to.z));
             }
             if (Time.time >= nextAttack && !playerHealth.IsDead) BeginStrike(tuning.finalAttackInterval);
+            UpdateVanish();
+        }
+
+        // Final form: now and then the body vanishes (only the renderers: she keeps moving and striking).
+        void UpdateVanish()
+        {
+            if (!vanished && Time.time >= nextVanish)
+            {
+                SetVanished(true);
+                reappearAt = Time.time + tuning.invisibleSeconds;
+                if (audioSource != null && screechClip != null) audioSource.PlayOneShot(screechClip);
+            }
+            else if (vanished && Time.time >= reappearAt)
+            {
+                SetVanished(false);
+                nextVanish = Time.time + UnityEngine.Random.Range(tuning.invisibleEvery.x, tuning.invisibleEvery.y);
+            }
+        }
+
+        void SetVanished(bool on)
+        {
+            vanished = on;
+            foreach (Renderer r in bodyRenderers) if (r != null) r.enabled = !on;
+            if (finalGlow != null) finalGlow.enabled = !on;
+            ShowEyes(on);
         }
 
         // The warning: a red circle where the Padre stands now. He has warningSeconds to get out.
@@ -206,6 +290,8 @@ namespace Animas.Entities
                 transform.SetPositionAndRotation(home, Quaternion.identity);
                 if (ritual != null) ritual.FillMultiplier = 1f;
             }
+            if (vanished) SetVanished(false);
+            ShowEyes(false);
             if (visuals != null) visuals.SetActive(state == State.FinalForm);
             if (finalGlow != null) finalGlow.enabled = state == State.FinalForm;
             StateChanged?.Invoke(state);

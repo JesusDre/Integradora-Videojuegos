@@ -1043,6 +1043,27 @@ El nivel real del convento es #46.
 | ¿Por qué no se reutilizó el código de la Llorona? | Comparten piezas (`SpiritBody`, `RitualController`, `EntityPresence`), pero cada entidad tiene fases distintas según el GDD. Un script por entidad es más fácil de explicar que uno lleno de condiciones. |
 | ¿Cómo se esquiva el ataque? | El círculo rojo avisa 1.5 s antes; basta con salir de él. |
 
+##### Solo sus ojos (#168)
+
+**Qué hace.**
+- **En el techo:** mientras es invisible (antes del copal), ahora se ven **sus dos ojos rojos** y un resplandor rojo en el techo. Así el jugador sabe dónde está, pero la barra sigue sin avanzar hasta revelarla con copal.
+- **En la forma final:** durante la huida, cada 15 a 30 s desaparece 6 s con un chillido. Sigue caminando y atacando, pero solo se ven sus ojos.
+
+![Ojos en el techo y en la forma final](img/ui/tzitzimime_ojos.png)
+
+**Cómo funciona (`TzitzimimeEntity`).**
+- **Los ojos:** `BuildEyes()` crea los ojos como objeto aparte, `OjosInvisible`, porque en el techo el modelo entero se apaga con `SetActive`. En `LateUpdate` copian la posición del hueso de la cabeza (`head`) después de la animación, así que siguen a la Tzitzimime aunque esté de cabeza.
+- **En la forma final:** `UpdateVanish()` funciona igual que en la Llorona y el Charro. Apaga solo los *renderers* y la luz final.
+- **Ajustes:** los tiempos están en `TzitzimimeTuning` (`invisibleEvery`, `invisibleSeconds`).
+
+**Prueba (Play Mode, `I3_Convento`).**
+- **En el techo:** sin copal, el cuerpo quedó apagado y los ojos encendidos (captura izquierda).
+- **En la forma final:** al forzar la desaparición, se vieron solo los ojos (captura derecha). A los 6 s el cuerpo volvió y los ojos se apagaron.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Ver los ojos no hace inútil el copal? | No: el copal sigue siendo lo único que la revela y deja avanzar la barra. Los ojos solo dicen dónde está, para que el jugador sepa a dónde lanzarlo. |
+
 #### Susto al ser atrapado (#137)
 
 **Qué hace.** Si la Llorona te atrapa, o el Charro te arrolla, **antes** del enfrentamiento final, su cara pálida de ojos rojos se lanza contra la cámara y llena la pantalla:
