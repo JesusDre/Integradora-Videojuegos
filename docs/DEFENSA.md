@@ -815,6 +815,29 @@ El nivel real de la hacienda es #40.
 | ¿Por qué no entra a la capilla? | La capilla tiene un `SpiritBarrier`; `SpiritBody` lo saca de cualquier barrera, igual que del círculo de rezo. |
 | ¿Cómo se puede esquivar la embestida? | Apunta a donde estaba el Padre y no gira durante la carrera; basta con moverse de lado. |
 
+##### Ajustes del playtest: cuerpos, hordas lejanas, susto, metralleta y arma inicial (#164)
+
+**Qué cambió y por qué.**
+- **Los cuerpos desaparecen.** Un cultista muerto se queda 6 s en el suelo y luego se hunde en 2 s y se borra. Con las hordas se juntaban decenas de cuerpos que estorbaban y costaban rendimiento. Lo hace `DeathAnimation.SinkAndRemove()`.
+- **Las hordas salen lejos y sin que las veas.** Los puntos de horda ahora están a 40–60 m de la pelea, con un camino caminable hasta ella.
+  - Al empezar cada oleada, `WaveSpawner.HiddenPoint()` escoge el primer punto que el Padre **no ve**: fuera de la pantalla, o detrás de una pared o del terreno (un `Physics.Linecast` desde la cámara).
+  - Si los ve todos, usa el más lejano. Así la horda se oye y se ve llegar corriendo, en vez de aparecer de la nada a su lado.
+  - En la huida de la hacienda ningún punto está del lado del portón: la horda siempre viene por detrás.
+- **El susto sale siempre.** Antes estaba apagado a propósito durante el ritual de la Llorona y en la fase final del Charro, que es justo cuando más atrapan al Padre. Ahora sale cada vez que la Llorona lo agarra o el Charro lo atropella. Los 8 s de espera de `JumpscareUI` evitan que se repita sin parar.
+- **La metralleta recarga en 1.2 s** (antes 2.2), en `WPN_Metralleta`.
+- **Se empieza siempre con machete.** Con la escopeta y casi sin munición no se podía hacer nada antes del primer cuarto seguro. La escopeta ahora espera en la mesa de ese cuarto (`StarterWeaponPickup`).
+
+**Prueba (Play Mode, `I2_Hacienda`).**
+- **Arma inicial:** el Padre empezó solo con el machete, y la escopeta quedó para la mesa.
+- **Horda:** en la fase final, la oleada salió a unos 60 m, por el sur, fuera de la vista, y llegó corriendo a 5 m/s.
+- **Cuerpos:** el cuerpo de un cultista muerto desapareció de la escena a los 8 s.
+- **Susto:** el código se probó disparándolo en juego: la cara del Charro llena la pantalla.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe el juego si el Padre ve un punto? | Lo convierte a coordenadas de pantalla (`WorldToViewportPoint`). Si cae dentro de la pantalla, traza una línea desde la cámara: si algo la corta, el punto está tapado. |
+| ¿Por qué hundir el cuerpo y no borrarlo de golpe? | Si desapareciera de golpe se notaría el corte. Hundirse se ve natural y además deja ver la muerte. |
+
 ##### Hordas en las peleas finales y huida con flecha (#162)
 
 **Qué hace.**

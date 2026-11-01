@@ -11812,8 +11812,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263171328}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 142, y: -9, z: 96}
+  m_LocalRotation: {x: -0, y: -0.85110927, z: -0, w: 0.5249886}
+  m_LocalPosition: {x: 155.16667, y: -8.916667, z: 123.16667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101137,8 +101137,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734019802}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.58958644, z: -0, w: 0.8077053}
-  m_LocalPosition: {x: 92, y: -9, z: 96}
+  m_LocalRotation: {x: -0, y: -0.34202015, z: -0, w: 0.9396927}
+  m_LocalPosition: {x: 149.13937, y: -5.120816, z: 65.697784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101180,8 +101180,6 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1734019803}
   - {fileID: 263171329}
-  - {fileID: 2120318803}
-  - {fileID: 1885212827}
   firstWaveDelay: 2
   singleDirection: 1
   runMultiplier: 1.35
@@ -101203,8 +101201,6 @@ Transform:
   m_Children:
   - {fileID: 1734019803}
   - {fileID: 263171329}
-  - {fileID: 2120318803}
-  - {fileID: 1885212827}
   m_Father: {fileID: 620058757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1739889373
@@ -109384,37 +109380,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: baf078db9379971aeb0832870be1954e, type: 3}
   m_PrefabInstance: {fileID: 1878123066}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1885212826
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1885212827}
-  m_Layer: 0
-  m_Name: WaveSpawn4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1885212827
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885212826}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 142, y: -9, z: 120}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1736510573}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1887541736
 GameObject:
   m_ObjectHideFlags: 0
@@ -113981,37 +113946,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118533404}
   m_Mesh: {fileID: 4300000, guid: 81d47e651833cf7819df77ec4e4263cb, type: 2}
---- !u!1 &2120318802
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2120318803}
-  m_Layer: 0
-  m_Name: WaveSpawn3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2120318803
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120318802}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 92, y: -9, z: 120}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1736510573}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2123144881
 PrefabInstance:
   m_ObjectHideFlags: 0
