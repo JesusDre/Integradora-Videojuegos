@@ -22,7 +22,8 @@ rng = np.random.default_rng(137)
 # Crop box (fraction of the render) around each face.
 CROPS = {"Llorona": (0.14, 0.18, 0.86, 0.90), "Charro": (0.16, 0.14, 0.84, 0.82),
          "Muneca": (0.08, 0.06, 0.92, 0.90),   # the possessed doll (#172)
-         "Chaneque": (0.1, 0.0, 0.9, 0.8)}      # the chaneque (#173)
+         "Chaneque": (0.1, 0.0, 0.9, 0.8),      # the chaneque (#173)
+         "Arana": (0.05, 0.05, 0.95, 0.95)}     # the ceiling spider (#174)
 # The color that survives the treatment: red for everyone, the chaneque's eyes are yellow.
 KEEP = {"Chaneque": "yellow"}
 

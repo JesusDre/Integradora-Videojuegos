@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765282c535ea00ee280abfaa1180d496, type: 3}
+  m_Name: SpiderTuning
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Enemies.SpiderTuning
+  triggerRadius: 2.2
+  dropSpeed: 9
+  liftSpeed: 0.6
+  damagePerSecond: 4
+  topDamage: 25
+  mashToEscape: 8
+  cooldown: 8

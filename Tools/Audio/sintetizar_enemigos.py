@@ -77,3 +77,21 @@ snicker = cackle("je je", 300, 90, (1.25, 1.33))
 save("SFX/Enemigos", "chaneque_robo", mix(1.6, (swipe, 0.0, 1.0), (jingle, 0.05, 1.0), (snicker, 0.45, 0.9)))
 # Its death: a shrill squeal that falls apart.
 save("SFX/Enemigos", "chaneque_muere", cackle("iiiiaa", 160, 99, (1.3, 1.45)), peak=0.75)
+
+# ---- Ceiling spiders (#174). A loop of eight legs tapping on stone (irregular fast clicks), a hiss when it
+# grabs, and a wet crunch when it dies.
+from sintesis import make_loop  # noqa: E402
+
+skitter_len = 2.0
+taps = []
+t = 0.0
+while t < skitter_len - 0.05:
+    tap = band(noise(0.03), 2500, 9000) * env(0.03, 0.0003, 0.006) * sintesis.rng.uniform(0.4, 1.0)
+    taps.append((tap, t, 1.0))
+    t += sintesis.rng.uniform(0.025, 0.07)
+save("SFX/Enemigos", "arana_patas", make_loop(mix(skitter_len, *taps), 0.1), loop=True)
+hiss = band(noise(1.2), 3000, 10000) * env(1.2, 0.05, 0.5, 0.4)
+save("SFX/Enemigos", "arana_siseo", reverb(mix(1.3, (hiss, 0.0, 1.0), (thump(180, 90, 0.2, 0.05) * 0.5, 0.0, 1.0)), 0.8, 0.2))
+crunch = band(noise(0.35), 300, 4000) * env(0.35, 0.002, 0.12)
+squelch = band(noise(0.5), 150, 900) * env(0.5, 0.02, 0.25) * 0.8
+save("SFX/Enemigos", "arana_muere", mix(0.8, (crunch, 0.0, 1.0), (squelch, 0.05, 1.0), (thump(120, 60, 0.3, 0.08) * 0.6, 0.0, 1.0)))
