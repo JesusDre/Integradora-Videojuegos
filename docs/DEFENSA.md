@@ -1173,6 +1173,16 @@ El nivel real del convento es #46.
 | ¿Por qué roba en vez de solo pegar? | Es lo que hace el chaneque en la leyenda: es travieso. Obliga al jugador a decidir si lo persigue para recuperar lo robado. |
 | ¿Cómo se oye "más cerca"? | El `AudioSource` es 3D (más fuerte si está cerca, y de qué lado), y además la pausa entre risas se acorta con la distancia (`Mathf.Lerp`). |
 
+##### Modelo nuevo (#183)
+
+**Qué cambió.** El chaneque ahora es un duende de piel verdosa y arrugada, orejas puntiagudas, sonrisa llena de dientes, sombrero de paja y calzón de manta con faja roja. Salió de una imagen de Gemini pasada por TRELLIS (fuente: `Tools/Modelos/chaneque_trellis.glb`) y se redujo a **2,500 caras** con la misma altura de antes, 0.85 m.
+
+- **Sin Mixamo, a propósito:** el chaneque no camina, salta. `ChanequeAI.Hop()` sube y baja el objeto `Modelo` con un seno mientras se mueve, así que basta un modelo fijo (`Chaneque/chaneque.fbx`, textura `T_Chaneque` de 512 px sin filtrado, material `M_Chaneque`).
+- **Misma estructura para el código:** `Modelo` es ahora un objeto vacío con dos hijos, `Cuerpo` (el FBX) y `Ojos`. El campo `model` de `ChanequeAI` apunta a `Modelo`, así que el salto mueve cuerpo y ojos juntos.
+- **Ojos amarillos en su cara nueva:** posiciones medidas en Blender (±4 cm, a 0.67 m). Su luz se alejó a 50 cm y bajó a 0.25 por la misma razón que la de la muñeca: cerca de la cara la teñía toda.
+
+**Prueba (Play Mode, `I1_Xochimilco`).** Los 3 chaneques usan el modelo nuevo; de cerca se ven los ojos encendidos y la textura. Sin errores.
+
 #### Muñecas poseídas (Xochimilco, #172)
 
 **Qué hacen.** En la Isla de las Muñecas y en dos islas más hay muñecas del tamaño de una niña pequeña, con los brazos estirados, la cara rota y ojos rojos.
