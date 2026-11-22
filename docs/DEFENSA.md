@@ -792,6 +792,23 @@ Para que la pantalla se deforme, la cámara del Padre ahora tiene activado el po
 | ¿Por qué los ojos brillan tanto? | Su color tiene valores mayores que 1 (HDR); así la niebla no los apaga y el *bloom* les da halo. |
 | ¿Por qué suena al desaparecer? | Para que el jugador sepa que sigue ahí aunque no la vea: cada acción importante tiene aviso visual o sonoro. |
 
+##### Modelo nuevo (#179)
+
+**Qué cambió.** La Llorona ahora es una mujer pálida de vestido blanco roto y cabello negro largo que le tapa la cara. Se hizo igual que el cultista nuevo (ver 5.4, "Modelo nuevo del cultista"): imagen de Gemini → TRELLIS → reducida a 6,000 caras en Blender → rig y animaciones en Mixamo → importada como **Humanoid**. Su código no cambió.
+
+| Animación de Mixamo | Estado en `AC_Llorona` | Cuándo se ve |
+|---|---|---|
+| Crying | `Locomotion` (Speed 0) | Quieta, sollozando |
+| Sad Walk (In Place) | `Locomotion` (Speed 0.8) | Acechando lenta y encorvada |
+| Zombie Walk (In Place) | `Locomotion` (Speed 2) | Persiguiendo con los brazos al frente |
+| Zombie Biting, Zombie Scream, Kneeling Down o Dying | `Grab`, `Scream`, `Vanish` | Listas en el controlador para cuando el código las dispare |
+
+- **El modelo vive en `PF_Llorona/Visuals/Modelo`** y mide 1.8 m escalado ×1.1 (≈2 m), porque ella es más alta que un hombre (su cápsula mide 2.1 m).
+- **Los ojos rojos siguieron funcionando sin tocar código:** `BuildEyes()` pide al Animator el hueso de la cabeza con `GetBoneTransform(HumanBodyBones.Head)`. Como el modelo nuevo también es Humanoid, Unity sabe cuál es (`mixamorig:Head`) y los ojos quedan sobre su cara.
+- **Vanish de Mixamo se desplaza 2 m de lado:** a ese clip no se le hornea la posición en la pose, así que Unity descarta ese avance y ella se hunde en su lugar.
+
+**Cómo se probó (Play Mode, `I1_Xochimilco`).** Se vio acechando en la orilla con la animación Sad Walk; con una cámara frente a su cara se forzó `SetInvisible(true)`: el cuerpo desapareció y los dos ojos quedaron justo donde estaba su rostro.
+
 #### El Charro Negro (instancia 2)
 
 **Qué hace.** El Charro trota detrás del Padre a 5 m/s, un poco más lento que correr (5.5). Cuando el Padre está a menos de 14 m, embiste: corre en línea recta a 12 m/s hacia donde estaba el Padre y sigue 8 m más. La embestida no gira, así que hacerse a un lado en el último momento la esquiva. Si lo alcanza, quita 25. Después se detiene 1.5 s para dar la vuelta.
