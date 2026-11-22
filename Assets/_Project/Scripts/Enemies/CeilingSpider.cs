@@ -56,6 +56,10 @@ namespace Animas.Enemies
                 messages = p.GetComponent<Inventory>();
             }
             escapeAction = InputSystem.actions.FindAction("Player/Interact", true);
+            // Its collider must be solid so weapons hit it, but it sits on the Padre's head while lifting
+            // him: without this his CharacterController would bump into it and could not go up.
+            if (playerBody != null)
+                foreach (Collider c in GetComponentsInChildren<Collider>()) Physics.IgnoreCollision(playerBody, c);
             ceiling = transform.position;
             // The Padre's head stops a little under the vault.
             topY = ceiling.y - (playerBody != null ? playerBody.height : 1.8f) - 0.2f;

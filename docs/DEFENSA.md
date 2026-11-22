@@ -1132,7 +1132,7 @@ El nivel real del convento es #46.
 | `LloronaEntity.StartGrab` | Dispara el susto si el ritual aún no está en `Praying`. |
 | `CharroNegroEntity` | Al conectar la embestida, dispara el susto si el pedestal no está completo. |
 | `JumpscareUI` | Muestra la imagen: crece de 115 % a 100 % en 0.08 s (se "lanza"), se queda 0.55 s y se desvanece. Usa tiempo sin escala (`unscaledTime`) y lanza `PlayerLook.AddShake`. |
-| Las caras | Se capturaron en Unity con una cámara frente al hueso de la cabeza, con luz fría, y se trataron con `Tools/Iconos/procesar_sustos.py`: casi sin color salvo los rojos, contraste duro, viñeta, ondulación y grano. |
+| Las caras | Se capturaron en Unity con una cámara frente al hueso de la cabeza, con luz fría, y se trataron con `Tools/Iconos/procesar_sustos.py`: casi sin color salvo los rojos, contraste duro, viñeta, ondulación y grano. En #174 se volvieron a capturar la Llorona, la muñeca y el chaneque con sus modelos nuevos (#179, #181, #183), y se agregó la araña. |
 | El sonido | `Tools/Audio/sintetizar_sustos.py`: ruido, retumbo grave y voces agudas desafinadas que caen. |
 
 **Prueba (Play Mode).**
@@ -1222,6 +1222,47 @@ El nivel real del convento es #46.
 - **La luz roja se alejó de la cara:** la luz de un foco baja con el cuadrado de la distancia; a 20 cm de la porcelana pálida la pintaba toda de rojo. Ahora está a 50 cm al frente y muy tenue (0.12): solo tiñe el suelo, y los ojos brillan por su material emisivo.
 
 **Prueba (Play Mode, `I1_Xochimilco`).** Las 5 muñecas usan el modelo nuevo; con una cámara frente a una se ven los ojos encendidos en las cuencas, las lágrimas y la textura. Sin errores.
+
+#### Arañas del techo (ex-convento, #174)
+
+**Qué hacen.** En las bóvedas del ex-convento hay cinco arañas negras del tamaño de un perro grande, con una calavera pálida en el abdomen y ojos rojos.
+- **Esperan arriba, quietas.** Cuando el Padre pasa debajo (a menos de 2.2 m, medido en el suelo) sisean y bajan por su hilo directo a su cabeza.
+- **Lo agarran y lo suben al techo:** pantalla de susto, aviso "¡Una araña te sube al techo! Golpéala o presiona F para soltarte", 4 de vida por segundo mientras sube a 0.6 m/s.
+- **Dos salidas:** golpearla con cualquier arma (un golpe basta para que suelte) o presionar F 8 veces.
+- **Si llega al techo:** un golpe fuerte de 25 y lo deja caer. Luego ella vuelve a su bóveda y espera 8 s antes de poder bajar otra vez.
+- **Se pueden matar:** 30 de vida (dos machetazos).
+
+![Atrapado por una araña](img/ui/arana_agarre.png)
+
+**Cómo funciona.** `CeilingSpider` es una máquina de estados con cuatro estados:
+
+| Estado | Qué hace |
+|---|---|
+| `Waiting` | Quieta en el punto del techo donde se colocó. Cada cuadro mide la distancia horizontal al Padre. |
+| `Dropping` | Baja con `Vector3.MoveTowards` hacia la cabeza del Padre a 9 m/s. |
+| `Holding` | Apaga el `PlayerController` (su movimiento y su gravedad) y mueve al Padre con `CharacterController.Move` hacia arriba. Cuenta las veces que se presiona la acción *Interact* (F). |
+| `Climbing` | Suelta al Padre (le devuelve su movimiento) y regresa al techo a la mitad de velocidad. |
+
+- **El hilo:** un `LineRenderer` de dos puntos, del techo a la araña, que se actualiza cada cuadro.
+- **Sonidos:** `arana_patas` en bucle mientras baja o sube, `arana_siseo` al caer y `arana_muere` al morir (de `Tools/Audio/sintetizar_enemigos.py`).
+- **Sus números:** en `Data/Enemies/SpiderTuning.asset` (radio, velocidades, daño, presiones de F y espera).
+- **Un detalle de física:** su collider es sólido (los golpes ignoran los *triggers*), pero mientras sube al Padre está sobre su cabeza. `Physics.IgnoreCollision` entre la araña y el `CharacterController` del Padre evita que choquen y que él no pueda subir.
+
+**El modelo.** Salió de una imagen de Gemini pasada por TRELLIS (fuente: `Tools/Modelos/arana_trellis.glb`; script de arreglo: `Tools/Blender/arreglar_arana.py`), pero TRELLIS le fundió el cuarto par de patas: tenía 6 y una pieza suelta. En Blender se hizo simétrica (`symmetrize`, que quitó la pieza), se duplicó el par trasero y se giró 38° hacia atrás desde donde sale del cuerpo, para que tenga 8. Se redujo a 3,000 caras y 1 m de ancho. En el prefab `PF_Arana` el hijo `Modelo` va girado 180° para colgar del techo con las patas arriba y la calavera hacia abajo. No necesita Mixamo: Mixamo solo hace rig a personajes de dos piernas, y la araña se mueve completa por código.
+
+**Dónde están.** Cinco en `I3_Convento` (grupo `Aranas_Techo`), en bóvedas de 4.4 a 6 m: dos sobre la ruta del NavMesh del inicio al cuarto seguro y tres en pasillos angostos (a menos de 1.6 m de una pared), por donde hay que pasar. Todas a más de 12 m del inicio, del cuarto seguro y del ancla.
+
+**Prueba (Play Mode, `I3_Convento`).**
+- **Bajo `Arana_1`:** bajó, lo agarró (vida 100 → 97, movimiento apagado), lo subió de 0.5 a 3.8 m, le quitó 4 por segundo y en el techo le dio 25 y lo soltó; esperó los 8 s antes de volver a bajar.
+- **Bajo `Arana_2`:** a media subida un golpe de 5 la hizo soltarlo (estado `Climbing`, movimiento devuelto) y volvió a su bóveda.
+- **Al matarla:** con 99 de daño desapareció. Consola sin errores.
+- **Falta probarlo con teclado:** soltarse presionando F 8 veces (la prueba automática no puede presionar teclas).
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo sabe que el Padre pasa por debajo? | Compara su posición con la del techo: el Padre tiene que estar más abajo (hasta 8 m) y a menos de 2.2 m en horizontal. |
+| ¿Por qué se apaga el `PlayerController` al agarrarlo? | Porque si no, su gravedad lo jalaría hacia abajo mientras la araña lo sube. Al soltarlo se vuelve a encender. |
+| ¿Por qué no tiene animación? | Su movimiento es bajar y subir en línea recta por el hilo; lo hace el código. El sonido de patas da la sensación de que se mueve. |
 
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Arte de la instancia 1: #36.*
