@@ -278,6 +278,39 @@ En `Sandbox` hay un Cultista con 40 de vida detrás de la puerta, vendas sobre l
 | ¿Por qué el jugador puede escapar? | El Cultista persigue a 3.5 m/s y el Padre corre a 5.5 m/s; además, si lo pierde de vista solo busca 10 segundos. |
 | ¿Cómo sabe la animación si camina o corre? | El Animator recibe la velocidad real del agente en `Speed` y mezcla quieto, caminar y correr. |
 
+#### Modelo nuevo del cultista (#177)
+**Qué cambió.** El cultista ya no es el muñeco low poly hecho por script: ahora es un encapuchado con túnica rota, máscara de calavera y una cuerda con huesos en la cintura. La IA, la vida, el ataque y la muerte son exactamente los mismos; solo cambió lo que se ve.
+
+**Cómo se hizo (de la idea al juego).**
+1. **Imagen de referencia:** Gemini dibujó al cultista de frente, en pose A (brazos separados del cuerpo), con fondo liso.
+2. **Modelo 3D:** TRELLIS (Microsoft, licencia MIT) convirtió esa imagen en un modelo con textura. La fuente original quedó en `Tools/Modelos/cultista_trellis.glb`.
+3. **Optimización en Blender:** se redujo de 9,459 a **6,000 caras** (lo que aguantan las hordas de 20–30 cultistas), se escaló a 1.8 m y se puso el origen en los pies.
+4. **Esqueleto y animaciones en Mixamo:** el auto-rig de Mixamo le puso un esqueleto humanoide de 41 huesos y de su biblioteca salieron 5 animaciones: Zombie Idle, Zombie Walk, Zombie Running, Zombie Attack y Zombie Death. Walk y Run se bajaron con **In Place** (la animación no avanza sola).
+5. **Unity:** se importaron como **Humanoid** y se conectaron al mismo Animator de antes.
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `cultista_idle.fbx` | `Art/Models/Characters/Cultista/` | Trae el cuerpo y crea el **Avatar** humanoide (el "mapa" que dice qué hueso es la cadera, la cabeza, cada brazo…). |
+| `cultista_walk/run/attack/death.fbx` | la misma carpeta | Solo aportan su animación; usan el Avatar del idle (`Copy From Other Avatar`). |
+| `T_Cultista.png` + `M_Cultista.mat` | la misma carpeta | La textura (bajada a 512 px y sin filtrado, para el look PS1) en un material URP Lit propio. |
+| `AC_Cultista` | `Art/Animations/` | El mismo controlador: el blend tree `Locomotion` (Idle → Walk → Run según `Speed`), `Attack` y `Death`; solo se cambiaron los clips. |
+| `PF_Cultista` | `Prefabs/Enemies/` | El cuerpo viejo quedó oculto y el nuevo es el hijo `Modelo`, con su propio `Animator`. `CultistAI` y `DeathAnimation` apuntan a ese Animator. |
+
+**Detalles que importan.**
+- **Humanoid permite reusar animaciones:** como Unity sabe qué hueso es cuál, cualquier animación humanoide (de Mixamo o nuestra) funciona en este cuerpo.
+- **La IA manda, no la animación:** todos los clips tienen la posición y rotación de la raíz "horneadas en la pose" (`Bake Into Pose`) y el Animator no aplica *root motion*. Así el `NavMeshAgent` es el único que mueve al cultista y los pies no "patinan" ni lo sacan del NavMesh.
+- **No se tocó ninguna escena:** como todas las oleadas y hordas usan el mismo `PF_Cultista`, cambiar el prefab cambió a todos los cultistas del juego a la vez.
+
+**Cómo se probó (Play Mode).** En Xochimilco apareció un cultista a 7 m del Padre: corrió hacia él (`Locomotion` con `Speed` 3.5), lo atacó (estado `Attack`, la vida bajó), murió con 999 de daño (estado `Death`) y su cuerpo desapareció a los 8 s. Sin errores en la consola.
+
+**Preguntas probables.**
+| Pregunta | Respuesta |
+|---|---|
+| ¿Ustedes hicieron el modelo? | La forma y la textura las generó una IA (TRELLIS) a partir de una imagen nuestra; nosotros lo optimizamos, lo riggeamos en Mixamo y lo integramos. Está anotado en `LICENCIAS.md`. |
+| ¿Qué es un rig? | Un esqueleto dentro del modelo: cada vértice se pega a uno o varios huesos, y al mover los huesos se deforma la malla. |
+| ¿Por qué 6,000 caras? | Porque en las hordas hay hasta 30 cultistas a la vez; con el modelo original de Meshy (468 mil caras) el juego no correría. |
+| ¿Qué es "In Place"? | Que la animación camina sin avanzar. Si avanzara, el cultista se adelantaría a donde la IA lo pone. |
+
 ### 5.5 Altar y crafteo
 *Issue #23.*
 

@@ -5,7 +5,9 @@ Todo asset que no hicimos nosotros se anota aquí en el mismo momento en que se 
 | Archivo / pack | Tipo | Fuente (link) | Autor | Licencia | ¿Pide atribución? | Quién lo importó |
 |---|---|---|---|---|---|---|
 | TMP Essential Resources (fuente LiberationSans SDF) | Fuente | Paquete `com.unity.ugui` de Unity | Liberation Fonts (Red Hat) | SIL Open Font License 1.1 | No | Jesús |
-| `chr_cultista.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_cultista.py` | Jesús | Propio | No | Jesús |
+| `chr_cultista.fbx` y sus animaciones (modelo anterior, oculto en `PF_Cultista`) | Modelo 3D | Hecho por el equipo con `Tools/Blender/chr_cultista.py` | Jesús | Propio | No | Jesús |
+| `Characters/Cultista/cultista_*.fbx`, `T_Cultista.png` (cultista nuevo, #177); fuente `Tools/Modelos/cultista_trellis.glb` | Modelo 3D | Malla y textura generadas con TRELLIS (https://github.com/microsoft/TRELLIS, Space de Hugging Face) desde una imagen de referencia hecha con Gemini; reducido a 6,000 caras en Blender por el equipo | Microsoft (herramienta) / Jesús | TRELLIS: MIT. La salida generada es nuestra | No | Jesús |
+| Rig y animaciones del cultista nuevo: Zombie Idle, Zombie Walk, Zombie Running, Zombie Attack, Zombie Death | Animación | Mixamo (https://www.mixamo.com), auto-rigger y biblioteca de animaciones | Adobe | Términos de Mixamo: uso gratis y sin regalías en proyectos personales y comerciales; no se pueden redistribuir los archivos sueltos | No | Jesús |
 | `ent_llorona.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_llorona.py` | Jesús | Propio | No | Jesús |
 | `ent_charro.fbx`, `ent_caballo.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_charro.py` y `ent_caballo.py` | Jesús | Propio | No | Jesús |
 | `ent_tzitzimime.fbx` y sus animaciones | Modelo 3D | Hecho por el equipo con `Tools/Blender/ent_tzitzimime.py` | Jesús | Propio | No | Jesús |
