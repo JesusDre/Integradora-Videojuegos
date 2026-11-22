@@ -1203,6 +1203,16 @@ El nivel real del convento es #46.
 | ¿Por qué no tiene animación de caminar? | Da más miedo así: el jugador nunca la ve moverse, solo nota que está más cerca. |
 | ¿Por qué regresa a su sitio después de atraparte? | Para que no te persiga sin fin y vuelvas a encontrarla quieta, como al principio. |
 
+##### Modelo nuevo (#181)
+
+**Qué cambió.** La muñeca ahora es de porcelana agrietada, con cuencas vacías que lloran sangre, cabello negro enmarañado y vestido sucio. Salió de una imagen de Gemini pasada por TRELLIS (fuente: `Tools/Modelos/muneca_trellis.glb`) y en Blender se redujo a **2,500 caras** (es pequeña y hay cinco) con la misma altura de antes, 0.95 m. Su código no cambió.
+
+- **Sin Mixamo, a propósito:** la muñeca nunca se anima (solo se mueve cuando no la ves), así que basta un modelo fijo: `MunecaPoseida/muneca_poseida.fbx`, textura `T_MunecaPoseida` (512 px, sin filtrado) y material `M_MunecaPoseida`.
+- **Los ojos rojos van dentro de las cuencas:** sus posiciones (±4 cm del centro, a 0.80 m, en la superficie de la cara) se midieron en Blender sobre la malla.
+- **La luz roja se alejó de la cara:** la luz de un foco baja con el cuadrado de la distancia; a 20 cm de la porcelana pálida la pintaba toda de rojo. Ahora está a 50 cm al frente y muy tenue (0.12): solo tiñe el suelo, y los ojos brillan por su material emisivo.
+
+**Prueba (Play Mode, `I1_Xochimilco`).** Las 5 muñecas usan el modelo nuevo; con una cámara frente a una se ven los ojos encendidos en las cuencas, las lágrimas y la textura. Sin errores.
+
 ### 5.13 Niveles: las tres instancias
 *Planos: issues #5, #30 y #38. Blockout de la instancia 1: #16. Niveles de las instancias 2 y 3: #40 y #46. Arte de la instancia 1: #36.*
 
