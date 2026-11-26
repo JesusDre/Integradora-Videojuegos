@@ -582,10 +582,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.StartingLoadout
   bag: {fileID: 867635222433681694}
-  inventory: {fileID: 5157468773410539650}
   machete: {fileID: 11400000, guid: c6eb16b02034bf4afb8c6eb1328833d7, type: 2}
   escopeta: {fileID: 11400000, guid: 89efd91e247370fc9bb34be6556ef907, type: 2}
-  escopetaRounds: 6
 --- !u!114 &8835843904852683111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1573,6 +1571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5020901396259324198}
+  - component: {fileID: 3535141700482493196}
   m_Layer: 8
   m_Name: Shotgun_View
   m_TagString: Untagged
@@ -1600,6 +1599,28 @@ Transform:
   - {fileID: 7969618743896940146}
   m_Father: {fileID: 1062469166424127423}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3535141700482493196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5424389054005128659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af868f0385aa77584bfcf82948657904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.ViewModelMotion
+  target: {fileID: 5020901396259324198}
+  guns: {fileID: 8252742590538644725}
+  idleSeconds: 8
+  lookEvery: 12
+  inspectPosition: {x: -0.06, y: 0.04, z: 0.02}
+  inspectRotation: {x: -8, y: -25, z: 30}
+  inspectTiming: {x: 0.45, y: 1.4, z: 0.5}
+  reloadPosition: {x: 0.02, y: -0.07, z: -0.02}
+  reloadRotation: {x: 25, y: 10, z: -30}
+  reloadSpeed: 8
 --- !u!1 &5835415931922492238
 GameObject:
   m_ObjectHideFlags: 0
@@ -2297,6 +2318,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2967995182632910026}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3775056524087229687}
   m_SourcePrefab: {fileID: 100100000, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}
 --- !u!4 &5261200708293673004 stripped
 Transform:
@@ -2330,6 +2354,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3775056524087229687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265794730968647749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af868f0385aa77584bfcf82948657904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animas.Player.ViewModelMotion
+  target: {fileID: 8790410948501230335}
+  guns: {fileID: 0}
+  idleSeconds: 8
+  lookEvery: 12
+  inspectPosition: {x: -0.04, y: 0.02, z: 0.03}
+  inspectRotation: {x: -6, y: -10, z: 14}
+  inspectTiming: {x: 0.45, y: 1.4, z: 0.5}
+  reloadPosition: {x: 0.02, y: -0.07, z: -0.02}
+  reloadRotation: {x: 25, y: 10, z: -30}
+  reloadSpeed: 8
 --- !u!4 &8790410948501230335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cdc97c51937ad8b1c910f0831ef01f9e, type: 3}

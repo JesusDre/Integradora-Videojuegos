@@ -1881,6 +1881,15 @@ En Unity solo se cambió la malla y el material dentro de cada `PF_Vista_*`; su 
 
 ![Machete, escopeta y ballesta nuevos en la mano](img/ui/armas_trellis.png)
 
+**Machete vertical, recarga visible y revisar el arma (#196).**
+- **Machete:** antes cruzaba la pantalla de lado. Ahora va vertical, con la punta hacia arriba e inclinada 55° al frente, el filo hacia adelante y el mango en el puño; se ve de canto (delgado) y casi no tapa la vista. Solo cambió el transform del modelo dentro de `PF_Vista_Machete`.
+- **`ViewModelMotion`** (`Scripts/Player`): mueve un solo Transform (el modelo de los brazos, o `Shotgun_View`, donde aparecen las armas de fuego) un poco fuera de su pose y lo regresa, encima de su animación, sin pelear con el Animator (que mueve los huesos de adentro).
+  - **Al recargar** (`PlayerShotgun.IsReloading`): el arma baja y se inclina hacia la esquina; antes la recarga solo sonaba, ahora también se ve (la rúbrica pide aviso visual o sonoro en cada acción).
+  - **AFK:** si en 8 s no se mueve, no mira ni presiona nada, el Padre revisa el arma: la acerca al centro, la gira para verla (1.4 s) y la regresa; se repite cada 12 s. Cualquier tecla o movimiento del mouse lo interrumpe al instante.
+  - Las poses y tiempos son campos del Inspector (los brazos giran menos que las armas de fuego porque su pivote está en la cámara).
+
+![Revisando el machete (AFK) y recargando la escopeta](img/ui/arma_afk_recarga.png)
+
 ![Brazos en el juego](personajes/img/brazos_juego.png)
 ![Machete, ataque, cruz y chancla en la mano](personajes/img/brazos_armas.png)
 ![Las 5 poses vistas desde la cámara (render de Blender)](personajes/img/brazos_hoja.png)
