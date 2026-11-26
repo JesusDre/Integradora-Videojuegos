@@ -35,6 +35,14 @@ namespace Animas.UI
         [Header("Credits")]
         [SerializeField] Button creditsBackButton;
 
+        [Header("Controls")]
+        [SerializeField] Button controlsButton;
+        [SerializeField] GameObject controlsPanel;
+        [SerializeField] Button controlsBackButton;
+
+        [Tooltip("Optional: the short move to the Padre before the level loads.")]
+        [SerializeField] MenuIntro intro;
+
         void Awake()
         {
             newGameButton.onClick.AddListener(() => Show(selectPanel, instanceButtons[0]));
@@ -44,6 +52,8 @@ namespace Animas.UI
             quitButton.onClick.AddListener(Quit);
             selectBackButton.onClick.AddListener(ShowMain);
             creditsBackButton.onClick.AddListener(ShowMain);
+            if (controlsButton != null) controlsButton.onClick.AddListener(() => Show(controlsPanel, controlsBackButton));
+            if (controlsBackButton != null) controlsBackButton.onClick.AddListener(ShowMain);
             optionsPanel.Closed += ShowMain;
 
             for (int i = 0; i < instanceButtons.Length; i++)
@@ -71,6 +81,7 @@ namespace Animas.UI
         void Update()
         {
             // Esc (or the gamepad's B) backs out of any sub-panel.
+            if (intro != null && intro.Playing) return;
             if (!mainPanel.activeSelf && UnityEngine.InputSystem.Keyboard.current != null
                 && UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
                 ShowMain();
@@ -100,7 +111,8 @@ namespace Animas.UI
         void StartInstance(int index)
         {
             if (index >= catalog.instances.Length || !GameProgress.IsUnlocked(index + 1)) return;
-            SceneFlow.StartInstance(catalog.instances[index]);
+            if (intro != null) intro.Play(() => SceneFlow.StartInstance(catalog.instances[index]));
+            else SceneFlow.StartInstance(catalog.instances[index]);
         }
 
         void ContinueGame()
@@ -116,6 +128,7 @@ namespace Animas.UI
             selectPanel.SetActive(panel == selectPanel);
             optionsPanel.gameObject.SetActive(panel == optionsPanel.gameObject);
             creditsPanel.SetActive(panel == creditsPanel);
+            if (controlsPanel != null) controlsPanel.SetActive(panel == controlsPanel);
             // Something must be selected, or the keyboard and gamepad can't move through the buttons.
             if (EventSystem.current != null && firstSelected != null)
                 EventSystem.current.SetSelectedGameObject(firstSelected.gameObject);

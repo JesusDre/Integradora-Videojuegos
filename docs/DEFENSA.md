@@ -1617,6 +1617,29 @@ Con **Tab** se abre el inventario: los 8 espacios (los 4 primeros son los rápid
 | ¿Cómo se navega con teclado? | El `EventSystem` con `InputSystemUIInputModule` mueve la selección entre botones según su posición; cada menú deja seleccionado su primer botón al abrirse. |
 | ¿Qué pasa si das Reintentar sin haber llegado a un cuarto seguro? | `Respawn()` devuelve `false` y la instancia se carga desde el principio. |
 
+##### Menú de terror, controles y entrada del Padre (#198)
+
+**Qué cambió.** Detrás de los botones ya no hay un color plano: hay una pequeña escena 3D de noche. Niebla espesa, luna fría, cruces, árboles secos y muñecas colgadas; el **Padre completo** (su modelo de TRELLIS) de pie y de espaldas entre cinco veladoras; y la **Llorona** sollozando al fondo. El menú se movió a la izquierda para dejar ver la escena y tiene un botón nuevo, **Controles**.
+
+![Menú, controles y entrada del Padre](img/ui/menu_terror.png)
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `MenuAtmosphere` | `Escenario_Menu/Ambientacion` | Mece la cámara muy despacio con ruido Perlin (como si alguien observara), hace parpadear cada veladora por separado, hace latir el rojo del título con un temblor ocasional y, cada 14–24 s, **apaga las veladoras un instante**: al volver, la Llorona está mucho más cerca con su "¡Ay, mis hijos!"; el siguiente apagón la regresa lejos. |
+| `MenuButtonFx` | cada botón | Al pasar el mouse (o elegirlo con el teclado) la letra se pone rojo sangre, parpadea un momento y suena un latido. |
+| `HumanStandPose` | el Padre del menú | Lo pone de pie con los brazos abajo y respirando **sin un clip de animación**: escribe los "músculos" del sistema Humanoid (por ejemplo `Left Arm Down-Up`) con un `HumanPoseHandler` cada cuadro. La cadera se deja donde se colocó el modelo. |
+| `MenuIntro` | `MenuCanvas` | Al elegir una instancia, el panel se desvanece, la cámara se desliza hasta detrás del hombro del Padre, aparece "Padre Anselmo Quiroz · exorcista" y la pantalla funde a negro; entonces `MainMenu` carga el nivel. |
+| `MainMenu` (cambios) | `MenuCanvas` | Botón y panel de **Controles** (WASD, mouse, Shift, Ctrl, clics, C, Q/rueda, F, E, R, 1–4, Tab, Esc) y la llamada a `MenuIntro` antes de `SceneFlow.StartInstance`. |
+| `VP_Menu` (Volume) | `Art/Materials/Menu` | Post-proceso solo del menú: viñeta, grano de película, aberración cromática y colores lavados. |
+| Sonido | escena | Música del menú, viento (`amb_xochimilco`) y el llanto de la Llorona en 3D desde donde está. |
+
+**Prueba (Play Mode, `MainMenu`).** Se vio la escena con el Padre entre las veladoras y la Llorona al fondo; un apagón la trajo cerca. Controles abrió y Volver regresó. Al elegir Xochimilco, la cámara llegó al Padre, salió su nombre, fundió a negro y cargó `I1_Xochimilco`. Sin errores.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo se anima el Padre sin animaciones? | Con el sistema Humanoid: una pose son números por músculo; el script baja los brazos y hace subir y bajar el pecho con un seno. |
+| ¿Por qué la cámara se mueve sola? | Ruido Perlin: valores suaves que cambian poco a poco, así el movimiento no se ve mecánico ni repetitivo. |
+
 #### Victoria, paso entre instancias y créditos finales (#48)
 
 **Qué hace.** Al llegar **vivo** a la salida de una instancia, el juego se detiene y aparece el resumen:
