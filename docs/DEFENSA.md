@@ -1913,6 +1913,12 @@ En Unity solo se cambió la malla y el material dentro de cada `PF_Vista_*`; su 
 
 ![Revisando el machete (AFK) y recargando la escopeta](img/ui/arma_afk_recarga.png)
 
+**Puño cerrado y render PS1 (#200).**
+- **El machete atravesaba la mano** porque la mano de TRELLIS está abierta. `close_right_hand()` en `Tools/Blender/brazos_padre_trellis.py` cierra la mano derecha: cada vértice más allá de los nudillos gira hacia la palma alrededor de la línea de los nudillos, más mientras más lejos está (las puntas de los dedos se doblan 105°). Después, en Play Mode se midió el centro del puño (el promedio de los vértices alrededor de `RightGrip`) y el mango del machete se movió ahí. La mano izquierda sigue abierta.
+- **Aspecto PS1 en todo el juego:** en `Assets/Settings/PC_RPAsset` el *Render Scale* bajó a **0.4** y el escalado es **Point**. Unity dibuja el 3D a 40 % de la resolución y lo agranda sin suavizar, así que los bordes salen pixelados como en la PlayStation 1, y combina con las texturas de 128 px sin filtrado. La interfaz no se ve afectada porque se dibuja encima a resolución completa. De paso el juego corre más rápido (dibuja menos de una quinta parte de los píxeles).
+
+![Machete en el puño, con render PS1](img/ui/psx_puno_machete.png)
+
 ![Brazos en el juego](personajes/img/brazos_juego.png)
 ![Machete, ataque, cruz y chancla en la mano](personajes/img/brazos_armas.png)
 ![Las 5 poses vistas desde la cámara (render de Blender)](personajes/img/brazos_hoja.png)
