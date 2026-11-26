@@ -3,7 +3,22 @@ guid: 1a82b557ae462f3d7b476282485837f0
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Adobe
+    second: {fileID: 2100000, guid: 0d360240739608c8baee615d0fa72da5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TablaOscura
+    second: {fileID: 2100000, guid: 2a01a117dde95f2b7a8a5d119984151c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Zacate
+    second: {fileID: 2100000, guid: 714d58a7cfdf891d5a4441911cd6e1aa, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

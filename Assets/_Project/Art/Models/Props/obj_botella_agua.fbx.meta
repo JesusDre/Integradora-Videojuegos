@@ -3,7 +3,17 @@ guid: 804c06b3d0f432d2ca5578e1d1a82f02
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corcho
+    second: {fileID: 2100000, guid: 38e72e44b3a9dc7308f9785629c78304, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plata
+    second: {fileID: 2100000, guid: 239096522f78c3e0584b5fb625241420, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

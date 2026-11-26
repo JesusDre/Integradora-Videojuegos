@@ -3,7 +3,12 @@ guid: d34e3a2ea50ff889ba3b92a9cccf7908
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arbusto
+    second: {fileID: 2100000, guid: 75b88d652b4a3df8e920edf0751541e2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

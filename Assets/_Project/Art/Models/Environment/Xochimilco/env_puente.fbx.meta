@@ -3,7 +3,17 @@ guid: 6ac1b75784ade19428ea2fb5dbf646d1
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tabla
+    second: {fileID: 2100000, guid: 79ecdf2e5c3b201898418beb2cac0cb2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TablaOscura
+    second: {fileID: 2100000, guid: 2a01a117dde95f2b7a8a5d119984151c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

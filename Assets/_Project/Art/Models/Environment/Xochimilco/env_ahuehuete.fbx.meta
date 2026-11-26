@@ -3,7 +3,27 @@ guid: 9c92a788d55973d8f92084b812c5573c
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corteza
+    second: {fileID: 2100000, guid: 99868dea4cef820399e951da46afe8c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Follaje
+    second: {fileID: 2100000, guid: 37c3b5eb7e5c5fbc18e79d7181feeecd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FollajeOscuro
+    second: {fileID: 2100000, guid: 61e7c7a11e60393bbbd0c39350527aee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Heno
+    second: {fileID: 2100000, guid: 07bd0b7393ebb5a0f982ed7e96a565d0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -3,7 +3,37 @@ guid: 6c078926d70fde0aa86dd1ef0d1dd7cf
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Cuenca
+    second: {fileID: 2100000, guid: 4a3f631886115676f9bcc1bfd2e84752, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Liston
+    second: {fileID: 2100000, guid: 73629ccb4f7e57880beeca93dd3c9e00, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Mugre
+    second: {fileID: 2100000, guid: 479b0df18417a2cb69b381516317452e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Pelo
+    second: {fileID: 2100000, guid: 429451f8f5bd323b2af627328d6989f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Porcelana
+    second: {fileID: 2100000, guid: 1c2774351db242b0bad8df4c338a744f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Vestido
+    second: {fileID: 2100000, guid: ecfdd7d9fd34a782ba8f0d856bc5b873, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

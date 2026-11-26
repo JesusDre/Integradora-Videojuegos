@@ -3,7 +3,17 @@ guid: f8a4f8d141533ea21992bee03b8edfab
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trapo
+    second: {fileID: 2100000, guid: b3c7a719a15b127a99d5dbd23ab3ef9c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: VidrioMezcal
+    second: {fileID: 2100000, guid: 5fa372ff9b845b5a6a2e183a567f6630, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

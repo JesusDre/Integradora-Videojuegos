@@ -3,7 +3,27 @@ guid: fe268ed7820420a98ae036d449aed227
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuerda
+    second: {fileID: 2100000, guid: 4ab6621af1f960cc49fbd54fc962e7ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Cuenca
+    second: {fileID: 2100000, guid: 88df39fd7a5edb8d5ae2ac7d55363be7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Pelo
+    second: {fileID: 2100000, guid: 7f50ef0dbc86d9a14b359f0f9b0a6afd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Muneca_Porcelana
+    second: {fileID: 2100000, guid: 62529fab7c81dd9b78381f1fdc03e678, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
