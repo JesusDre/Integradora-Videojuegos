@@ -1872,6 +1872,15 @@ Quedan ~1,750 triángulos con la textura del Padre (`T_Padre`, 1024 px porque se
 
 ![Brazos del Padre real en el juego](img/ui/brazos_padre_trellis.png)
 
+**Machete, escopeta y ballesta de TRELLIS (#192).** Las tres armas que más se ven en la mano son ahora modelos de TRELLIS (fuentes en `Tools/Modelos/*_trellis.glb`), con textura de 512 px sin filtrado (`Props/Armas/T_*.png`, materiales `M_Machete`, `M_Escopeta`, `M_Ballesta`). Cada `PF_Vista_*` se había acomodado a mano para que el arma quedara en la palma (`RightGrip`) o frente a la cámara; para no perder ese trabajo, `Tools/Blender/armas_trellis.py` pone cada arma nueva **en el mismo marco que la vieja**:
+- mismo eje largo y el mango o la culata en el mismo extremo (la escopeta y la ballesta se giraron 180°; el machete viejo estaba acostado, así que se giró para que el lomo recto y el filo curvo queden del mismo lado);
+- mismo largo y mismo centro que el modelo anterior;
+- reducido a 800 caras (machete), 1,200 (escopeta) y 1,500 (ballesta).
+
+En Unity solo se cambió la malla y el material dentro de cada `PF_Vista_*`; su posición, giro y escala no se tocaron. La escopeta nueva es más alta que la anterior (tiene culata y martillos reales), así que se ve más grande en pantalla.
+
+![Machete, escopeta y ballesta nuevos en la mano](img/ui/armas_trellis.png)
+
 ![Brazos en el juego](personajes/img/brazos_juego.png)
 ![Machete, ataque, cruz y chancla en la mano](personajes/img/brazos_armas.png)
 ![Las 5 poses vistas desde la cámara (render de Blender)](personajes/img/brazos_hoja.png)
