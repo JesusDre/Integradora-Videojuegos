@@ -3,7 +3,17 @@ guid: 21eb7b1f17bc68f4a813ec347bda8c82
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cordel
+    second: {fileID: 2100000, guid: 3faf7d4dc05814d3abb203983e518aa7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Costal
+    second: {fileID: 2100000, guid: 01fd3b9f1ff11548dbc19ec86fd19cda, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

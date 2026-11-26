@@ -3,7 +3,12 @@ guid: 7cfa621658c3b8c0a996bc86da65b444
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PastoSeco
+    second: {fileID: 2100000, guid: e9d13729d5ca876e2b8701a6e3984bba, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

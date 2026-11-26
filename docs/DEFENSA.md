@@ -2026,6 +2026,30 @@ La risa de las muñecas se escribió sonido por sonido (duración y tono), con l
 | ¿Por qué no se estiran en las paredes largas? | Porque `WorldUVBaker` les da UV medidos en metros. Si un muro mide el doble, la textura se repite el doble de veces. |
 | ¿Qué es un mapa de normales? | Una imagen que le dice a la luz hacia dónde apunta cada punto de la superficie. Así una pared plana parece tener juntas y relieve sin agregar polígonos. |
 
+#### Texturas tipo PS1 para objetos y escenarios (#194)
+
+**Qué cambió.** Los objetos y escenarios hechos en Blender por script (trajinera, choza, carreta, pozo, barriles, cruz, veladora, armas que no se cambiaron, etc.: 47 modelos) solo tenían colores planos. Ahora tienen textura estilo PlayStation 1: veta en la madera, grietas en la piedra, rayones en el metal, tejido en la tela, hojas y paja en lo vegetal, pintura descarapelada en lo pintado y mugre suave en lo demás.
+
+![Objetos con texturas PS1](img/props/texturas_psx.png)
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| `Tools/Texturas/texturas_psx.py` | herramientas | Genera 7 texturas de **128 × 128** con numpy. Son casi blancas, con pocos tonos de gris y *dithering* ordenado (matriz de Bayer 4×4), como las consolas de esa época. |
+| `T_PSX_*.png` | `Art/Textures/PSX` | Importadas con filtro **Point** y sin mipmaps: los píxeles se ven, que es justo el estilo PS1. |
+| `BoxProjectionUV` | `Scripts/Editor` | Al importar un modelo de `Environment/` o `Props/` **sin UV**, le calcula UV por "proyección de caja": mira hacia dónde apunta cada cara (su normal) y usa los otros dos ejes como U y V, en metros. Los modelos de TRELLIS y Mixamo ya traen UV y no se tocan. |
+| `PsxMaterials` (menú *Ánimas → Aplicar texturas PS1*) | `Scripts/Editor` | Para cada material del FBX crea un material URP Lit en `Art/Materials/PSX` con **el mismo color** y la textura según su nombre (Madera, Tabla → madera; Piedra, Adobe → piedra; Acero, Plata → metal; Costal, Cuerda → tela; Follaje, Heno → vegetal; Pintura → pintura; lo demás → mugre), y le dice al FBX que lo use (un *remap*). Los materiales que brillan (ojos, flamas, agua bendita) se quedan como estaban. |
+
+- **¿Por qué la textura no cambia el color?** Porque en URP la textura se **multiplica** por el color del material; como la textura es casi blanca, el rojo sigue rojo y solo se oscurecen las vetas, grietas y manchas.
+- **Repetición:** en los objetos chicos la textura se repite cada 25 cm (`PropTiling` 4) y en los escenarios cada ~67 cm (`SceneryTiling` 1.5), para que el detalle se vea del mismo tamaño en pantalla.
+- **Es repetible:** si se agrega un objeto nuevo hecho en Blender, se vuelve a correr el menú y solo crea lo que falta.
+
+**Prueba.** 47 modelos reimportados con UV y 70 materiales creados. En una escena de prueba y en Play Mode (`I2_Hacienda`, carreta junto a la casa) se vio la textura con su color original. Sin errores.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Qué hace que se vea "de PS1"? | Texturas muy pequeñas, pocos colores con *dithering* y sin suavizado (filtro Point): cada píxel de la textura se ve como un cuadrito. |
+| ¿Qué es una UV? | La coordenada que dice qué punto de la imagen va en cada punto del modelo. Estos modelos no tenían, así que se las calcula el script al importarlos. |
+
 #### Cielo de cada instancia (#102)
 
 **Qué hace.** El fondo ya no es negro: cada instancia tiene su cielo de 360°.

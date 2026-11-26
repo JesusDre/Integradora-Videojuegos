@@ -3,7 +3,17 @@ guid: d0008b5c0d117d48aa3d16c1bd2c6c07
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Heno
+    second: {fileID: 2100000, guid: 07bd0b7393ebb5a0f982ed7e96a565d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TablaOscura
+    second: {fileID: 2100000, guid: 2a01a117dde95f2b7a8a5d119984151c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

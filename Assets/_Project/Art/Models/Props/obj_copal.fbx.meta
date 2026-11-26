@@ -3,7 +3,17 @@ guid: eb3660935f5d4891ebfcefecfe2dda22
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barro
+    second: {fileID: 2100000, guid: bedd8e211a72a4e2db109d45dcb49068, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Copal
+    second: {fileID: 2100000, guid: e939accf13ee3009aa53ec4a6816a8fd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -3,7 +3,22 @@ guid: b108183449cd916a0873369e4bc55ee5
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Heno
+    second: {fileID: 2100000, guid: 07bd0b7393ebb5a0f982ed7e96a565d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HenoOscuro
+    second: {fileID: 2100000, guid: 447320e6e86338c78b6076f2da703830, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mecate
+    second: {fileID: 2100000, guid: 2523856f21d2e92a090bcced7d05bb7f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -3,7 +3,17 @@ guid: 3d4251357fc49bf58b73c65189f90a8d
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corteza
+    second: {fileID: 2100000, guid: 99868dea4cef820399e951da46afe8c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Follaje
+    second: {fileID: 2100000, guid: 37c3b5eb7e5c5fbc18e79d7181feeecd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

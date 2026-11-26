@@ -3,7 +3,52 @@ guid: b9ed750b34e942f0b93a861cc052f4ff
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pintura_Amarilla
+    second: {fileID: 2100000, guid: 59db68e7ef2383e068f3867e04f52efd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pintura_Azul
+    second: {fileID: 2100000, guid: f51ff650ee77e20518c5dc63702d22e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pintura_Roja
+    second: {fileID: 2100000, guid: 3c3a501c6b44b3bacadbf1e25103f0c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pintura_Rosa
+    second: {fileID: 2100000, guid: 5fa4a2dff0aab5ae9866e7ee7970f2e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pintura_Verde
+    second: {fileID: 2100000, guid: 20e0f0d3db233796daffeb0f4cfa6789, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tabla
+    second: {fileID: 2100000, guid: 79ecdf2e5c3b201898418beb2cac0cb2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TablaOscura
+    second: {fileID: 2100000, guid: 2a01a117dde95f2b7a8a5d119984151c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Toldo
+    second: {fileID: 2100000, guid: 771e23b0e663d91b382d28cd31c601b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trajinera_Casco
+    second: {fileID: 2100000, guid: 99a2a68e61c66a889beeea2c6096c7bf, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
