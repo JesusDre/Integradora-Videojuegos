@@ -891,6 +891,24 @@ El nivel real de la hacienda es #40.
 | ¿Por qué se enoja con una bala que no le hace daño? | Porque el jugador espera que un disparo tenga consecuencia. Si pudiera dispararle gratis desde lejos, el Charro se sentiría como un objeto. |
 | ¿Cómo sabe que le disparaste a él? | Lanza un rayo en la misma dirección del disparo (`Physics.Raycast` desde la cámara) y revisa si lo primero que toca es él. |
 
+##### Modelos nuevos del Charro y su caballo (#188)
+
+**Qué cambió.** El Charro ahora es un esqueleto con traje de charro negro bordado en plata, sombrero ancho y ojos rojos. Su caballo es un corcel negro con montura. Los dos salieron de imágenes de Gemini pasadas por TRELLIS (fuentes: `Tools/Modelos/charro_trellis.glb` y `caballo_trellis.glb`) y tienen **2,000 caras** cada uno. Su código no cambió.
+
+- **El jinete: rig de Mixamo, animaciones nuestras.** A `Charro/charro.fbx` Mixamo solo le puso el esqueleto. Sus animaciones a caballo (RideIdle, RideGallop, Offer, Dissolve) siguen saliendo de `ent_charro.fbx`: los dos son **Humanoid**, así que Unity las traduce al esqueleto nuevo. Va colgado del mismo hueso `Saddle` del caballo que antes.
+- **El caballo: sin Mixamo.** Mixamo solo sabe riguear personajes de dos piernas. `Tools/Blender/caballo_trellis.py` corre el mismo `ent_caballo.py` (esqueleto de 4 patas, cuello y cola, y sus animaciones Idle, Gallop, Charge, Hit y Dissolve) pero, justo antes de pegar la malla, cambia el cuerpo de Blender por el de TRELLIS:
+  1. lo reduce a 2,000 caras y lo voltea para que mire hacia donde mira el esqueleto;
+  2. lo estira a la caja del cuerpo anterior, para que patas, cuello y cola caigan sobre sus huesos;
+  3. pega cada vértice a sus **dos huesos más cercanos**, con más peso al más cercano (1/distancia⁴). Es la misma idea del "skin automático".
+- **Mismo archivo, mismos nombres de huesos:** se exporta otra vez como `ent_caballo.fbx`. Por eso `PF_Charro`, el hueso `Saddle` donde va el jinete, `AC_Caballo` y los ojos del caballo (#166) siguieron funcionando sin tocarlos. La textura va en `Caballo/T_Caballo.png` con el material `M_Caballo`.
+
+**Prueba.** En una escena de prueba se vio al Charro sentado en la montura con las riendas, quieto y al galope. En Play Mode (`I2_Hacienda`) el caballo reprodujo `Idle` y el jinete `RideIdle`. Al forzar la invisibilidad quedaron solo los ojos del jinete y los del caballo, cada par sobre su cabeza. Sin errores.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Por qué el caballo no usa Mixamo? | Mixamo solo hace rig de personajes de dos piernas (humanoides). Un caballo tiene 4 patas, cuello largo y cola, así que se usó el esqueleto propio que ya teníamos. |
+| ¿Qué son los "pesos" de un vértice? | Cuánto sigue cada vértice a cada hueso. Uno en la rodilla sigue mitad al muslo y mitad a la pierna, para que doble suave. |
+
 ##### Ajustes del playtest: cuerpos, hordas lejanas, susto, metralleta y arma inicial (#164)
 
 **Qué cambió y por qué.**
