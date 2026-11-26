@@ -156,8 +156,39 @@ def bind(arms, mix, body, rig):
     return arms, tris
 
 
+def close_right_hand(arms, rig, knuckles=0.42, curl_degrees=105.0):
+    """The TRELLIS hand is open, so a weapon handle went through it. The right hand is closed into a
+    fist: every vertex past the knuckles turns toward the palm around the knuckle line, more the farther
+    it is (the fingertips curl the most), so the fingers wrap around the grip."""
+    import math
+    from mathutils import Matrix
+    hand = rig.data.bones["RightHand"]
+    wrist = rig.matrix_world @ hand.head_local
+    tip = rig.matrix_world @ hand.tail_local
+    along = (tip - wrist).normalized()
+    length = (tip - wrist).length
+    back = Vector((-1.0, 0, 0.5))                      # back of the right hand (outward, as in frame())
+    back = (back - along * back.dot(along)).normalized()
+    axis = along.cross(back).normalized()              # the knuckle line, across the hand
+    pivot = wrist + along * (length * knuckles)
+    # Pick the turning direction that sends the fingertips toward the palm (away from the back).
+    test = Matrix.Rotation(math.radians(30), 3, axis) @ (tip - pivot)
+    sign = 1.0 if test.dot(back) < (tip - pivot).dot(back) else -1.0
+    for v in arms.data.vertices:
+        if v.co.x > 0:
+            continue   # left hand stays open
+        rel = v.co - wrist
+        t = rel.dot(along) / length
+        if t <= knuckles or (rel - along * rel.dot(along)).length > length * 0.9:
+            continue   # wrist and palm stay; the sleeve and forearm are farther from the hand axis
+        k = min(1.0, (t - knuckles) / (1.0 - knuckles))
+        rot = Matrix.Rotation(math.radians(curl_degrees * k) * sign, 3, axis)
+        v.co = pivot + rot @ (v.co - pivot)
+
+
 def make_arms(old_mesh, rig):
     arms, mix, body, _ = trellis_arms(old_mesh, rig)
+    close_right_hand(arms, rig)
     return bind(arms, mix, body, rig)
 
 
