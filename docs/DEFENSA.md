@@ -1114,6 +1114,29 @@ El nivel real del convento es #46.
 |---|---|
 | ¿Ver los ojos no hace inútil el copal? | No: el copal sigue siendo lo único que la revela y deja avanzar la barra. Los ojos solo dicen dónde está, para que el jugador sepa a dónde lanzarlo. |
 
+##### Modelo nuevo y animaciones conectadas (#186)
+
+**Qué cambió.** La Tzitzimime ahora es un demonio esquelético de piel negra, cráneo agrietado, penacho de plumas negras y rojas, falda con calaveras y ojos en rodillas y codos. Salió de una imagen de Gemini pasada por TRELLIS (fuente: `Tools/Modelos/tzitzimime_trellis.glb`), se redujo a **2,000 caras** con `Tools/Blender/preparar_mixamo.py` y en Mixamo se le puso **solo el esqueleto** (65 huesos), sin animaciones de su biblioteca.
+
+- **Sus animaciones son las nuestras:** CeilingCrawl, CeilingAttack, Reveal, FinalIdle, FinalAttack y Defeat siguen saliendo de `ent_tzitzimime.fbx`. Las dos versiones son **Humanoid**, así que Unity traduce cada clip del esqueleto viejo al nuevo (*retargeting*): sabe que "la cabeza" de uno es `mixamorig:Head` en el otro.
+- **Se encontró y corrigió un error viejo:** el `Animator` del prefab no tenía controlador y `TzitzimimeEntity` nunca le hablaba, así que en el juego la Tzitzimime **no se animaba**. Ahora el prefab usa `AC_Tzitzimime` y el código lo maneja:
+
+| Momento en el código | Lo que le dice al Animator |
+|---|---|
+| `Enter(State)` y cada cuadro revelada en el techo | `OnCeiling` = verdadero en el techo (gatea); falso en el suelo |
+| `BeginStrike()` (aparece el círculo rojo) | `CeilingAttack` si está en el techo, `FinalAttack` en la forma final |
+| `EnterFinalForm()` | `Reveal`: se despliega y pasa a `FinalIdle` |
+
+- **¿Por qué se pide `OnCeiling` cada cuadro?** En el techo el modelo se apaga y se prende según el copal. Al prenderse, un `Animator` vuelve a su estado inicial y olvida sus parámetros; repetir el valor lo devuelve a gatear.
+- **Tamaño y ojos:** el modelo mide 1.8 m y se escaló ×1.4 (≈2.5 m, como el anterior con su penacho). Por eso la cara queda más lejos del hueso de la cabeza: la distancia de los ojos ahora es un campo del Inspector, `eyeOffset` (0.21 m al frente, 0.11 m arriba), en vez de un número fijo en el código.
+
+**Prueba (Play Mode, `I3_Convento`).** Forzando cada paso: dormida → en el techo (revelada: `CeilingCrawl`) → ataque (`CeilingAttack`) → forma final (`Reveal` y luego `FinalIdle`) → ataque (`FinalAttack`). Al desvanecerse en la forma final quedaron solo los ojos a la altura de su cara. Sin errores.
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Cómo usa animaciones hechas para otro modelo? | Con el sistema Humanoid de Unity: cada modelo tiene un *Avatar* que dice qué hueso es cada parte del cuerpo, y Unity traduce los movimientos de un Avatar al otro. |
+| ¿Por qué no se notó antes que no se animaba? | El modelo viejo tenía una pose de reposo encorvada que parecía intencional; con el de Mixamo se habría quedado en T, y así se descubrió. |
+
 #### Susto al ser atrapado (#137)
 
 **Qué hace.** Si la Llorona te atrapa, o el Charro te arrolla, **antes** del enfrentamiento final, su cara pálida de ojos rojos se lanza contra la cámara y llena la pantalla:

@@ -37,6 +37,15 @@ namespace Animas.Entities
         [Tooltip("Head bone of the model: the eyes follow it.")]
         [SerializeField] Transform head;
         [SerializeField] Material eyeMaterial;
+        [Tooltip("Where the eyes sit from the head bone: x = forward, y = up (meters). Depends on the model's size.")]
+        [SerializeField] Vector2 eyeOffset = new Vector2(0.12f, 0.05f);
+        [Tooltip("Plays her clips: crawling on the ceiling, striking, revealing her final form.")]
+        [SerializeField] Animator animator;
+
+        static readonly int OnCeilingParam = Animator.StringToHash("OnCeiling");
+        static readonly int CeilingAttackParam = Animator.StringToHash("CeilingAttack");
+        static readonly int FinalAttackParam = Animator.StringToHash("FinalAttack");
+        static readonly int RevealParam = Animator.StringToHash("Reveal");
 
         public State Current { get; private set; } = State.Dormant;
         public event Action<State> StateChanged;
@@ -75,6 +84,7 @@ namespace Animas.Entities
                 playerRespawn = p.GetComponent<PlayerRespawn>();
                 messages = p.GetComponent<Inventory>();
             }
+            if (animator == null) animator = GetComponentInChildren<Animator>(true);
             home = transform.position;
             floorY = home.y;
             // The marker lives in the prefab for convenience, but it marks the floor, not her: let it go.
@@ -106,7 +116,7 @@ namespace Animas.Entities
         void LateUpdate()
         {
             if (eyes == null || head == null) return;
-            eyes.SetPositionAndRotation(head.position + head.forward * 0.12f + head.up * 0.05f, head.rotation);
+            eyes.SetPositionAndRotation(head.position + head.forward * eyeOffset.x + head.up * eyeOffset.y, head.rotation);
         }
 
         void BuildEyes()
@@ -181,6 +191,8 @@ namespace Animas.Entities
             bool revealed = body.IsRevealed;
             bool lit = revealed && flashlight != null && flashlight.Illuminates(bodyCollider);
             if (visuals != null) visuals.SetActive(revealed);
+            // Turning the model on again resets its Animator, so the crawl is asked for every frame.
+            if (revealed && animator != null) animator.SetBool(OnCeilingParam, true);
             ShowEyes(!revealed);   // hidden on the ceiling: only her eyes give her away
             ritual.FillMultiplier = lit ? tuning.litFill : revealed ? tuning.revealedFill : 0f;
 
@@ -201,6 +213,7 @@ namespace Animas.Entities
             ritual.FillMultiplier = 1f;
             transform.SetPositionAndRotation(new Vector3(transform.position.x, floorY, transform.position.z), Quaternion.identity);
             if (finalGlow != null) finalGlow.enabled = true;
+            if (animator != null) animator.SetTrigger(RevealParam);   // she unfolds into her final form
             nextAttack = Time.time + tuning.finalAttackInterval;
             nextVanish = Time.time + UnityEngine.Random.Range(tuning.invisibleEvery.x, tuning.invisibleEvery.y);
             if (audioSource != null && screechClip != null) audioSource.PlayOneShot(screechClip);
@@ -251,6 +264,7 @@ namespace Animas.Entities
             nextAttack = Time.time + interval;
             if (playerHealth.IsDead || SafeRoom.PlayerInside) return;
             strikeAt = Time.time + tuning.warningSeconds;
+            if (animator != null) animator.SetTrigger(Current == State.Ceiling ? CeilingAttackParam : FinalAttackParam);
             if (strikeMarker != null)
             {
                 strikeMarker.position = new Vector3(player.position.x, floorY + 0.05f, player.position.z);
@@ -294,6 +308,7 @@ namespace Animas.Entities
             ShowEyes(false);
             if (visuals != null) visuals.SetActive(state == State.FinalForm);
             if (finalGlow != null) finalGlow.enabled = state == State.FinalForm;
+            if (animator != null && animator.isActiveAndEnabled) animator.SetBool(OnCeilingParam, state == State.Ceiling);
             StateChanged?.Invoke(state);
         }
     }
