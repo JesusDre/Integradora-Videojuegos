@@ -1863,6 +1863,15 @@ Al tomarlo se apagan el modelo, el collider y la luz. Los mismos modelos aparece
 - esqueleto Generic de 8 huesos, uno de ellos `RightGrip` en la palma, donde se sujeta el arma;
 - 5 clips: `Idle` (respiración), `Attack` (sube el brazo y corta en diagonal), `Pray` (manos juntas), `Throw` (atrás del hombro y al frente) y `PickUp` (se estira al frente).
 
+**Brazos recortados del Padre completo (#190).** Desde este issue las mangas y manos ya no son tubos y cubos: son las del Padre real, un modelo completo de TRELLIS (sotana, alzacuello, estola; fuente `Tools/Modelos/padre_trellis.glb`) al que Mixamo le puso esqueleto (`Characters/Padre/padre.fbx`). El esqueleto de brazos, los 5 clips, `RightGrip` y todo el sistema de arriba **no cambiaron**. `Tools/Blender/brazos_padre_trellis.py` corre `chr_brazos_padre.py` y solo cambia la malla:
+1. abre el cuerpo rigueado y se queda con los vértices que siguen sobre todo a un hueso del brazo (brazo, antebrazo, mano, dedos); la sotana y el pecho se descartan;
+2. cada hueso del brazo de Mixamo tiene un "marco" (a lo largo del hueso y hacia afuera, donde queda el dorso de la mano) y su pareja en nuestro esqueleto también. Cada vértice se mueve del brazo en pose A al brazo de primera persona conservando su lugar respecto a sus huesos, mezclado por sus pesos de Mixamo;
+3. se pega a nuestros huesos por cercanía (dos huesos más cercanos), igual que el caballo del Charro.
+
+Quedan ~1,750 triángulos con la textura del Padre (`T_Padre`, 1024 px porque se ven a 30 cm, sin filtrado; material `M_Padre`). ¿Por qué no se usó Mixamo para animarlos? Mixamo anima cuerpos completos; habría que rehacer el sistema de primera persona (cámara en la cabeza, máscaras de avatar, una animación por arma). Recortar los brazos da el aspecto real sin tocar lo que ya funciona.
+
+![Brazos del Padre real en el juego](img/ui/brazos_padre_trellis.png)
+
 ![Brazos en el juego](personajes/img/brazos_juego.png)
 ![Machete, ataque, cruz y chancla en la mano](personajes/img/brazos_armas.png)
 ![Las 5 poses vistas desde la cámara (render de Blender)](personajes/img/brazos_hoja.png)
